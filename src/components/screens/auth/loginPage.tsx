@@ -113,7 +113,7 @@ const PinVerify = ({email}: emailCheckProps) => {
     const onSubmit = async (data: any) => {
 
         await http.post(CHECK_PIN_CODE, {email: email, ...data}).then(function (response) {
-            signIn('credentials',{redirect: true, "email": email, ...data, callbackUrl: 'http://localhost:3000/login/check' });
+            signIn('credentials',{redirect: true, "email": email, ...data, callbackUrl: process.env.NEXTAUTH_URL + '/login/check' });
             setLoading(false);
         })
         .catch(function (error) {
