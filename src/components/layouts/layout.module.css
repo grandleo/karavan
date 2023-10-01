@@ -1,0 +1,45 @@
+.controlPanelWrapper {
+    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+    height: 100vh;
+}
+
+.controlPanelContainer{
+    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: stretch;
+}
+
+.controlPanelSidebar {
+}
+
+.controlPanelContent {
+    flex-grow:1;
+    background: #FAFAFA;
+    /*margin-left: 300px;*/
+}
+
+.container {
+    padding: 0
+}
+
+.containerFlex{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100vh;
+    /*align-content: stretch;*/
+}
+
+.leftColumn {
+    width: 50%;
+    padding: 50px 120px;
+}
+
+.rightColumn {
+    width: 50%;
+    background: url('/images/auth_bg.svg');
+    background-Size: cover;
+}

@@ -1,0 +1,21 @@
+.root{
+    margin-Bottom: 100px
+}
+
+.text{
+    color: #697586;
+    font-Size: 14px;
+    font-Style: normal;
+    font-Weight: 500;
+    line-Height: 24px;
+    text-Align: right
+}
+
+.link{
+    color: #2997A3;
+    font-Size: 14px;
+    font-Style: normal;
+    font-Weight: 400;
+    line-Height: 24px;
+    text-Align: right
+}

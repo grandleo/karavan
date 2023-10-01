@@ -1,0 +1,39 @@
+.header {
+    color: #121926;
+    font-Size: 24px;
+    font-Style: normal;
+    font-Weight: 600;
+    line-Height: 32px;
+    margin-Bottom: 32px;
+    text-Align: center
+}
+
+.button {
+    border-Radius: 8px;
+    background: #2997A3;
+    height: 40px;
+    margin-Top: 32px;
+    margin-Bottom: 32px
+}
+
+.conditions {
+    color: #A1A1AA;
+    text-Align: center;
+    font-Size: 14px;
+    font-Style: normal;
+    font-Weight: 600;
+    line-Height: 20px;
+    margin-top: 32px;
+}
+
+.repeat_password {
+    text-align: center;
+}
+
+.headerStep{
+    color: #27272A;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+}

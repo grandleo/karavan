@@ -1,0 +1,6 @@
+export const REGISTRATION_URL = 'registration'
+export const CHECK_EMAIL_URL = 'check-email'
+export const SEND_PIN_CODE_URL = 'send-pin-code'
+export const CHECK_PIN_CODE = 'check-pin-code'
+export const LOGIN_URL = 'login'
+export const LOGOUT_URL = 'logout'

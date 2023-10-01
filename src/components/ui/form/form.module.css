@@ -1,0 +1,40 @@
+.checkboxCustom {
+    border: 1px solid #EEE;
+    border-radius: 12px;
+    padding: 20px 30px;
+    position: relative;
+}
+.checkboxCustom + .checkboxCustom{
+    margin-top: 24px;
+}
+.checkboxCustom:hover{
+    cursor: pointer;
+}
+.checkboxCustomActive {
+    border: 1px solid #2997A3;
+}
+.checkboxLabel {
+    color: #364152;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+}
+
+.checkboxDescription {
+    color: #697586;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.checkboxIcon{
+    color: #EEEEEE;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+.checkboxCustomActive .checkboxIcon{
+    color: #2997A3;
+}

@@ -1,0 +1,26 @@
+.logoutBtn {
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.logoutLabel {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.userInfo{
+    padding: 12px 0;
+    margin: 12px 0;
+}
+
+.userInfoLabel{
+    color: #fff;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+}
