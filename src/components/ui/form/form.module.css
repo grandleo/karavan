@@ -38,3 +38,18 @@
 .checkboxCustomActive .checkboxIcon{
     color: #2997A3;
 }
+
+.conditions {
+    color: #A1A1AA;
+    text-Align: center;
+    font-Size: 14px;
+    font-Style: normal;
+    font-Weight: 400;
+    line-Height: 20px;
+    margin-top: 32px;
+}
+
+.linkConditions{
+    color: #2997A3;
+    cursor: pointer;
+}

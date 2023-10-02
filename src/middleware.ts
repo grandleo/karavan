@@ -10,10 +10,6 @@ export default withAuth(
         const token = await getToken({ req })
         const isAuth = !!token
 
-        if(req.nextUrl.href === process.env.NEXT_PUBLIC_URL){
-            return NextResponse.redirect(new URL('/login', req.url))
-        }
-
         if(!isAuth && (req.nextUrl.pathname.startsWith('/admin') || req.nextUrl.pathname.startsWith('/client') || req.nextUrl.pathname.startsWith('/logistic') || req.nextUrl.pathname.startsWith('/supplier'))){
             return NextResponse.redirect(new URL('/login', req.url))
         }
@@ -50,4 +46,4 @@ export default withAuth(
     },
 )
 
-export const config = { matcher: ["/", "/login/:path*", "/client/:path*", "/supplier/:path*", "/logistic/:path*", "/admin/:path*"] }
+export const config = { matcher: ["/login/:path*", "/client/:path*", "/supplier/:path*", "/logistic/:path*", "/admin/:path*"] }

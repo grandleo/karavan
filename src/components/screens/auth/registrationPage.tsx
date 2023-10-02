@@ -1,10 +1,10 @@
 'use client'
 
 import {useState} from "react";
-import {Controller, useForm} from "react-hook-form";
+import {Controller, Form, useForm} from "react-hook-form";
 import Link from "next/link";
 import {REGISTRATION_URL} from "@/config/apiRoutes";
-import {Flex, Stepper, TextInput, Text, Box} from "@mantine/core";
+import {Flex, Stepper, TextInput, Text, Box, Input} from "@mantine/core";
 import SecondaryBtn from "@/components/ui/btn/secondaryBtn";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import TypeUserBtn from "@/components/ui/form/typeUserBtn";
@@ -14,6 +14,9 @@ import EmailAutocomplete from "@/components/ui/form/emailAutoComplete";
 import CompanyAutocomplete from "@/components/ui/form/companyAutoComplete";
 import {http} from "@/config/http";
 import {useRouter} from "next/navigation";
+import FormConditions from "@/components/ui/form/formConditions";
+import {IMaskInput} from "react-imask";
+import {IconInfoCircle} from "@tabler/icons-react";
 
 const RegistrationPage = () => {
     const [active, setActive] = useState(0);
@@ -82,8 +85,6 @@ const RegistrationPage = () => {
                 }}>
                     <Stepper.Step label="Расскажите о себе">
 
-
-
                         <Controller
                             name="name"
                             control={control}
@@ -118,13 +119,26 @@ const RegistrationPage = () => {
                             name="phone"
                             control={control}
                             render={({ field }) => (
-                                <TextInput
-                                    label="Телефон"
-                                    placeholder="Укажите ваш телефон"
-                                    onChange={(event) => {
-                                        field.onChange(event.currentTarget.value);
-                                    }}
-                                />
+                                <>
+                                    <Input.Label>Телефон</Input.Label>
+                                    <Input  component={IMaskInput}
+                                            mask="(000) 000-00-00"
+                                            placeholder="Укажите ваш телефон"
+                                            onChange={(event) => {
+                                                field.onChange(event.currentTarget.value);
+                                            }}
+                                            leftSection="+7"
+                                    />
+                                </>
+
+                                // <TextInput
+                                //     label="Телефон"
+                                //     placeholder="Укажите ваш телефон"
+                                //     component={IMaskInput}
+                                //     onChange={(event) => {
+                                //         field.onChange(event.currentTarget.value);
+                                //     }}
+                                // />
                             )}
                         />
                     </Stepper.Step>
@@ -136,6 +150,15 @@ const RegistrationPage = () => {
                                 <CompanyAutocomplete field={field} setField={setValue}/>
                             )}
                         />
+
+                        <Flex gap={8}>
+                            <Box>
+                                <IconInfoCircle color="#2997A3"/>
+                            </Box>
+                            <Box>
+                                <Text>Введите ИНН, мы автоматически определим реквизиты компании</Text>
+                            </Box>
+                        </Flex>
                     </Stepper.Step>
                     <Stepper.Step >
                         <Controller
@@ -220,9 +243,7 @@ const RegistrationPage = () => {
 
                 {active === 0 && (
                     <>
-                        <Text className={classes.conditions}>
-                            Нажимая кнопку «Далее», вы соглашаетесь с условиями <Link href="">договора‑оферты</Link>
-                        </Text>
+                        <FormConditions textMore={true}/>
                     </>
                 )}
 

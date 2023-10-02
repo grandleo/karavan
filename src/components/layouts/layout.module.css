@@ -43,3 +43,42 @@
     background: url('/images/auth_bg.svg');
     background-Size: cover;
 }
+
+
+
+
+@media (min-width: 1px) and (max-width: 576px) {
+    .containerFlex{
+        flex-direction: column;
+        height: inherit;
+    }
+
+    .leftColumn {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .rightColumn {
+        display: none;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .containerFlex{
+        /*flex-direction: column;*/
+        /*height: inherit;*/
+    }
+
+    .leftColumn {
+        width: 60%;
+        padding: 10px;
+    }
+
+    .rightColumn {
+        width: 40%;
+    }
+
+    /*.rightColumn {*/
+    /*    display: none;*/
+    /*}*/
+}

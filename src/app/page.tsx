@@ -1,9 +1,19 @@
-import LoginPage from "@/components/screens/auth/loginPage";
+'use client'
+
+import {LoadingOverlay} from "@mantine/core";
+import {useRouter} from "next/navigation";
+import {useEffect} from "react";
 
 export default function Home() {
+    const router = useRouter();
+
+    useEffect(() => {
+        router.push('/login');
+    }, []);
+
     return (
         <>
-            <LoginPage/>
+            <LoadingOverlay visible={true} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
         </>
     )
 }

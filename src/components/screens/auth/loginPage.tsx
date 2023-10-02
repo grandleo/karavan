@@ -12,6 +12,7 @@ import Link from "next/link";
 import {signIn} from "next-auth/react";
 import {Timeout} from "react-number-format/types/types";
 import {TIMEOUT} from "dns";
+import FormConditions from "@/components/ui/form/formConditions";
 
 interface Props {
     setEmail?: () => {},
@@ -94,6 +95,8 @@ const EmailCheck = ({setEmail}: any) => {
                     Продолжить
                 </Button>
 
+                <FormConditions/>
+
             </form>
         </>
     )
@@ -144,9 +147,7 @@ const PinVerify = ({email}: emailCheckProps) => {
 
                 <RepeatPin email={String(email)}/>
             </form>
-            <Text className={classes.conditions}>
-                Используя сервис Иммунотека, вы соглашаетесь с <Link href="">условиями договора‑оферты</Link>
-            </Text>
+            <FormConditions/>
         </>
     )
 }

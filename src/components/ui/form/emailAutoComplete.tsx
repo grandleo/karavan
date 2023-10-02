@@ -1,4 +1,4 @@
-import {Combobox, TextInput, useCombobox} from "@mantine/core";
+import {Combobox, ScrollArea, TextInput, useCombobox} from "@mantine/core";
 import {useState} from "react";
 import {daData} from "@/config/daData";
 
@@ -63,11 +63,15 @@ const EmailAutocomplete = ({field, errors}: any) => {
                 />
             </Combobox.Target>
 
-            <Combobox.Dropdown>
-                <Combobox.Options>
-                    {options.length === 0 ? <Combobox.Empty>Nothing found</Combobox.Empty> : options}
-                </Combobox.Options>
-            </Combobox.Dropdown>
+            {options.length > 0 && (
+                <Combobox.Dropdown>
+                    <Combobox.Options>
+                        <ScrollArea.Autosize type="scroll" mah={200}>
+                            {options}
+                        </ScrollArea.Autosize>
+                    </Combobox.Options>
+                </Combobox.Dropdown>
+            )}
         </Combobox>
     )
 }

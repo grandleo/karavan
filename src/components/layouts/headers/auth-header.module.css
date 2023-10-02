@@ -19,3 +19,24 @@
     line-Height: 24px;
     text-Align: right
 }
+
+@media (min-width: 1px) and (max-width: 576px) {
+    .root {
+        margin-bottom: 20px;
+        flex-direction: column;
+    }
+
+    .linkBlock{
+        text-align: right;
+    }
+
+    .links{
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .root {
+        margin-bottom: 70px;
+    }
+}

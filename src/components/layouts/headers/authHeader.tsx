@@ -19,9 +19,9 @@ const AuthHeaders = () => {
 const NoAccount = () => {
 
     return (
-        <Box>
+        <Box className={classes.links}>
             <Text className={classes.text}>Еще нет аккаунта?</Text>
-            <Box>
+            <Box className={classes.linkBlock}>
                 <Link href="/registration" className={classes.link}>Зарегистрироваться</Link>
             </Box>
         </Box>
@@ -31,9 +31,9 @@ const NoAccount = () => {
 const ThereIsAccount = () => {
 
     return (
-        <Box>
+        <Box className={classes.links}>
             <Text className={classes.text}>Есть аккаунт?</Text>
-            <Box>
+            <Box className={classes.linkBlock}>
                 <Link href="/login" className={classes.link}>Войти</Link>
             </Box>
         </Box>
