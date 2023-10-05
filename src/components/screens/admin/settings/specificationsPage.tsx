@@ -14,7 +14,7 @@ const SpecificationsPage = () => {
     // const {data, isLoading} = useGetUserQuery('')
     const {data} = useGetSpecificationsQuery('')
 
-    if(!data) return null
+    // if(!data) return null
 
     return (
         <PageWrapper>

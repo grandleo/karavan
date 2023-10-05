@@ -12,7 +12,7 @@ import CategoryItem from "@/components/screens/admin/settings/_components/catego
 const CatalogPage = () => {
     const {data} = useGetCategoriesQuery('');
 
-    if(!data) return null
+    // if(!data) return null
 
     return (
         <PageWrapper>
