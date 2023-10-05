@@ -1,0 +1,24 @@
+.specificationsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.specificationItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #E4E4E7;
+    background: #FFF;
+    padding: 12px 24px 12px 12px;
+    gap: 24px;
+}
+
+.specificationName {
+    flex-grow: 1;
+}
+.specificationType {
+    color: #A1A1AA;
+    flex-grow: 1;
+}

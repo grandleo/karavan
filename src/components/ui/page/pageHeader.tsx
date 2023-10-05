@@ -12,7 +12,7 @@ const PageHeader = ({children, title}: Props) => {
             <Box className={classes.pageHeaderWrapper}>
                 <Flex align="center">
                     <Text className={classes.pageHeaderTitle}>{title}</Text>
-                    <Box >{children}</Box>
+                    <Box className={classes.pageHeaderAction}>{children}</Box>
                 </Flex>
             </Box>
         </>

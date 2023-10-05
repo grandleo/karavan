@@ -9,14 +9,24 @@ export default withAuth(
     async function middleware(req) {
         const token = await getToken({ req })
         const isAuth = !!token
+        // const isAuth = !!req.nextauth.token
+
+        // console.log('isAuth', isAuth)
 
         if(!isAuth && (req.nextUrl.pathname.startsWith('/admin') || req.nextUrl.pathname.startsWith('/client') || req.nextUrl.pathname.startsWith('/logistic') || req.nextUrl.pathname.startsWith('/supplier'))){
             return NextResponse.redirect(new URL('/login', req.url))
         }
+        // console.log('pathname', req.nextUrl)
 
         if (isAuth && req.nextUrl.pathname.startsWith('/login')) {
+            // console.log('pathname', req.nextUrl.pathname)
+            // console.log('isAuth', isAuth)
             return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
         }
+
+        // if (isAuth && req.nextUrl.pathname.startsWith('/registration')) {
+        //     return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
+        // }
 
         if (req.nextUrl.pathname.startsWith('/admin') && req.nextauth.token?.role !== 'admin') {
             return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
@@ -41,7 +51,7 @@ export default withAuth(
             signIn: '/login'
         },
         callbacks: {
-            // authorized: ({ token }) => token?.role === "admin",
+            authorized: ({ token }) => !!token,
         },
     },
 )

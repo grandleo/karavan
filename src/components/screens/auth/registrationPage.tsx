@@ -17,6 +17,7 @@ import {useRouter} from "next/navigation";
 import FormConditions from "@/components/ui/form/formConditions";
 import {IMaskInput} from "react-imask";
 import {IconInfoCircle} from "@tabler/icons-react";
+import {signIn} from "next-auth/react";
 
 const RegistrationPage = () => {
     const [active, setActive] = useState(0);
@@ -52,8 +53,9 @@ const RegistrationPage = () => {
 
         http.post(REGISTRATION_URL, data)
             .then(function (response) {
-                // console.log(response)
-                router.push('/login')
+                console.log(response)
+                signIn('credentials',{redirect: true, ...response.data, callbackUrl: process.env.NEXT_PUBLIC_URL + '/login/check' });
+                // router.push('/login')
                 setLoading(false)
             })
             .catch(function (error) {

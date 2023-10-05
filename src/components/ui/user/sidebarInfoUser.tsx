@@ -1,3 +1,5 @@
+'use client'
+
 import {Avatar, Group, UnstyledButton, Text} from "@mantine/core";
 import classes from "./user.module.css";
 
