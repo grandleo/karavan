@@ -51,6 +51,7 @@ export const api = createApi({
     tagTypes: [
         'User',
         'Specifications',
+        'SpecificationValues',
         'Categories',
     ],
     endpoints: () => ({}),

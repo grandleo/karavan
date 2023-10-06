@@ -14,6 +14,9 @@ export const ADMIN_GET_SPECIFICATIONS = 'admin/specifications'
 export const ADMIN_CREATE_SPECIFICATION_CREATE = 'admin/specifications/create'
 export const ADMIN_CREATE_SPECIFICATION_UPDATE = 'admin/specifications/update'
 export const ADMIN_CREATE_SPECIFICATION_DELETE = 'admin/specifications/delete'
+export const ADMIN_GET_SPECIFICATION_VALUES = 'admin/specifications/get-values'
+export const ADMIN_CREATE_SPECIFICATION_VALUES = 'admin/specifications/add-values'
+export const ADMIN_DELETE_SPECIFICATION_VALUES = 'admin/specifications/delete-value'
 
 //Категории
 export const ADMIN_GET_CATEGORIES = 'admin/categories'

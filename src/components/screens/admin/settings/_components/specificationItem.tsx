@@ -1,14 +1,17 @@
-import {Badge, Box, Checkbox, Drawer, Menu, rem, TextInput, UnstyledButton} from "@mantine/core";
+import {Box, Button, Checkbox, Drawer, Menu, rem, TextInput, UnstyledButton} from "@mantine/core";
 import {
-    IconCopy,
     IconDotsVertical,
     IconGripVertical,
     IconPencil,
     IconTrash
 } from '@tabler/icons-react';
 import classes from "./settings.module.css";
-import {FC} from "react";
-import {useDeleteSpecificationMutation, useUpdateSpecificationMutation} from "@/store/api/admin/specifications.api";
+import {FC, useEffect, useState} from "react";
+import {
+    useAddSpecificationValuesMutation,
+    useDeleteSpecificationMutation, useDeleteSpecificationValueMutation, useGetSpecificationValuesQuery,
+    useUpdateSpecificationMutation
+} from "@/store/api/admin/specifications.api";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useDisclosure} from "@mantine/hooks";
@@ -61,7 +64,7 @@ const SpecificationItem: FC<SpecificationItemProps> = ({item}) => {
                 <Box className={classes.specificationName}>
                     {name}
                 </Box>
-                <Box>В списке: 0</Box>
+                <AddValues/>
                 <Box>
                     <Menu shadow="md" width={200}>
                         <Menu.Target>
@@ -88,7 +91,6 @@ const SpecificationItem: FC<SpecificationItemProps> = ({item}) => {
 
                 </Box>
             </Box>
-
 
             <Drawer opened={opened} position="right" onClose={close} title="Добавление поля">
 
@@ -128,6 +130,104 @@ const SpecificationItem: FC<SpecificationItemProps> = ({item}) => {
                 </form>
             </Drawer>
 
+        </>
+    )
+}
+
+interface Person {
+    id: number;
+    value: string;
+}
+
+const AddValues = () => {
+    const [opened, { open, close }] = useDisclosure(false);
+    const [values, setValues] = useState<Person[]>([{id: 0, value: ""}]);
+
+    const {data} = useGetSpecificationValuesQuery(1);
+    const [AddSpecificationValues] = useAddSpecificationValuesMutation();
+    const [deleteSpecificationValue] = useDeleteSpecificationValueMutation();
+
+    useEffect(() => {
+        if(data?.length > 0) {
+            setValues([...data])
+
+        }
+    },[data])
+
+    const {
+        register,
+        handleSubmit,
+        control,
+        setError,
+        formState: { errors },
+    } = useForm();
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>, index: number): void => {
+        const { value }: { value: string } = event.target;
+
+        setValues(values.map(( artwork, i) => {
+            if (i === index) {
+                return { ...artwork, value: value };
+            } else {
+                return artwork;
+            }
+        }));
+    };
+
+    const handleAddClick = () => {
+        setValues([...values, { id: 0, value: "" }]);
+    };
+
+    const handleRemoveClick = (index: number, id: number) => {
+        const list = [...values];
+        list.splice(index, 1);
+        setValues(list);
+
+        if(id)
+        {
+            deleteSpecificationValue(id)
+        }
+    };
+
+    const onSubmit = async (data: any) => {
+        AddSpecificationValues({id_specification: "1", values: values})
+    }
+
+    return (
+        <>
+            <Box onClick={open}>В списке: 0</Box>
+
+            <Drawer opened={opened} position="right" onClose={close} title="Добавление значений">
+
+                <Button onClick={handleAddClick}>+</Button>
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    {values?.map((item, index) => {
+                        return (
+                            <Box key={index} className={classes.specificationValueBlock}>
+                                <Box>
+                                    <IconGripVertical/>
+
+                                </Box>
+                                <Box>
+                                    <TextInput
+                                        name="value"
+                                        placeholder="Значение"
+                                        value={item.value}
+                                        type="text"
+                                        onChange={event => handleInputChange(event, index)}
+                                        mb={{ base: 0 }}
+                                    />
+                                </Box>
+                                <Box onClick={() => handleRemoveClick(index, Number(item.id))}><IconTrash/></Box>
+                            </Box>
+                        )
+                    })}
+
+                    <PrimaryBtn type="submit">Сохранить</PrimaryBtn>
+
+                </form>
+            </Drawer>
         </>
     )
 }

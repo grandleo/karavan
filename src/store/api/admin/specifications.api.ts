@@ -3,6 +3,9 @@ import {
     ADMIN_CREATE_SPECIFICATION_CREATE,
     ADMIN_CREATE_SPECIFICATION_DELETE,
     ADMIN_CREATE_SPECIFICATION_UPDATE,
+    ADMIN_CREATE_SPECIFICATION_VALUES,
+    ADMIN_DELETE_SPECIFICATION_VALUES,
+    ADMIN_GET_SPECIFICATION_VALUES,
     ADMIN_GET_SPECIFICATIONS
 } from "@/config/apiRoutes";
 
@@ -32,7 +35,33 @@ export const specificationsApi = api.injectEndpoints({
                 type: 'Specifications'
             }]
         }),
+        getSpecificationValues: builder.query({
+            query: (id) => ({url: ADMIN_GET_SPECIFICATION_VALUES, method: 'post', data: {id_specification: id}}),
+            providesTags: () => [{
+                type: 'SpecificationValues'
+            }]
+        }),
+        addSpecificationValues: builder.mutation({
+            query: (data) => ({url: ADMIN_CREATE_SPECIFICATION_VALUES, method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'SpecificationValues'
+            }]
+        }),
+        deleteSpecificationValue: builder.mutation({
+            query: (id) => ({url: ADMIN_DELETE_SPECIFICATION_VALUES, method: 'post', data: {'id': id}}),
+            invalidatesTags: () => [{
+                type: 'SpecificationValues'
+            }]
+        }),
     })
 });
 
-export const {useGetSpecificationsQuery, useCreateSpecificationMutation, useDeleteSpecificationMutation, useUpdateSpecificationMutation} = specificationsApi;
+export const {
+    useGetSpecificationsQuery,
+    useCreateSpecificationMutation,
+    useDeleteSpecificationMutation,
+    useUpdateSpecificationMutation,
+    useGetSpecificationValuesQuery,
+    useAddSpecificationValuesMutation,
+    useDeleteSpecificationValueMutation
+} = specificationsApi;
