@@ -44,7 +44,7 @@ const axiosBaseQuery =
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: axiosBaseQuery({
-        baseUrl: 'http://api.apteka.grand/api/',
+        baseUrl: String(process.env.NEXT_PUBLIC_API_URL),
     }),
     // baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
     // reducerPath: 'api',
