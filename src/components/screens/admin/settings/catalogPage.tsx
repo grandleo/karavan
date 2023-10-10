@@ -8,21 +8,32 @@ import {useGetCategoriesQuery} from "@/store/api/admin/categories.api";
 import classes from "@/components/screens/admin/settings/_components/settings.module.css";
 import {Box} from "@mantine/core";
 import CategoryItem from "@/components/screens/admin/settings/_components/categoryItem";
+import {useEffect, useState} from "react";
 
 const CatalogPage = () => {
+    const [selectedCategory, setSelectedCategory] = useState(0);
     const {data} = useGetCategoriesQuery('');
-
-    // if(!data) return null
 
     return (
         <PageWrapper>
             <PageHeader title="Номенклатура">
-                <AddCategoryItem/>
+                <AddCategoryItem selectedCategory={selectedCategory}/>
             </PageHeader>
             <PageContent>
                 <Box className={classes.specificationsBlock}>
                     {data?.map((item: any, index: number) => (
-                        <CategoryItem item={item} key={index}/>
+                        <>
+                        <CategoryItem item={item}
+                                      key={index}
+                                      select={setSelectedCategory}
+                        />
+
+                        {/*{item.children.map(child => (*/}
+                        {/*<Box style={{marginLeft: '30px'}}>*/}
+                        {/*    <CategoryItem item={child} key={child.id} select={setSelectedCategory}/>*/}
+                        {/*</Box>*/}
+                        {/*))}*/}
+                        </>
                     ))}
                 </Box>
             </PageContent>

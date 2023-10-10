@@ -64,7 +64,7 @@ const SpecificationItem: FC<SpecificationItemProps> = ({item}) => {
                 <Box className={classes.specificationName}>
                     {name}
                 </Box>
-                <AddValues/>
+                <AddValues id_specification={id}/>
                 <Box>
                     <Menu shadow="md" width={200}>
                         <Menu.Target>
@@ -139,11 +139,11 @@ interface Person {
     value: string;
 }
 
-const AddValues = () => {
+const AddValues = ({id_specification}: any) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [values, setValues] = useState<Person[]>([{id: 0, value: ""}]);
 
-    const {data} = useGetSpecificationValuesQuery(1);
+    const {data} = useGetSpecificationValuesQuery(id_specification);
     const [AddSpecificationValues] = useAddSpecificationValuesMutation();
     const [deleteSpecificationValue] = useDeleteSpecificationValueMutation();
 
@@ -190,7 +190,8 @@ const AddValues = () => {
     };
 
     const onSubmit = async (data: any) => {
-        AddSpecificationValues({id_specification: "1", values: values})
+        console.log(id_specification)
+        AddSpecificationValues({id_specification: id_specification, values: values})
     }
 
     return (
