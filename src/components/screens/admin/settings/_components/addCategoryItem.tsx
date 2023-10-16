@@ -59,7 +59,7 @@ const AddCategoryItem = ({selectedCategory}: Props) => {
     return (
         <>
             <UnstyledButton onClick={open}>
-                <IconPlus/>
+                <IconPlus/> Категорию
             </UnstyledButton>
 
             <Drawer opened={opened} position="right" onClose={close} title="Добавление категории">

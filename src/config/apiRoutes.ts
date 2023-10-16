@@ -23,3 +23,9 @@ export const ADMIN_GET_CATEGORIES = 'admin/categories'
 export const ADMIN_GET_CATEGORIES_CREATE = 'admin/categories/create'
 export const ADMIN_GET_CATEGORIES_UPDATE = 'admin/categories/update'
 export const ADMIN_GET_CATEGORIES_DELETE = 'admin/categories/delete'
+export const ADMIN_GET_CATEGORY_SPECIFICATIONS = 'admin/categories/get-category-specifications'
+
+//Товары
+export const ADMIN_GET_PRODUCTS = 'admin/products'
+
+export const ADMIN_PRODUCT_CREATE = 'admin/products/create'

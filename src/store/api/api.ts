@@ -1,14 +1,12 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
+import {createApi} from '@reduxjs/toolkit/query/react'
 import {http} from "@/config/http";
-import type { BaseQueryFn } from '@reduxjs/toolkit/query'
+import type {BaseQueryFn} from '@reduxjs/toolkit/query'
 import axios from 'axios'
-import type { AxiosRequestConfig, AxiosError } from 'axios'
-import {userApi} from "@/store/api/user.api";
-import {fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
+import type {AxiosRequestConfig, AxiosError} from 'axios'
 
 const axiosBaseQuery =
     (
-        { baseUrl }: { baseUrl: string } = { baseUrl: '' }
+        {baseUrl}: { baseUrl: string } = {baseUrl: ''}
     ): BaseQueryFn<
         {
             url: string
@@ -20,18 +18,23 @@ const axiosBaseQuery =
         unknown,
         unknown
     > =>
-        async ({ url, method, data, params, headers }) => {
+        async ({url, method, data, params, headers}) => {
             try {
-                const result = await axios({
+                const result = await http({
                     url: baseUrl + url,
                     method,
                     data,
                     params,
                     headers,
                 })
-                return { data: result.data }
-            } catch (axiosError) {
+                return {data: result.data}
+            } catch (axiosError: any) {
                 const err = axiosError as AxiosError
+
+                if(axiosError.response.status === 401){
+                    console.log('Авторизация не прошла')
+                }
+
                 return {
                     error: {
                         status: err.response?.status,
@@ -41,24 +44,17 @@ const axiosBaseQuery =
             }
         }
 
-export const api = createApi({
+const api = createApi({
     reducerPath: 'api',
-    baseQuery: axiosBaseQuery({
-        baseUrl: String(process.env.NEXT_PUBLIC_API_URL),
-    }),
-    // baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_URL }),
-    // reducerPath: 'api',
+    baseQuery: axiosBaseQuery(),
     tagTypes: [
         'User',
         'Specifications',
         'SpecificationValues',
         'Categories',
+        'Products'
     ],
     endpoints: () => ({}),
-    // endpoints: (builder) => ({}),
-    // endpoints: (builder) => ({
-    //     getUser: builder.query({
-    //         query: () => ({url: 'user-test', method: 'get'})
-    //     })
-    // }),
 })
+
+export { api }

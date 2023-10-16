@@ -3,7 +3,7 @@ import {
     ADMIN_GET_CATEGORIES,
     ADMIN_GET_CATEGORIES_CREATE,
     ADMIN_GET_CATEGORIES_DELETE,
-    ADMIN_GET_CATEGORIES_UPDATE
+    ADMIN_GET_CATEGORIES_UPDATE, ADMIN_GET_CATEGORY_SPECIFICATIONS
 } from "@/config/apiRoutes";
 
 export const categoriesApi = api.injectEndpoints({
@@ -32,7 +32,16 @@ export const categoriesApi = api.injectEndpoints({
                 type: 'Categories'
             }]
         }),
+        getCategorySpecifications: builder.query({
+            query: (id) => ({url: ADMIN_GET_CATEGORY_SPECIFICATIONS, method: 'post', data: {'category_id': id}})
+        }),
     })
 })
 
-export const {useGetCategoriesQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation} = categoriesApi;
+export const {
+    useGetCategoriesQuery,
+    useCreateCategoryMutation,
+    useDeleteCategoryMutation,
+    useUpdateCategoryMutation,
+    useGetCategorySpecificationsQuery
+} = categoriesApi;
