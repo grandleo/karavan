@@ -6,6 +6,10 @@ export const CHECK_PIN_CODE = 'check-pin-code'
 export const LOGIN_URL = 'login'
 export const LOGOUT_URL = 'logout'
 
+//Склады
+export const GET_WAREHOUSES_USER = 'warehouses'
+export const CREATE_WAREHOUSE_USER = 'warehouses/create'
+
 
 //Админ роуты
 
@@ -29,3 +33,7 @@ export const ADMIN_GET_CATEGORY_SPECIFICATIONS = 'admin/categories/get-category-
 export const ADMIN_GET_PRODUCTS = 'admin/products'
 
 export const ADMIN_PRODUCT_CREATE = 'admin/products/create'
+
+
+//Поставщики
+export const SUPPLIER_GET_ALL_PRODUCTS = 'supplier/stock'

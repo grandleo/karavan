@@ -31,7 +31,7 @@ const axiosBaseQuery =
             } catch (axiosError: any) {
                 const err = axiosError as AxiosError
 
-                if(axiosError.response.status === 401){
+                if(axiosError.response?.status === 401){
                     console.log('Авторизация не прошла')
                 }
 
@@ -52,7 +52,8 @@ const api = createApi({
         'Specifications',
         'SpecificationValues',
         'Categories',
-        'Products'
+        'Products',
+        'Warehouses',
     ],
     endpoints: () => ({}),
 })

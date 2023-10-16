@@ -11,7 +11,7 @@ const SessionLoader = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (session.status === 'authenticated') {
-        setToken(session.data.accessToken)
+        setToken(session.data?.accessToken)
     }
 
     return <>{children}</>

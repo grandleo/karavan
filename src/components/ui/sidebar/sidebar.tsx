@@ -9,6 +9,8 @@ import Logout from "@/components/ui/user/logout";
 import Link from "next/link";
 import {useSelector} from "react-redux";
 import {useGetUserQuery} from "@/store/api/user.api";
+import {useGetWarehousesQuery} from "@/store/api/warehouses.api";
+import AddWarehouses from "@/components/screens/general/addWarehouses";
 
 interface Props {
     light?: boolean,
@@ -74,9 +76,19 @@ const AdminMenu = () => {
 }
 
 const SupplierMenu = () => {
+    const {data} = useGetWarehousesQuery('');
+
     return (
         <>
             <NavLink component={Link} href={`${process.env.NEXT_PUBLIC_URL}/supplier`} label="Склады" />
+            {data?.map((warehouse: any, index: number) => {
+                return (
+                    <NavLink label={`${warehouse.city} - ${index+1}`} key={warehouse.id}
+                             component={Link}
+                             href={`${process.env.NEXT_PUBLIC_URL}/supplier/${warehouse.id}`}
+                             style={{marginLeft: '20px'}}/>
+                )
+            })}
             <NavLink component={Link} href={`${process.env.NEXT_PUBLIC_URL}/supplier/orders`} label="Заказы" />
             <NavLink
                 label="Настройки"

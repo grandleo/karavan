@@ -1,7 +1,7 @@
 import {api} from "@/store/api/api";
 import {
     ADMIN_GET_PRODUCTS,
-    ADMIN_PRODUCT_CREATE
+    ADMIN_PRODUCT_CREATE, SUPPLIER_GET_ALL_PRODUCTS
 } from "@/config/apiRoutes";
 
 export const productsApi = api.injectEndpoints({
@@ -18,10 +18,17 @@ export const productsApi = api.injectEndpoints({
                 type: 'Products'
             }]
         }),
+        getAllProducts: builder.query({
+            query: () => ({url: SUPPLIER_GET_ALL_PRODUCTS, method: 'get'}),
+            providesTags: () => [{
+                type: 'Products'
+            }]
+        }),
     })
 })
 
 export const {
     useGetProductsQuery,
     useCreateProductMutation,
+    useGetAllProductsQuery,
 } = productsApi;
