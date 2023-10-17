@@ -37,3 +37,5 @@ export const ADMIN_PRODUCT_CREATE = 'admin/products/create'
 
 //Поставщики
 export const SUPPLIER_GET_ALL_PRODUCTS = 'supplier/stock'
+export const SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE = 'supplier/stock/price'
+export const SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE = 'supplier/stock/qty'
