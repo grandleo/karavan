@@ -1,15 +1,18 @@
-import {Checkbox, Drawer, TextInput} from "@mantine/core";
+import {Box, Checkbox, Drawer, TextInput} from "@mantine/core";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useEffect} from "react";
 import {useUpdateSpecificationMutation} from "@/store/api/admin/specifications.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
+import ValuesSpecificationItem from "@/components/ui/specifications/ValuesSpecificationItem";
+import classes from "@/components/ui/specifications/specifications.module.css";
 
 interface ISpecification {
     id: number,
     name: string,
     required: number,
     use_product_name: number,
+    values: []
 }
 
 interface Props {
@@ -34,6 +37,7 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
             name: '',
             required: 0,
             use_product_name: 0,
+            values: []
         }
     });
 
@@ -44,7 +48,7 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
         setValue('use_product_name', specification.use_product_name)
     }, [specification]);
 
-    const onSubmit = async (data: ISpecification) => {
+    const onSubmit = async (data: any) => {
         updateSpecification(data).unwrap()
             .then((payload) => {
                 onClose();
@@ -58,44 +62,54 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
         <>
             <Drawer opened={isOpen} onClose={onClose} position="right" title={specification.name}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Controller
-                        control={control}
-                        rules={{
-                            required: "Поле обязательно для заполнения",
-                            minLength: {
-                                value: 3,
-                                message: "Минимальная длина поля - 3 символа",
-                            },
-                            maxLength: {
-                                value: 50,
-                                message: "Максимальная длина поля - 50 символов",
-                            },
-                        }}
-                        render={({ field }) => (
-                            <TextInput
-                                label="Название"
-                                error={errors?.name?.message}
-                                value={field.value}
-                                onBlur={field.onBlur}
-                                onChange={(event) => {
-                                    field.onChange(event.currentTarget.value);
+                    <Box className={classes.formFlex}>
+                        <Box className={classes.formArea}>
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: "Поле обязательно для заполнения",
+                                    minLength: {
+                                        value: 3,
+                                        message: "Минимальная длина поля - 3 символа",
+                                    },
+                                    maxLength: {
+                                        value: 50,
+                                        message: "Максимальная длина поля - 50 символов",
+                                    },
                                 }}
+                                render={({ field }) => (
+                                    <TextInput
+                                        label="Название"
+                                        error={errors?.name?.message}
+                                        value={field.value}
+                                        onBlur={field.onBlur}
+                                        onChange={(event) => {
+                                            field.onChange(event.currentTarget.value);
+                                        }}
+                                    />
+                                )}
+                                name="name"
                             />
-                        )}
-                        name="name"
-                    />
 
-                    <Checkbox
-                        {...register("required")}
-                        label="Обязательное поле"
-                    />
+                            <Checkbox
+                                {...register("required")}
+                                label="Обязательное поле"
+                                mb={{ base: 10 }}
+                            />
 
-                    <Checkbox
-                        {...register("use_product_name")}
-                        label="Участвует в формировании названия"
-                    />
+                            <Checkbox
+                                {...register("use_product_name")}
+                                label="Участвует в формировании названия"
+                                mb={{ base: 10 }}
+                            />
 
-                    <PrimaryBtn type="submit">Сохранить</PrimaryBtn>
+                            <ValuesSpecificationItem onValues={setValue} valuesItem={specification.values}/>
+
+                        </Box>
+                        <Box>
+                            <PrimaryBtn type="submit">Сохранить</PrimaryBtn>
+                        </Box>
+                    </Box>
                 </form>
             </Drawer>
         </>

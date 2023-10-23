@@ -13,6 +13,10 @@ import {
     arrayMove,
     sortableKeyboardCoordinates
 } from "@dnd-kit/sortable";
+import {
+    restrictToVerticalAxis,
+    restrictToWindowEdges,
+} from '@dnd-kit/modifiers';
 import {SortableOverlay} from "@/components/ui/sortableList/SortableOverlay";
 import {DragHandle, SortableItem} from "@/components/ui/sortableList/SortableItem";
 import {Box} from "@mantine/core";
@@ -51,10 +55,7 @@ export function SortableList<T extends BaseItem>({items, onChange, onSortEnd, re
                 setActive(active);
             }}
             onDragEnd={({ active, over }) => {
-                // console.log('over', over?.data.current?.sortable.index)
-                // console.log('active', active?.data.current?.sortable.index)
-                // if (over && active.id !== over?.id) {
-                if (over && active?.data.current?.sortable.index !== over?.data.current?.sortable.index) {
+                if (over && active.id !== over?.id) {
                     const activeIndex = items?.findIndex(({ id }) => id === active.id);
                     const overIndex = items?.findIndex(({ id }) => id === over.id);
 
@@ -68,6 +69,7 @@ export function SortableList<T extends BaseItem>({items, onChange, onSortEnd, re
             onDragCancel={() => {
                 setActive(null);
             }}
+            modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
         >
             <SortableContext items={items}>
                 <Box className={classes.sortableList}>

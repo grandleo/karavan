@@ -12,6 +12,7 @@ import {useDisclosure} from "@mantine/hooks";
 import AddSpecificationItem from "@/components/ui/specifications/AddSpecificationItem";
 import {useGetSpecificationsQuery, useSetSortSpecificationMutation} from "@/store/api/admin/specifications.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
+import ValuesSpecificationItem from "@/components/ui/specifications/ValuesSpecificationItem";
 
 interface ISpecification {
     id: number,

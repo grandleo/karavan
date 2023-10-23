@@ -6,3 +6,34 @@
     height: 24.8px;
     width: 24.8px;
 }
+
+.valueItem {
+    flex-grow: 1;
+}
+
+.formFlex{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 24px;
+    height: calc(100vh - 80px);
+}
+
+.formArea{
+    flex-grow: 1;
+}
+
+.addValueItemBtn{
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 24px;
+    background: #2997A3;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.addValueItemBtn:hover {
+    background: #4DA8B2;
+}

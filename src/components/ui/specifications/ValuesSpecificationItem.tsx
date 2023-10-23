@@ -1,48 +1,77 @@
-import {useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {SortableItem} from "@/components/ui/sortableList/SortableItem";
-import SpecificationItem from "@/components/ui/specifications/SpecificationItem";
 import {SortableList} from "@/components/ui/sortableList/SortableList";
 import ValueSpecificationItem from "@/components/ui/specifications/ValueSpecificationItem";
-import {Button} from "@mantine/core";
+import {Box, Button} from "@mantine/core";
+import { customAlphabet } from 'nanoid/non-secure'
+import _ from "lodash";
+import classes from "./specifications.module.css";
+import {IconPlus} from "@tabler/icons-react";
 
 interface IValue {
     id: number;
     value: string;
 }
 
-const ValuesSpecificationItem = () => {
-    const [values, setValues] = useState<IValue[]>([{id: 1, value: ""}]);
+interface Props {
+    values?: [];
+    onValues?: any;
+    valuesItem?: any;
+}
+
+const ValuesSpecificationItem = ({onValues, valuesItem} : Props) => {
+    const nanoid = customAlphabet('1234567890', 16);
+
+    const [values, setValues] = useState<IValue[]>([{id: Number(nanoid()), value: ""}]);
+    const [valuesSpecification, setValuesSpecification] = useState()
+
+    useEffect(() => {
+        onValues('values', _.filter(values, (item) => item.value !== ""))
+    }, [values]);
+
+    useEffect(() => {
+        if(valuesItem && valuesItem.length > 0) setValues(valuesItem);
+    }, [valuesItem]);
 
     const handleAddValue = () => {
-        setValues([...values, { id: 0, value: "" }]);
+        setValues([...values, { id: Number(nanoid()), value: "" }]);
     };
 
-    const handleRemoveClick = (index: number, id: number) => {
-        const list = [...values];
-        list.splice(index, 1);
-        setValues(list);
+    const handleRemoveValue = (itemId: number) => {
+        setValues(
+            values.filter(item => item.id !== itemId)
+        )
     };
 
-    const onSubmit = async (data: IValue[]) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>, id: number) => {
+        if(event){
+            const { value }: { value: string } = event.target;
 
-    }
+            setValues(values.map(( item) => {
+                if (item.id === id) {
+                    return { ...item, value: value };
+                } else {
+                    return item;
+                }
+            }));
+        }
+    };
 
     return (
         <>
-            <Button onClick={handleAddValue}>+</Button>
-            <SortableList items={values} onChange={setValues} renderItem={(item, index) => {
-                return (
-                    <SortableItem id={item.id}>
-                        <ValueSpecificationItem removeItem={handleRemoveClick(index, item.id)}/>
-                    </SortableItem>
-                )
-            {/*    return (*/}
-            {/*        <SortableItem id={item.id}>*/}
-            {/*            /!*<SpecificationItem item={item} onOpen={open} setSpecification={setSpecification}/>*!/*/}
-            {/*            <ValuesSpecificationItem/>*/}
-            {/*        </SortableItem>*/}
-            {/*    )*/}
-            }}/>
+            <Button variant="filled" onClick={handleAddValue} className={classes.addValueItemBtn}>
+                <IconPlus size={22}/>
+            </Button>
+
+            <Box pos="relative">
+                <SortableList items={values} onChange={setValues} renderItem={(item, index) => {
+                    return (
+                        <SortableItem id={item.id}>
+                            <ValueSpecificationItem item={item} handleInputChange={handleInputChange} handleRemoveValue={handleRemoveValue}/>
+                        </SortableItem>
+                    )
+                }}/>
+            </Box>
         </>
     )
 }
