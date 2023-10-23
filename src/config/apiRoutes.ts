@@ -21,6 +21,7 @@ export const ADMIN_CREATE_SPECIFICATION_DELETE = 'admin/specifications/delete'
 export const ADMIN_GET_SPECIFICATION_VALUES = 'admin/specifications/get-values'
 export const ADMIN_CREATE_SPECIFICATION_VALUES = 'admin/specifications/add-values'
 export const ADMIN_DELETE_SPECIFICATION_VALUES = 'admin/specifications/delete-value'
+export const ADMIN_SORT_SPECIFICATION = 'admin/specifications/set-sort'
 
 //Категории
 export const ADMIN_GET_CATEGORIES = 'admin/categories'
@@ -33,6 +34,7 @@ export const ADMIN_GET_CATEGORY_SPECIFICATIONS = 'admin/categories/get-category-
 export const ADMIN_GET_PRODUCTS = 'admin/products'
 
 export const ADMIN_PRODUCT_CREATE = 'admin/products/create'
+export const ADMIN_PRODUCT_DELETE = 'admin/products/delete'
 
 
 //Поставщики

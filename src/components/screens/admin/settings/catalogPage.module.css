@@ -1,0 +1,11 @@
+.catalogBlock {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	height: 100vh;
+}
+
+.catalogBlockGrow{
+	flex-grow: 1;
+}

@@ -19,8 +19,6 @@ const CatalogPage = () => {
     const {data: products = []} = useGetProductsQuery(selectedCategory);
 
     useEffect(() => {
-        // const {data: products = []} = useGetProductsQuery(selectedCategory);
-
         console.log(products)
     }, [selectedCategory]);
 

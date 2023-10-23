@@ -1,0 +1,27 @@
+.sortableList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sortableListItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    border: 1px solid #E4E4E7;
+    background: #FFF;
+    padding: 12px 24px 12px 12px;
+    gap: 24px;
+}
+
+.sortableHandle {
+    color: #E4E4E7;
+    border: 0;
+    height: 24.8px;
+    width: 24.8px;
+}
+.sortableHandle:hover {
+    color: #000;
+    background: #F4F4F5;
+}

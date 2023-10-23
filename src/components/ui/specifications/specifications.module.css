@@ -1,0 +1,8 @@
+.itemName {
+    flex-grow: 1;
+}
+.itemMenu {
+    border: 0;
+    height: 24.8px;
+    width: 24.8px;
+}

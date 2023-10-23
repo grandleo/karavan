@@ -25,7 +25,7 @@ interface Props {
 const AddProductItem = ({selectedCategory}: Props) => {
     const [opened, { open, close }] = useDisclosure(false);
 
-    const [productName, setProductName] = useState('')
+    // const [productName, setProductName] = useState('')
     const [selectSpecifications, setSelectSpecifications] = useState([]);
 
     const {data} = useGetCategorySpecificationsQuery(selectedCategory);
@@ -64,7 +64,7 @@ const AddProductItem = ({selectedCategory}: Props) => {
 
         setValue('name', newProductName.join(' '))
 
-        setProductName(newProductName.join(' '));
+        // setProductName(newProductName.join(' '));
     }, [selectSpecifications, selectedCategory]);
 
     const onSubmit = async (data: any) => {

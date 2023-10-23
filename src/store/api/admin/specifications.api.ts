@@ -6,7 +6,7 @@ import {
     ADMIN_CREATE_SPECIFICATION_VALUES,
     ADMIN_DELETE_SPECIFICATION_VALUES,
     ADMIN_GET_SPECIFICATION_VALUES,
-    ADMIN_GET_SPECIFICATIONS
+    ADMIN_GET_SPECIFICATIONS, ADMIN_SORT_SPECIFICATION
 } from "@/config/apiRoutes";
 
 export const specificationsApi = api.injectEndpoints({
@@ -53,6 +53,12 @@ export const specificationsApi = api.injectEndpoints({
                 type: 'SpecificationValues'
             }]
         }),
+        setSortSpecification: builder.mutation({
+            query: (data) => ({url: ADMIN_SORT_SPECIFICATION, method: 'post', data: {'new_sort': data}}),
+            invalidatesTags: () => [{
+                type: 'Specifications'
+            }]
+        })
     })
 });
 
@@ -63,5 +69,6 @@ export const {
     useUpdateSpecificationMutation,
     useGetSpecificationValuesQuery,
     useAddSpecificationValuesMutation,
-    useDeleteSpecificationValueMutation
+    useDeleteSpecificationValueMutation,
+    useSetSortSpecificationMutation
 } = specificationsApi;
