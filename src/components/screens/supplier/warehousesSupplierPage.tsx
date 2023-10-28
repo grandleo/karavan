@@ -9,6 +9,9 @@ import {TimeInput} from "@mantine/dates";
 import {IconClock} from "@tabler/icons-react";
 import {Controller, useForm} from "react-hook-form";
 import {useCreateWarehouseMutation, useGetWarehousesQuery} from "@/store/api/warehouses.api";
+import PageHeader from "@/components/ui/page/pageHeader";
+import PageWrapper from "@/components/ui/page/pageWrapper";
+import PageContent from "@/components/ui/page/pageContent";
 
 const WarehousesSupplierPage = () => {
     const [active, setActive] = useState(0);
@@ -35,6 +38,9 @@ const WarehousesSupplierPage = () => {
 
     return (
         <>
+        <PageWrapper>
+        <PageHeader title="Логисты"/>
+        <PageContent>
             <Box style={{width: '500px'}}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <StepsHeaders active={active}/>
@@ -106,6 +112,8 @@ const WarehousesSupplierPage = () => {
                     </Flex>
                 </form>
             </Box>
+        </PageContent>
+        </PageWrapper>
         </>
     )
 }

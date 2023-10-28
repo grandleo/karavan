@@ -8,6 +8,9 @@ export const LOGOUT_URL = 'logout'
 
 //Склады
 export const GET_WAREHOUSES_USER = 'warehouses'
+
+export const GET_WAREHOUSE = 'warehouses/get-warehouse'
+export const GET_DAYS_WEEK = 'warehouses/get-days-week'
 export const CREATE_WAREHOUSE_USER = 'warehouses/create'
 
 
@@ -39,5 +42,6 @@ export const ADMIN_PRODUCT_DELETE = 'admin/products/delete'
 
 //Поставщики
 export const SUPPLIER_GET_ALL_PRODUCTS = 'supplier/stock'
+export const GET_CATEGORIES_FOR_SUPPLIER_STOCK = 'supplier/stock/add/get-categories'
 export const SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE = 'supplier/stock/price'
 export const SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE = 'supplier/stock/qty'

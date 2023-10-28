@@ -37,7 +37,6 @@ const AddSpecificationItem = () => {
     });
 
     const onSubmit = async (data: any) => {
-        console.log(data)
         createSpecification(data).unwrap()
             .then((payload) => {
                 close();

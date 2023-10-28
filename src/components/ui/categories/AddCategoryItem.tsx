@@ -10,7 +10,7 @@ import classes from "./categoryList.module.css";
 import {useEffect} from "react";
 
 interface Props {
-    activeCategory: number;
+    activeCategory?: number;
     fullWidth?: boolean;
 }
 

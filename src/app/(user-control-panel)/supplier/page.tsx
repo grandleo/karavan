@@ -1,9 +1,8 @@
-import WarehousesSupplierPage from "@/components/screens/supplier/warehousesSupplierPage";
+import DashboardSupplier from "@/components/screens/supplier/DashboardSupplier";
 
-export default function SupplierDashboard () {
+export default function Page()
+{
     return (
-        <>
-            <WarehousesSupplierPage/>
-        </>
+        <DashboardSupplier/>
     )
 }

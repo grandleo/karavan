@@ -54,6 +54,11 @@ const api = createApi({
         'Categories',
         'Products',
         'Warehouses',
+        'Warehouse',
+        'DaysOfWeek',
+        'AddStockCategories',
+        'AddStockProducts',
+        'StockSupplier',
     ],
     endpoints: () => ({}),
 })

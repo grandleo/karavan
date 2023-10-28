@@ -1,0 +1,40 @@
+.warehouseContacts{
+	background: #F4F4F5;
+	padding: 24px;
+}
+
+/*.contactCard {*/
+
+/*}*/
+
+.warehouseContactHeader{
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	align-items: center;
+}
+
+.warehouseContactTitle{
+	flex-grow: 1;
+}
+
+.weekday{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-content: flex-start;
+	align-items: stretch;
+	gap: 12px;
+}
+
+.workSchedule{
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	align-items: center;
+	gap: 16px;
+}
+
+.workScheduleDay{
+	flex-grow: 1;
+}

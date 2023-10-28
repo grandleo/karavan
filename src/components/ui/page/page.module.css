@@ -23,7 +23,11 @@
 
 .pageContent {
     padding: 28px 32px;
-    height: calc(100vh - 61px);
+    height: calc(100vh - 69px);
+}
+
+.pageContentNoPadding{
+     padding: 0;
 }
 
 .pageContentFullHeight{
