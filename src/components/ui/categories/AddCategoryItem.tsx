@@ -8,13 +8,15 @@ import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications"
 import CategorySpecifications from "@/components/ui/categories/CategorySpecifications";
 import classes from "./categoryList.module.css";
 import {useEffect} from "react";
+import {useSelector} from "react-redux";
+import {getCategoriesState} from "@/store/slices/categorySlice";
 
 interface Props {
-    activeCategory?: number;
     fullWidth?: boolean;
 }
 
-const AddCategoryItem = ({activeCategory, fullWidth}: Props) => {
+const AddCategoryItem = ({fullWidth}: Props) => {
+    const {activeCategory} = useSelector(getCategoriesState);
     const [opened, { open, close }] = useDisclosure(false);
     const [createCategory] = useCreateCategoryMutation();
 

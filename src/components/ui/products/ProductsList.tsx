@@ -7,6 +7,8 @@ import React from "react";
 import AddProductItem from "@/components/ui/products/AddProductItem";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {modals} from "@mantine/modals";
+import {useSelector} from "react-redux";
+import {getCategoriesState} from "@/store/slices/categorySlice";
 
 interface IProduct{
     id: number;
@@ -14,20 +16,20 @@ interface IProduct{
 }
 
 interface Props {
-    activeCategory: number;
 }
 
-const ProductsList = ({activeCategory}: Props) => {
-    const {data: products = [], isLoading} = useGetProductsQuery(activeCategory);
+const ProductsList = ({}: Props) => {
+    const {selectedCategory} = useSelector(getCategoriesState);
+    const {data: products = [], isLoading} = useGetProductsQuery(selectedCategory);
 
     return (
         <>
             <Box pos="relative">
                 <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
-                {products?.length === 0 ? <NoProducts activeCategory={activeCategory}/> :
+                {products?.length === 0 ? <NoProducts/> :
                     <>
                         <ScrollArea className={classes.productsListWrapper}>
-                            <AddProductItem activeCategory={activeCategory}/>
+                            <AddProductItem/>
 
                             <Products products={products}/>
                         </ScrollArea>
@@ -38,7 +40,7 @@ const ProductsList = ({activeCategory}: Props) => {
     )
 }
 
-const Products = ({products}) => {
+const Products = ({products}: any) => {
 
    return (
        <>

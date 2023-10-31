@@ -9,7 +9,6 @@ import ProductsList from "@/components/ui/products/ProductsList";
 import {useState} from "react";
 
 const CatalogPage2 = () => {
-    const [activeCategory, setActiveCategory] = useState(0)
     const {data: categories = [], isLoading} = useGetCategoriesQuery('');
 
     return (
@@ -19,10 +18,10 @@ const CatalogPage2 = () => {
                 {categories.length === 0 ? <NoCategories/> :
                     <>
                         <Box className={classes.catalogBlock}>
-                            <CategoriesList categories={categories} activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>
+                            <CategoriesList categories={categories}/>
 
                             <Box className={classes.catalogBlockGrow}>
-                                <ProductsList activeCategory={activeCategory}/>
+                                <ProductsList/>
                             </Box>
                         </Box>
                     </>

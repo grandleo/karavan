@@ -35,6 +35,12 @@ export const categoriesApi = api.injectEndpoints({
         getCategorySpecifications: builder.query({
             query: (id) => ({url: ADMIN_GET_CATEGORY_SPECIFICATIONS, method: 'post', data: {'category_id': id}})
         }),
+        setSortingCategories: builder.mutation({
+            query: (data) => ({url: 'admin/categories/set-sort', method: 'post', data: {'new_sort': data}}),
+            invalidatesTags: () => [{
+                type: 'Categories'
+            }]
+        }),
     })
 })
 
@@ -43,5 +49,6 @@ export const {
     useCreateCategoryMutation,
     useDeleteCategoryMutation,
     useUpdateCategoryMutation,
-    useGetCategorySpecificationsQuery
+    useGetCategorySpecificationsQuery,
+    useSetSortingCategoriesMutation
 } = categoriesApi;

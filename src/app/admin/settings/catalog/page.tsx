@@ -1,9 +1,9 @@
-import CatalogPage from "@/components/screens/admin/settings/catalogPage";
+import CatalogPage2 from "@/components/screens/admin/settings/CatalogPage2";
 
-export default function Catalog () {
+export default function Page() {
     return (
         <>
-            <CatalogPage/>
+            <CatalogPage2/>
         </>
     )
 }

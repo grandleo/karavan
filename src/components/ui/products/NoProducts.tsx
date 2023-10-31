@@ -2,12 +2,15 @@ import {Box, Text} from "@mantine/core";
 import {IconCurrencyDollar} from "@tabler/icons-react";
 import classes from "./productsList.module.css";
 import AddProductItem from "@/components/ui/products/AddProductItem";
+import {useSelector} from "react-redux";
+import {getCategoriesState} from "@/store/slices/categorySlice";
 
 interface Props {
-    activeCategory: number;
+
 }
 
-const NoProducts = ({activeCategory}: Props) => {
+const NoProducts = () => {
+
     return (
         <>
             <Box className={classes.noProducts}>
@@ -20,7 +23,7 @@ const NoProducts = ({activeCategory}: Props) => {
                 </Box>
 
                 <Box>
-                    <AddProductItem activeCategory={activeCategory}/>
+                    <AddProductItem/>
                 </Box>
             </Box>
         </>

@@ -9,16 +9,18 @@ import {useEffect, useState} from "react";
 import {useGetCategorySpecificationsQuery} from "@/store/api/admin/categories.api";
 import _ from "lodash";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
+import {useSelector} from "react-redux";
+import {getCategoriesState} from "@/store/slices/categorySlice";
 
 interface Props {
-    activeCategory: number;
 }
 
-const AddProductItem = ({activeCategory}: Props) => {
+const AddProductItem = ({}: Props) => {
+    const {selectedCategory} = useSelector(getCategoriesState);
     const [opened, { open, close }] = useDisclosure(false);
     const [selectSpecifications, setSelectSpecifications] = useState([]);
 
-    const {data: categorySpecifications} = useGetCategorySpecificationsQuery(activeCategory);
+    const {data: categorySpecifications} = useGetCategorySpecificationsQuery(selectedCategory);
     const [createProduct] = useCreateProductMutation();
 
     const {
@@ -32,13 +34,13 @@ const AddProductItem = ({activeCategory}: Props) => {
             name: '',
             article: '',
             description: '',
-            category_id: activeCategory,
+            category_id: selectedCategory,
             specifications: []
         }
     });
 
     useEffect(() => {
-        setValue('category_id', activeCategory);
+        setValue('category_id', selectedCategory);
 
         const sortedData = _.sortBy(categorySpecifications, ['order_column']);
 
@@ -53,7 +55,7 @@ const AddProductItem = ({activeCategory}: Props) => {
         });
 
         setValue('name', newProductName.join(' '))
-    }, [selectSpecifications, activeCategory]);
+    }, [selectSpecifications, selectedCategory]);
 
     const onSubmit = async (data: any) => {
         createProduct(data).unwrap()
@@ -67,7 +69,7 @@ const AddProductItem = ({activeCategory}: Props) => {
 
     return (
         <>
-            <Button variant="filled" onClick={open} disabled={activeCategory === 0} className={classes.addProductItemBtn}>
+            <Button variant="filled" onClick={open} disabled={selectedCategory === 0} className={classes.addProductItemBtn}>
                 <IconPlus size={22}/>
             </Button>
 

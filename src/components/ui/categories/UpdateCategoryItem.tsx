@@ -6,6 +6,8 @@ import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications"
 import {useUpdateCategoryMutation} from "@/store/api/admin/categories.api";
 import {Dispatch, SetStateAction, useEffect} from "react";
 import classes from "@/components/ui/categories/categoryList.module.css";
+import {useSelector} from "react-redux";
+import {getCategoriesState} from "@/store/slices/categorySlice";
 
 interface ICategoryItem {
     id: number;
@@ -17,11 +19,11 @@ interface ICategoryItem {
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    category: ICategoryItem;
     setSpecification?: Dispatch<SetStateAction<[]>>;
 }
 
-const UpdateCategoryItem = ({category, isOpen, onClose}: Props) => {
+const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
+    const {editCategory} = useSelector(getCategoriesState);
     const [updateCategory] = useUpdateCategoryMutation();
 
     const {
@@ -40,12 +42,11 @@ const UpdateCategoryItem = ({category, isOpen, onClose}: Props) => {
     });
 
     useEffect(() => {
-        setValue('id', category.id)
-        setValue('name', category.name)
-        setValue('parent_id', category.parent_id)
-        setValue('specifications', category.category_specifications)
-        console.log('update', category)
-    }, [category]);
+        setValue('id', editCategory.id)
+        setValue('name', editCategory.name)
+        setValue('parent_id', editCategory.parent_id)
+        setValue('specifications', editCategory.category_specifications)
+    }, [editCategory]);
 
     const onSubmit = async (data: any) => {
         updateCategory(data).unwrap()
@@ -90,7 +91,7 @@ const UpdateCategoryItem = ({category, isOpen, onClose}: Props) => {
                             name="name"
                         />
 
-                        <CategorySpecifications setSpecificationValues={setValue} categorySpecifications={category.category_specifications}/>
+                        <CategorySpecifications setSpecificationValues={setValue} categorySpecifications={editCategory.category_specifications}/>
                     </Box>
                     <Box>
                         <PrimaryBtn type="submit">Сохранить</PrimaryBtn>

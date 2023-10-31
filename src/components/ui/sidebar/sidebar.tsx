@@ -94,15 +94,6 @@ const SupplierMenu = () => {
                     )
                 })}
             </NavLink>
-            {/*<NavLink component={Link} href={`${process.env.NEXT_PUBLIC_URL}/supplier`} label="Склады" />*/}
-            {/*{data?.map((warehouse: any, index: number) => {*/}
-            {/*    return (*/}
-            {/*        <NavLink label={`${warehouse.city} - ${index+1}`} key={warehouse.id}*/}
-            {/*                 component={Link}*/}
-            {/*                 href={`${process.env.NEXT_PUBLIC_URL}/supplier/${warehouse.id}`}*/}
-            {/*                 style={{marginLeft: '20px'}}/>*/}
-            {/*    )*/}
-            {/*})}*/}
             <NavLink component={Link} href={`${process.env.NEXT_PUBLIC_URL}/supplier/orders`} label="Заказы" />
             <NavLink
                 label="Настройки"
@@ -110,6 +101,38 @@ const SupplierMenu = () => {
                 childrenOffset={28}
             >
                 <NavLink label="Добавить склад" component={Link} href={`${process.env.NEXT_PUBLIC_URL}/supplier/settings/warehouses`}/>
+                <NavLink label="Настройка 2" />
+            </NavLink>
+        </>
+    )
+}
+
+const ClientMenu = () => {
+    const {data} = useGetWarehousesQuery('');
+
+    return (
+        <>
+            <NavLink
+                label="Склады"
+                leftSection={<IconGauge size="1rem" stroke={1.5} />}
+                childrenOffset={28}
+            >
+                {data?.map((warehouse: any, index: number) => {
+                    return (
+                        <NavLink label={warehouse.address} key={warehouse.id}
+                                 component={Link}
+                                 href={`${process.env.NEXT_PUBLIC_URL}/client/${warehouse.id}`}
+                                 style={{marginLeft: '20px'}}/>
+                    )
+                })}
+            </NavLink>
+            <NavLink component={Link} href={`${process.env.NEXT_PUBLIC_URL}/client/orders`} label="Заказы" />
+            <NavLink
+                label="Настройки"
+                leftSection={<IconGauge size="1rem" stroke={1.5} />}
+                childrenOffset={28}
+            >
+                <NavLink label="Добавить склад" component={Link} href={`${process.env.NEXT_PUBLIC_URL}/client/settings/warehouses`}/>
                 <NavLink label="Настройка 2" />
             </NavLink>
         </>
