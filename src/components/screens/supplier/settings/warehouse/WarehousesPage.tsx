@@ -43,7 +43,7 @@ export const WarehousesPage = () => {
             .then((payload) => {
                 reset();
                 SuccessNotifications(payload)
-                const newPage = process.env.NEXT_PUBLIC_URL+'/supplier/'+payload?.warehouse_id
+                const newPage = process.env.NEXT_PUBLIC_URL+'/client/'+payload?.warehouse_id
                 router.push(newPage);
             })
             .catch((error) => ErrorNotifications(error))
@@ -52,7 +52,7 @@ export const WarehousesPage = () => {
     return (
         <>
             <PageWrapper>
-                <PageHeader title="Создание склада"/>
+                <PageHeader title="Адрес точки доставки"/>
                 <PageContent>
                     <Box style={{width: '500px'}}>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -120,7 +120,7 @@ export const WarehousesPage = () => {
 
 const StepsHeaders = ({active}: any) => {
     const stepsHeaders = [
-        'Адрес склада',
+        'Адрес доставки',
         'Укажите график работы',
         'Укажите контакты склада',
     ];

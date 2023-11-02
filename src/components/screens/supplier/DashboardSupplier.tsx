@@ -11,7 +11,6 @@ const DashboardSupplier = () => {
     const {data: warehouses} = useGetWarehousesQuery('');
 
     useEffect(() => {
-        console.log(warehouses)
         if(warehouses?.length === 0) {
             router.push(process.env.NEXT_PUBLIC_URL+'/supplier/settings/warehouses')
         } else {

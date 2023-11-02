@@ -26,9 +26,7 @@ export const WarehousesApi = api.injectEndpoints({
         }),
         createWarehouse: builder.mutation({
             query: (data) => ({url: CREATE_WAREHOUSE_USER, method: 'post', data: data}),
-            invalidatesTags: () => [{
-                type: 'Warehouses'
-            }]
+            invalidatesTags: ['Warehouses', 'MenuItems'],
         }),
         addPriceWarehouseProduct: builder.mutation({
             query: (data) => ({url: SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE, method: 'post', data: data}),

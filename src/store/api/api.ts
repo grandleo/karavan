@@ -49,6 +49,8 @@ const api = createApi({
     baseQuery: axiosBaseQuery(),
     tagTypes: [
         'User',
+        'Users',
+        'MenuItems',
         'Specifications',
         'SpecificationValues',
         'Categories',
@@ -59,6 +61,8 @@ const api = createApi({
         'AddStockCategories',
         'AddStockProducts',
         'StockSupplier',
+        'StockClient',
+        'StockClientCategories',
     ],
     endpoints: () => ({}),
 })

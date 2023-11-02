@@ -1,6 +1,6 @@
 import LogisticsPage from "@/components/screens/admin/logisticsPage";
 
-export default function Logistics () {
+export default function Page () {
     return (
         <>
             <LogisticsPage/>

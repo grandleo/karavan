@@ -1,20 +1,20 @@
 'use client'
 
+import {useGetUsersQuery} from "@/store/api/admin/users.api";
+import PageHeader from "@/components/ui/page/pageHeader";
+import PageContent from "@/components/ui/page/pageContent";
 import {Menu, Select, Skeleton, Table, rem, Button, UnstyledButton} from "@mantine/core";
 import {IconDotsVertical, IconMessageCircle, IconSettings, IconTrash} from "@tabler/icons-react";
 import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageHeader from "@/components/ui/page/pageHeader";
-import PageContent from "@/components/ui/page/pageContent";
-import {useGetUsersQuery} from "@/store/api/admin/users.api";
 import {Fragment} from "react";
 
-const ClientsPage = () => {
-    const {data: clients, isLoading} = useGetUsersQuery('client');
+export default function Page () {
+    const {data: adminUsers, isLoading} = useGetUsersQuery('admin');
 
     return (
         <>
             <PageWrapper>
-                <PageHeader title="Клиенты"/>
+                <PageHeader title="Администраторы"/>
                 <PageContent>
                     <Table>
                         <Table.Thead>
@@ -27,7 +27,7 @@ const ClientsPage = () => {
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                            {clients?.map((user: any, index: number) => {
+                            {adminUsers?.map((user: any, index: number) => {
                                 return (
                                     <Fragment key={index}>
                                         <Table.Tr key={index}>
@@ -72,5 +72,3 @@ const ClientsPage = () => {
         </>
     )
 }
-
-export default ClientsPage;
