@@ -1,0 +1,27 @@
+.buttonPrimary{
+	color: #fff;
+	border-radius: 8px;
+	background: #2997A3;
+}
+
+.buttonPrimary[data-disabled]{
+	color: #fff;
+}
+
+.buttonPrimary:hover{
+	background: #4DA8B2;
+}
+
+.buttonSecondary{
+	color: #27272A;
+	border-radius: 8px;
+	background: #E4E4E7;
+}
+
+.buttonSecondary:hover{
+	background: #F4F4F5;
+}
+
+.buttonSecondary[data-disabled]{
+	opacity: 0.5;
+}

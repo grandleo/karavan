@@ -1,4 +1,4 @@
-import {Box, Checkbox, Drawer, TextInput} from "@mantine/core";
+import {Box, Checkbox, Drawer, Select, TextInput} from "@mantine/core";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useEffect} from "react";
@@ -12,6 +12,7 @@ interface ISpecification {
     name: string,
     required: number,
     use_product_name: number,
+    type_choice: string,
     values: []
 }
 
@@ -37,15 +38,19 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
             name: '',
             required: 0,
             use_product_name: 0,
+            type_choice: 'single',
             values: []
         }
     });
+
+    console.log(specification.type_choice)
 
     useEffect(() => {
         setValue('id', specification.id)
         setValue('name', specification.name)
         setValue('required', specification.required)
         setValue('use_product_name', specification.use_product_name)
+        setValue('type_choice', specification.type_choice)
     }, [specification]);
 
     const onSubmit = async (data: any) => {
@@ -102,6 +107,21 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
                                 label="Участвует в формировании названия"
                                 mb={{ base: 10 }}
                             />
+
+                            <Controller
+                                name="type_choice"
+                                control={control}
+                                // render={({ field: { onChange, onBlur, value } }) => (
+                                render={({ field }) => (
+                                    <Select
+                                        {...field}
+                                        label="Тип выбора"
+                                        data={[
+                                            { value: 'single', label: 'Единичный выбор' },
+                                            { value: 'multiple', label: 'Множественный выбор' },
+                                        ]}
+                                    />
+                            )}/>
 
                             <ValuesSpecificationItem onValues={setValue} valuesItem={specification.values}/>
 

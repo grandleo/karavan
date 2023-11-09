@@ -44,10 +44,9 @@ const EmailAutocomplete = ({field, errors}: any) => {
             <Combobox.Target>
                 <TextInput
                     {...field}
-                    // control={control}
                     label="Email"
                     placeholder="Введите вашу почту"
-                    value={value}
+                    value={field.value}
                     error={errors.email?.message}
                     onChange={(event) => {
                         field.onChange(event.currentTarget.value)
@@ -56,8 +55,6 @@ const EmailAutocomplete = ({field, errors}: any) => {
                         combobox.openDropdown();
                         combobox.updateSelectedOptionIndex();
                     }}
-                    // onClick={() => combobox.openDropdown()}
-                    // onFocus={() => combobox.openDropdown()}
                     onBlur={() => combobox.closeDropdown()}
                     autocomlette="off"
                 />

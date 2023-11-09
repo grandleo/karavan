@@ -1,21 +1,20 @@
-import {Combobox, ScrollArea, TextInput, useCombobox} from "@mantine/core";
 import {useState} from "react";
+import {Combobox, ScrollArea, TextInput, useCombobox} from "@mantine/core";
 import {daData} from "@/config/daData";
 
 //TODO: 5048024305
 //TODO: 502482528489
 
-const CompanyAutocomplete = ({field, setField}: any) => {
+const CompanyAutocomplete = ({field, setField, error}: any) => {
     const combobox = useCombobox();
     const [data, setData] = useState([]);
     const [value, setValue] = useState('');
-    // const shouldFilterOptions = !data.some((item: any) => item.value === value);
-    // const filteredOptions = shouldFilterOptions ? data.filter((item: any) => item.value.toLowerCase().includes(value.toLowerCase().trim())) : data;
 
     const options = data.map((item: any) => {
         return (
             <Combobox.Option value={item.value} key={item.value}
                              onClick={ (event) => {
+                                 setField('inn', item.data?.inn);
                                  setField('company', item.data);
                                  setField('short_with_opf', item.data?.name.short_with_opf)
                                 }
@@ -53,7 +52,7 @@ const CompanyAutocomplete = ({field, setField}: any) => {
                     {...field}
                     label="ИНН"
                     placeholder="Введите ваш инн компании"
-                    value={value}
+                    value={field.value}
                     onChange={(event) => {
                         field.onChange(event.currentTarget.value)
                         handleChange(event.currentTarget.value);
@@ -61,10 +60,9 @@ const CompanyAutocomplete = ({field, setField}: any) => {
                         combobox.openDropdown();
                         combobox.updateSelectedOptionIndex();
                     }}
-                    // onClick={() => combobox.openDropdown()}
-                    // onFocus={() => combobox.openDropdown()}
                     onBlur={() => combobox.closeDropdown()}
                     autocomlette="off"
+                    error={error}
                 />
             </Combobox.Target>
 

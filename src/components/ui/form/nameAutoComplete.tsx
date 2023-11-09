@@ -4,7 +4,7 @@ import {daData} from "@/config/daData";
 
 
 
-const NameAutocomplete = ({field, setField}: any) => {
+const NameAutocomplete = ({field, setField, error}: any) => {
     const combobox = useCombobox();
     const [data, setData] = useState([]);
     const [value, setValue] = useState('');
@@ -48,7 +48,7 @@ const NameAutocomplete = ({field, setField}: any) => {
                     {...field}
                     label="ФИО"
                     placeholder="Введите ваше фио"
-                    value={value}
+                    value={field.value}
                     onChange={(event) => {
                         field.onChange(event.currentTarget.value)
                         handleChange(event.currentTarget.value);
@@ -58,6 +58,7 @@ const NameAutocomplete = ({field, setField}: any) => {
                     }}
                     onBlur={() => combobox.closeDropdown()}
                     autocomlette="off"
+                    error={error}
                 />
             </Combobox.Target>
 

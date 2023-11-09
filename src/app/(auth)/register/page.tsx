@@ -1,29 +1,24 @@
 'use client'
 
 import React, {useState} from "react";
-import {Controller, Form, useForm} from "react-hook-form";
-import Link from "next/link";
-import {CHECK_EMAIL_URL, REGISTRATION_URL} from "@/config/apiRoutes";
-import {Flex, TextInput, Text, Box, Input} from "@mantine/core";
-import SecondaryBtn from "@/components/ui/btn/secondaryBtn";
-import PrimaryBtn from "@/components/ui/btn/primaryBtn";
-import TypeUserBtn from "@/components/ui/form/typeUserBtn";
-import classes from "./auth.module.css";
+import {Controller, useForm} from "react-hook-form";
 import NameAutocomplete from "@/components/ui/form/nameAutoComplete";
 import EmailAutocomplete from "@/components/ui/form/emailAutoComplete";
-import CompanyAutocomplete from "@/components/ui/form/companyAutoComplete";
-import {http} from "@/config/http";
-import {useRouter} from "next/navigation";
-import FormConditions from "@/components/ui/form/formConditions";
 import {IMaskInput} from "react-imask";
+import {Input, TextInput, Box, Flex, Text} from "@mantine/core";
+import CompanyAutocomplete from "@/components/ui/form/companyAutoComplete";
 import {IconInfoCircle} from "@tabler/icons-react";
+import TypeUserBtn from "@/components/ui/form/typeUserBtn";
+import ButtonPrimary from "@/components/ui/Buttons/ButtonPrimary";
+import ButtonSecondary from "@/components/ui/Buttons/ButtonSecondary";
+import {http} from "@/config/http";
+import {CHECK_EMAIL_URL, REGISTRATION_URL} from "@/config/apiRoutes";
+import classes from "@/components/screens/auth/auth.module.css";
+import Stepper from "@/components/ui/Stepper/Stepper";
 import {signIn} from "next-auth/react";
 import {ErrorNotifications} from "@/helpers/Notifications";
-import ButtonSecondary from "@/components/ui/Buttons/ButtonSecondary";
-import ButtonPrimary from "@/components/ui/Buttons/ButtonPrimary";
-import Stepper from "@/components/ui/Stepper/Stepper";
 
-const RegistrationPage = () => {
+const RegistrationForm = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [loading, setLoading] = useState(false);
     const steps = ["Расскажите о себе", "Расскажите о компании", "Проверьте информацию", "Тип личного кабинета"];
@@ -172,15 +167,15 @@ const RegistrationPage = () => {
                             <>
                                 <Input.Label>Телефон</Input.Label>
                                 <Input component={IMaskInput}
-                                       mask="(000) 000-00-00"
-                                       placeholder="Укажите ваш телефон"
-                                       onBlur={onBlur}
-                                       onChange={(event) => {
-                                           onChange(event.currentTarget.value);
-                                       }}
-                                       value={value}
-                                       leftSection="+7"
-                                       error={!!errors?.phone?.message}
+                                        mask="(000) 000-00-00"
+                                        placeholder="Укажите ваш телефон"
+                                        onBlur={onBlur}
+                                        onChange={(event) => {
+                                            onChange(event.currentTarget.value);
+                                        }}
+                                        value={value}
+                                        leftSection="+7"
+                                        error={!!errors?.phone?.message}
                                 />
                             </>
                         )}
@@ -286,6 +281,6 @@ const RegistrationPage = () => {
             </Box>
         </form>
     );
-}
+};
 
-export default RegistrationPage;
+export default RegistrationForm;

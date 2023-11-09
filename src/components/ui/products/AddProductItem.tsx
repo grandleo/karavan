@@ -1,6 +1,6 @@
 import {useDisclosure} from "@mantine/hooks";
 import {IconPlus} from "@tabler/icons-react";
-import {Box, Button, Combobox, Drawer, ScrollArea, Textarea, TextInput, useCombobox} from "@mantine/core";
+import {Box, Button, CheckIcon, Combobox, Drawer, ScrollArea, Textarea, TextInput, useCombobox} from "@mantine/core";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import classes from "./productsList.module.css";
 import {Controller, useForm} from "react-hook-form";
@@ -42,19 +42,21 @@ const AddProductItem = ({}: Props) => {
     useEffect(() => {
         setValue('category_id', selectedCategory);
 
-        const sortedData = _.sortBy(categorySpecifications, ['order_column']);
-
-        const specificationForNameProduct = selectSpecifications.filter((item:any) => {
-            return sortedData?.some((specification: any) => {
-                return item.specification_id === specification.id && specification.use_product_name === 1
-            })
-        })
-
-        const newProductName = specificationForNameProduct.map((item: any) => {
-            return item.value
+        const filteredSelectSpecifications = selectSpecifications.filter(spec => {
+            const correspondingCategorySpec = categorySpecifications.find(catSpec => catSpec.id === spec.specification_id);
+            return correspondingCategorySpec && correspondingCategorySpec.use_product_name === 1;
         });
 
-        setValue('name', newProductName.join(' '))
+        const groupedAndSortedSpecifications = _(filteredSelectSpecifications)
+            .groupBy('specification_id')
+            .mapValues(group => _.orderBy(group, ['order_column']))
+            .value();
+
+        const resultString = Object.values(groupedAndSortedSpecifications)
+            .map(arr => arr.map(obj => obj.value).join(' '))
+            .join(' ');
+
+        setValue('name', resultString)
     }, [selectSpecifications, selectedCategory]);
 
     const onSubmit = async (data: any) => {
@@ -173,30 +175,43 @@ const AddProductItem = ({}: Props) => {
 
 const SelectSpecifications = ({item, selectSpecifications, setSelectSpecifications}: any) => {
     const combobox = useCombobox();
-    const [selectValue, setSelectValue] = useState('');
+    const [selectValue, setSelectValue] = useState([]);
 
-    const {name, values} = item;
+    const {name, values, type_choice} = item;
 
     const options = values?.map((item: any) => (
         <Combobox.Option value={item} key={item.id}>
-            {item.value}
+            <Box className={classes.selectSpecificationOption}>
+                <Box className={classes.selectSpecificationOptionValue}>{item.value}</Box>
+                <Box>
+                    {selectSpecifications?.map( (values, index: number) => (
+                        values.id === item.id && (<Box key={index}><CheckIcon size={12} key={values.id}/></Box>)
+                    ) )}
+                </Box>
+            </Box>
         </Combobox.Option>
     ));
 
     const handleSelectSpecifications = (option: any) => {
 
-        const existValuesSpecification = selectSpecifications?.filter( (item: any) => {
-            return values?.some((value: any) => {
-                return value.id === item.id
-            })
-        })
+        const filterValues = selectSpecifications?.filter( (item: any) => {
+            return item.specification_id === option.specification_id
+        } )
 
-        if(existValuesSpecification.length > 0){
-            setSelectSpecifications([...selectSpecifications?.filter( (item: any) => {
-                return existValuesSpecification?.some((value: any) => {
-                    return value.specification_id !== item.specification_id
-                })
-            }), option])
+        if(filterValues.length > 0){
+            if(type_choice === 'multiple'){
+                if (selectSpecifications.some(item => item.id === option.id)) {
+                    setSelectSpecifications(selectSpecifications.filter(item => item.id !== option.id));
+                } else {
+                    setSelectSpecifications([...selectSpecifications, option]);
+                }
+            } else {
+                setSelectSpecifications([...selectSpecifications?.filter( (item: any) => {
+                    return filterValues?.some((value: any) => {
+                        return value.specification_id !== item.specification_id
+                    })
+                }), option])
+            }
         }else{
             setSelectSpecifications([...selectSpecifications, option])
         }
@@ -204,9 +219,21 @@ const SelectSpecifications = ({item, selectSpecifications, setSelectSpecificatio
     }
 
     return (
+
         <Combobox
             onOptionSubmit={(optionValue: any) => {
-                setSelectValue(optionValue?.value)
+                if(type_choice === 'multiple') {
+                    setSelectValue(prevState => {
+                        if (prevState.includes(optionValue?.value)) {
+                            return prevState.filter(item => item !== optionValue?.value);
+                        } else {
+                            return [...prevState, optionValue?.value];
+                        }
+                    });
+                } else {
+                    setSelectValue(optionValue?.value)
+                }
+
                 handleSelectSpecifications(optionValue)
                 combobox.closeDropdown();
             }}
@@ -237,7 +264,6 @@ const SelectSpecifications = ({item, selectSpecifications, setSelectSpecificatio
                 </Combobox.Dropdown>
             )}
         </Combobox>
-
 
     )
 }

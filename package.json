@@ -23,6 +23,7 @@
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "dnd-kit-sortable-tree": "^0.1.73",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "nanoid": "^5.0.2",

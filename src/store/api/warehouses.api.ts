@@ -39,7 +39,10 @@ export const WarehousesApi = api.injectEndpoints({
             invalidatesTags: () => [{
                 type: 'Products'
             }]
-        })
+        }),
+        getCitiesWarehouse: builder.query({
+            query: () => ({url: 'warehouses/get-cities', method: 'get'}),
+        }),
     })
 })
 
@@ -48,6 +51,7 @@ export const {
     useGetDaysOfWeekQuery,
     useGetWarehouseQuery,
     useCreateWarehouseMutation,
+    useGetCitiesWarehouseQuery,
     useAddPriceWarehouseProductMutation,
     useAddQtyWarehouseProductMutation
 } = WarehousesApi;

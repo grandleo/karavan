@@ -1,0 +1,64 @@
+.warehouseAddForm{
+	border-radius: 24px;
+	background: #FFF;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.14), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+	padding: 36px;
+	max-width: 540px;
+	margin: 0 auto;
+}
+
+.warehouseContacts{
+	background: #F4F4F5;
+	padding: 24px;
+}
+
+/*.contactCard {*/
+
+/*}*/
+
+.warehouseContactHeader{
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	align-items: center;
+}
+
+.warehouseContactTitle{
+	flex-grow: 1;
+}
+
+.weekday{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-content: flex-start;
+	align-items: stretch;
+	gap: 12px;
+}
+
+.workSchedule{
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	align-items: center;
+	gap: 16px;
+}
+
+.workScheduleDay{
+	flex-grow: 1;
+}
+
+.warehouseButtons {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-content: center;
+	justify-content: space-between;
+	align-items: center;
+	gap: 24px;
+	margin-top: 40px;
+}
+
+.errorText{
+	color: #fa5252;
+}

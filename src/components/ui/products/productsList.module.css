@@ -87,3 +87,11 @@
 .productItemName {
 	flex-grow: 1;
 }
+
+.selectSpecificationOption{
+	display: flex;
+}
+
+.selectSpecificationOptionValue{
+	flex-grow: 1;
+}

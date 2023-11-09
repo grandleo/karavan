@@ -3,7 +3,7 @@ import {useCreateSpecificationMutation} from "@/store/api/admin/specifications.a
 import {Controller, useForm} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {IconPlus} from "@tabler/icons-react";
-import {ActionIcon, Checkbox, Drawer, TextInput, Text, Box} from "@mantine/core";
+import {ActionIcon, Checkbox, Drawer, TextInput, Text, Box, Select} from "@mantine/core";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import ValuesSpecificationItem from "@/components/ui/specifications/ValuesSpecificationItem";
 import classes from "./specifications.module.css";
@@ -32,6 +32,7 @@ const AddSpecificationItem = () => {
             name: '',
             required: 1,
             use_product_name: 0,
+            type_choice: 'single',
             values: []
         }
     });
@@ -93,6 +94,21 @@ const AddSpecificationItem = () => {
                                 label="Участвует в формировании названия"
                                 mb={{ base: 10 }}
                             />
+
+                            <Controller
+                                name="type_choice"
+                                control={control}
+                                // render={({ field: { onChange, onBlur, value } }) => (
+                                render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    label="Тип выбора"
+                                    data={[
+                                        { value: 'single', label: 'Единичный выбор' },
+                                        { value: 'multiple', label: 'Множественный выбор' },
+                                    ]}
+                                />
+                            )}/>
 
                             <ValuesSpecificationItem onValues={setValue}/>
 
