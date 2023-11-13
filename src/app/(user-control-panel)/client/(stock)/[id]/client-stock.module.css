@@ -9,3 +9,48 @@
 	height: 100vh;
 	width: calc((100vw - 820px) / 3);
 }
+
+.textSmall {
+	color: #71717A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.catalog{
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: center;
+	align-items: flex-start;
+}
+
+.productsTable tbody tr{
+	vertical-align: top;
+}
+
+.productName{
+	color: #2997A3;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	text-decoration-line: underline;
+	margin-bottom: 12px;
+}
+
+.productChar{
+	color: #71717A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.productChar span{
+	color: #27272A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
