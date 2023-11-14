@@ -1,0 +1,134 @@
+.cartOrderNumber{
+	color: #27272A;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 28px;
+}
+
+.cartOrderSupplier{
+	color: #71717A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.cartOrderSupplier span{
+	color: #27272A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	text-decoration: dotted;
+	border-bottom: 1px dashed #27272A;
+}
+
+.cartProducts{
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.cartOrderAmount{
+	border-top: 1px solid #F4F4F5;
+	margin-top: 20px;
+	padding-top: 20px;
+	text-align: right;
+}
+
+.orderAmount{
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.orderAmount span{
+	color: #27272A;
+}
+
+.amountQuantity{
+	color: #52525B;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.cartProductItem{
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-content: flex-start;
+	justify-content: flex-start;
+	align-items: flex-start;
+	gap: 28px;
+}
+
+.cartProduct{
+	flex-grow: 1;
+}
+
+.cartProductName{
+	color: #2997A3;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	text-decoration-line: underline;
+}
+
+.cartOrderWarehouse{
+	color: #71717A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.cartOrderWarehouse span{
+	color: #27272A;
+}
+
+.cartProductPrice{
+	color: #18181B;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px;
+	text-align: right;
+}
+
+.cartProductQty{
+	color: #71717A;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+	text-align: right;
+}
+
+.cartInfo{
+	border-radius: 8px;
+	background: #F4F4F5;
+	padding: 12px;
+	display: flex;
+	flex-wrap: nowrap;
+	align-content: flex-start;
+	align-items: flex-start;
+	gap: 8px;
+}
+
+.cartInfoIcon {
+	color: #F59E0B;
+}
+
+.cartInfoText {
+	color: #52525B;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}

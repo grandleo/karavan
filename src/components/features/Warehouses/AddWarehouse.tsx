@@ -81,7 +81,6 @@ const AddWarehouse = () => {
     const onSubmit = (data: any) => {
         createWarehouse(data).unwrap()
             .then((payload) => {
-                console.log(payload)
                 reset();
                 SuccessNotifications(payload)
                 const newPage = process.env.NEXT_PUBLIC_URL + '/' + payload?.role + '/' + payload?.warehouse_id;

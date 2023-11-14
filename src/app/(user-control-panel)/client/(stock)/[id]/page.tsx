@@ -6,29 +6,28 @@ import {useGetStockCategoriesQuery, useGetStockProductsQuery} from "@/store/api/
 import {useActions} from "@/hooks/useActions";
 import {useSelector} from "react-redux";
 import {getStock} from "@/store/slices/stockClientSlice";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PageHeader from "@/components/ui/page/pageHeader";
 import PageContent from "@/components/ui/page/pageContent";
 import PageWrapper from "@/components/ui/page/pageWrapper";
 import EmptyProductsForClient from "@/components/ui/EmptyData/EmptyProductsForClient";
 import ButtonMinimal from "@/components/ui/Buttons/ButtonMinimal";
 import { IconShoppingCart } from '@tabler/icons-react';
+import Cart from "@/components/ui/Cart/Cart";
+import {useBuyProductMutation} from "@/store/api/client/cart.api";
+import {useForm} from "react-hook-form";
+import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 
 export default function Page({ params }: { params: { id: number } }) {
     const {activeCategory, order} = useSelector(getStock)
     const {data: categories} = useGetStockCategoriesQuery('');
 
-    const totalQty = order.products.reduce((total, product) => total + product.qty, 0);
-    const totalPrice = order.products.reduce((total, product) => total + (product.price * product.qty), 0);
-
     const {data: products} = useGetStockProductsQuery(activeCategory);
-
-    console.log(products)
 
     return (
         <>
             <PageWrapper>
-                <PageHeader title="Каталог"/>
+                <PageHeader title="Каталог"><Cart/></PageHeader>
                 <PageContent>
                     <>
                         {categories?.length === 0 ? <EmptyProductsForClient/> :
@@ -40,72 +39,16 @@ export default function Page({ params }: { params: { id: number } }) {
                                     )
                                 })}
                             </Box>
-                            {products?.length === 0 ? <Box>Выберите категорию</Box> : <Products products={products}/>}
+                            {products?.length === 0 ? <Box>Выберите категорию</Box> : <Products products={products} warehouse_id={params.id}/>}
                         </Box>}
                     </>
                 </PageContent>
             </PageWrapper>
-
-
-            {/*<Box className={classes.wrapperPage}>*/}
-            {/*    <Box className={classes.wrapperPage}>*/}
-            {/*        <Box className={classes.sectionBlock}>*/}
-            {/*            {categories?.map((category: any, index: number) => {*/}
-            {/*                return (*/}
-            {/*                    <CategoryItem key={index} category={category}/>*/}
-            {/*                )*/}
-            {/*            })}*/}
-            {/*        </Box>*/}
-            {/*        <Box className={classes.sectionBlock}>*/}
-            {/*            <Text mb={15}>Выберите номенклатуру</Text>*/}
-
-            {/*            {products?.map((product: any, index: number) => {*/}
-            {/*                return (*/}
-            {/*                    <ProductItem key={index} product={product}/>*/}
-            {/*                )*/}
-            {/*            })}*/}
-            {/*        </Box>*/}
-            {/*        <Box className={classes.sectionBlock}>*/}
-
-            {/*        </Box>*/}
-            {/*    </Box>*/}
-            {/*    <Box>*/}
-            {/*        {order.products?.length > 0 ? (*/}
-            {/*            <Paper shadow="xs" radius="xs" p="xl">*/}
-            {/*                <Text>Состав заказа</Text>*/}
-
-            {/*                {order?.products?.map((item: any, index: number) => {*/}
-            {/*                    return (*/}
-            {/*                        <Card withBorder shadow="sm" mb={15} radius="md" key={index}>*/}
-            {/*                            <Card.Section withBorder inheritPadding py="xs">*/}
-            {/*                                <Group justify="space-between">*/}
-            {/*                                    <Text fw={500}>{item.name}</Text>*/}
-            {/*                                    <Text c="dimmed" size="sm">*/}
-            {/*                                        Кол-во: {item.qty}*/}
-            {/*                                    </Text>*/}
-            {/*                                    <Text c="dimmed" size="sm">*/}
-            {/*                                        Цена: {item.price}*/}
-            {/*                                    </Text>*/}
-            {/*                                </Group>*/}
-            {/*                            </Card.Section>*/}
-            {/*                        </Card>*/}
-            {/*                    )*/}
-            {/*                })}*/}
-
-            {/*                <Divider my="sm" />*/}
-
-            {/*                <Text>Общее кол-во товаров: {totalQty}</Text>*/}
-            {/*                <Text>Общая стоимость заказа: {totalPrice}</Text>*/}
-            {/*            </Paper>*/}
-            {/*        ) : null}*/}
-            {/*    </Box>*/}
-            {/*</Box>*/}
-
         </>
     )
 }
 
-const Products = ({products}: any) => {
+const Products = ({products, warehouse_id}: any) => {
     return (
         <>
         <Paper shadow="xs" radius="md" className={classes.productsTable}>
@@ -123,7 +66,7 @@ const Products = ({products}: any) => {
                 <Table.Tbody>
                     {products?.map((product: any, index: number) => {
                         return (
-                            <Product item={product} key={index}/>
+                            <Product item={product} key={index} warehouse_id={warehouse_id}/>
                         )
                     })}
                 </Table.Tbody>
@@ -133,7 +76,48 @@ const Products = ({products}: any) => {
     )
 }
 
-const Product = ({item}: any) => {
+const Product = ({item, warehouse_id}: any) => {
+    const [quantity, setQuantity] = useState<string | number>(1)
+    // const {addProductToOrder} = useActions();
+
+    const [buyProduct] = useBuyProductMutation();
+
+    const {
+        getValues,
+        setValue,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            quantity: quantity,
+            warehouse_client_id: warehouse_id,
+            stock_id: item.id,
+        }
+    });
+
+    useEffect(() => {
+        setValue('quantity', quantity);
+    }, [quantity]);
+
+    // const addProduct = () => {
+    //     const productToCart = {
+    //         id: item.id,
+    //         name: item.name,
+    //         price: item.price,
+    //         qty: value
+    //     }
+    //
+    //     addProductToOrder(productToCart)
+    // }
+
+    const addCart = () => {
+        buyProduct(getValues()).unwrap()
+            .then((payload) => {
+                SuccessNotifications(payload)
+            })
+            .catch((error) => ErrorNotifications(error))
+    }
+
+
     return (
         <>
             <Table.Tr>
@@ -156,11 +140,11 @@ const Product = ({item}: any) => {
                 <Table.Td>
                     <NumberInput
                         rightSection="шт"
-                        placeholder="0"
+                        value={quantity} onChange={setQuantity} min={1} max={item.qty}
                     />
                 </Table.Td>
                 <Table.Td>
-                    <ButtonMinimal>
+                    <ButtonMinimal onclick={addCart}>
                         <IconShoppingCart/>
                     </ButtonMinimal>
                 </Table.Td>

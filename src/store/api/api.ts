@@ -63,6 +63,7 @@ const api = createApi({
         'StockSupplier',
         'StockClient',
         'StockClientCategories',
+        'Cart'
     ],
     endpoints: () => ({}),
 })
