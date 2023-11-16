@@ -1,19 +1,11 @@
 'use client'
 
-import PageHeader from "@/components/ui/page/pageHeader";
-import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageContent from "@/components/ui/page/pageContent";
+import OrdersPage from "@/components/ui/Orders/OrdersPage";
 
 const OrdersClientPage = () => {
     return (
         <>
-            <PageWrapper>
-                <PageHeader title="Заказы"/>
-                <PageContent>
-                    <>
-                    </>
-                </PageContent>
-            </PageWrapper>
+            <OrdersPage/>
         </>
     )
 }

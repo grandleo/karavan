@@ -11,9 +11,6 @@ export const CartApi = api.injectEndpoints({
         buyProduct: builder.mutation({
             query: (data) => ({url: 'client/order/create', method: 'post', data: data}),
             invalidatesTags: () => ['Cart', 'StockClient'],
-            // invalidatesTags: () => [{
-            //     type: 'Cart'
-            // }]
         }),
     })
 })

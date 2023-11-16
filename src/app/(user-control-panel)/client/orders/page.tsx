@@ -1,6 +1,6 @@
 import OrdersClientPage from "@/components/screens/client/ordersClientPage";
 
-export default function OrdersClient () {
+export default function Page () {
     return (
         <>
             <OrdersClientPage/>

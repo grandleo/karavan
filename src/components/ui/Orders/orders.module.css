@@ -1,0 +1,173 @@
+.ordersPage{
+	display: flex;
+	flex-direction: row;
+	align-content: flex-start;
+	flex-wrap: nowrap;
+	height: 100vh;
+}
+
+.orders{
+	padding: 16px;
+	border-right: 1px solid #D4D4D8;
+	min-width: 380px;
+}
+
+.orders .orderNumber{
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.orders .orderDate{
+	color: #A1A1AA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.orders .orderPrice{
+	color: #27272A;
+	text-align: right;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.orders .deliveryDate {
+	color: #18181B;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 16px;
+}
+
+.orderInfo{
+	padding: 16px;
+	flex: 1;
+}
+
+.orderInfo .orderNumber{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.orderInfo .orderNumber .orderNumberDate{
+	color: #3F3F46;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 32px;
+}
+
+.deliveryHistory{
+	border-radius: 8px;
+	background: #FFF;
+	box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.14), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+	padding: 8px 24px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 45px;
+}
+
+.orderInfo .orderInformation{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.orderInfo .orderInformation .title{
+	color:#A1A1AA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.orderInfo .orderInformation .text{
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+}
+
+.orderInfo .orderComposition{
+	color: #27272A;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 28px;
+}
+
+.orderInfo .tableHeader{
+	color: #27272A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.orderInfo .productName{
+	color: #3F3F46;
+	text-overflow: ellipsis;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.orderInfo .attributes{
+	color: #71717A;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.orderInfo .orderTotal{
+	text-align: right;
+	padding-top: 24px;
+	padding-bottom: 24px;
+}
+
+.orderInfo .orderTotal .totalWeight{
+	color: #71717A;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.orderInfo .orderTotal .totalDimensions{
+	color: #71717A;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.orderInfo .orderTotal .totalAmount{
+	color: #3F3F46;
+	text-overflow: ellipsis;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.orderInfo .orderTotal .totalAmount span{
+	color: #27272A;
+	font-weight: 600;
+}
