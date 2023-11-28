@@ -5,14 +5,14 @@ import {useAddProductForSupplierStockMutation} from "@/store/api/supplier/stockS
 import {Controller, useForm} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {NumberInput} from "@mantine/core";
-
-const PriceInputStock = ({id, price}: any) => {
+import classes from "../stock.module.css";
+const PriceInputStock = ({id, price, new_price}: any) => {
     const {selectedWarehouse} = useSelector(getSupplierStock);
-    const [valuePrice, setValuePrice] = useState<string | number>(0);
+    const [valuePrice, setValuePrice] = useState<number>(0);
 
     useEffect(() => {
-        setValuePrice(price)
-    }, [price]);
+        setValuePrice(new_price ? new_price : price)
+    }, [price, new_price]);
 
     const [addProductForStock] = useAddProductForSupplierStockMutation();
 
@@ -24,14 +24,14 @@ const PriceInputStock = ({id, price}: any) => {
     } = useForm({
         defaultValues: {
             product_id: id,
-            price: valuePrice ?? 0,
+            new_price: valuePrice ?? 0,
         }
     });
 
     const onChangeInput = (priceInput: number) => {
         setValuePrice(priceInput);
-        setValue('price', priceInput);
-        onSubmit(getValues())
+        setValue('new_price', priceInput);
+        // onSubmit(getValues())
     }
 
     const onSubmit = (data: any) => {
@@ -54,12 +54,13 @@ const PriceInputStock = ({id, price}: any) => {
                         placeholder="0"
                         value={valuePrice}
                         min={0}
-                        max={9999}
                         onChange={onChangeInput}
+                        onBlur={() => onSubmit(getValues())}
                         decimalScale={2}
+                        className={new_price !== null ? classes.newPrice : ""}
                     />
                 )}
-                name="price"
+                name="new_price"
             />
         </form>
     )

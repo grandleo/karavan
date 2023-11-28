@@ -1,4 +1,4 @@
-import {NumberInput, Table} from "@mantine/core";
+import {Badge, NumberInput, Table, Text} from "@mantine/core";
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import {useEffect, useState} from "react";
@@ -16,13 +16,15 @@ interface Props {
 const ProductsSupplier = ({products}: Props) => {
     return (
         <>
-            <Table>
+            <Table className={classes.productsTable}>
                 <Table.Thead className={classes.tableHead}>
                     <Table.Tr>
                         <Table.Th>№</Table.Th>
                         <Table.Th>Наименование</Table.Th>
                         <Table.Th>На складе</Table.Th>
+                        <Table.Th>Лучшая цена</Table.Th>
                         <Table.Th>Цена</Table.Th>
+                        <Table.Th>Рейтинг</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody className={classes.tableTdoby}>
@@ -48,16 +50,51 @@ const ProductItem = ({item, index}: ProductProps) => {
     return (
         <>
             <Table.Tr>
-                <Table.Td>{index}</Table.Td>
-                <Table.Td>{item.product_name}</Table.Td>
+                <Table.Td>
+                    <Text className={classes.productIndex}>
+                        {index}
+                    </Text>
+                </Table.Td>
+                <Table.Td>
+                    <Text className={classes.productName}>
+                        {item.product_name}
+                    </Text>
+                </Table.Td>
                 <Table.Td>
                     <QtyInputStock id={item.product_id} qty={item.qty}/>
                 </Table.Td>
                 <Table.Td>
-                    <PriceInputStock id={item.product_id} price={item.price}/>
+                    <Text className={classes.bestPrice}>{item.best_price} ₽</Text>
+                </Table.Td>
+                <Table.Td>
+                    <PriceInputStock id={item.product_id} price={item.price} new_price={item.new_price}/>
+                </Table.Td>
+                <Table.Td>
+                    <RatingProduct rating={item.rating}/>
                 </Table.Td>
             </Table.Tr>
         </>
+    )
+}
+
+const RatingProduct = ({rating}: any) => {
+
+    let color = "#22C55E";
+
+    switch (rating) {
+        case 1:
+            color = "#22C55E";
+            break;
+        case 2:
+            color = "#D97706";
+            break;
+        default:
+            color = "#98989f";
+            break;
+    }
+
+    return (
+        <Badge color={color}>{rating}</Badge>
     )
 }
 

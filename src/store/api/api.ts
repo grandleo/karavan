@@ -3,6 +3,7 @@ import {http} from "@/config/http";
 import type {BaseQueryFn} from '@reduxjs/toolkit/query'
 import axios from 'axios'
 import type {AxiosRequestConfig, AxiosError} from 'axios'
+import echo from "@/config/laravel-echo";
 
 const axiosBaseQuery =
     (
@@ -68,6 +69,7 @@ const api = createApi({
         'Order',
     ],
     endpoints: () => ({}),
+    // Добавьте Laravel Echo и наш кастомный обработчик событий
 })
 
 export { api }

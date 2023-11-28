@@ -1,4 +1,5 @@
 import {api} from "@/store/api/api";
+import echo from "@/config/laravel-echo";
 
 export const stockClientApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -18,7 +19,12 @@ export const stockClientApi = api.injectEndpoints({
             query: (id) => ({url: 'client/stock/fetch-current-products', method: 'post', data: {'category_id': id}}),
             providesTags: () => [{
                 type: 'StockClient'
-            }]
+            }],
+            async onCacheEntryAdded(data, { dispatch }) {
+                echo.channel('Stock').listen('UpdateStockEvent', (data) => {
+                    dispatch(api.util?.invalidateTags(['StockClient']))
+                });
+            }
         }),
     })
 })
