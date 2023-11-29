@@ -8,7 +8,7 @@ const echoConfig = {
     encrypted: false,
     forceTLS: false,
     wsPort: 6001,
-    wsHost: 'api.apteka.grand',
+    wsHost: 'api.immunoteka.ru',
     // Дополнительные настройки, если нужно
     // authEndpoint: '/broadcasting/auth',
     // auth: {
