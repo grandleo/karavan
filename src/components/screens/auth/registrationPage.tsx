@@ -22,6 +22,8 @@ import {ErrorNotifications} from "@/helpers/Notifications";
 import ButtonSecondary from "@/components/ui/Buttons/ButtonSecondary";
 import ButtonPrimary from "@/components/ui/Buttons/ButtonPrimary";
 import Stepper from "@/components/ui/Stepper/Stepper";
+import {daData} from "@/config/daData";
+import _ from "lodash";
 
 const RegistrationPage = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -32,10 +34,12 @@ const RegistrationPage = () => {
     const {
         handleSubmit,
         formState: { errors },
+        setError,
         setValue,
         control,
         clearErrors,
-        trigger
+        trigger,
+        getValues
     } = useForm({
         defaultValues: {
             name: '',
@@ -71,7 +75,39 @@ const RegistrationPage = () => {
 
         switch (currentStep) {
             case 0:
-                isValid = await trigger(["name", "position", "email", "phone"]);
+                isValid = await trigger(["name"]);
+
+                if (!isValid){
+                    break
+                }
+
+                const name = getValues("name")
+
+                if(name != ''){
+                    const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
+
+                    const { data } = _.head((await daData.post(url, JSON.stringify({ query: name }))).data?.suggestions) || {};
+
+                    if(_.isNull(data.name) || _.isNull(data.surname)){
+                        setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
+                    }
+
+                    // await daData.post(url, JSON.stringify({query: name}))
+                    //     .then(function (response) {
+                    //         const {suggestions} = response.data
+                    //         const suggestion = _.head(suggestions)
+                    //         const data = suggestion?.data
+                    //
+                    //         if(_.isNull(data.name) || _.isNull(data.surname)){
+                    //             setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
+                    //         }
+                    //     })
+                    //     .catch(function (error) {
+                    //         setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
+                    //     });
+                }
+
+                isValid = await trigger(["position", "email", "phone"]);
                 break;
             case 1:
                 isValid = await trigger(["inn"]);
@@ -112,7 +148,7 @@ const RegistrationPage = () => {
                         }}
                         control={control}
                         render={({ field }) => (
-                            <NameAutocomplete field={field} setField={setValue} error={errors?.name?.message}/>
+                            <NameAutocomplete field={field} setField={setValue} setError={setError} clearErrors={clearErrors} error={errors?.name?.message}/>
                         )}
                     />
                     <Controller

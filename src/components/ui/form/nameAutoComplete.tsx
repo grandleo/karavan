@@ -4,33 +4,46 @@ import {daData} from "@/config/daData";
 
 
 
-const NameAutocomplete = ({field, setField, error}: any) => {
+const NameAutocomplete = ({field, setField, error, clearErrors, setError}: any) => {
     const combobox = useCombobox();
     const [data, setData] = useState([]);
     const [value, setValue] = useState('');
     const shouldFilterOptions = !data.some((item: any) => item.value === value);
     const filteredOptions = shouldFilterOptions ? data.filter((item: any) => item.value.toLowerCase().includes(value.toLowerCase().trim())) : data;
 
-    const options = filteredOptions.map((item: any) => (
-        <Combobox.Option value={item.value} key={item.value} onClick={setField('fio', item.data)}>
-            {item.value}
-        </Combobox.Option>
-    ));
+    const options = filteredOptions.map((item: any, index: number) =>{
+        return (
+            <Combobox.Option value={item.value} key={index} onClick={setField('fio', item.data)}>
+                {item.value}
+            </Combobox.Option>
+        )
+    });
 
-    const handleChange = async (value: any) => {
+    const handleChange = async (value: string) => {
+        const input = value;
+        const regex = /^[а-яё\s]+$/i;
         const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
 
-        if(value.length > 3){
+        if (!regex.test(input)) {
+            setError('name', { type: 'custom', message: 'Пожалуйста, введите только символы кириллицы' });
 
-            await daData.post(url, JSON.stringify({query: value}))
-                .then(function (response) {
-                    const {suggestions} = response.data
-                    setData(suggestions);
-                })
-                .catch(function (error) {
-                    console.log("error", error)
-                });
+        } else {
+            clearErrors('name')
+            field.onChange(value)
+            setValue(value);
 
+            if(value.length > 3){
+
+                await daData.post(url, JSON.stringify({query: value}))
+                    .then(function (response) {
+                        const {suggestions} = response.data
+                        setData(suggestions);
+                    })
+                    .catch(function (error) {
+                        console.log("error", error)
+                    });
+
+            }
         }
     }
 
@@ -50,9 +63,9 @@ const NameAutocomplete = ({field, setField, error}: any) => {
                     placeholder="Введите ваше фио"
                     value={field.value}
                     onChange={(event) => {
-                        field.onChange(event.currentTarget.value)
+                        // field.onChange(event.currentTarget.value)
                         handleChange(event.currentTarget.value);
-                        setValue(event.currentTarget.value);
+                        // setValue(event.currentTarget.value);
                         combobox.openDropdown();
                         combobox.updateSelectedOptionIndex();
                     }}
