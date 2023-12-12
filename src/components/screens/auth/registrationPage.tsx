@@ -90,6 +90,7 @@ const RegistrationPage = () => {
 
                     if(_.isNull(data.name) || _.isNull(data.surname)){
                         setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
+                        break;
                     }
 
                     // await daData.post(url, JSON.stringify({query: name}))

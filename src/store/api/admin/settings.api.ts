@@ -38,6 +38,12 @@ export const settingsApi = api.injectEndpoints({
                 type: 'OrderStatuses'
             }]
         }),
+        fetchRoles: builder.query({
+            query: () => ({url: 'admin/settings/menu/roles', method: 'get'}),
+        }),
+        fetchMenuForRole: builder.query({
+            query: (id) => ({url: 'admin/settings/menu', method: 'post', data: {'role_id': id}}),
+        }),
     })
 })
 
@@ -48,5 +54,7 @@ export const {
     useCreateOrderStatusMutation,
     useUpdateOrderStatusMutation,
     useDeleteOrderStatusMutation,
-    useSortingOrderStatusesMutation
+    useSortingOrderStatusesMutation,
+    useFetchRolesQuery,
+    useFetchMenuForRoleQuery
 } = settingsApi;

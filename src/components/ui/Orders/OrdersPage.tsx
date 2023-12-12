@@ -1,9 +1,10 @@
 
 import EmptyOrders from "@/components/ui/EmptyData/EmptyOrders";
-import {useGetOrderQuery, useGetOrdersQuery} from "@/store/api/order.api";
-import {Badge, Box, Card, Paper, Table, Text} from "@mantine/core";
+import {useChangeStatusMutation, useGetOrderQuery, useGetOrdersQuery} from "@/store/api/order.api";
+import {Badge, Box, Button, Card, Paper, Table, Text} from "@mantine/core";
 import classes from "./orders.module.css";
 import React, {useState} from "react";
+import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 
 const OrdersPage = () => {
     const [activeOrder, setActiveOrder] = useState(0);
@@ -60,7 +61,19 @@ const Orders = ({orders, setActiveOrder}: any) => {
 const Order = ({activeOrder}: any) => {
 
     const {data: order} = useGetOrderQuery(activeOrder);
-    console.log(order);
+
+    const [changeStatus] = useChangeStatusMutation();
+
+    const changeOrderStatus = () => {
+        if(order.change_status){
+            changeStatus(order.number_id).unwrap()
+                .then((payload) => {
+                    SuccessNotifications(payload)
+                })
+                .catch((error) => ErrorNotifications(error))
+        }
+    }
+
     return (
         <>
             {order === undefined ? <EmptyOrder/> :
@@ -103,6 +116,7 @@ const Order = ({activeOrder}: any) => {
                     <Box>Поиск логиста</Box>
                     <Box>Доставка</Box>
                     <Box>Приемка</Box>
+                    <Box><Button variant="light" disabled={!order.change_status} onClick={changeOrderStatus}>Сменить статус</Button></Box>
                 </Box>
 
                 <Paper shadow="xs">

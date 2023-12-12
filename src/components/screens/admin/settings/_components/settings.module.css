@@ -63,3 +63,24 @@
 .selectedSpecificationName{
     flex-grow: 1;
 }
+
+
+/*Настройки меню*/
+.menuItems {}
+.menuItem {
+    background: #fff;
+    border: 1px dashed #3B9F98;
+    margin-bottom: 5px;
+    padding: 6px;
+}
+.menuItem .name {
+    flex-grow: 1;
+}
+.menuItem .name svg{
+    display: inline-block;
+}
+
+.editIcon:hover{
+    background: rgba(59, 159, 152, 0.2);
+    cursor: pointer;
+}

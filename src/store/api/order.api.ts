@@ -14,11 +14,18 @@ const OrderApi = api.injectEndpoints({
                 type: 'Order'
             }]
         }),
+        changeStatus: builder.mutation({
+            query: (number_id) => ({url: 'client/orders/change-status', method: 'post', data: {'number_id': number_id}}),
+            invalidatesTags: () => [{
+                type: 'Order'
+            }]
+        })
 
     })
 })
 
 export const {
     useGetOrdersQuery,
-    useGetOrderQuery
+    useGetOrderQuery,
+    useChangeStatusMutation
 } = OrderApi;
