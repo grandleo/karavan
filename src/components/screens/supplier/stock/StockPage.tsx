@@ -46,9 +46,6 @@ const StockPage = ({warehouse_id} : Props) => {
                         <Link href={`${process.env.NEXT_PUBLIC_URL}/supplier/${warehouse_id}/add-stock`} className={classes.addStockBtn}>
                             <IconTag/> <Text>Добавить товар</Text>
                         </Link>
-                        <Button>
-                            <IconSettings/>
-                        </Button>
                     </Flex>
                 </PageHeader>
                 <PageContent>

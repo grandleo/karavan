@@ -1,10 +1,6 @@
 'use client'
 
-import PageHeader from "@/components/ui/page/pageHeader";
-import {Box, Button} from "@mantine/core";
-import PageContent from "@/components/ui/page/pageContent";
-import NoProductsStock from "@/components/screens/supplier/stock/components/NoProductsStock";
-import PageWrapper from "@/components/ui/page/pageWrapper";
+import {Box} from "@mantine/core";
 import SelectCategory from "@/components/screens/supplier/stock/components/SelectCategory";
 import CategoriesTree from "@/components/screens/supplier/stock/components/CategoriesTree";
 import classes from "./stock.module.css";
@@ -14,6 +10,7 @@ import ProductsStock from "@/components/screens/supplier/stock/components/Produc
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import {useActions} from "@/hooks/useActions";
+import Page from "@/components/ui/page/Page";
 
 interface Props {
     warehouse_id: number;
@@ -32,24 +29,23 @@ const AddProductsStock = ({warehouse_id} : Props) => {
         'warehouse_id': selectedWarehouse
     })
 
+    const pageSetting = {
+        backButton: true,
+        noPaddingPage: true,
+    }
+
     return (
         <>
-            <PageWrapper>
-                <PageHeader title="Формирование каталога товаров" backButton={true}>
-                    <Button>Редактировать</Button>
-                    <Button>+</Button>
-                </PageHeader>
-                <PageContent noPadding={true}>
-                    <Box className={classes.addStockFlex}>
-                        <Box className={classes.addStockCategoryTree}>
-                            <CategoriesTree/>
-                        </Box>
-                        <Box className={classes.addStockProducts}>
-                            {products?.length > 0 ? <ProductsStock products={products} /> : <SelectCategory/>}
-                        </Box>
+            <Page title="Формирование каталога товаров" pageSetting={pageSetting}>
+                <Box className={classes.addStockFlex}>
+                    <Box className={classes.addStockCategoryTree}>
+                        <CategoriesTree/>
                     </Box>
-                </PageContent>
-            </PageWrapper>
+                    <Box className={classes.addStockProducts}>
+                        {products?.length > 0 ? <ProductsStock products={products} /> : <SelectCategory/>}
+                    </Box>
+                </Box>
+            </Page>
         </>
     )
 }

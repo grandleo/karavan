@@ -8,8 +8,9 @@ interface Props {
 }
 
 const PageContent = ({children, fullHeight, noPadding = false}: Props) => {
+
     return (
-        <ScrollArea className={`${classes.pageContent} ${fullHeight ? classes.pageContentFullHeight : null} ${noPadding ? classes.pageWrapperNoPadding : '214'}`}>
+        <ScrollArea className={`${classes.pageContent} ${fullHeight ? classes.pageContentFullHeight : null} ${noPadding === true && classes.pageWrapperNoPadding}`}>
             {children}
         </ScrollArea>
     )

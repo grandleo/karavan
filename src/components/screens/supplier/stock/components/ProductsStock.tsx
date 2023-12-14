@@ -1,4 +1,4 @@
-import {Table} from "@mantine/core";
+import {Paper, Table} from "@mantine/core";
 import QtyInputStock from "@/components/screens/supplier/stock/components/form/QtyInputStock";
 import PriceInputStock from "@/components/screens/supplier/stock/components/form/PriceInputStock";
 
@@ -9,6 +9,7 @@ interface Props {
 const ProductsStock = ({products} : Props) => {
     return (
         <>
+        <Paper shadow="xs">
             <Table>
                 <Table.Thead>
                     <Table.Tr>
@@ -26,6 +27,7 @@ const ProductsStock = ({products} : Props) => {
                     })}
                 </Table.Tbody>
             </Table>
+        </Paper>
         </>
     )
 }

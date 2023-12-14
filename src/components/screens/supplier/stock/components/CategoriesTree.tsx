@@ -4,6 +4,10 @@ import {useGetCategoriesForSupplierStockQuery} from "@/store/api/supplier/stockS
 import {useState} from "react";
 import {useActions} from "@/hooks/useActions";
 
+import classes from "./stock.module.css";
+import {useSelector} from "react-redux";
+import {getSupplierStock} from "@/store/slices/supplierStockSlice";
+
 interface CategoriesTreeProps {
 }
 
@@ -34,6 +38,7 @@ interface CategoryProps {
 
 const CategoryItem = ({item}: CategoryProps) => {
     const [open, setOpen] = useState(false);
+    const {selectedCategory} = useSelector(getSupplierStock);
 
     const {setSelectedCategorySupplierStock} = useActions();
 
@@ -41,17 +46,18 @@ const CategoryItem = ({item}: CategoryProps) => {
         <>
             {item.children.length > 0 ? (
                 <NavLink
-                label={item.name}
-                leftSection={open ? <IconFolderOpen size="1.5rem" stroke={1.5} /> : <IconFolder size="1.5rem" stroke={1.5} />}
-                childrenOffset={28}
-                onClick={() => setOpen(!open)}
+                    label={item.name}
+                    leftSection={open ? <IconFolderOpen size="1.5rem" stroke={1.5} /> : <IconFolder size="1.5rem" stroke={1.5} />}
+                    childrenOffset={28}
+                    onClick={() => setOpen(!open)}
+                    className={classes.category}
                 >
                     {item.children.map((child: any, index: number) => (
                         <CategoryItem item={child} key={index}/>
                     ))}
             </NavLink>
             ) : (
-                <NavLink label={item.name} onClick={() => setSelectedCategorySupplierStock(item.id)}/>
+                <NavLink label={item.name} onClick={() => setSelectedCategorySupplierStock(item.id)} className={`${classes.lastCategory} ${selectedCategory === item.id ? classes.activeCategory : null}`}/>
             )}
         </>
     )

@@ -7,14 +7,18 @@ import {LoadingOverlay} from "@mantine/core";
 interface Page {
     children: ReactNode,
     title: string,
-    isLoading?: boolean
+    isLoading?: boolean,
+    pageSetting?: {
+        backButton?: boolean,
+        noPaddingPage?: boolean,
+    }
 }
 
-const Page = ({children, title, isLoading}: Page) => {
+const Page = ({children, title, isLoading, pageSetting}: Page) => {
     return (
         <PageWrapper>
-            <PageHeader title={title}></PageHeader>
-            <PageContent>
+            <PageHeader title={title} backButton={pageSetting?.backButton}></PageHeader>
+            <PageContent noPadding={pageSetting?.noPaddingPage}>
                 <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
                 {children}
             </PageContent>

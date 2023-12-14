@@ -20,5 +20,3 @@ export const supplierStockSlice = createSlice({
 })
 export const {actions, reducer} = supplierStockSlice;
 export const getSupplierStock = (state: RootState) => state.supplierStock;
-export const getSelectedCategory = (state: RootState) => state.supplierStock.selectedCategory;
-export const getSelectedWarehouse = (state: RootState) => state.supplierStock.selectedWarehouse;

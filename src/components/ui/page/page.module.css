@@ -26,10 +26,25 @@
     height: calc(100vh - 69px);
 }
 
+.pageWrapperNoPadding{
+    padding: 0;
+}
+
 .pageContentNoPadding{
      padding: 0;
 }
 
 .pageContentFullHeight{
     height: 100vh;
+}
+
+.backButton{
+
+    svg {
+        display: block;
+    }
+
+    @mixin hover {
+        color: rgba(59, 159, 152, 1);
+    }
 }

@@ -1,4 +1,5 @@
-import {Box, Button, Flex, Text} from "@mantine/core";
+import {Box, Button, Flex, Text, UnstyledButton} from "@mantine/core";
+import { IconChevronLeft } from '@tabler/icons-react';
 import classes from './page.module.css';
 import {useRouter} from "next/navigation";
 
@@ -21,8 +22,11 @@ const PageHeader = ({children, title, backButton = false}: Props) => {
                 <Flex align="center">
                     <Box>
                         <Flex>
-                            {!!backButton && <Button onClick={handleGoBack}>Назад</Button>}
-
+                            {!!backButton &&
+                                <UnstyledButton onClick={handleGoBack} className={classes.backButton}>
+                                    <IconChevronLeft/>
+                                </UnstyledButton>
+                            }
                             <Text className={classes.pageHeaderTitle}>{title}</Text>
                         </Flex>
                     </Box>

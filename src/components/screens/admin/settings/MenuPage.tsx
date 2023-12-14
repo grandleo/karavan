@@ -1,7 +1,18 @@
 'use client'
 
 import React, {useEffect, useState} from "react";
-import {Box, Collapse, Drawer, Flex, rem, SegmentedControl, ThemeIcon} from "@mantine/core";
+import {
+    Box,
+    Collapse,
+    Drawer,
+    Flex,
+    NativeSelect,
+    rem,
+    SegmentedControl,
+    Switch,
+    TextInput,
+    ThemeIcon
+} from "@mantine/core";
 import {useFetchMenuForRoleQuery, useFetchRolesQuery} from "@/store/api/admin/settings.api";
 import _ from "lodash";
 import {TreeHandle, TreeItem} from "@/components/ui/sortableList/TreeItem";
@@ -158,10 +169,39 @@ interface FormProps {
 }
 
 const FormItem = ({opened, close, item}: FormProps) => {
-    console.log('opened', opened)
     return (
         <Drawer opened={opened} onClose={close} position="right" title={item === undefined ? 'Добавление пункта меню': 'Редактирование'}>
+            <TextInput
+                label="Название статуса"
+                placeholder="Input placeholder"
+            />
 
+            <NativeSelect
+                label="Роль пользователя"
+                data={[
+                    { label: 'Клиент', value: '1' },
+                    { label: 'Поставщик', value: '2' },
+                    { label: 'Логист', value: '3'},
+                    { label: 'Админ', value: '4' },
+                ]}
+            />
+
+            <Switch
+                defaultChecked
+                label="Требовать оплату"
+            />
+            <Switch
+                defaultChecked
+                label="Может редактировать инвойс"
+            />
+            <Switch
+                defaultChecked
+                label="Выбор логиста"
+            />
+            <Switch
+                defaultChecked
+                label="Требуется габариты инвойса"
+            />
         </Drawer>
     )
 }

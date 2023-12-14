@@ -87,6 +87,7 @@
 	display: flex;
 	flex-wrap: nowrap;
 	align-content: stretch;
+	height: calc(100vh - 61px);
 }
 
 .addStockBtn {
@@ -105,11 +106,15 @@
 }
 
 .addStockCategoryTree{
-
+	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
+	width: rem(350px);
+	padding: 12px 0px;
+	border-right: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 
 .addStockProducts{
 	flex-grow: 1;
+	padding: 12px 15px;
 }
 
 .productsTable{
@@ -160,4 +165,30 @@
 
 .newPrice input{
 	color: #2997A3;
+}
+
+
+.category {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #2997A3;
+
+}
+
+.lastCategory {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: #27272A;
+
+	svg{
+		color: #2997A3;
+	}
+}
+
+
+.activeCategory {
+	color: #2997A3;
+	background: #E6FCFA;
 }

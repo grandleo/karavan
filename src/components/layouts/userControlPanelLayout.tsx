@@ -12,7 +12,6 @@ const UserControlPanelLayout = ({children}: Props) => {
         <>
             <Box className={classes.controlPanelWrapper}>
                 <Box className={classes.controlPanelContainer}>
-                    {/*<Sidebar className={`${classes.controlPanelSidebar}`} light/>*/}
                     <NavBar/>
                     <Box className={classes.controlPanelContent}>
                         {children}
