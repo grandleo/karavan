@@ -43,7 +43,7 @@ const Orders = ({orders, setActiveOrder}: any) => {
                                 <Box>
                                     <Text className={classes.orderPrice}>{order.totalAmount} ₽</Text>
                                     <Badge color="red" variant="light">
-                                        Новый заказ
+                                        {order.status_name}
                                     </Badge>
                                 </Box>
                             </Box>
@@ -84,7 +84,7 @@ const Order = ({activeOrder}: any) => {
                             <Box className={classes.orderNumber}>
                                 <Text className={classes.orderNumberDate}>Заказ №{order.number_id} от {order.date}</Text>
                                 <Badge color="red" variant="light">
-                                    Новый заказ
+                                    {order.status_name}
                                 </Badge>
                             </Box>
                         </Box>
@@ -112,10 +112,7 @@ const Order = ({activeOrder}: any) => {
                 </Card>
 
                 <Box className={classes.deliveryHistory} mb={24}>
-                    <Box>Идет сбор заказа</Box>
-                    <Box>Поиск логиста</Box>
-                    <Box>Доставка</Box>
-                    <Box>Приемка</Box>
+                    <Box>Текущий статус: {order.status_name}</Box>
                     <Box><Button variant="light" disabled={!order.change_status} onClick={changeOrderStatus}>Сменить статус</Button></Box>
                 </Box>
 
