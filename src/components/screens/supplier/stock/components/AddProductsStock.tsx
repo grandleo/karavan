@@ -10,7 +10,7 @@ import ProductsStock from "@/components/screens/supplier/stock/components/Produc
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import {useActions} from "@/hooks/useActions";
-import Page from "@/components/ui/page/Page";
+import SimplePage from "@/components/ui/page/SimplePage";
 
 interface Props {
     warehouse_id: number;
@@ -36,7 +36,7 @@ const AddProductsStock = ({warehouse_id} : Props) => {
 
     return (
         <>
-            <Page title="Формирование каталога товаров" pageSetting={pageSetting}>
+            <SimplePage title="Формирование каталога товаров" pageSetting={pageSetting}>
                 <Box className={classes.addStockFlex}>
                     <Box className={classes.addStockCategoryTree}>
                         <CategoriesTree/>
@@ -45,7 +45,7 @@ const AddProductsStock = ({warehouse_id} : Props) => {
                         {products?.length > 0 ? <ProductsStock products={products} /> : <SelectCategory/>}
                     </Box>
                 </Box>
-            </Page>
+            </SimplePage>
         </>
     )
 }

@@ -1,10 +1,11 @@
 
 import EmptyOrders from "@/components/ui/EmptyData/EmptyOrders";
 import {useChangeStatusMutation, useGetOrderQuery, useGetOrdersQuery} from "@/store/api/order.api";
-import {Badge, Box, Button, Card, Paper, Table, Text} from "@mantine/core";
+import {Badge, Box, Button, Card, Flex, Paper, Table, Text} from "@mantine/core";
 import classes from "./orders.module.css";
 import React, {useState} from "react";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
+import {useApproveBidMutation} from "@/store/api/logistic/bids.api";
 
 const OrdersPage = () => {
     const [activeOrder, setActiveOrder] = useState(0);
@@ -63,6 +64,7 @@ const Order = ({activeOrder}: any) => {
     const {data: order} = useGetOrderQuery(activeOrder);
 
     const [changeStatus] = useChangeStatusMutation();
+    const [approveBid] = useApproveBidMutation();
 
     const changeOrderStatus = () => {
         if(order.change_status){
@@ -72,6 +74,14 @@ const Order = ({activeOrder}: any) => {
                 })
                 .catch((error) => ErrorNotifications(error))
         }
+    }
+
+    const approve = (id: number) => {
+        approveBid({'bid_id': id}).unwrap()
+            .then((payload) => {
+                SuccessNotifications(payload)
+            })
+            .catch((error) => ErrorNotifications(error));
     }
 
     return (
@@ -115,6 +125,34 @@ const Order = ({activeOrder}: any) => {
                     <Box>Текущий статус: {order.status_name}</Box>
                     <Box><Button variant="light" disabled={!order.change_status} onClick={changeOrderStatus}>Сменить статус</Button></Box>
                 </Box>
+
+                {order?.bids.length > 0 && (
+                    <Paper mb={24} p={10}>
+
+                        <Text>Заявки на доставку от логиста</Text>
+
+                        {order.bids.map((bid: any, index: number) => {
+                            return (
+                                <>
+                                    <Flex gap="md"
+                                          justify="space-between"
+                                          align="center"
+                                          direction="row"
+                                          wrap="wrap"
+                                          mb={10} mt={10}
+                                          key={index}
+                                    >
+
+                                        <Box style={{flexGrow: 1}}>{bid.company}</Box>
+                                        <Box>{bid.price}</Box>
+                                        <Button ml={15} onClick={() => approve(bid.id)}>Выбрать</Button>
+
+                                    </Flex>
+                                </>
+                            )
+                        })}
+                    </Paper>
+                )}
 
                 <Paper shadow="xs">
                     <Table highlightOnHover>

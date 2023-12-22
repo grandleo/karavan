@@ -4,7 +4,7 @@ import PageHeader from "@/components/ui/page/pageHeader";
 import PageContent from "@/components/ui/page/pageContent";
 import {LoadingOverlay} from "@mantine/core";
 
-interface Page {
+interface SimplePage {
     children: ReactNode,
     title: string,
     isLoading?: boolean,
@@ -14,7 +14,7 @@ interface Page {
     }
 }
 
-const Page = ({children, title, isLoading, pageSetting}: Page) => {
+const SimplePage = ({children, title, isLoading, pageSetting}: SimplePage) => {
     return (
         <PageWrapper>
             <PageHeader title={title} backButton={pageSetting?.backButton}></PageHeader>
@@ -26,4 +26,4 @@ const Page = ({children, title, isLoading, pageSetting}: Page) => {
     )
 }
 
-export default Page;
+export default SimplePage;
