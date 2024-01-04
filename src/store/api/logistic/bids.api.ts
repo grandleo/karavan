@@ -15,7 +15,10 @@ export const bidsLogisticApi = api.injectEndpoints({
             }]
         }),
         approveBid: builder.mutation({
-            query: (data) => ({url: 'client/orders/approve-bid', method: 'post', data: data})
+            query: (data) => ({url: 'client/orders/approve-bid', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'Order'
+            }]
         }),
     })
 })

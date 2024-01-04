@@ -8,8 +8,6 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Providers from "@/provider/providers";
 import SessionLoader from "@/provider/sessionLoader";
-// import {SessionProvider} from "next-auth/react";
-// import {wrapper} from "@/store/store";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -35,5 +33,3 @@ export default function RootLayout({
         </html>
   )
 }
-
-// export default wrapper.withRedux(RootLayout)

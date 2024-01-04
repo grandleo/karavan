@@ -1,15 +1,19 @@
-import {Box, Button, Flex, Text, UnstyledButton} from "@mantine/core";
+import {ReactNode} from "react";
+import {useRouter} from "next/navigation";
+import {Box, Flex, Text, UnstyledButton} from "@mantine/core";
 import { IconChevronLeft } from '@tabler/icons-react';
 import classes from './page.module.css';
-import {useRouter} from "next/navigation";
+
+type HeaderChildrenLeftProp = () => JSX.Element | null | undefined;
 
 interface Props {
-    children?: React.ReactNode,
+    children?: ReactNode,
+    childrenLeft?(): ReactNode,
     title: string,
     backButton?: boolean
 }
 
-const PageHeader = ({children, title, backButton = false}: Props) => {
+const PageHeader = ({children, childrenLeft, title, backButton = false}: Props) => {
     const router = useRouter();
 
     const handleGoBack = () => {
@@ -21,13 +25,16 @@ const PageHeader = ({children, title, backButton = false}: Props) => {
             <Box className={classes.pageHeaderWrapper}>
                 <Flex align="center">
                     <Box>
-                        <Flex>
+                        <Flex align="center" gap={24}>
                             {!!backButton &&
                                 <UnstyledButton onClick={handleGoBack} className={classes.backButton}>
                                     <IconChevronLeft/>
                                 </UnstyledButton>
                             }
                             <Text className={classes.pageHeaderTitle}>{title}</Text>
+
+                            {childrenLeft && childrenLeft()}
+
                         </Flex>
                     </Box>
                     <Box className={classes.pageHeaderAction}>{children}</Box>

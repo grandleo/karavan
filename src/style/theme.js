@@ -1,5 +1,6 @@
-import {createTheme, TextInput} from "@mantine/core";
+import {createTheme, NumberInput, TextInput} from "@mantine/core";
 import {Inter} from "next/font/google";
+import classes from "./global.module.css";
 
 const inter = Inter({
     subsets: ['latin', 'cyrillic'],
@@ -17,6 +18,12 @@ const Theme = createTheme({
 
     components: {
         TextInput: TextInput.extend({
+            classNames: {
+                root: classes.textInputRoot,
+                input: classes.textInput,
+                label: classes.textInputLabel,
+                description: classes.textInputDescription,
+            },
             styles: {
                 root: {
                     marginBottom: '24px'
@@ -27,6 +34,14 @@ const Theme = createTheme({
                     borderRadius: '8px',
                     border: '1px solid #D4D4D8'
                 },
+            },
+        }),
+        NumberInput: NumberInput.extend({
+            classNames: {
+                root: classes.textInputRoot,
+                input: classes.textInput,
+                label: classes.textInputLabel,
+                description: classes.textInputDescription,
             },
         }),
     },

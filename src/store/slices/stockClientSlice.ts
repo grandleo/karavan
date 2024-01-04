@@ -10,7 +10,7 @@ const initialState = {
 }
 
 export const stockClientSlice = createSlice({
-    name: 'stock',
+    name: 'stockClient',
     initialState,
     reducers: {
         setActiveCategoryStock: (state, action) => {
@@ -34,4 +34,4 @@ export const stockClientSlice = createSlice({
 })
 
 export const {actions, reducer} = stockClientSlice;
-export const getStock = (state: RootState) => state.stock;
+export const getStockClient = (state: RootState) => state.stockClient;

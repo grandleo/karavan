@@ -1,0 +1,361 @@
+.ordersPage {
+	height: calc(100vh - 71px);
+}
+
+.externalOrdersCards {
+	padding: 16px;
+	border-right: 1px solid #D4D4D8;
+}
+
+.externalOrderCard {
+	width: 320px;
+
+	@mixin hover {
+		cursor: pointer;
+	}
+}
+
+.externalOrderCard.active {
+	box-shadow: 0px 0px 8px 0px rgba(161, 161, 161, 0.14), 0px 0px 20px 0px rgba(126, 126, 126, 0.30);
+}
+
+.externalOrderCard .orderNumber {
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.externalOrderCard .orderPrice {
+	color: #27272A;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+	text-align: right;
+}
+
+.externalOrderCard .badge {
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+	padding: 4px 12px;
+	border-radius: 100px;
+	text-align: center;
+}
+
+.externalOrderCard .orderDate {
+	color: #A1A1AA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.externalOrderCard .orderDeliveryDate {
+	color: #18181B;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 16px;
+}
+
+.order {
+	flex-grow: 1;
+	padding: 16px;
+}
+
+.order .orderNumber {
+	color: #3F3F46;
+	font-size: 24px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 32px;
+}
+
+.order .orderStatus {
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.order .orderInfo {
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+
+	span {
+		color: #A1A1AA;
+		font-size: 12px;
+		line-height: 16px;
+		display: block;
+		margin-bottom: 4px;
+	}
+
+	.orderInfoSpan {
+		color: #3F3F46;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 20px;
+	}
+}
+
+.order .orderStatusIndicator {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+.order .orderStatusMore {
+	border-left: 1px solid #D9D9D9;
+	padding-left: 8px;
+
+	@mixin hover {
+		cursor: pointer;
+	}
+}
+
+.order .orderStatusMoreText {
+	color: #2997A3;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	text-decoration: underline;
+}
+
+.order .statusHistory {
+
+}
+
+.statusHistoryAddress {
+	background: #F4F4F5;
+	padding: 16px;
+	margin-bottom: 24px;
+}
+
+.statusHistoryAddress .iconAddress{
+	color: #2997A3;
+}
+
+.statusHistoryAddress .titleAddress {
+	color: #A1A1AA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.statusHistoryAddress .address {
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.statusHistory .timeLineTitle {
+	color: #71717A;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.statusHistory .timeLineTitle.active {
+	color: #2997A3;
+}
+
+.statusHistory .timeLineDate {
+	color: #A1A1AA;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 16px;
+}
+
+.order .titleBlock {
+	color: #27272A;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 28px;
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.products .name {
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.products .price {
+	color: #27272A;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+}
+
+.products .quantity {
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.totalRow {
+	border-top: 1px solid #dee2e6;
+}
+
+.products .total {
+	color: #27272A;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.products .totalQuantity {
+	color: #27272A;
+	font-size: 16px;
+	font-style: normal;
+	line-height: 24px;
+}
+
+.products .totalAmount {
+	color: #27272A;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.dataEmpty {
+	height: calc(100vh - 90px);
+}
+
+.dataEmptyBids {
+	height: 250px;
+}
+
+.dataEmptyIcon {
+	color: #2997A3;
+	background: #E6FCFA;
+	border-radius: 50%;
+	border: 8px solid #fff;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 90px;
+	height: 90px;
+
+	svg {
+		display: inline-flex;
+	}
+}
+
+.bid {
+	border-radius: 8px;
+	background: #F4F4F5;
+	padding: 16px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.bid .date {
+	width: 250px;
+}
+
+.bid .dateText {
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.bid .dateText span {
+	display: block;
+	color: #A1A1AA;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.bid .price {
+	width: 150px;
+}
+
+.bid .priceText {
+	color: #18181B;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.bid .name {
+	flex-grow: 1;
+}
+
+.bid .nameText {
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 20px;
+}
+
+.contacts {
+	margin-bottom: 24px;
+}
+
+.contacts .contact {
+	border-bottom: 1px solid #E4E4E7;
+	padding-bottom: 8px;
+}
+
+.contacts .contact .type{
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 24px;
+}
+
+.contacts .contact .company{
+	color: #3F3F46;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 24px;
+}
+
+.contacts .contact .name,
+.contacts .contact .phone{
+	color: #3F3F46;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+}
+
+.contacts .contact .phone{
+	border-left: 1px solid #E4E4E7;
+	padding-left: 8px;
+}

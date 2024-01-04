@@ -6,6 +6,9 @@ import {
 
 export const WarehousesApi = api.injectEndpoints({
     endpoints: (builder) => ({
+        getCity:  builder.query({
+            query: (data) => ({url: 'warehouses/get-city', method: 'post', data: data}),
+        }),
         getWarehouses: builder.query({
             query: () => ({url: GET_WAREHOUSES_USER, method: 'get'}),
             providesTags: () => [{
@@ -47,6 +50,7 @@ export const WarehousesApi = api.injectEndpoints({
 })
 
 export const {
+    useGetCityQuery,
     useGetWarehousesQuery,
     useGetDaysOfWeekQuery,
     useGetWarehouseQuery,

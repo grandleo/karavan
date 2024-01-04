@@ -5,7 +5,7 @@ import classes from "./client-stock.module.css";
 import {useGetStockCategoriesQuery, useGetStockProductsQuery} from "@/store/api/client/stockClient.api";
 import {useActions} from "@/hooks/useActions";
 import {useSelector} from "react-redux";
-import {getStock} from "@/store/slices/stockClientSlice";
+import {getStockClient} from "@/store/slices/stockClientSlice";
 import {useEffect, useState} from "react";
 import PageHeader from "@/components/ui/page/pageHeader";
 import PageContent from "@/components/ui/page/pageContent";
@@ -19,7 +19,7 @@ import {useForm} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 
 export default function Page({ params }: { params: { id: number } }) {
-    const {activeCategory, order} = useSelector(getStock)
+    const {activeCategory, order} = useSelector(getStockClient)
     const {data: categories} = useGetStockCategoriesQuery('');
 
     const {data: products} = useGetStockProductsQuery(activeCategory);
