@@ -89,8 +89,8 @@ const AddProductItem = ({}: Props) => {
                                         message: "Минимальная длина поля - 3 символа",
                                     },
                                     maxLength: {
-                                        value: 50,
-                                        message: "Максимальная длина поля - 50 символов",
+                                        value: 250,
+                                        message: "Максимальная длина поля - 250 символов",
                                     },
                                 }}
                                 render={({ field }) => (
