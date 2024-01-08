@@ -64,7 +64,7 @@ const Bid = ({order}: any) => {
         defaultValues: {
             order_number_id: order.number_id,
             price: order.price,
-            date: dayjs(new Date()).format("DD.MM.YYYY"),
+            date: dayjs(new Date()).add(1, 'day').format("DD.MM.YYYY"),
             time: "с 9:00 до 13:00"
         }
     });
@@ -92,7 +92,7 @@ const Bid = ({order}: any) => {
             <>
                 <DateInput
                     locale="ru"
-                    minDate={new Date()}
+                    minDate={dayjs(new Date()).add(1, 'day').toDate()}
                     maxDate={dayjs(new Date()).add(3, 'day').toDate()}
                     valueFormat="DD.MM.YYYY"
                     defaultValue={new Date()}
