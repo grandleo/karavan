@@ -13,7 +13,7 @@ export const stockApi = api.injectEndpoints({
             }],
             async onCacheEntryAdded(data, { dispatch }) {
                 echo.channel('Stock').listen('UpdateStockEvent', (data: any) => {
-                    dispatch(api.util?.invalidateTags(['StockClient']))
+                    dispatch(api.util?.invalidateTags(['StockProductsCityCategory']))
                 });
             }
         }),
