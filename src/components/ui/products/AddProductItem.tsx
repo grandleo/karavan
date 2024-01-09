@@ -47,12 +47,21 @@ const AddProductItem = ({}: Props) => {
             return correspondingCategorySpec && correspondingCategorySpec.use_product_name === 1;
         });
 
-        const groupedAndSortedSpecifications = _(filteredSelectSpecifications)
-            .groupBy('specification_id')
-            .mapValues(group => _.orderBy(group, ['order_column']))
+        const mergedArray = _.map(filteredSelectSpecifications, (values) => {
+            const values2 = _.find(categorySpecifications, {id: values.specification_id});
+
+            if (values2) {
+                return _.assign({}, values, { specification_order: values2.order_column });
+            }
+
+            return values;
+        });
+
+        const groupSorted = _(mergedArray).groupBy('specification_order')
+            .mapValues(group => _.sortBy(group, ['order_column']))
             .value();
 
-        const resultString = Object.values(groupedAndSortedSpecifications)
+        const resultString = Object.values(groupSorted)
             .map(arr => arr.map(obj => obj.value).join(' '))
             .join(' ');
 
