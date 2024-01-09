@@ -8,6 +8,7 @@ import {getStock} from "@/store/slices/stockSlice";
 import classes from "../client-stock.module.css";
 import {useBuyProductMutation} from "@/store/api/client/cart.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
+import {modals} from "@mantine/modals";
 
 const ProductClientStock = ({product} : ProductProps) => {
     const {choseWarehouseClient} = useSelector(getStock);
@@ -33,12 +34,28 @@ const ProductClientStock = ({product} : ProductProps) => {
     }, [product, choseWarehouseClient]);
 
     const addCart = () => {
+        if (choseWarehouseClient === 0) return WarehouseModal()
+
         buyProduct(getValues()).unwrap()
             .then((payload) => {
                 SuccessNotifications(payload)
             })
             .catch((error) => ErrorNotifications(error))
     }
+
+    const WarehouseModal = () => modals.open({
+        title: 'Вы не выбрали склад',
+        children: (
+            <>
+                <Text size="sm">
+                    Вы не выбрали склад, куда должны доставить заказ, выберите его и повторите попытку.
+                </Text>
+                <Button fullWidth color="#2997A3" onClick={() => modals.closeAll()} mt="md">
+                    Хорошо
+                </Button>
+            </>
+        ),
+    });
 
     return (
         <Table.Tr className={classes.product}>
