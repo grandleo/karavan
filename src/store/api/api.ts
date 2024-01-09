@@ -68,7 +68,8 @@ const api = createApi({
         'Orders',
         'Order',
         'OrderStatuses',
-        'LogisticOrders'
+        'LogisticOrders',
+        'StockProductsCityCategory'
     ],
     endpoints: () => ({}),
     // Добавьте Laravel Echo и наш кастомный обработчик событий
