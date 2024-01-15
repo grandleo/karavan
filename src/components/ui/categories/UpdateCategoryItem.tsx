@@ -1,5 +1,5 @@
 import {Controller, useForm} from "react-hook-form";
-import {Box, Drawer, TextInput} from "@mantine/core";
+import {Box, Button, Drawer, TextInput} from "@mantine/core";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import CategorySpecifications from "@/components/ui/categories/CategorySpecifications";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
@@ -60,7 +60,7 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
 
     return (
 
-        <Drawer opened={isOpen} position="right" onClose={onClose} title="Редактирование категории">
+        <Drawer opened={isOpen} position="right" onClose={onClose} size="lg" title="Редактирование категории">
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box className={classes.formFlex}>
@@ -91,10 +91,10 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
                             name="name"
                         />
 
-                        <CategorySpecifications setSpecificationValues={setValue} categorySpecifications={editCategory.category_specifications}/>
+                        <CategorySpecifications setValue={setValue} categoryId={editCategory.id}/>
                     </Box>
                     <Box>
-                        <PrimaryBtn type="submit">Сохранить</PrimaryBtn>
+                        <Button type="submit">Сохранить</Button>
                     </Box>
                 </Box>
             </form>

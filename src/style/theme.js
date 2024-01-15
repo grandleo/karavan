@@ -1,4 +1,4 @@
-import {createTheme, NumberInput, TextInput} from "@mantine/core";
+import {Button, Checkbox, createTheme, NumberInput, Switch, TextInput} from "@mantine/core";
 import {Inter} from "next/font/google";
 import classes from "./global.module.css";
 
@@ -44,6 +44,21 @@ const Theme = createTheme({
                 description: classes.textInputDescription,
             },
         }),
+        Button: Button.extend({
+            defaultProps: {
+                color: "#2997A3"
+            }
+        }),
+        Switch: Switch.extend({
+            defaultProps: {
+                color: "#2997A3"
+            }
+        }),
+        Checkbox: Checkbox.extend({
+            defaultProps: {
+                color: "#2997A3"
+            }
+        })
     },
 })
 

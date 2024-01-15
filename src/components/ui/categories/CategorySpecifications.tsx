@@ -1,4 +1,3 @@
-import {useGetSpecificationsQuery} from "@/store/api/admin/specifications.api";
 import {
     Box,
     Button,
@@ -7,15 +6,20 @@ import {
     LoadingOverlay,
     ScrollArea,
     useCombobox,
-    UnstyledButton, ActionIcon
+    UnstyledButton, ActionIcon, Switch, Tooltip
 } from "@mantine/core";
 import {useEffect, useState} from "react";
 import {IconTrash} from "@tabler/icons-react";
 import classes from "./categoryList.module.css";
+import {useGetCategorySpecificationsQuery} from "@/store/api/admin/categories.api";
+import _ from "lodash";
+import {UseFormSetValue} from "react-hook-form";
+import {TreeSortable} from "@/components/ui/sortableList/TreeSortable";
+import {TreeHandle, TreeItem} from "@/components/ui/sortableList/TreeItem";
 
-interface SpecificationsProps {
-    id: number;
-    name: string;
+interface Props {
+    setValue: UseFormSetValue<any>,
+    categoryId?: number
 }
 
 interface ISpecification {
@@ -26,33 +30,28 @@ interface ISpecification {
     active: number,
     order_column: number,
     values_count: number,
+    trading_feature: boolean,
+    selected: boolean,
 }
 
-interface ICategorySpecification {
-    category_id: number,
-    order_column: number,
-    specification_id: number,
-}
-
-const CategorySpecifications = ({setSpecificationValues, categorySpecifications}: any) => {
-    const [specifications, setSpecifications] = useState<SpecificationsProps[]>([]);
-    const [selectedSpecifications, setSelectedSpecifications] = useState<SpecificationsProps[]>([]);
+const CategorySpecifications = ({setValue, categoryId}: Props) => {
+    const [specifications, setSpecifications] = useState<ISpecification[]>([]);
+    const [selectedSpecifications, setSelectedSpecifications] = useState<ISpecification[]>([]);
     const [search, setSearch] = useState('');
 
-    const {data, isLoading} = useGetSpecificationsQuery('')
+    const {data, isLoading} = useGetCategorySpecificationsQuery(categoryId);
 
     useEffect(() => {
-        setSelectedSpecifications(data?.filter( (specification: ISpecification) => {
-            return categorySpecifications?.some((categorySpecification: ICategorySpecification) => {
-                return categorySpecification.specification_id === specification.id
-            })
-        }))
-    }, [data, categorySpecifications]);
+        setSpecifications(data)
+    }, [data]);
 
     useEffect(() => {
-        setSpecifications(data);
-        setSpecificationValues('specifications', selectedSpecifications);
-    }, [data, selectedSpecifications]);
+        setSelectedSpecifications(_.filter(specifications, {selected: true}))
+    }, [specifications]);
+
+    useEffect(() => {
+        setValue('specifications', selectedSpecifications)
+    }, [selectedSpecifications]);
 
     const combobox = useCombobox({
         onDropdownClose: () => {
@@ -65,25 +64,55 @@ const CategorySpecifications = ({setSpecificationValues, categorySpecifications}
         },
     });
 
-    const handleValueSelect = (val: SpecificationsProps) => {
-        const spec = selectedSpecifications.filter((selectedSpecification) => selectedSpecification.id === val.id)
+    const toggleSpecificationSelection = (val: ISpecification) => {
+        const updatedSpecifications = specifications.map(item => {
+            if (item.id === val.id) {
+                return {
+                    ...item,
+                    selected: !item.selected,
+                };
+            }
+            return item;
+        });
 
-        if(spec.length > 0) {
-            setSelectedSpecifications(selectedSpecifications.filter((selectedSpecification) => selectedSpecification.id !== val.id));
-        } else {
-            setSelectedSpecifications([...selectedSpecifications, val]);
-        }
+        setSpecifications(updatedSpecifications);
     }
 
-    const handleDeleteAllValues = () => {
-        setSelectedSpecifications([]);
-    }
+    const toggleTradingFeature = (id: number) => {
+        const updatedSpecifications = specifications.map(item => {
+            if (item.id === id) {
+                return {
+                    ...item,
+                    trading_feature: !item.trading_feature,
+                };
+            }
+            return item;
+        });
+        setSpecifications(updatedSpecifications);
+    };
 
-    const handleDeleteValue = (itemId: number) => {
-        setSelectedSpecifications(
-            selectedSpecifications.filter(item => item.id !== itemId)
-        )
-    }
+    const resetSelectedById = (id: number) => {
+        const updatedSpecifications = specifications.map(item => {
+            if (item.id === id) {
+                return {
+                    ...item,
+                    selected: false,
+                };
+            }
+            return item;
+        });
+        setSpecifications(updatedSpecifications);
+    };
+
+    const resetSelected = () => {
+        const updatedSpecifications = specifications.map(item => {
+            return {
+                ...item,
+                selected: false,
+            };
+        });
+        setSpecifications(updatedSpecifications);
+    };
 
     const options = specifications?.filter((item) => item.name.toLowerCase().includes(search.toLowerCase().trim()))
         .map((item) => {
@@ -93,9 +122,9 @@ const CategorySpecifications = ({setSpecificationValues, categorySpecifications}
                         <Box className={classes.comboboxOptionValue}>
                             {item.name}
                         </Box>
-                        {selectedSpecifications?.map( (specification, index: number) => (
-                            specification.id === item.id && (<Box key={index}><CheckIcon size={12} key={specification.id}/></Box>)
-                        ) )}
+                        {item.selected && (
+                            <Box><CheckIcon size={12}/></Box>
+                        )}
                     </Box>
                 </Combobox.Option>
             )
@@ -104,21 +133,56 @@ const CategorySpecifications = ({setSpecificationValues, categorySpecifications}
     return (
         <>
             <Box pos="relative">
-                <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+                <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{radius: "sm", blur: 2}}/>
                 <ScrollArea h={175} className={classes.selectedCategorySpecifications}>
                     <Box className={classes.selectedCategorySpecificationsFlex}>
-                        {selectedSpecifications?.map((item, index) => (
-                            <Box className={classes.selectedCategorySpecificationItem} key={index}>
-                                <Box className={classes.selectedCategorySpecificationItemName}>
-                                    {item.name}
-                                </Box>
-                                <Box>
-                                    <ActionIcon variant="subtle" color="rgba(255, 0, 0, 1)" aria-label="Удалить" onClick={() => handleDeleteValue(item.id)}>
-                                        <IconTrash size={19}/>
-                                    </ActionIcon>
-                                </Box>
-                            </Box>
-                        ))}
+
+                        <TreeSortable items={selectedSpecifications} onChange={setSelectedSpecifications} renderItem={(item) => {
+                            return (
+                                <TreeItem id={item.id}>
+                                    <Box style={{flexGrow: 1}}>
+                                        <Box className={classes.selectedCategorySpecificationItem}>
+                                            <TreeHandle/>
+                                            <Box>
+                                                <Tooltip label="Выводить в торг. особенность" refProp="rootRef">
+                                                    <Switch checked={item.trading_feature}
+                                                            onClick={() => toggleTradingFeature(item.id)}/>
+                                                </Tooltip>
+                                            </Box>
+                                            <Box className={classes.selectedCategorySpecificationItemName}>
+                                                {item.name}
+                                            </Box>
+                                            <Box>
+                                                <ActionIcon variant="subtle" color="rgba(255, 0, 0, 1)" aria-label="Удалить"
+                                                            onClick={() => resetSelectedById(item.id)}>
+                                                    <IconTrash size={19}/>
+                                                </ActionIcon>
+                                            </Box>
+                                        </Box>
+                                    </Box>
+                                </TreeItem>
+                            )
+                        }}/>
+
+                        {/*{selectedSpecifications?.map((item, index) => (*/}
+                        {/*    <Box className={classes.selectedCategorySpecificationItem} key={index}>*/}
+                        {/*        <Box>*/}
+                        {/*            <Tooltip label="Выводить в торг. особенность" refProp="rootRef">*/}
+                        {/*                <Switch checked={item.trading_feature}*/}
+                        {/*                        onClick={() => toggleTradingFeature(item.id)}/>*/}
+                        {/*            </Tooltip>*/}
+                        {/*        </Box>*/}
+                        {/*        <Box className={classes.selectedCategorySpecificationItemName}>*/}
+                        {/*            {item.name}*/}
+                        {/*        </Box>*/}
+                        {/*        <Box>*/}
+                        {/*            <ActionIcon variant="subtle" color="rgba(255, 0, 0, 1)" aria-label="Удалить"*/}
+                        {/*                        onClick={() => resetSelectedById(item.id)}>*/}
+                        {/*                <IconTrash size={19}/>*/}
+                        {/*            </ActionIcon>*/}
+                        {/*        </Box>*/}
+                        {/*    </Box>*/}
+                        {/*))}*/}
                     </Box>
                 </ScrollArea>
 
@@ -128,14 +192,16 @@ const CategorySpecifications = ({setSpecificationValues, categorySpecifications}
                     position="bottom-start"
                     withArrow
                     onOptionSubmit={(val: any) => {
-                        handleValueSelect(val);
+                        toggleSpecificationSelection(val);
                     }}
                 >
                     <Combobox.Target withAriaAttributes={false}>
-                            <Button onClick={() => combobox.toggleDropdown()} className={classes.addCategorySpecificationsBtn}>Выбрать харарактеристики</Button>
+                        <Button onClick={() => combobox.toggleDropdown()}
+                                className={classes.addCategorySpecificationsBtn}>Выбрать харарактеристики</Button>
                     </Combobox.Target>
 
-                    <UnstyledButton onClick={handleDeleteAllValues} className={classes.removeAllCategorySpecifications}>Очистить</UnstyledButton>
+                    <UnstyledButton onClick={resetSelected}
+                                    className={classes.removeAllCategorySpecifications}>Очистить</UnstyledButton>
 
                     <Combobox.Dropdown>
                         <Combobox.Search

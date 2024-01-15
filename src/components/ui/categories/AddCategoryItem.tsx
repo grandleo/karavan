@@ -1,6 +1,6 @@
 import {useDisclosure} from "@mantine/hooks";
 import {IconPlus} from "@tabler/icons-react";
-import {Box, Button, Drawer, ScrollArea, TextInput} from "@mantine/core";
+import {Box, Button, Drawer, TextInput} from "@mantine/core";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useCreateCategoryMutation} from "@/store/api/admin/categories.api";
@@ -54,7 +54,7 @@ const AddCategoryItem = ({fullWidth}: Props) => {
                 <IconPlus size={22}/> Категорию
             </Button>
 
-            <Drawer opened={opened} position="right" onClose={close} title="Добавление категории">
+            <Drawer opened={opened} position="right" size="lg" onClose={close} title="Добавление категории">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Box className={classes.formFlex}>
                         <Box className={classes.formArea}>
@@ -83,7 +83,7 @@ const AddCategoryItem = ({fullWidth}: Props) => {
                                 name="name"
                             />
 
-                            <CategorySpecifications setSpecificationValues={setValue}/>
+                            <CategorySpecifications setValue={setValue}/>
                         </Box>
                         <Box>
                             <PrimaryBtn type="submit">Добавить</PrimaryBtn>

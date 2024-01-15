@@ -43,8 +43,6 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
         }
     });
 
-    console.log(specification.type_choice)
-
     useEffect(() => {
         setValue('id', specification.id)
         setValue('name', specification.name)
@@ -123,7 +121,7 @@ const UpdateSpecificationItem = ({specification, isOpen, onClose}: Props) => {
                                     />
                             )}/>
 
-                            <ValuesSpecificationItem onValues={setValue} valuesItem={specification.values}/>
+                            <ValuesSpecificationItem onValues={setValue} id_specification={specification.id} valuesItem={specification.values}/>
 
                         </Box>
                         <Box>

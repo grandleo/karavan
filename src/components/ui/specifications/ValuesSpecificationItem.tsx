@@ -7,6 +7,7 @@ import { customAlphabet } from 'nanoid/non-secure'
 import _ from "lodash";
 import classes from "./specifications.module.css";
 import {IconPlus} from "@tabler/icons-react";
+import {useGetSpecificationValuesQuery} from "@/store/api/admin/specifications.api";
 
 interface IValue {
     id: number;
@@ -14,20 +15,25 @@ interface IValue {
 }
 
 interface Props {
+    id_specification: number,
     values?: [];
     onValues?: any;
     valuesItem?: any;
 }
 
-const ValuesSpecificationItem = ({onValues, valuesItem} : Props) => {
+const ValuesSpecificationItem = ({onValues, id_specification, valuesItem} : Props) => {
     const nanoid = customAlphabet('1234567890', 16);
+
+    const {data} = useGetSpecificationValuesQuery(id_specification);
+
+    console.log('data', data)
 
     const [values, setValues] = useState<IValue[]>([{id: Number(nanoid()), value: ""}]);
     const [valuesSpecification, setValuesSpecification] = useState()
 
     useEffect(() => {
-        onValues('values', _.filter(values, (item) => item.value !== ""))
-    }, [values]);
+        onValues('values', _.filter(data, (item) => item.value !== ""))
+    }, [data]);
 
     useEffect(() => {
         if(valuesItem && valuesItem.length > 0) setValues(valuesItem);

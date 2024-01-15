@@ -4,6 +4,7 @@ import {actions as stockClientActions} from "@/store/slices/stockClientSlice";
 import {actions as adminSettingsActions} from "@/store/slices/adminSettingsSlice";
 import {actions as ordersActions} from "@/store/slices/ordersSlice";
 import {actions as stockActions} from "@/store/slices/stockSlice";
+import {actions as specificationsActions} from "@/store/slices/specificationsSlice";
 
 export const rootActions = {
     ...supplierStockActions,
@@ -11,5 +12,6 @@ export const rootActions = {
     ...stockClientActions,
     ...adminSettingsActions,
     ...ordersActions,
-    ...stockActions
+    ...stockActions,
+    ...specificationsActions,
 }

@@ -3,7 +3,7 @@ import {
     ADMIN_GET_CATEGORIES,
     ADMIN_GET_CATEGORIES_CREATE,
     ADMIN_GET_CATEGORIES_DELETE,
-    ADMIN_GET_CATEGORIES_UPDATE, ADMIN_GET_CATEGORY_SPECIFICATIONS
+    ADMIN_GET_CATEGORIES_UPDATE
 } from "@/config/apiRoutes";
 
 export const categoriesApi = api.injectEndpoints({
@@ -22,9 +22,7 @@ export const categoriesApi = api.injectEndpoints({
         }),
         updateCategory: builder.mutation({
             query: (data) => ({url: ADMIN_GET_CATEGORIES_UPDATE, method: 'post', data: data}),
-            invalidatesTags: () => [{
-                type: 'Categories'
-            }]
+            invalidatesTags: () => ['Categories', 'CategorySpecifications']
         }),
         deleteCategory: builder.mutation({
             query: (id) => ({url: ADMIN_GET_CATEGORIES_DELETE, method: 'post', data: {'id': id}}),
@@ -33,7 +31,10 @@ export const categoriesApi = api.injectEndpoints({
             }]
         }),
         getCategorySpecifications: builder.query({
-            query: (id) => ({url: ADMIN_GET_CATEGORY_SPECIFICATIONS, method: 'post', data: {'category_id': id}})
+            query: (id) => ({url: 'admin/categories/get-category-specifications', method: 'post', data: {'category_id': id}}),
+            providesTags: () => [{
+                type: 'CategorySpecifications'
+            }]
         }),
         setSortingCategories: builder.mutation({
             query: (data) => ({url: 'admin/categories/set-sort', method: 'post', data: {'new_sort': data}}),

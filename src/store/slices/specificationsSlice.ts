@@ -1,29 +1,20 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "@/store/store";
 
-interface SpecificationsState {
-    value: number
-}
-
-const initialState: SpecificationsState = {
-  value: 0
+const initialState = {
+  active: 0,
 }
 
 export const specificationsSlice = createSlice({
     name: 'specifications',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
+        setActiveSpecification: (state, action) => {
+            state.active = action.payload;
         },
     }
 })
 
-export const {increment, decrement} = specificationsSlice.actions
+export const {actions, reducer} = specificationsSlice;
 
-export const selectSpecifications = (state: RootState) => state.specifications.value
-
-export default specificationsSlice.reducer
+export const getSpecificationsState = (state: RootState) => state.specifications;

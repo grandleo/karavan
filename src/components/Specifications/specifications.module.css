@@ -1,0 +1,14 @@
+.specificationItem {
+	border-radius: 8px;
+	border: 1px solid #E4E4E7;
+	background: #FFF;
+	padding: 12px;
+	margin-bottom: 8px;
+}
+
+.name {
+	flex-grow: 1;
+}
+
+.valuesCount {
+}

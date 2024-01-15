@@ -1,9 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {http} from "@/config/http";
 import type {BaseQueryFn} from '@reduxjs/toolkit/query'
-import axios from 'axios'
 import type {AxiosRequestConfig, AxiosError} from 'axios'
-import echo from "@/config/laravel-echo";
 
 const axiosBaseQuery =
     (
@@ -55,6 +53,7 @@ const api = createApi({
         'Specifications',
         'SpecificationValues',
         'Categories',
+        'CategorySpecifications',
         'Products',
         'Warehouses',
         'Warehouse',
