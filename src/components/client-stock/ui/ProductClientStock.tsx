@@ -64,6 +64,11 @@ const ProductClientStock = ({product} : ProductProps) => {
                     {product.name}
                 </Text>
             </Table.Td>
+            <Table.Td>
+                <Text>
+                    {product.trading_text}
+                </Text>
+            </Table.Td>
             <Table.Td className={classes.quantity}>
                 <Flex align="center" gap={4}>
                     <Box className={classes.badge}></Box>

@@ -27,6 +27,9 @@ const ProductsClientStock = () => {
                             <Table.Th className={classes.nowrap}>
                                 <Text>Наименование</Text>
                             </Table.Th>
+                            <Table.Th w={200} className={classes.nowrap}>
+                                <Text>Торг. особеность</Text>
+                            </Table.Th>
                             <Table.Th w={120} className={classes.nowrap}>
                                 <Text>В наличии</Text>
                             </Table.Th>
