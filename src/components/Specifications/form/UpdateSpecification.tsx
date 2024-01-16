@@ -8,13 +8,9 @@ import {getSpecificationsState} from "@/store/slices/specificationsSlice";
 import {useEffect} from "react";
 import {useActions} from "@/hooks/useActions";
 import classes from "../specifications.module.css"
+import {UpdateSpecificationProps} from "@/types/specification";
 
-interface Props {
-    opened: boolean,
-    close: () => void
-}
-
-const UpdateSpecification = ({opened, close} : Props) => {
+const UpdateSpecification = ({opened, close} : UpdateSpecificationProps) => {
     const {active} = useSelector(getSpecificationsState);
     const [updateSpecification] = useUpdateSpecificationMutation();
     const {data, isLoading} = useGetSpecificationQuery(active)

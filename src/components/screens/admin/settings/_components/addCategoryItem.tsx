@@ -9,7 +9,6 @@ import {
     TextInput,
     UnstyledButton,
     useCombobox,
-    Text,
     CheckIcon,
     ScrollArea
 } from "@mantine/core";
@@ -17,10 +16,9 @@ import {IconGripVertical, IconPlus, IconTrash} from "@tabler/icons-react";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useCreateCategoryMutation} from "@/store/api/admin/categories.api";
-import {Dispatch, SetStateAction, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import classes from "./settings.module.css";
 import {useGetSpecificationsQuery} from "@/store/api/admin/specifications.api";
-import SpecificationsPage from "@/components/screens/admin/settings/specificationsPage";
 
 interface Props {
     selectedCategory: number;

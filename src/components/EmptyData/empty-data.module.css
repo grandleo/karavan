@@ -1,0 +1,22 @@
+.emptyData {
+	height: 100vh;
+}
+
+.emptyDataIcon {
+	color: #2997A3;
+	background: #E6FCFA;
+	border-radius: 50%;
+	border: 8px solid #fff;
+	margin-bottom: 10px;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 90px;
+	height: 90px;
+
+	svg {
+		display: inline-flex;
+	}
+}

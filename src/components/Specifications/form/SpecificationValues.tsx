@@ -1,25 +1,16 @@
-import {IconPlus, IconTrash} from "@tabler/icons-react";
-import {ActionIcon, Box, Button, TextInput} from "@mantine/core";
+import {IconPlus} from "@tabler/icons-react";
+import {Box, Button} from "@mantine/core";
 import {customAlphabet} from "nanoid/non-secure";
 import {ChangeEvent, useEffect, useState} from "react";
 import {TreeSortable} from "@/components/ui/sortableList/TreeSortable";
-import {TreeHandle, TreeItem} from "@/components/ui/sortableList/TreeItem";
+import {TreeItem} from "@/components/ui/sortableList/TreeItem";
 import ValueItem from "@/components/Specifications/form/ValueItem";
 import _ from "lodash";
 import {useGetSpecificationValuesQuery} from "@/store/api/admin/specifications.api";
+import {IValue, SpecificationValuesProps} from "@/types/specification";
 import classes from "../specifications.module.css";
 
-interface IValue {
-    id: number;
-    value: string;
-}
-
-interface Props {
-    setValue: any,
-    id_specification?: number
-}
-
-const SpecificationValues = ({setValue, id_specification} : Props) => {
+const SpecificationValues = ({setValue, id_specification} : SpecificationValuesProps) => {
     const nanoid = customAlphabet('1234567890', 16);
     const [items, setItems] = useState<IValue[]>([{id: Number(nanoid()), value: ""}]);
 

@@ -65,6 +65,7 @@ const AddProductItem = ({}: Props) => {
             .map(arr => arr.map(obj => obj.value).join(' '))
             .join(' ');
 
+        setValue('specifications', selectSpecifications)
         setValue('name', resultString)
     }, [selectSpecifications, selectedCategory]);
 
@@ -225,6 +226,7 @@ const SelectSpecifications = ({item, selectSpecifications, setSelectSpecificatio
             setSelectSpecifications([...selectSpecifications, option])
         }
 
+        console.log(selectSpecifications)
     }
 
     return (
@@ -263,7 +265,7 @@ const SelectSpecifications = ({item, selectSpecifications, setSelectSpecificatio
                 />
             </Combobox.Target>
 
-            {options.length > 0 && (
+            {options?.length > 0 && (
                 <Combobox.Dropdown>
                     <Combobox.Options>
                         <ScrollArea.Autosize type="scroll" mah={200}>

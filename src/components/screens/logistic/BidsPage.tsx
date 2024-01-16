@@ -95,7 +95,7 @@ const Bid = ({order}: any) => {
                     minDate={dayjs(new Date()).add(1, 'day').toDate()}
                     maxDate={dayjs(new Date()).add(3, 'day').toDate()}
                     valueFormat="DD.MM.YYYY"
-                    defaultValue={new Date()}
+                    defaultValue={dayjs(new Date()).add(1, 'day').toDate()}
                     label="Дата доставки"
                     onChange={(data) => {setValue('date', dayjs(data).format("DD.MM.YYYY"))}}
                     mb={12}

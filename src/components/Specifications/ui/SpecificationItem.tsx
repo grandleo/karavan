@@ -1,12 +1,13 @@
 import {useDeleteSpecificationMutation} from "@/store/api/admin/specifications.api";
-import {ActionIcon, Box, Flex, Menu, rem, Text} from "@mantine/core";
-import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
+import {ActionIcon, Flex, Menu, rem, Text} from "@mantine/core";
 import {modals} from "@mantine/modals";
+import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
-import {SpecificationItemProps} from "@/components/Specifications/types";
-import classes from "../specifications.module.css";
 import {TreeHandle} from "@/components/ui/sortableList/TreeItem";
 import {useActions} from "@/hooks/useActions";
+import {SpecificationItemProps} from "@/types/specification";
+import classes from "../specifications.module.css";
+
 const SpecificationItem = ({item, onOpen}: SpecificationItemProps) => {
     const {setActiveSpecification} = useActions();
 
@@ -64,7 +65,6 @@ const SpecificationItem = ({item, onOpen}: SpecificationItemProps) => {
                     </Menu.Dropdown>
                 </Menu>
             </Flex>
-
         </>
     )
 }

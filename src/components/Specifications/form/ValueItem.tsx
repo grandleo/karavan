@@ -3,19 +3,9 @@ import {ActionIcon, Flex, TextInput} from "@mantine/core";
 import {IconTrash} from "@tabler/icons-react";
 import {ChangeEvent} from "react";
 import classes from "../specifications.module.css";
+import {ValueItemProps} from "@/types/specification";
 
-interface IValue {
-    id: number;
-    value: string;
-}
-
-interface Props {
-    item: IValue,
-    removeItem: (id: number) => void,
-    inputChange: (event: ChangeEvent<HTMLInputElement>, id: number) => void
-}
-
-const ValueItem = ({item, removeItem, inputChange}: Props) => {
+const ValueItem = ({item, removeItem, inputChange}: ValueItemProps) => {
 
     const changeValue = (event: ChangeEvent<HTMLInputElement>) => {
         if(inputChange) {
