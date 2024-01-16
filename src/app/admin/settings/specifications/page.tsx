@@ -4,8 +4,8 @@ import Specifications from "@/components/Specifications";
 export default function Page () {
     return (
         <>
-            {/*<Specifications/>*/}
-            <SpecificationsPage/>
+            <Specifications/>
+            {/*<SpecificationsPage/>*/}
         </>
     )
 }

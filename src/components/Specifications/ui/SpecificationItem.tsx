@@ -6,9 +6,11 @@ import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications"
 import {SpecificationItemProps} from "@/components/Specifications/types";
 import classes from "../specifications.module.css";
 import {TreeHandle} from "@/components/ui/sortableList/TreeItem";
-const SpecificationItem = ({item, onOpen, setSpecification}: SpecificationItemProps) => {
-    const [deleteSpecification] = useDeleteSpecificationMutation();
+import {useActions} from "@/hooks/useActions";
+const SpecificationItem = ({item, onOpen}: SpecificationItemProps) => {
+    const {setActiveSpecification} = useActions();
 
+    const [deleteSpecification] = useDeleteSpecificationMutation();
     const openDeleteModal = () =>
         modals.openConfirmModal({
             title: 'Удалить характеристику ?',
@@ -46,7 +48,7 @@ const SpecificationItem = ({item, onOpen, setSpecification}: SpecificationItemPr
                     <Menu.Dropdown>
                         <Menu.Item leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
                                    onClick={() => {
-                                       setSpecification(item);
+                                       setActiveSpecification(item.id)
                                        onOpen();
                                    }}
                         >

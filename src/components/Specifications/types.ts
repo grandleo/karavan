@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction} from "react";
+
 
 export interface ISpecification {
     id: number,
@@ -13,5 +13,4 @@ export interface ISpecification {
 export interface SpecificationItemProps {
     item: ISpecification;
     onOpen: () => void,
-    setSpecification: Dispatch<SetStateAction<ISpecification>>;
 }

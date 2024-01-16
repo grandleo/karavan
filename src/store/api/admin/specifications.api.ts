@@ -8,6 +8,9 @@ export const specificationsApi = api.injectEndpoints({
                 type: 'Specifications'
             }]
         }),
+        getSpecification: builder.query({
+            query: (data) => ({url: 'admin/specifications/get-specification', method: 'post', data: {id: data}})
+        }),
         createSpecification: builder.mutation({
             query: (data) => ({url: 'admin/specifications/create', method: 'post', data: data}),
             invalidatesTags: () => [{
@@ -55,6 +58,7 @@ export const specificationsApi = api.injectEndpoints({
 
 export const {
     useGetSpecificationsQuery,
+    useGetSpecificationQuery,
     useCreateSpecificationMutation,
     useDeleteSpecificationMutation,
     useUpdateSpecificationMutation,
