@@ -59,6 +59,22 @@
 	text-decoration-line: underline;
 }
 
+.product .article {
+	color: #71717A;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+
+	span {
+		color: #27272A;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 400;
+		line-height: 20px;
+	}
+}
+
 .product .quantity {
 	color: #27272A;
 	font-size: 14px;

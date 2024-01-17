@@ -1,4 +1,5 @@
 import {api} from "@/store/api/api";
+import echo from "@/config/laravel-echo";
 
 export const bidsLogisticApi = api.injectEndpoints({
     endpoints: (builder) => ({

@@ -51,6 +51,7 @@ const BidsPage = () => {
 const Bid = ({order}: any) => {
     const [disable, setDisable] = useState(true);
     const [lock, setLock] = useState(false);
+    const [price, setPrice] = useState(0);
 
     const [addBid] = useAddBidMutation();
     const [removeBid] = useRemoveBidMutation();
@@ -62,14 +63,24 @@ const Bid = ({order}: any) => {
         getValues,
     } = useForm({
         defaultValues: {
-            order_number_id: order.number_id,
-            price: order.price,
+            order_number_id: null,
+            price: null,
+            old_price: null,
             date: dayjs(new Date()).add(1, 'day').format("DD.MM.YYYY"),
             time: "с 9:00 до 13:00"
         }
     });
 
+    useEffect(() => {
+        if(order) {
+            setValue('order_number_id', order.number_id)
+            setValue('price', order.price)
+            setValue('old_price', order.price)
+        }
+    }, [order]);
+
     const changePrice = (number: string | number) => {
+        setPrice(Number(number))
         setValue('price', Number(number));
         const price = getValues('price');
 
@@ -77,6 +88,7 @@ const Bid = ({order}: any) => {
     }
 
     const onSubmit = () => {
+        setValue('price', price)
         const values = getValues();
         addBid(values).unwrap()
             .then((payload) => {
@@ -117,8 +129,7 @@ const Bid = ({order}: any) => {
                         </Radio.Group>
                     )}
                 />
-                {/*<Button fullWidth color="#2997A3" onClick={() => modals.closeAll()} mt="md">*/}
-                <Button fullWidth color="#2997A3" onClick={onSubmit} mt="md">
+                <Button fullWidth onClick={onSubmit} mt="md">
                     Откликнуться
                 </Button>
             </>
@@ -135,9 +146,21 @@ const Bid = ({order}: any) => {
             .catch((error) => ErrorNotifications(error));
     }
 
-    useEffect(() => {
-        setLock(order?.has_bid)
-    }, [order]);
+    const newBid = () => {
+        const oldPrice = getValues('old_price');
+        console.log(oldPrice)
+
+        if (!_.isNull(oldPrice))
+        {
+            const newPrice = getValues('price')
+            console.log(newPrice)
+            const ledNewPrice = newPrice !== oldPrice
+
+            if (ledNewPrice) {
+                remove()
+            }
+        }
+    }
 
     return (
         <Table.Tr>
@@ -157,7 +180,7 @@ const Bid = ({order}: any) => {
                 {order.best_price}
             </Table.Td>
             <Table.Td>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(newBid)}>
                     <Controller
                         name="price"
                         control={control}

@@ -63,6 +63,9 @@ const ProductClientStock = ({product} : ProductProps) => {
                 <Text className={classes.name}>
                     {product.name}
                 </Text>
+                <Text className={classes.article}>
+                    Артикул: <span>{product.article}</span>
+                </Text>
             </Table.Td>
             <Table.Td>
                 <Text>
