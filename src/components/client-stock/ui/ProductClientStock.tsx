@@ -66,6 +66,11 @@ const ProductClientStock = ({product} : ProductProps) => {
                 <Text className={classes.article}>
                     Артикул: <span>{product.article}</span>
                 </Text>
+                {product?.period_validity && (
+                    <Text className={classes.article}>
+                        Срок годности: <span>{product?.period_validity}</span>
+                    </Text>
+                )}
             </Table.Td>
             <Table.Td>
                 <Text>

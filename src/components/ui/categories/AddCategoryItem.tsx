@@ -1,6 +1,6 @@
 import {useDisclosure} from "@mantine/hooks";
 import {IconPlus} from "@tabler/icons-react";
-import {Box, Button, Drawer, TextInput} from "@mantine/core";
+import {Box, Button, Checkbox, Drawer, TextInput} from "@mantine/core";
 import {Controller, useForm} from "react-hook-form";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import {useCreateCategoryMutation} from "@/store/api/admin/categories.api";
@@ -21,6 +21,7 @@ const AddCategoryItem = ({fullWidth}: Props) => {
     const [createCategory] = useCreateCategoryMutation();
 
     const {
+        register,
         handleSubmit,
         control,
         setValue,
@@ -30,7 +31,8 @@ const AddCategoryItem = ({fullWidth}: Props) => {
         defaultValues: {
             name: "",
             parent_id: activeCategory,
-            specifications: []
+            required_period_validity: 0,
+            specifications: [],
         }
     });
 
@@ -81,6 +83,12 @@ const AddCategoryItem = ({fullWidth}: Props) => {
                                     />
                                 )}
                                 name="name"
+                            />
+
+                            <Checkbox
+                                {...register("required_period_validity")}
+                                label="Срок годность товаров обязательно"
+                                mb={{ base: 10 }}
                             />
 
                             <CategorySpecifications setValue={setValue}/>

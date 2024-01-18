@@ -10,7 +10,8 @@ const initialState = {
         id: 0,
         name: '',
         parent_id: 0,
-        category_specifications: []
+        category_specifications: [],
+        required_period_validity: 0,
     },
 }
 

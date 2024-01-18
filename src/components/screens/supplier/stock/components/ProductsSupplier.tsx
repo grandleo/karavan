@@ -8,6 +8,9 @@ import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications"
 import QtyInputStock from "@/components/screens/supplier/stock/components/form/QtyInputStock";
 import PriceInputStock from "@/components/screens/supplier/stock/components/form/PriceInputStock";
 import classes from "./stock.module.css";
+import {MonthPicker, MonthPickerInput} from "@mantine/dates";
+import dayjs from "dayjs";
+import {IconCalendar} from "@tabler/icons-react";
 
 interface Props {
     products: []

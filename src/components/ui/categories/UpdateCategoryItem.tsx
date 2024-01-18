@@ -1,5 +1,5 @@
 import {Controller, useForm} from "react-hook-form";
-import {Box, Button, Drawer, TextInput} from "@mantine/core";
+import {Box, Button, Checkbox, Drawer, TextInput} from "@mantine/core";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 import CategorySpecifications from "@/components/ui/categories/CategorySpecifications";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
@@ -14,6 +14,7 @@ interface ICategoryItem {
     name: string;
     parent_id: number;
     category_specifications: [];
+    required_period_validity: number;
 }
 
 interface Props {
@@ -27,6 +28,7 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
     const [updateCategory] = useUpdateCategoryMutation();
 
     const {
+        register,
         handleSubmit,
         control,
         setValue,
@@ -37,6 +39,7 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
             id: 0,
             name: '',
             parent_id: 0,
+            required_period_validity: 0,
             specifications: []
         }
     });
@@ -46,6 +49,7 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
         setValue('name', editCategory.name)
         setValue('parent_id', editCategory.parent_id)
         setValue('specifications', editCategory.category_specifications)
+        setValue('required_period_validity', editCategory.required_period_validity)
     }, [editCategory]);
 
     const onSubmit = async (data: any) => {
@@ -89,6 +93,12 @@ const UpdateCategoryItem = ({isOpen, onClose}: Props) => {
                                 />
                             )}
                             name="name"
+                        />
+
+                        <Checkbox
+                            {...register("required_period_validity")}
+                            label="Срок годность товаров обязательно"
+                            mb={{ base: 10 }}
                         />
 
                         <CategorySpecifications setValue={setValue} categoryId={editCategory.id}/>
