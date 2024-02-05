@@ -57,6 +57,7 @@ const EmailAutocomplete = ({field, errors}: any) => {
                     }}
                     onBlur={() => combobox.closeDropdown()}
                     autocomlette="off"
+                    mb={15}
                 />
             </Combobox.Target>
 

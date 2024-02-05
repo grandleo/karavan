@@ -86,26 +86,13 @@ const RegistrationPage = () => {
                 if(name != ''){
                     const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
 
-                    const { data } = _.head((await daData.post(url, JSON.stringify({ query: name }))).data?.suggestions) || {};
+                    const {data} = _.head((await daData.post(url, JSON.stringify({ query: name }))).data?.suggestions);
 
                     if(_.isNull(data.name) || _.isNull(data.surname)){
-                        setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
+                        isValid = false;
+                        setError('name', { type: 'custom', message: 'Что то пошло не так, напишите Имя и Фамилию правильно' });
                         break;
                     }
-
-                    // await daData.post(url, JSON.stringify({query: name}))
-                    //     .then(function (response) {
-                    //         const {suggestions} = response.data
-                    //         const suggestion = _.head(suggestions)
-                    //         const data = suggestion?.data
-                    //
-                    //         if(_.isNull(data.name) || _.isNull(data.surname)){
-                    //             setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
-                    //         }
-                    //     })
-                    //     .catch(function (error) {
-                    //         setError('name', { type: 'custom', message: 'Что то пошло не так, напишите имя и фамилию правильно' });
-                    //     });
                 }
 
                 isValid = await trigger(["position", "email", "phone"]);

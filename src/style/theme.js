@@ -1,4 +1,13 @@
-import {Button, Checkbox, createTheme, NumberInput, Switch, TextInput} from "@mantine/core";
+import {
+    Button,
+    Checkbox,
+    Container,
+    createTheme,
+    NumberInput,
+    SegmentedControl,
+    Switch,
+    TextInput
+} from "@mantine/core";
 import {Inter} from "next/font/google";
 import classes from "./global.module.css";
 
@@ -17,6 +26,11 @@ const Theme = createTheme({
     },
 
     components: {
+        Container: Container.extend({
+            defaultProps: {
+                size: 'xl'
+            }
+        }),
         TextInput: TextInput.extend({
             classNames: {
                 root: classes.textInputRoot,
@@ -46,17 +60,22 @@ const Theme = createTheme({
         }),
         Button: Button.extend({
             defaultProps: {
-                color: "#2997A3"
+                color: "#1470C6"
             }
         }),
         Switch: Switch.extend({
             defaultProps: {
-                color: "#2997A3"
+                color: "#1470C6"
             }
         }),
         Checkbox: Checkbox.extend({
             defaultProps: {
-                color: "#2997A3"
+                color: "#1470C6"
+            }
+        }),
+        SegmentedControl: SegmentedControl.extend({
+            defaultProps: {
+                color: "#1470C6"
             }
         })
     },

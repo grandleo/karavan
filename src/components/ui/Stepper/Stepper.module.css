@@ -34,8 +34,8 @@
 	justify-content: space-between;
 	align-items: center;
 	gap: 12px;
-	margin-top: 24px;
-	margin-bottom: 40px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .separator{
@@ -45,7 +45,7 @@
 }
 
 .separatorActive{
-	background: #2997A3;
+	background: #1470C6;
 }
 
 .step {

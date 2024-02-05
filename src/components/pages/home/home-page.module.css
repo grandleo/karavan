@@ -1,0 +1,101 @@
+.title {
+    font-size: 80px;
+    font-weight: 600;
+    line-height: 72px;
+    letter-spacing: -0.03em;
+    text-align: center;
+}
+
+.subTitle {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 32px;
+    letter-spacing: 0em;
+    text-align: center;
+}
+
+.sectionTitle {
+    font-size: 54px;
+    font-weight: 600;
+    line-height: 58px;
+    letter-spacing: -0.035em;
+    text-align: center;
+}
+
+.sectionSubTitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.advantages {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.advantage {
+    .number {
+        color: #1470C6;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 12px;
+        letter-spacing: -0.035em;
+        text-align: left;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #1470C6;
+        border-radius: 50%;
+
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .benefit {
+        color: #1470C6;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 12px;
+        letter-spacing: -0.02em;
+        text-align: left;
+        height: 30px;
+        border: 2px solid #1470C6;
+        padding: 0 12px;
+        border-radius: 9px;
+
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .title {
+        color: #1D1E20;
+        font-size: 46px;
+        font-weight: 600;
+        line-height: 44px;
+        letter-spacing: -0.035em;
+        text-align: left;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .subTitle {
+        color: #656A76;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 26px;
+        letter-spacing: 0;
+        text-align: left;
+    }
+}
+
+.imagesShadow {
+    box-shadow: 0px 0.271727979183197px 0.7246080040931702px 0px #00000003;
+    box-shadow: 0px 0.7512931227684021px 2.003448247909546px 0px #00000004;
+    box-shadow: 0px 1.8088244199752808px 4.823531627655029px 0px #00000005;
+    box-shadow: 0px 6px 16px 0px #00000008;
+}

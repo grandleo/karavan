@@ -11,7 +11,7 @@
     cursor: pointer;
 }
 .checkboxCustomActive {
-    border: 1px solid #2997A3;
+    border: 1px solid #1470C6;
 }
 .checkboxLabel {
     color: #364152;
@@ -36,20 +36,19 @@
     top: 20px;
 }
 .checkboxCustomActive .checkboxIcon{
-    color: #2997A3;
+    color: #1470C6;
 }
 
 .conditions {
     color: #A1A1AA;
-    text-Align: center;
-    font-Size: 14px;
-    font-Style: normal;
-    font-Weight: 400;
-    line-Height: 20px;
-    margin-top: 32px;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 10px;
 }
 
 .linkConditions{
-    color: #2997A3;
+    color: #1470C6;
     cursor: pointer;
 }

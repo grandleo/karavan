@@ -32,7 +32,6 @@ const handler = NextAuth({
     },
     callbacks: {
         async jwt({ token, user, account }: any) {
-            console.log(account)
             if (user?.id) token.id = user.id;
             if (user?.surname) token.surname = user.surname;
             if (user?.patronymic) token.patronymic = user.patronymic;
@@ -40,7 +39,6 @@ const handler = NextAuth({
             if (user?.accessToken) token.accessToken = user.accessToken;
             return token;
         },
-        // I'm adding some extra properties to the session... this is where you must add them
         async session({ session, token }: any) {
             if (token.id && session.user) session.user.id = token.id;
             if (token.role && session.user) session.user.role = token.role;
@@ -50,9 +48,7 @@ const handler = NextAuth({
             return session;
         },
     },
-    pages: {
-        signIn: '/login'
-    }
+
 });
 
 export {handler as GET, handler as POST}

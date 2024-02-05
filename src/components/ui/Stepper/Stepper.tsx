@@ -1,4 +1,4 @@
-import React, {ReactNode, useMemo, useState} from "react";
+import React, {ReactNode} from "react";
 import {Box, Text} from "@mantine/core";
 import classes from "./Stepper.module.css";
 
