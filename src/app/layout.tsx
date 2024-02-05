@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: 'Karavan.bz',
     description: 'Легкая оптовая торговля',
     icons: [
-        {rel: 'icon', url: './public/favicon.ico'}
+        {rel: 'icon', url: '/favicon.svg'}
     ],
 }
 
