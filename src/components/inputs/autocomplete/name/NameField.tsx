@@ -1,10 +1,8 @@
 import {Combobox, ScrollArea, TextInput, useCombobox} from "@mantine/core";
 import {useState} from "react";
-import {daData} from "@/config/daData";
+import {httpDaData} from "@/config/httpDaData";
 
-
-
-const NameAutocomplete = ({field, setField, error, clearErrors, setError}: any) => {
+const NameField = ({field, setField, error, clearErrors, setError}: NameFieldTypes) => {
     const combobox = useCombobox();
     const [data, setData] = useState([]);
     const [value, setValue] = useState('');
@@ -22,24 +20,22 @@ const NameAutocomplete = ({field, setField, error, clearErrors, setError}: any) 
     const handleChange = async (value: string) => {
         const input = value;
         const regex = /^[а-яё\s]+$/i;
-        const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
 
         if (!regex.test(input)) {
             setError('name', { type: 'custom', message: 'Пожалуйста, введите только символы кириллицы' });
         } else {
             clearErrors('name')
-            // field.onChange(value)
             setValue(value);
 
             if(value.length > 3){
-                await daData.post(url, JSON.stringify({query: value}))
-                    .then(function (response) {
-                        const {suggestions} = response.data
-                        setData(suggestions);
-                    })
-                    .catch(function (error) {
-                        console.log("error", error)
-                    });
+                await httpDaData.post('suggest/fio', {
+                    query: value
+                }).then(function (response) {
+                    const {suggestions} = response.data
+                    setData(suggestions);
+                }).catch(function (error) {
+                    console.log("error", error)
+                });
 
             }
         }
@@ -63,7 +59,6 @@ const NameAutocomplete = ({field, setField, error, clearErrors, setError}: any) 
                     onChange={(event) => {
                         field.onChange(event.currentTarget.value)
                         handleChange(event.currentTarget.value);
-                        // setValue(event.currentTarget.value);
                         combobox.openDropdown();
                         combobox.updateSelectedOptionIndex();
                     }}
@@ -86,4 +81,4 @@ const NameAutocomplete = ({field, setField, error, clearErrors, setError}: any) 
     )
 }
 
-export default NameAutocomplete;
+export default NameField;

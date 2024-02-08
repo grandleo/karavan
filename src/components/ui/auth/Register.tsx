@@ -1,13 +1,11 @@
 import {Box, Button, Flex, Input, Text, TextInput} from "@mantine/core";
 import React, {useState} from "react";
 import Stepper from "@/components/ui/Stepper/Stepper";
-import NameAutocomplete from "@/components/ui/form/nameAutoComplete";
 import {Controller, useForm} from "react-hook-form";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL, REGISTRATION_URL} from "@/config/apiRoutes";
 import EmailAutocomplete from "@/components/ui/form/emailAutoComplete";
 import {IMaskInput} from "react-imask";
-import classes from "@/components/screens/auth/auth.module.css";
 import TypeUserBtn from "@/components/ui/form/typeUserBtn";
 import CompanyAutocomplete from "@/components/ui/form/companyAutoComplete";
 import {IconInfoCircle} from "@tabler/icons-react";
@@ -15,6 +13,14 @@ import _ from "lodash";
 import {daData} from "@/config/daData";
 import {signIn} from "next-auth/react";
 import {ErrorNotifications} from "@/helpers/Notifications";
+import {CompanyField, NameField} from "@/components/inputs";
+import {httpDaData} from "@/config/httpDaData";
+
+interface CompanyProps {
+    unrestricted_value: string;
+    value: string;
+    data: any;
+}
 
 const Register = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -68,19 +74,26 @@ const Register = () => {
 
         switch (currentStep) {
             case 0:
-                // isValid = await trigger(["name", "email", "phone", "position"]);
                 isValid = await trigger(["name"]);
 
-                if (!isValid){
-                    break
-                }
+                if (!isValid) break
 
                 const name = getValues("name")
 
                 if(name != ''){
-                    const url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio";
 
-                    const {data} = _.head((await daData.post(url, JSON.stringify({ query: name }))).data?.suggestions);
+                    const {data: { suggestions }} = await  httpDaData.post('suggest/fio', {
+                        query: name
+                    })
+
+                    if (suggestions.length === 0) {
+                        isValid = false;
+                        setError('name', { type: 'custom', message: 'Что то пошло не так, напишите Имя и Фамилию правильно' });
+                        break;
+                    }
+
+                    const filteredSuggestions = _.filter(suggestions, { 'value': name });
+                    const {data} = _.head(filteredSuggestions)
 
                     if(_.isNull(data.name) || _.isNull(data.surname)){
                         isValid = false;
@@ -93,6 +106,29 @@ const Register = () => {
                 break;
             case 1:
                 isValid = await trigger(["inn"]);
+                const inn = getValues("inn");
+
+                if(inn.length !== 10){
+                    isValid = false;
+                    setError('inn', { type: 'custom', message: 'В поле должно быть 10 цифр инн, введите до конца или выберите в списке.' });
+                    break;
+                }
+
+                const {data: { suggestions }} = await httpDaData.post('suggest/party', {
+                    query: inn,
+                    "status": ["ACTIVE"]
+                })
+
+                if (suggestions.length === 0) {
+                    isValid = false;
+                    setError('inn', { type: 'custom', message: 'Введите действующий ИНН, или выберите в выподающем списке' });
+                    break;
+                }
+
+                const {data} : CompanyProps = _.head(suggestions) as CompanyProps;
+                setValue('company', data);
+                setValue('short_with_opf', data?.name.short_with_opf)
+
                 break;
             case 2:
                 isValid = await trigger(["city"]);
@@ -120,7 +156,7 @@ const Register = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <Stepper active={currentStep} steps={steps}>
                     <Stepper.Step>
                         <Controller
@@ -130,8 +166,7 @@ const Register = () => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <NameAutocomplete field={field} setField={setValue} setError={setError}
-                                                  clearErrors={clearErrors} error={errors?.name?.message}/>
+                                <NameField field={field} setField={setValue} error={errors?.name?.message} clearErrors={clearErrors} setError={setError}/>
                             )}
                         />
 
@@ -215,7 +250,7 @@ const Register = () => {
                                 required: "Поле обязательно для заполнения",
                             }}
                             render={({field}) => (
-                                <CompanyAutocomplete field={field} setField={setValue} error={errors?.inn?.message}/>
+                                <CompanyField field={field} setField={setValue} error={errors?.inn?.message}/>
                             )}
                         />
 
