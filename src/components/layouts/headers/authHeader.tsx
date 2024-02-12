@@ -9,8 +9,9 @@ const AuthHeaders = () => {
 
     return (
         <Flex justify="space-between" className={classes.root}>
-            <Image width={200} src="/images/logo-full.svg"/>
-
+            <Link href="/">
+                <Image width={200} src="/images/logo-full.svg"/>
+            </Link>
             {pathname == '/login' ? <NoAccount/> : <ThereIsAccount/>}
         </Flex>
     )

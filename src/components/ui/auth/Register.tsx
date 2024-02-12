@@ -7,13 +7,11 @@ import {CHECK_EMAIL_URL, REGISTRATION_URL} from "@/config/apiRoutes";
 import EmailAutocomplete from "@/components/ui/form/emailAutoComplete";
 import {IMaskInput} from "react-imask";
 import TypeUserBtn from "@/components/ui/form/typeUserBtn";
-import CompanyAutocomplete from "@/components/ui/form/companyAutoComplete";
 import {IconInfoCircle} from "@tabler/icons-react";
 import _ from "lodash";
-import {daData} from "@/config/daData";
 import {signIn} from "next-auth/react";
 import {ErrorNotifications} from "@/helpers/Notifications";
-import {CompanyField, NameField} from "@/components/inputs";
+import {CompanyField, EmailField, NameField, PhoneField} from "@/components/inputs";
 import {httpDaData} from "@/config/httpDaData";
 
 interface CompanyProps {
@@ -64,7 +62,7 @@ const Register = () => {
             })
             .catch(function (error) {
                 setLoading(false);
-                ErrorNotifications(error)
+                ErrorNotifications(error.response)
             });
     };
 
@@ -83,7 +81,7 @@ const Register = () => {
                 if(name != ''){
 
                     const {data: { suggestions }} = await  httpDaData.post('suggest/fio', {
-                        query: name
+                        query: name.trim()
                     })
 
                     if (suggestions.length === 0) {
@@ -92,7 +90,7 @@ const Register = () => {
                         break;
                     }
 
-                    const filteredSuggestions = _.filter(suggestions, { 'value': name });
+                    const filteredSuggestions = _.filter(suggestions, { 'value': name.trim() });
                     const {data} = _.head(filteredSuggestions)
 
                     if(_.isNull(data.name) || _.isNull(data.surname)){
@@ -100,6 +98,8 @@ const Register = () => {
                         setError('name', { type: 'custom', message: 'Что то пошло не так, напишите Имя и Фамилию правильно' });
                         break;
                     }
+
+                    setValue('fio', data);
                 }
 
                 isValid = await trigger(["position", "email", "phone"]);
@@ -163,6 +163,7 @@ const Register = () => {
                             name="name"
                             rules={{
                                 required: "Поле обязательно для заполнения",
+                                maxLength: {value: 100, message: "Максимальное кол-во символов 100"}
                             }}
                             control={control}
                             render={({field}) => (
@@ -174,6 +175,7 @@ const Register = () => {
                             name="position"
                             rules={{
                                 required: "Поле обязательно для заполнения",
+                                maxLength: {value: 50, message: "Максимальное кол-во символов 50"}
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
@@ -194,8 +196,9 @@ const Register = () => {
                             name="email"
                             rules={{
                                 required: "Поле обязательно для заполнения",
+                                maxLength: {value: 150, message: "Максимальное кол-во символов 150"},
                                 pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                    value: /^(?!.*--)[A-Za-zА-Яа-я0-9._%+-]+@[A-Za-zА-Яа-я0-9-]+(\.[A-Za-zА-Яа-я0-9]+)*\.[A-Za-zА-Яа-я]{2,}$/,
                                     message: "Введите email в правильном формате",
                                 },
                                 validate: async (value) => {
@@ -214,7 +217,7 @@ const Register = () => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <EmailAutocomplete field={field} errors={errors}/>
+                                <EmailField field={field} errors={errors}/>
                             )}
                         />
 
@@ -222,23 +225,11 @@ const Register = () => {
                             name="phone"
                             rules={{
                                 required: "Поле обязательно для заполнения",
+                                minLength: {value: 15, message: "Введите корректный номер телефона"}
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
-                                <>
-                                    <Input.Label>Телефон</Input.Label>
-                                    <Input component={IMaskInput}
-                                           mask="(000) 000-00-00"
-                                           placeholder="Укажите ваш телефон"
-                                           onBlur={onBlur}
-                                           onChange={(event) => {
-                                               onChange(event.currentTarget.value);
-                                           }}
-                                           value={value}
-                                           leftSection="+7"
-                                           error={!!errors?.phone?.message}
-                                    />
-                                </>
+                                <PhoneField onChange={onChange} onBlur={onBlur} value={value} error={errors?.phone?.message} />
                             )}
                         />
                     </Stepper.Step>

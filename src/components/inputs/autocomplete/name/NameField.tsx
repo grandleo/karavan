@@ -11,7 +11,7 @@ const NameField = ({field, setField, error, clearErrors, setError}: NameFieldTyp
 
     const options = filteredOptions.map((item: any, index: number) =>{
         return (
-            <Combobox.Option value={item.value} key={index} onClick={setField('fio', item.data)}>
+            <Combobox.Option value={item.value} key={index}>
                 {item.value}
             </Combobox.Option>
         )
@@ -19,17 +19,17 @@ const NameField = ({field, setField, error, clearErrors, setError}: NameFieldTyp
 
     const handleChange = async (value: string) => {
         const input = value;
-        const regex = /^[а-яё\s]+$/i;
+        const regex = /^[а-яё\- ]+$/i;
 
         if (!regex.test(input)) {
-            setError('name', { type: 'custom', message: 'Пожалуйста, введите только символы кириллицы' });
+            setError('name', { type: 'custom', message: 'Пожалуйста, введите только символы кириллицы и дефис' });
         } else {
             clearErrors('name')
             setValue(value);
 
             if(value.length > 3){
                 await httpDaData.post('suggest/fio', {
-                    query: value
+                    query: value.trim()
                 }).then(function (response) {
                     const {suggestions} = response.data
                     setData(suggestions);
@@ -37,6 +37,8 @@ const NameField = ({field, setField, error, clearErrors, setError}: NameFieldTyp
                     console.log("error", error)
                 });
 
+            } else {
+                setData([]);
             }
         }
     }
@@ -57,8 +59,8 @@ const NameField = ({field, setField, error, clearErrors, setError}: NameFieldTyp
                     placeholder="Введите ваше фио"
                     value={field.value}
                     onChange={(event) => {
-                        field.onChange(event.currentTarget.value)
-                        handleChange(event.currentTarget.value);
+                        field.onChange(event.currentTarget.value.trimStart().replace(/  +/g, ' '))
+                        handleChange(event.currentTarget.value.trimStart().replace(/  +/g, ' '));
                         combobox.openDropdown();
                         combobox.updateSelectedOptionIndex();
                     }}

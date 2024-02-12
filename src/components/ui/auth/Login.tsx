@@ -1,7 +1,6 @@
-import {Box, Button, Group, LoadingOverlay, PinInput, Text, TextInput} from "@mantine/core";
+import {Box, Button, Group, LoadingOverlay, PinInput, Text} from "@mantine/core";
 import {Controller, useForm} from "react-hook-form";
 import {Dispatch, FC, useEffect, useState} from "react";
-import EmailAutocomplete from "@/components/ui/form/emailAutoComplete";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL, CHECK_PIN_CODE, LOGIN_URL, SEND_PIN_CODE_URL} from "@/config/apiRoutes";
 import FormConditions from "@/components/ui/form/formConditions";
@@ -9,6 +8,7 @@ import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 import classes from "@/components/screens/auth/auth.module.css";
 import Link from "next/link";
+import {EmailField} from "@/components/inputs";
 
 const Login = () => {
     const [email, setEmail] = useState<string | null>(null);
@@ -70,7 +70,7 @@ const EmailForm = ({setEmail}: EmailProps) => {
                     name="email"
                     control={control}
                     render={({field}) => (
-                        <EmailAutocomplete field={field} errors={errors}/>
+                        <EmailField field={field} errors={errors}/>
                     )}
                 />
 
