@@ -1,0 +1,3 @@
+interface ClientsFilterTypes {
+    disable?: boolean;
+}

@@ -1,9 +1,5 @@
-import ClientsPage from "@/components/screens/admin/clientsPage";
+import {Clients} from "@/components/pages/admin/users";
 
 export default function Page () {
-    return (
-        <>
-            <ClientsPage/>
-        </>
-    )
+    return <Clients/>
 }

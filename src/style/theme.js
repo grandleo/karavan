@@ -3,9 +3,9 @@ import {
     Checkbox,
     Container,
     createTheme,
-    NumberInput,
+    NumberInput, Paper,
     SegmentedControl,
-    Switch,
+    Switch, Table,
     TextInput
 } from "@mantine/core";
 import {Inter} from "next/font/google";
@@ -82,6 +82,30 @@ const Theme = createTheme({
         SegmentedControl: SegmentedControl.extend({
             defaultProps: {
                 color: "#1470C6"
+            }
+        }),
+        Table: Table.extend({
+            styles: {
+                thead: {
+                    backgroundColor: 'rgb(239 239 239)',
+                },
+                th: {
+                    fontSize: '14px',
+                    fontWeight: 400,
+                    lineHeight: '20px',
+                    letterSpacing: 0,
+                    textAlign: 'left',
+                    height: '45px',
+                    whiteSpace: 'nowrap',
+                },
+            },
+        }),
+        Paper: Paper.extend({
+            styles: {
+                root: {
+                    boxShadow: '0px 0px 7px 0px rgba(0, 0, 0, 0.2)',
+                    // boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.12)',
+                }
             }
         })
     },

@@ -8,6 +8,36 @@ export const usersApi = api.injectEndpoints({
                 type: 'Users'
             }]
         }),
+        getUserForm: builder.query({
+            query: (id) => ({url: 'admin/users/get-user', method: 'post', data: {id: id}}),
+        }),
+        updateUser: builder.mutation( {
+            query: (data) => ({url: 'admin/users/update-user', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
+        deleteUser: builder.mutation({
+            query: (id) => ({url: 'admin/users/delete', method: 'post', data: {'user_id': id}}),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
+        getAdminUser: builder.query({
+            query: (id) => ({url: 'admin/users/get-admin', method: 'post', data: {id: id}}),
+        }),
+        addAdminUser: builder.mutation( {
+            query: (data) => ({url: 'admin/users/add-admin', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
+        updateAdminUser: builder.mutation( {
+            query: (data) => ({url: 'admin/users/update-admin', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
     })
 })
 

@@ -1,9 +1,5 @@
-import SuppliersPage from "@/components/screens/admin/suppliersPage";
+import {Suppliers} from "@/components/pages/admin/users";
 
 export default function Page () {
-    return (
-        <>
-            <SuppliersPage/>
-        </>
-    )
+    return <Suppliers/>
 }

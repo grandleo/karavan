@@ -11,7 +11,7 @@ import AddSpecification from "@/components/Specifications/form/AddSpecofication"
 import UpdateSpecification from "@/components/Specifications/form/UpdateSpecification";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {ISpecification} from "@/types/specification";
-import EmptyData from "@/components/EmptyData";
+import EmptyData from "../emptyData";
 
 const Specifications = () => {
     const [items, setItems] = useState<ISpecification[]>([]);

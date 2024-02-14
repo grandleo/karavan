@@ -1,9 +1,5 @@
-import LogisticsPage from "@/components/screens/admin/logisticsPage";
+import {Logistics} from "@/components/pages/admin/users";
 
 export default function Page () {
-    return (
-        <>
-            <LogisticsPage/>
-        </>
-    )
+    return <Logistics/>;
 }
