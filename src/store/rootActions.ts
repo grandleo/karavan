@@ -9,6 +9,7 @@ import {actions as clientsActions} from "@/store/slices/clientSlice";
 import {actions as logisticsActions} from "@/store/slices/logisticSlice";
 import {actions as suppliersActions} from "@/store/slices/supplierSlice";
 import {actions as adminsActions} from "@/store/slices/adminsSlice";
+import {actions as producerCountryActions} from "@/store/slices/producerCountrySlice";
 
 export const rootActions = {
     ...supplierStockActions,
@@ -21,5 +22,6 @@ export const rootActions = {
     ...clientsActions,
     ...logisticsActions,
     ...suppliersActions,
-    ...adminsActions
+    ...adminsActions,
+    ...producerCountryActions
 }

@@ -1,4 +1,4 @@
-import {Badge, NumberInput, Table, Text} from "@mantine/core";
+import {Badge, NumberInput, Table, Text, Image, Flex} from "@mantine/core";
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import {useEffect, useState} from "react";
@@ -59,9 +59,14 @@ const ProductItem = ({item, index}: ProductProps) => {
                     </Text>
                 </Table.Td>
                 <Table.Td>
-                    <Text className={classes.productName}>
-                        {item.product_name}
-                    </Text>
+                    <Flex gap={8} align="center">
+                        {item.country_icon && (
+                            <Image src={item.country_icon} width={18} height={18} fit="contain" alt={item.product_name}/>
+                        )}
+                        <Text className={classes.productName}>
+                            {item.product_name}
+                        </Text>
+                    </Flex>
                 </Table.Td>
                 <Table.Td>
                     <QtyInputStock id={item.product_id} qty={item.qty}/>

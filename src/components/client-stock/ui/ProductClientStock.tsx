@@ -1,5 +1,5 @@
 import {ProductProps} from "@/components/client-stock/types";
-import {Box, Button, Flex, NumberFormatter, NumberInput, Table, Text} from "@mantine/core";
+import {Box, Button, Flex, NumberFormatter, NumberInput, Table, Text, Image} from "@mantine/core";
 import {IconShoppingCart} from "@tabler/icons-react";
 import {Controller, useForm} from "react-hook-form";
 import {useEffect} from "react";
@@ -61,7 +61,27 @@ const ProductClientStock = ({product} : ProductProps) => {
         <Table.Tr className={classes.product}>
             <Table.Td>
                 <Text className={classes.name}>
-                    {product.name}
+
+                    <Flex gap={8} align="start">
+                        {product.country_icon && (
+                            <Image src={product.country_icon} width={18} height={18} fit="contain" alt={product.name}/>
+                        )}
+                        <Box>
+                            <Text className={classes.name}>
+                                {product.name}
+                            </Text>
+
+                            <Text className={classes.article}>
+                                Артикул: <span>{product.article}</span>
+                            </Text>
+                            {product?.period_validity && (
+                                <Text className={classes.article}>
+                                    Срок годности: <span>{product?.period_validity}</span>
+                                </Text>
+                            )}
+
+                        </Box>
+                    </Flex>
                 </Text>
                 <Text className={classes.article}>
                     Артикул: <span>{product.article}</span>

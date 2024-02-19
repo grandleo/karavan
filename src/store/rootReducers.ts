@@ -11,6 +11,7 @@ import {reducer as clientsReducer} from "@/store/slices/clientSlice";
 import {reducer as logisticsReducer} from "@/store/slices/logisticSlice";
 import {reducer as suppliersReducer} from "@/store/slices/supplierSlice";
 import {reducer as adminsReducer} from "@/store/slices/adminsSlice";
+import {reducer as producerCountryReducer} from "@/store/slices/producerCountrySlice";
 
 export const rootReducers = combineReducers({
     [api.reducerPath]: api.reducer,
@@ -25,4 +26,5 @@ export const rootReducers = combineReducers({
     logistics: logisticsReducer,
     suppliers: suppliersReducer,
     admins: adminsReducer,
+    producerCountries: producerCountryReducer,
 })

@@ -1,4 +1,4 @@
-import {Paper, Table} from "@mantine/core";
+import {Flex, Image, Paper, Table, Text} from "@mantine/core";
 import QtyInputStock from "@/components/screens/supplier/stock/components/form/QtyInputStock";
 import PriceInputStock from "@/components/screens/supplier/stock/components/form/PriceInputStock";
 import {IconCalendar} from "@tabler/icons-react";
@@ -10,6 +10,7 @@ import {useAddProductForSupplierStockMutation} from "@/store/api/supplier/stockS
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import _ from "lodash";
+import classes from "@/components/screens/supplier/stock/components/stock.module.css";
 
 interface Props {
     products: [];
@@ -20,28 +21,28 @@ const ProductsStock = ({products} : Props) => {
 
     return (
         <>
-        <Paper shadow="xs">
-            <Table>
-                <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>№</Table.Th>
-                        <Table.Th>Наименование</Table.Th>
-                        {hasRequiredPeriodValidityOne && (
-                            <Table.Th>Срок годности</Table.Th>
-                        )}
-                        <Table.Th>На складе</Table.Th>
-                        <Table.Th>Цена</Table.Th>
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                    {products?.map((product: any, index: number) => {
-                        return (
-                            <ProductItem key={index} item={product} index={index+1}/>
-                        )
-                    })}
-                </Table.Tbody>
-            </Table>
-        </Paper>
+            <Paper shadow="xs">
+                <Table>
+                    <Table.Thead>
+                        <Table.Tr>
+                            <Table.Th>№</Table.Th>
+                            <Table.Th>Наименование</Table.Th>
+                            {hasRequiredPeriodValidityOne && (
+                                <Table.Th>Срок годности</Table.Th>
+                            )}
+                            <Table.Th>На складе</Table.Th>
+                            <Table.Th>Цена</Table.Th>
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                        {products?.map((product: any, index: number) => {
+                            return (
+                                <ProductItem key={index} item={product} index={index+1}/>
+                            )
+                        })}
+                    </Table.Tbody>
+                </Table>
+            </Paper>
         </>
     )
 }
@@ -58,7 +59,18 @@ const ProductItem = ({item, index}: ProductProps) => {
         <>
             <Table.Tr>
                 <Table.Td>{index}</Table.Td>
-                <Table.Td>{item.name}</Table.Td>
+                <Table.Td>
+
+                    <Flex gap={8} align="center">
+                        {item.country_icon && (
+                            <Image src={item.country_icon} width={18} height={18} fit="contain" alt={item.name}/>
+                        )}
+                        <Text className={classes.productName}>
+                            {item.name}
+                        </Text>
+                    </Flex>
+
+                </Table.Td>
                 {hasRequiredPeriodValidity && (
                     <Table.Td>
                         <PeriodValidity id={item.id} period_validity={item.period_validity}/>
