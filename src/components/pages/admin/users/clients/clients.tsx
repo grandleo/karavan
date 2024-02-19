@@ -1,6 +1,6 @@
 'use client'
 
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../../../../simplePage";
 import {useGetUsersQuery} from "@/store/api/admin/users.api";
 import {Paper, Table} from "@mantine/core";
 import ClientRow from "@/components/pages/admin/users/clients/components/clientRow";

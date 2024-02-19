@@ -2,7 +2,7 @@
 
 import React from "react";
 import AddWarehouse from "@/components/features/Warehouses/AddWarehouse";
-import Page from "@/components/ui/page/SimplePage";
+import Page from "../../../../simplePage";
 
 export const WarehousesPage = () => {
 

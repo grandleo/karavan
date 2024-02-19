@@ -1,10 +1,10 @@
 import {ReactNode} from "react";
-import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageHeader from "@/components/ui/page/pageHeader";
-import PageContent from "@/components/ui/page/pageContent";
+import PageWrapper from "@/components/simplePage/pageWrapper";
+import PageHeader from "@/components/simplePage/pageHeader";
+import PageContent from "@/components/simplePage/pageContent";
 import {LoadingOverlay} from "@mantine/core";
 
-interface SimplePage {
+interface Index {
     children: ReactNode,
     // headerChildrenLeft?: () => JSX.Element | ReactNode,
     headerChildrenLeft?(): ReactNode,
@@ -19,7 +19,7 @@ interface SimplePage {
 
 }
 
-const SimplePage = ({children, title, isLoading, pageSetting, headerChildrenLeft, headerChildren}: SimplePage) => {
+const SimplePage = ({children, title, isLoading, pageSetting, headerChildrenLeft, headerChildren}: Index) => {
     return (
         <PageWrapper>
             <LoadingOverlay visible={pageSetting?.isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />

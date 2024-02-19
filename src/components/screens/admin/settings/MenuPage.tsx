@@ -20,7 +20,7 @@ import {TreeSortable} from "@/components/ui/sortableList/TreeSortable";
 
 import classes from "./_components/settings.module.css";
 import {IconChevronRight, IconEdit} from "@tabler/icons-react";
-import Page from "@/components/ui/page/SimplePage";
+import Page from "../../../simplePage";
 import {useDisclosure} from "@mantine/hooks";
 
 interface Role {

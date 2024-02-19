@@ -10,7 +10,7 @@ import ProductsStock from "@/components/screens/supplier/stock/components/Produc
 import {useSelector} from "react-redux";
 import {getSupplierStock} from "@/store/slices/supplierStockSlice";
 import {useActions} from "@/hooks/useActions";
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../../../../simplePage";
 
 interface Props {
     warehouse_id: number;

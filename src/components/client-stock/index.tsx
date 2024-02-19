@@ -2,7 +2,7 @@
 
 import {useParams} from "next/navigation";
 import {Box, Flex, ScrollArea} from "@mantine/core";
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../simplePage";
 import CategoriesTree from "@/components/CategoriesTree";
 import {useGetCityCategoriesQuery} from "@/store/api/stock";
 import classes from "./client-stock.module.css";

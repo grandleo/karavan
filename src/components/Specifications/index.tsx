@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {useDisclosure} from "@mantine/hooks";
 import {useGetSpecificationsQuery, useSetSortSpecificationMutation} from "@/store/api/admin/specifications.api";
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../simplePage";
 import {TreeSortable} from "@/components/ui/sortableList/TreeSortable";
 import {TreeItem} from "@/components/ui/sortableList/TreeItem";
 import SpecificationItem from "@/components/Specifications/ui/SpecificationItem";

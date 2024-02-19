@@ -1,7 +1,7 @@
 'use client'
 
 import {useGetOrdersForLogisticQuery} from "@/store/api/logistic/orders.api";
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../../simplePage";
 import {Button, NumberInput, Paper, Radio, Table, Text} from "@mantine/core";
 import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";

@@ -1,7 +1,7 @@
 'use client'
 
 import {Box, Flex, ScrollArea} from "@mantine/core";
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../simplePage";
 import ExternalOrderCard from "@/components/orders/ExternalOrderCard";
 import Order from "@/components/orders/Order";
 import classes from "./orders.module.css";

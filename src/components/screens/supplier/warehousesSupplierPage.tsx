@@ -9,9 +9,9 @@ import {TimeInput} from "@mantine/dates";
 import {IconClock} from "@tabler/icons-react";
 import {Controller, useForm} from "react-hook-form";
 import {useCreateWarehouseMutation, useGetWarehousesQuery} from "@/store/api/warehouses.api";
-import PageHeader from "@/components/ui/page/pageHeader";
-import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageContent from "@/components/ui/page/pageContent";
+import PageHeader from "@/components/simplePage/pageHeader";
+import PageWrapper from "@/components/simplePage/pageWrapper";
+import PageContent from "@/components/simplePage/pageContent";
 
 const WarehousesSupplierPage = () => {
     const [active, setActive] = useState(0);

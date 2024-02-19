@@ -1,9 +1,9 @@
 'use client'
 
 import {Button, Flex, LoadingOverlay, Text} from "@mantine/core";
-import PageHeader from "@/components/ui/page/pageHeader";
-import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageContent from "@/components/ui/page/pageContent";
+import PageHeader from "@/components/simplePage/pageHeader";
+import PageWrapper from "@/components/simplePage/pageWrapper";
+import PageContent from "@/components/simplePage/pageContent";
 import NoProductsStock from "@/components/screens/supplier/stock/components/NoProductsStock";
 import {useGetWarehouseQuery} from "@/store/api/warehouses.api";
 import {useEffect, useState} from "react";

@@ -1,6 +1,6 @@
 'use client'
 
-import SimplePage from "@/components/ui/page/SimplePage";
+import SimplePage from "../../../../simplePage";
 import LogisticsFilter from "./componets/logisticsFilter";
 import {Paper, Table} from "@mantine/core";
 import {useSelector} from "react-redux";

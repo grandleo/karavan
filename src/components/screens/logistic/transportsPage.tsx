@@ -1,8 +1,8 @@
 'use client'
 
 import {Paper, Text} from "@mantine/core";
-import PageWrapper from "@/components/ui/page/pageWrapper";
-import PageContent from "@/components/ui/page/pageContent";
+import PageWrapper from "@/components/simplePage/pageWrapper";
+import PageContent from "@/components/simplePage/pageContent";
 import PrimaryBtn from "@/components/ui/btn/primaryBtn";
 const TransportsPage = () => {
     return (
