@@ -24,6 +24,7 @@ const AddSpecification = () => {
             name: '',
             required: 1,
             use_product_name: 0,
+            use_product_card: 0,
             type_choice: 'single',
             values: []
         }
@@ -83,6 +84,12 @@ const AddSpecification = () => {
                             <Checkbox
                                 {...register("use_product_name")}
                                 label="Участвует в формировании названия"
+                                mb={{ base: 10 }}
+                            />
+
+                            <Checkbox
+                                {...register("use_product_card")}
+                                label="Выводить в карточке товара"
                                 mb={{ base: 10 }}
                             />
 

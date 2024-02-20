@@ -79,8 +79,8 @@
 	border: 1px solid #E4E4E7;
 	background: #FFF;
 	display: flex;
+	flex-direction: column;
 	flex-wrap: nowrap;
-	align-items: center;
 	padding: 12px 24px 12px 12px;
 }
 
@@ -94,4 +94,30 @@
 
 .selectSpecificationOptionValue{
 	flex-grow: 1;
+}
+
+.specificationItem {
+	position: relative;
+	padding-right: 10px;
+}
+
+/*.specificationItem:after{*/
+/*	content: "";*/
+/*	position: absolute;*/
+/*	right: 0;*/
+/*	top: 0;*/
+/*	bottom: 0;*/
+/*	width: 1px; !* Ширина разделителя *!*/
+/*	background-color: black; !* Цвет разделителя *!*/
+/*}*/
+
+.specificationItem:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 1px; /* Ширина разделителя */
+	background-color: black; /* Цвет разделителя */
+	margin-left: 15px;
 }

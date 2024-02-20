@@ -80,6 +80,13 @@ const ProductClientStock = ({product} : ProductProps) => {
                                 </Text>
                             )}
 
+                            {product.specifications_to_card?.map( (item, index) => {
+                                return (
+                                    <Text className={classes.article} key={index}>
+                                        {item.label}: <span>{item.value}</span>
+                                    </Text>
+                                )
+                            } )}
                         </Box>
                     </Flex>
                 </Text>

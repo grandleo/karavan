@@ -30,6 +30,7 @@ const UpdateSpecification = ({opened, close} : UpdateSpecificationProps) => {
             name: '',
             required: 1,
             use_product_name: 0,
+            use_product_card: 0,
             type_choice: 'single',
             values: []
         }
@@ -41,6 +42,7 @@ const UpdateSpecification = ({opened, close} : UpdateSpecificationProps) => {
             setValue('name', data.name)
             setValue('required', data.required)
             setValue('use_product_name', data.use_product_name)
+            setValue('use_product_card', data.use_product_card)
             setValue('type_choice', data.type_choice)
             setValue('values', data.values)
         }
@@ -99,6 +101,12 @@ const UpdateSpecification = ({opened, close} : UpdateSpecificationProps) => {
                             <Checkbox
                                 {...register("use_product_name")}
                                 label="Участвует в формировании названия"
+                                mb={{ base: 10 }}
+                            />
+
+                            <Checkbox
+                                {...register("use_product_card")}
+                                label="Выводить в карточке товара"
                                 mb={{ base: 10 }}
                             />
 

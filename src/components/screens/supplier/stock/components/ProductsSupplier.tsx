@@ -67,6 +67,13 @@ const ProductItem = ({item, index}: ProductProps) => {
                             {item.product_name}
                         </Text>
                     </Flex>
+                    {item.specifications_to_card?.map( (item, index) => {
+                        return (
+                            <Text className={classes.article} key={index}>
+                                {item.label}: <span>{item.value}</span>
+                            </Text>
+                        )
+                    } )}
                 </Table.Td>
                 <Table.Td>
                     <QtyInputStock id={item.product_id} qty={item.qty}/>

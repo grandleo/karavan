@@ -70,6 +70,13 @@ const ProductItem = ({item, index}: ProductProps) => {
                         </Text>
                     </Flex>
 
+                    {item.specifications_to_card?.map( (item, index) => {
+                        return (
+                            <Text className={classes.article} key={index}>
+                                {item.label}: <span>{item.value}</span>
+                            </Text>
+                        )
+                    } )}
                 </Table.Td>
                 {hasRequiredPeriodValidity && (
                     <Table.Td>
