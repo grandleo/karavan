@@ -1,0 +1,3 @@
+interface AuthCheckCodeTypes {
+    onSubmit: any;
+}

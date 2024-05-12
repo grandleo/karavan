@@ -12,6 +12,9 @@ import {reducer as logisticsReducer} from "@/store/slices/logisticSlice";
 import {reducer as suppliersReducer} from "@/store/slices/supplierSlice";
 import {reducer as adminsReducer} from "@/store/slices/adminsSlice";
 import {reducer as producerCountryReducer} from "@/store/slices/producerCountrySlice";
+import {reducer as productReducer} from "@/store/slices/productSlice"
+import {reducer as warehouseReducer} from "@/store/slices/warehouseSlice";
+import {reducer as botsApiReducer} from "@/store/slices/botsApiSlice";
 
 export const rootReducers = combineReducers({
     [api.reducerPath]: api.reducer,
@@ -27,4 +30,8 @@ export const rootReducers = combineReducers({
     suppliers: suppliersReducer,
     admins: adminsReducer,
     producerCountries: producerCountryReducer,
+    products: productReducer,
+    //Оптимизировано
+    warehouse: warehouseReducer,
+    botApi: botsApiReducer
 })

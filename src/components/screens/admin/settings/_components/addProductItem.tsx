@@ -69,7 +69,6 @@ const AddProductItem = ({selectedCategory}: Props) => {
 
     const onSubmit = async (data: any) => {
         createProduct(data).then(() => {
-            console.log('товар добавлен')
         })
     }
 

@@ -10,11 +10,6 @@ export interface SelectWarehouseProps {
     warehouses: IWarehouse[]
 }
 
-interface IWarehouse {
-    id: number,
-    address: string,
-}
-
 export interface IProduct {
     "id": number,
     "product_id": number,

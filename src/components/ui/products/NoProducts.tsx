@@ -1,15 +1,15 @@
 import {Box, Text} from "@mantine/core";
 import {IconCurrencyDollar} from "@tabler/icons-react";
 import classes from "./productsList.module.css";
-import AddProductItem from "@/components/ui/products/AddProductItem";
-import {useSelector} from "react-redux";
-import {getCategoriesState} from "@/store/slices/categorySlice";
+import ProductForm from "@/components/ui/products/ProductForm";
 
 interface Props {
-
+    opened: boolean,
+    open: () => void,
+    close: () => void
 }
 
-const NoProducts = () => {
+const NoProducts = ({opened = false, open, close} : Props) => {
 
     return (
         <>
@@ -23,7 +23,7 @@ const NoProducts = () => {
                 </Box>
 
                 <Box>
-                    <AddProductItem/>
+                    <ProductForm showButton={true} opened={opened} open={open} close={close}/>
                 </Box>
             </Box>
         </>

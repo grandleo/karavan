@@ -1,12 +1,15 @@
 import {api} from "@/store/api/api";
 import {
-    CREATE_WAREHOUSE_USER, GET_DAYS_WEEK, GET_WAREHOUSE,
-    GET_WAREHOUSES_USER, SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE, SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE
+    GET_DAYS_WEEK,
+    GET_WAREHOUSE,
+    GET_WAREHOUSES_USER,
+    SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE,
+    SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE
 } from "@/config/apiRoutes";
 
 export const WarehousesApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getCity:  builder.query({
+        getCity: builder.query({
             query: (data) => ({url: 'warehouses/get-city', method: 'post', data: data}),
         }),
         getWarehouses: builder.query({
@@ -27,10 +30,6 @@ export const WarehousesApi = api.injectEndpoints({
                 type: 'Warehouse'
             }]
         }),
-        createWarehouse: builder.mutation({
-            query: (data) => ({url: CREATE_WAREHOUSE_USER, method: 'post', data: data}),
-            invalidatesTags: ['Warehouses', 'MenuItems'],
-        }),
         addPriceWarehouseProduct: builder.mutation({
             query: (data) => ({url: SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE, method: 'post', data: data}),
             invalidatesTags: () => [{
@@ -46,6 +45,20 @@ export const WarehousesApi = api.injectEndpoints({
         getCitiesWarehouse: builder.query({
             query: () => ({url: 'warehouses/get-cities', method: 'get'}),
         }),
+
+
+        createWarehouse: builder.mutation({
+            query: (data) => ({url: 'warehouses/warehouse', method: 'post', data: data}),
+            invalidatesTags: ['Warehouses', 'MenuItems'],
+        }),
+        updateWarehouse: builder.mutation({
+            query: (data) => ({url: 'warehouses/warehouse/update', method: 'post', data: data}),
+            invalidatesTags: ['Warehouses', 'MenuItems'],
+        }),
+        deleteWarehouse: builder.mutation({
+            query: (id) => ({url: 'warehouses/warehouse/delete', method: 'post', data: {id: id}}),
+            invalidatesTags: ['Warehouses', 'MenuItems'],
+        })
     })
 })
 
@@ -55,6 +68,8 @@ export const {
     useGetDaysOfWeekQuery,
     useGetWarehouseQuery,
     useCreateWarehouseMutation,
+    useUpdateWarehouseMutation,
+    useDeleteWarehouseMutation,
     useGetCitiesWarehouseQuery,
     useAddPriceWarehouseProductMutation,
     useAddQtyWarehouseProductMutation

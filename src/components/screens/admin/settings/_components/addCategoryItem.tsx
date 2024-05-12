@@ -48,9 +48,7 @@ const AddCategoryItem = ({selectedCategory}: Props) => {
     });
 
     const onSubmit = async (data: any) => {
-        // console.log(data)
         createCategory(data).then(() => {
-            console.log('ура')
         })
     }
 

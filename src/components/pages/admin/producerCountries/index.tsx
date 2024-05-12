@@ -3,13 +3,13 @@
 import SimplePage from "@/components/simplePage";
 import AddOrUpdateProducerCountry from "./components/addOrUpdateProducerCountry";
 import {useGetProducerCountriesQuery, useSetSortProducerCountryMutation} from "@/store/api/admin/producerCountry.api";
-import ProducerCountry from "@/components/pages/admin/setting/producerCountries/components/producerCountry";
 import {TreeSortable} from "@/components/ui/sortableList/TreeSortable";
 import {useEffect, useState} from "react";
 import {TreeItem} from "@/components/ui/sortableList/TreeItem";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import EmptyData from "@/components/emptyData";
 import {useDisclosure} from "@mantine/hooks";
+import ProducerCountry from "@/components/pages/admin/producerCountries/components/producerCountry";
 
 const ProducerCountries = () => {
     const [opened, { open, close }] = useDisclosure(false);

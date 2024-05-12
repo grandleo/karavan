@@ -1,6 +1,6 @@
 import NoProducts from "@/components/ui/products/NoProducts";
 import {useDeleteProductMutation, useGetProductsQuery} from "@/store/api/admin/products.api";
-import {ActionIcon, Box, Flex, LoadingOverlay, Menu, rem, ScrollArea, Text} from "@mantine/core";
+import {ActionIcon, Box, Flex, Image, LoadingOverlay, Menu, rem, ScrollArea, Text} from "@mantine/core";
 import classes from "./productsList.module.css";
 import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
 import React from "react";
@@ -44,17 +44,17 @@ const ProductsList = ({}: Props) => {
 
 const Products = ({products, open}: any) => {
 
-    return (
-        <>
-            <Box className={classes.productsList}>
-                {products?.map((item: IProduct, index: number) => {
-                    return (
-                        <ProductItem key={index} product={item} open={open}/>
-                    )
-                })}
-            </Box>
-        </>
-    )
+   return (
+       <>
+           <Box className={classes.productsList}>
+               {products?.map((item: IProduct, index: number) => {
+                   return (
+                       <ProductItem key={index} product={item} open={open}/>
+                   )
+               })}
+           </Box>
+       </>
+   )
 }
 
 const ProductItem = ({product, open}: any) => {
@@ -81,9 +81,14 @@ const ProductItem = ({product, open}: any) => {
         <>
             <Box className={classes.productItem}>
                 <Flex>
-                    <Box className={classes.productItemName}>
-                        <Text>{product.name}</Text>
-                    </Box>
+                    <Flex gap={5}>
+                        {product.country_icon && (
+                            <Image src={product.country_icon} width={18} height={18} fit="contain" alt={product.name}/>
+                        )}
+                        <Box className={classes.productItemName}>
+                            <Text>{product.name}</Text>
+                        </Box>
+                    </Flex>
                     <Menu shadow="md" width={200}>
                         <Menu.Target>
                             <ActionIcon variant="default" color="rgba(255, 255, 255, 1)" aria-label="Settings" className={classes.itemMenu}>

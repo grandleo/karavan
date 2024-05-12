@@ -1,18 +1,29 @@
 import axios from "axios";
-import { getSession } from 'next-auth/react'
+import {getAccessToken} from "@/helpers/auth";
 
-const session = getSession();
 const http = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
         'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Origin': '*',
     },
 });
 
-const setToken = (token: string) => {
-    http.defaults.headers.common['Authorization'] = `Bearer ${token}`
-}
+http.interceptors.request.use(
+    async (config) => {
+        const accessToken = await getAccessToken();
 
-export { http, setToken }
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export { http }

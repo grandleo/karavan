@@ -1,0 +1,3 @@
+interface AuthLoginTypes {
+    onSubmit: any;
+}

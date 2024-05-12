@@ -1,21 +1,62 @@
 import {api} from "@/store/api/api";
-import {CREATE_WAREHOUSE_USER, GET_CATEGORIES_FOR_SUPPLIER_STOCK} from "@/config/apiRoutes";
 import echo from "@/config/laravel-echo";
-import {Channel} from "laravel-echo";
-import _ from "lodash";
 
 export const stockSupplierApi = api.injectEndpoints({
     endpoints: (builder) => ({
+        fetchSupplierStock: builder.query({
+            query: (data) => ({url: 'supplier/stock', method: 'post', data: data}),
+            providesTags: () => [{
+                type: 'SupplierStock'
+            }],
+            // async onCacheEntryAdded(data, { dispatch }) {
+            //     echo.channel('Stock').listen('UpdateStockEvent', (data) => {
+            //         dispatch(api.util?.invalidateTags(['StockSupplier']))
+            //     });
+            // }
+        }),
+        getCategoriesWithProducts: builder.query({
+            query: () => ({
+                url: 'supplier/stock/get-categories-with-products',
+                method: 'get',
+            })
+        }),
+        getSubCategoriesWithProducts: builder.query({
+            query: (id) => ({
+                url: 'supplier/stock/get-subcategories-with-products',
+                method: 'post',
+                data: { parent_id: id }
+            })
+        }),
+        getCategoryProducts: builder.query({
+            query: (id) => ({
+                url: 'supplier/stock/get-category-products',
+                method: 'post',
+                data: { category_id: id }
+            })
+        }),
+        addProductToSupplierStock: builder.mutation({
+            query: (data) => ({url: 'supplier/stock/add-product', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'SupplierStock'
+            }]
+        }),
+        updateProductToSupplierStock: builder.mutation({
+            query: (data) => ({url: 'supplier/stock/update-product', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'SupplierStock'
+            }]
+        }),
+        //Ниже старый код.
         getStockSupplier: builder.query({
             query: (dataQ) => ({url: 'supplier/stock', method: 'post', data: dataQ}),
             providesTags: () => [{
                 type: 'StockSupplier'
             }],
-            async onCacheEntryAdded(data, { dispatch }) {
-                echo.channel('Stock').listen('UpdateStockEvent', (data) => {
-                    dispatch(api.util?.invalidateTags(['StockSupplier']))
-                });
-            }
+            // async onCacheEntryAdded(data, { dispatch }) {
+            //     echo.channel('Stock').listen('UpdateStockEvent', (data) => {
+            //         dispatch(api.util?.invalidateTags(['StockSupplier']))
+            //     });
+            // }
         }),
         getCategoriesForSupplierStock: builder.query({
             query: () => ({url: 'supplier/stock/add/get-categories', method: 'get'}),
@@ -39,6 +80,14 @@ export const stockSupplierApi = api.injectEndpoints({
 })
 
 export const {
+    useFetchSupplierStockQuery,
+    useGetCategoriesWithProductsQuery,
+    useLazyGetSubCategoriesWithProductsQuery,
+    useLazyGetCategoryProductsQuery,
+    useAddProductToSupplierStockMutation,
+    useUpdateProductToSupplierStockMutation,
+
+
     useGetStockSupplierQuery,
     useGetCategoriesForSupplierStockQuery,
     useGetCategoryProductsForSupplierStockQuery,

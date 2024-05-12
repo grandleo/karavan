@@ -48,9 +48,7 @@ const SpecificationItem: FC<SpecificationItemProps> = ({item}) => {
     });
 
     const onSubmit = async (data: any) => {
-        console.log(data)
         updateSpecification(data).then(() => {
-            console.log('ура')
         })
     }
 
@@ -190,7 +188,6 @@ const AddValues = ({id_specification}: any) => {
     };
 
     const onSubmit = async (data: any) => {
-        console.log(id_specification)
         AddSpecificationValues({id_specification: id_specification, values: values})
     }
 

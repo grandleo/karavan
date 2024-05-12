@@ -1,0 +1,3 @@
+interface AuthRegisterTypes {
+    onSubmit: any;
+}

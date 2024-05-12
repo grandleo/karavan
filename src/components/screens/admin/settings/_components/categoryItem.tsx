@@ -60,7 +60,6 @@ const CategoryItem: FC<CategoryItemProps> = ({item, select}) => {
 
     const onSubmit = async (data: any) => {
         updateCategory(data).then(() => {
-            console.log('ура')
         })
     }
 

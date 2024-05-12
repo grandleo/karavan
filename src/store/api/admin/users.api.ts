@@ -3,7 +3,7 @@ import {api} from "@/store/api/api";
 export const usersApi = api.injectEndpoints({
     endpoints: (builder) => ({
         getUsers: builder.query({
-            query: (role) => ({url: 'admin/get-users', method: 'post', data: {'role': role}}),
+            query: (data) => ({url: 'admin/get-users', method: 'post', data: data}),
             providesTags: () => [{
                 type: 'Users'
             }]
@@ -38,9 +38,31 @@ export const usersApi = api.injectEndpoints({
                 type: 'Users'
             }]
         }),
+        getUserStatuses: builder.query({
+            query: () => ({url: 'admin/user-statuses', method: 'get'}),
+            providesTags: ['UserStatuses'],
+        }),
+        changeUserStatus: builder.mutation({
+            query: (data) => ({url: 'admin/users/change-status', method: 'post', data: data}),
+            invalidatesTags: () => [{
+                type: 'Users'
+            }]
+        }),
+        getUserVerifyInfo: builder.query({
+            query: (id) => ({url: 'admin/users/get-verify-info', method: 'post', data: {user_id: id}}),
+        }),
     })
 })
 
 export const {
     useGetUsersQuery,
+    useGetUserFormQuery,
+    useUpdateUserMutation,
+    useDeleteUserMutation,
+    useGetAdminUserQuery,
+    useAddAdminUserMutation,
+    useUpdateAdminUserMutation,
+    useGetUserStatusesQuery,
+    useChangeUserStatusMutation,
+    useGetUserVerifyInfoQuery
 } = usersApi

@@ -10,6 +10,9 @@ import {actions as logisticsActions} from "@/store/slices/logisticSlice";
 import {actions as suppliersActions} from "@/store/slices/supplierSlice";
 import {actions as adminsActions} from "@/store/slices/adminsSlice";
 import {actions as producerCountryActions} from "@/store/slices/producerCountrySlice";
+import {actions as productActions} from "@/store/slices/productSlice";
+import {actions as warehouseActions} from "@/store/slices/warehouseSlice";
+import {actions as botsApiActions} from "@/store/slices/botsApiSlice";
 
 export const rootActions = {
     ...supplierStockActions,
@@ -23,5 +26,10 @@ export const rootActions = {
     ...logisticsActions,
     ...suppliersActions,
     ...adminsActions,
-    ...producerCountryActions
+    ...producerCountryActions,
+    ...productActions,
+    //Оптимизировано
+    ...warehouseActions,
+    ...botsApiActions
+
 }

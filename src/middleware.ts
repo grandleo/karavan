@@ -1,53 +1,49 @@
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from 'next/server';
-import { getToken } from "next-auth/jwt";
-import {setToken} from "@/config/http";
-import {getSession} from "next-auth/react";
+import {NextRequest, NextResponse} from "next/server";
+import {getSession} from "@/helpers/auth";
 
-export default withAuth(
-    // `withAuth` augments your `Request` with the user's token.
-    async function middleware(req) {
-        const token = await getToken({ req })
-        const isAuth = !!token
-
-        if(!isAuth && (req.nextUrl.pathname.startsWith('/admin') || req.nextUrl.pathname.startsWith('/client') || req.nextUrl.pathname.startsWith('/logistic') || req.nextUrl.pathname.startsWith('/supplier'))){
-            return NextResponse.redirect(new URL('/', req.url))
-        }
-
-        // if (isAuth && req.nextUrl.pathname.startsWith('/login')) {
-        //     return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        // }
-
-        // if (isAuth && req.nextUrl.pathname.startsWith('/registration')) {
-        //     return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        // }
-
-        if (req.nextUrl.pathname.startsWith('/admin') && req.nextauth.token?.role !== 'admin') {
-            return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        }
-
-        if (req.nextUrl.pathname.startsWith('/client') && req.nextauth.token?.role !== 'client') {
-            return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        }
-
-        if (req.nextUrl.pathname.startsWith('/supplier') && req.nextauth.token?.role !== 'supplier') {
-            return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        }
-
-        if (req.nextUrl.pathname.startsWith('/logistic') && req.nextauth.token?.role !== 'logistic') {
-            return NextResponse.redirect(new URL('/'+req.nextauth.token?.role, req.url))
-        }
-
-
+interface ISession {
+    user: {
+        role: string;
+        accessToken: string;
     },
-    {
-        pages: {
-            signIn: '/'
-        },
-        callbacks: {
-            authorized: ({ token }) => !!token,
-        },
-    },
-)
+    expires: number;
+    iat: number;
+    exp: number;
+}
 
-export const config = { matcher: ["/login/:path*", "/client/:path*", "/supplier/:path*", "/logistic/:path*", "/admin/:path*"] }
+export async function middleware(request: NextRequest) {
+    const public_url = process.env.NEXT_PUBLIC_URL + '/'
+
+    const session : ISession | null  = await getSession();
+
+    const role = session?.user.role;
+    const accessToken = session?.user.accessToken;
+
+    if(role) {
+        if ((request.nextUrl.href === public_url) && accessToken) {
+            return NextResponse.redirect(new URL('/'+role, request.url))
+        }
+
+        if (request.nextUrl.pathname.startsWith('/admin') && role !== 'admin') {
+            return NextResponse.redirect(new URL('/'+role, request.url))
+        }
+
+        if (request.nextUrl.pathname.startsWith('/client') && role !== 'client') {
+            return NextResponse.redirect(new URL('/'+role, request.url))
+        }
+
+        if (request.nextUrl.pathname.startsWith('/logistic') && role !== 'logistic') {
+            return NextResponse.redirect(new URL('/'+role, request.url))
+        }
+
+        if (request.nextUrl.pathname.startsWith('/supplier') && role !== 'supplier') {
+            return NextResponse.redirect(new URL('/'+role, request.url))
+        }
+    }
+}
+
+export const config = {
+    matcher: [
+        "/",
+    ]
+}
