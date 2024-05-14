@@ -91,9 +91,9 @@ export async function updateSession(request: NextRequest) {
 }
 
 export async function logout(deleteToken = false) {
-    if (deleteToken) {
-        await http.get('auth/logout');
-    }
+    // if (deleteToken) {
+    //     await http.get('auth/logout');
+    // }
     cookies().delete('session');
     redirect('/');
 }
