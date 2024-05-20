@@ -14,7 +14,7 @@ const SupplierStockItem = ({index, item}: SupplierStockItemTypes) => {
         defaultValues: {
             id: item.id || '',
             quantity: item.qty || '',
-            price: item.new_price ? item.new_price : item.price || '',
+            price: item.price || '',
         }
     });
 

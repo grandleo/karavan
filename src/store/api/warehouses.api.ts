@@ -2,7 +2,6 @@ import {api} from "@/store/api/api";
 import {
     GET_DAYS_WEEK,
     GET_WAREHOUSE,
-    GET_WAREHOUSES_USER,
     SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE,
     SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE
 } from "@/config/apiRoutes";
@@ -13,7 +12,7 @@ export const WarehousesApi = api.injectEndpoints({
             query: (data) => ({url: 'warehouses/get-city', method: 'post', data: data}),
         }),
         getWarehouses: builder.query({
-            query: () => ({url: GET_WAREHOUSES_USER, method: 'get'}),
+            query: () => ({url: 'warehouses', method: 'get'}),
             providesTags: () => [{
                 type: 'Warehouses'
             }]

@@ -1,5 +1,6 @@
 import {Paper, Table, Text} from "@mantine/core";
 import {BotApiItem} from "@/components/botsApi";
+import EmptyData from "@/components/emptyData";
 
 const BotsApiList = ({apiBots, onDelete} : BotsApiListTypes) => {
     return (
@@ -9,8 +10,9 @@ const BotsApiList = ({apiBots, onDelete} : BotsApiListTypes) => {
                     <Table>
                         <Table.Thead>
                             <Table.Tr>
-                                <Table.Th w="30%">Название</Table.Th>
-                                <Table.Th>API</Table.Th>
+                                <Table.Th>Название</Table.Th>
+                                <Table.Th w="1%">Username бота</Table.Th>
+                                <Table.Th w="1%">Token</Table.Th>
                                 <Table.Th w="1%">Действия</Table.Th>
                             </Table.Tr>
                         </Table.Thead>
@@ -22,7 +24,7 @@ const BotsApiList = ({apiBots, onDelete} : BotsApiListTypes) => {
                     </Table>
                 </Paper>
             ) : (
-                <Text>API нет, добавьте их</Text>
+                <EmptyData height="calc(100vh - 130px)" text="API нет, добавьте их"/>
             )}
         </>
     )

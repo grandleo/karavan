@@ -1,9 +1,46 @@
 import {api} from "@/store/api/api";
 
+interface Warehouse {
+    id: number;
+    address: string;
+}
+
+interface ApiBot {
+    id: number;
+    name: string;
+    token: string;
+    username_support: string;
+    username_bot: string;
+    warehouses: Warehouse[];
+}
+
+interface TransformedWarehouse {
+    value: string;
+    label: string;
+}
+
+interface TransformedApiBot {
+    id: number;
+    name: string;
+    token: string;
+    username_support: string;
+    username_bot: string;
+    warehouses: TransformedWarehouse[];
+}
+
 export const BotsApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getBotsApi: builder.query({
-            query: (data) => ({url: 'bots', method: 'get'}),
+        getBotsApi: builder.query<TransformedApiBot[], void>({
+            query: () => ({ url: 'bots', method: 'get' }),
+            transformResponse: (response: ApiBot[]): TransformedApiBot[] => {
+                return response.map(bot => ({
+                    ...bot,
+                    warehouses: bot.warehouses.map(warehouse => ({
+                        value: String(warehouse.id),
+                        label: warehouse.address
+                    }))
+                }));
+            },
             providesTags: () => [{
                 type: 'UserBotsApi'
             }]

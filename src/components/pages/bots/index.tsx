@@ -16,16 +16,21 @@ import {Button} from "@mantine/core";
 import SimplePage from "@/components/simplePage";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {BotApiForm, BotsApiList} from "@/components/botsApi";
+import {useGetWarehousesQuery} from "@/store/api/warehouses.api";
 
 
 const defaultValues = {
     id: '',
     name: '',
-    api: ''
+    token: '',
+    username_support: '',
+    username_bot: '',
+    warehouses: []
 }
 
 const ApiBots = () => {
     const methods = useForm({defaultValues});
+    const {data: warehouses = []} = useGetWarehousesQuery('')
     const {data: botsApi = [], isLoading} = useGetBotsApiQuery('');
     const [createBotApi] = useCreateBotApiMutation();
     const [updateBotApi] = useUpdateBotApiMutation();
@@ -84,7 +89,9 @@ const ApiBots = () => {
                     isOpen={opened}
                     onClose={close}
                     onAddApiBot={handleAddBotApi}
-                    onEditApiBot={handleEditBotApi}/>
+                    onEditApiBot={handleEditBotApi}
+                    warehouses={warehouses}
+                />
             </FormProvider>
         </SimplePage>
     )

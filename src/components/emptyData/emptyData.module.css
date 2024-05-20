@@ -1,0 +1,38 @@
+.emptyData{
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.emptyDataIcon {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	background: #FDE68A;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 16px;
+}
+
+.emptyDataHeader{
+	color: #27272A;
+	text-align: center;
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: 28px;
+}
+
+.emptyDataText{
+	color: #71717A;
+	text-align: center;
+	font-size: 16px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 24px;
+	margin-bottom: 24px;
+}

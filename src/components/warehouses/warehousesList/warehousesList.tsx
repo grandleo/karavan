@@ -1,5 +1,6 @@
 import {Paper, Table, Text} from "@mantine/core";
 import {WarehouseItem} from "@/components/warehouses";
+import EmptyData from "@/components/emptyData";
 
 const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
     return (
@@ -22,7 +23,7 @@ const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
                     </Table>
                 </Paper>
             ) : (
-                <Text>Складов нет, добавьте их</Text>
+                <EmptyData height="calc(100vh - 130px)" text="Складов нет, добавьте их"/>
             )}
         </>
     );

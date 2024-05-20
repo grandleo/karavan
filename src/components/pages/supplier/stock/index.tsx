@@ -31,7 +31,6 @@ const SupplierStock = () => {
                         justify="flex-end"
                         gap={8}
                     >
-                        <Timer/>
                         <StockForm/>
                     </Flex>
                 )

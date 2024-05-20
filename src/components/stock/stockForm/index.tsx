@@ -21,7 +21,7 @@ const StockForm = () => {
 
     const defaultValues = {
         product_id: undefined,
-        new_price: '',
+        price: '',
         quantity: '',
         warehouse_id: id,
         period_validity: null
@@ -89,9 +89,6 @@ const StockForm = () => {
     const onSubmit = async (data): Promise<void> => {
         addProductToSupplierStock(data).unwrap().then((payload) => {
             methods.reset()
-
-            console.log('getValues', methods.getValues())
-
             SuccessNotifications(payload)
         }).catch((error) => ErrorNotifications(error));
     }
@@ -174,7 +171,7 @@ const PriceInput = () => {
 
     return (
         <Controller
-            name="new_price"
+            name="price"
             control={control}
             rules={{
                 required: "Цена товара обязательна",

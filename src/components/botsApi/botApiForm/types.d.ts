@@ -3,4 +3,5 @@ interface BotApiFormTypes {
     onClose: any;
     onAddApiBot: any;
     onEditApiBot: any;
+    warehouses: IWarehouse[];
 }

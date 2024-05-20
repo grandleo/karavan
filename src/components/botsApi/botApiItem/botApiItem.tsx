@@ -12,7 +12,8 @@ const BotApiItem = ({apiBot, onDelete} : BotApiItemTypes) => {
     return (
         <Table.Tr>
             <Table.Td>{apiBot.name}</Table.Td>
-            <Table.Td>{apiBot.api}</Table.Td>
+            <Table.Td>{apiBot.username_bot}</Table.Td>
+            <Table.Td>{apiBot.token}</Table.Td>
             <Table.Td>
                 <ActionIcon.Group>
                     <ActionIcon aria-label="Редактировать"  onClick={handleEditClick}>

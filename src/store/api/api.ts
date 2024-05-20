@@ -73,7 +73,8 @@ const api = createApi({
         'ProducerCountries',
         //Оптимизировано
         'UserBotsApi',
-        'SupplierStock'
+        'SupplierStock',
+        'SupplierClients'
     ],
     endpoints: () => ({}),
     // Добавьте Laravel Echo и наш кастомный обработчик событий
