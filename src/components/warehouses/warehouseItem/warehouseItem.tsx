@@ -13,7 +13,7 @@ const WarehouseItem = ({ warehouse, onDelete } : WarehouseItemTypes) => {
 
     return (
         <Table.Tr>
-            <Table.Td>{warehouse.city}</Table.Td>
+            <Table.Td>{warehouse.city_name}</Table.Td>
             <Table.Td>{warehouse.address}</Table.Td>
             <Table.Td>
                 <ActionIcon.Group>

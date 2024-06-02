@@ -12,7 +12,7 @@ export const WarehousesApi = api.injectEndpoints({
             query: (data) => ({url: 'warehouses/get-city', method: 'post', data: data}),
         }),
         getWarehouses: builder.query({
-            query: () => ({url: 'warehouses', method: 'get'}),
+            query: () => ({url: 'warehouses/user', method: 'get'}),
             providesTags: () => [{
                 type: 'Warehouses'
             }]

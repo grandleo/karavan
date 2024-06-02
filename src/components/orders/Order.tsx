@@ -81,7 +81,9 @@ const Order = () => {
                     <Card.Section p={16} withBorder>
                         <Group justify="space-between">
                             <Box>
-                                <Text className={classes.orderNumber}>Заказ №{order.number_id} от {order.date}</Text>
+                                <Text className={classes.orderNumber}>Заказ №{order.number_id}
+                                    {/*от {order.date}*/}
+                                </Text>
 
                                 <Flex align="center" direction="row" gap={8}>
                                     <Flex align="center" direction="row" gap={6}>
@@ -308,49 +310,49 @@ const Order = () => {
             <Drawer opened={opened} onClose={close} position="right" size="lg" title="Информация о заказе">
                 <Box className={classes.statusHistory}>
 
-                    <Flex className={classes.contacts} direction="column" gap={12}>
-                        <Box className={classes.contact}>
-                            <Flex direction="column">
-                                <Text className={classes.type}>Контакты клиента:</Text>
-                                <Text className={classes.company}>{order.contacts.client.company}</Text>
-                            </Flex>
-                            <Flex gap={8}>
-                                <Text className={classes.name}>{order.contacts.client.name}</Text>
-                                <Text className={classes.phone}>{order.contacts.client.phone}</Text>
-                            </Flex>
-                        </Box>
-                        <Box className={classes.contact}>
-                            <Flex direction="column">
-                                <Text className={classes.type}>Контакты поставщика:</Text>
-                                <Text className={classes.company}>{order.contacts.supplier.company}</Text>
-                            </Flex>
-                            <Flex gap={8}>
-                                <Text className={classes.name}>{order.contacts.supplier.name}</Text>
-                                <Text className={classes.phone}>{order.contacts.supplier.phone}</Text>
-                            </Flex>
-                        </Box>
-                    </Flex>
+                    {/*<Flex className={classes.contacts} direction="column" gap={12}>*/}
+                    {/*    <Box className={classes.contact}>*/}
+                    {/*        <Flex direction="column">*/}
+                    {/*            <Text className={classes.type}>Контакты клиента:</Text>*/}
+                    {/*            <Text className={classes.company}>{order.contacts.client.company}</Text>*/}
+                    {/*        </Flex>*/}
+                    {/*        <Flex gap={8}>*/}
+                    {/*            <Text className={classes.name}>{order.contacts.client.name}</Text>*/}
+                    {/*            <Text className={classes.phone}>{order.contacts.client.phone}</Text>*/}
+                    {/*        </Flex>*/}
+                    {/*    </Box>*/}
+                    {/*    <Box className={classes.contact}>*/}
+                    {/*        <Flex direction="column">*/}
+                    {/*            <Text className={classes.type}>Контакты поставщика:</Text>*/}
+                    {/*            <Text className={classes.company}>{order.contacts.supplier.company}</Text>*/}
+                    {/*        </Flex>*/}
+                    {/*        <Flex gap={8}>*/}
+                    {/*            <Text className={classes.name}>{order.contacts.supplier.name}</Text>*/}
+                    {/*            <Text className={classes.phone}>{order.contacts.supplier.phone}</Text>*/}
+                    {/*        </Flex>*/}
+                    {/*    </Box>*/}
+                    {/*</Flex>*/}
 
-                    <Flex direction="column" gap={20} className={classes.statusHistoryAddress}>
-                        <Flex gap={8}>
-                            <Box className={classes.iconAddress}>
-                                <IconMapPinFilled/>
-                            </Box>
-                            <Box>
-                                <Text className={classes.titleAddress}>Адрес забора</Text>
-                                <Text className={classes.address}>{order.warehouses.supplier}</Text>
-                            </Box>
-                        </Flex>
-                        <Flex gap={8}>
-                            <Box className={classes.iconAddress}>
-                                <IconMapPinFilled/>
-                            </Box>
-                            <Box>
-                                <Text className={classes.titleAddress}>Адрес доставки</Text>
-                                <Text className={classes.address}>{order.warehouses.client}</Text>
-                            </Box>
-                        </Flex>
-                    </Flex>
+                    {/*<Flex direction="column" gap={20} className={classes.statusHistoryAddress}>*/}
+                    {/*    <Flex gap={8}>*/}
+                    {/*        <Box className={classes.iconAddress}>*/}
+                    {/*            <IconMapPinFilled/>*/}
+                    {/*        </Box>*/}
+                    {/*        <Box>*/}
+                    {/*            <Text className={classes.titleAddress}>Адрес забора</Text>*/}
+                    {/*            <Text className={classes.address}>{order.warehouses.supplier}</Text>*/}
+                    {/*        </Box>*/}
+                    {/*    </Flex>*/}
+                    {/*    <Flex gap={8}>*/}
+                    {/*        <Box className={classes.iconAddress}>*/}
+                    {/*            <IconMapPinFilled/>*/}
+                    {/*        </Box>*/}
+                    {/*        <Box>*/}
+                    {/*            <Text className={classes.titleAddress}>Адрес доставки</Text>*/}
+                    {/*            <Text className={classes.address}>{order.warehouses.client}</Text>*/}
+                    {/*        </Box>*/}
+                    {/*    </Flex>*/}
+                    {/*</Flex>*/}
 
                     <Timeline active={countActiveStatus-1} reverseActive bulletSize={24} lineWidth={2} color="#2997A3">
                         {order.status_history.map((status: IStatus, index: number) => {
