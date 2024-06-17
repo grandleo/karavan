@@ -1,5 +1,4 @@
 import {notifications} from "@mantine/notifications";
-import {AxiosResponse} from "axios";
 
 interface ServerResponse {
     title: string;
@@ -11,20 +10,29 @@ interface ErrorResponse {
     status: number
 }
 
-export function ErrorNotifications(error: ErrorResponse) {
-    return notifications.show({
-        color: 'red',
-        title: error.data.title,
-        message: error.data.message,
-        // classNames: classes,
-    })
+function isErrorResponse(error: unknown): error is ErrorResponse {
+    return typeof error === 'object' && error !== null && 'data' in error && 'status' in error;
+}
+
+export function showNotification({ title, message }: ServerResponse, color: 'red' | 'teal') {
+    notifications.show({
+        color,
+        title,
+        message,
+    });
+}
+
+export function ErrorNotifications(error: unknown) {
+    if (isErrorResponse(error)) {
+        showNotification(error.data, 'red');
+    } else {
+        showNotification({
+            title: 'Ошибка',
+            message: String(error)
+        }, 'red');
+    }
 }
 
 export function SuccessNotifications(payload: ServerResponse){
-    return notifications.show({
-        color: 'teal',
-        title: payload.title,
-        message: payload.message,
-        // classNames: classes,
-    })
+    showNotification(payload, 'teal');
 }

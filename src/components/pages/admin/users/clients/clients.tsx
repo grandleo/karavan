@@ -33,7 +33,7 @@ const Clients = () => {
     return (
         <SimplePage title="Клиенты" isLoading={isLoading}>
             <ClientsFilter/>
-            <UpdateClient opened={opened} close={close}/>
+            {/*<UpdateClient opened={opened} close={close}/>*/}
 
             {clients?.length > 0 ? (
                 <Paper shadow="xs">

@@ -11,7 +11,7 @@ import {IconInfoCircle} from "@tabler/icons-react";
 import _ from "lodash";
 import {signIn} from "next-auth/react";
 import {ErrorNotifications} from "@/helpers/Notifications";
-import {CompanyField, EmailField, NameField, PhoneField} from "@/components/inputs";
+import {CompanyField, EmailField, Index, Index} from "@/components/inputs";
 import {httpDaData} from "@/config/httpDaData";
 
 interface CompanyProps {
@@ -167,7 +167,7 @@ const Register = () => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <NameField field={field} setField={setValue} error={errors?.name?.message} clearErrors={clearErrors} setError={setError}/>
+                                <Index field={field} setField={setValue} error={errors?.name?.message} clearErrors={clearErrors} setError={setError}/>
                             )}
                         />
 
@@ -229,7 +229,7 @@ const Register = () => {
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
-                                <PhoneField onChange={onChange} onBlur={onBlur} value={value} error={errors?.phone?.message} />
+                                <Index onChange={onChange} onBlur={onBlur} value={value} error={errors?.phone?.message} />
                             )}
                         />
                     </Stepper.Step>

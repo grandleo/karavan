@@ -8,7 +8,7 @@ import _ from "lodash";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {httpDaData} from "@/config/httpDaData";
 import {Box, Button, Drawer, Flex, TextInput} from "@mantine/core";
-import {EmailField, NameField, PhoneField} from "@/components/inputs";
+import {EmailField, Index, Index} from "@/components/inputs";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL} from "@/config/apiRoutes";
 
@@ -128,8 +128,8 @@ const UpdateSupplier = ({opened = false, close} : UpdateSupplierTypes) => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <NameField field={field} setField={setValue} error={errors?.name?.message}
-                                           clearErrors={clearErrors} setError={setError}/>
+                                <Index field={field} setField={setValue} error={errors?.name?.message}
+                                       clearErrors={clearErrors} setError={setError}/>
                             )}/>
 
                         <Controller
@@ -221,8 +221,8 @@ const UpdateSupplier = ({opened = false, close} : UpdateSupplierTypes) => {
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
-                                <PhoneField onChange={onChange} onBlur={onBlur} value={value}
-                                            error={errors?.phone?.message}/>
+                                <Index onChange={onChange} onBlur={onBlur} value={value}
+                                       error={errors?.phone?.message}/>
                             )}
                         />
                     </Box>

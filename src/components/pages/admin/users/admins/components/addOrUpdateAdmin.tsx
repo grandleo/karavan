@@ -1,6 +1,6 @@
 import {useDisclosure} from "@mantine/hooks";
 import {Box, Button, Drawer, Flex} from "@mantine/core";
-import {EmailField, NameField, PhoneField} from "@/components/inputs";
+import {EmailField, Index, Index} from "@/components/inputs";
 import {Controller, useForm} from "react-hook-form";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL} from "@/config/apiRoutes";
@@ -128,8 +128,8 @@ const AddOrUpdateAdmin = ({opened = false, open, close} : AddOrUpdateAdminTypes)
                                 }}
                                 control={control}
                                 render={({field}) => (
-                                    <NameField field={field} setField={setValue} error={errors?.name?.message}
-                                               clearErrors={clearErrors} setError={setError}/>
+                                    <Index field={field} setField={setValue} error={errors?.name?.message}
+                                           clearErrors={clearErrors} setError={setError}/>
                                 )}/>
 
                             <Controller
@@ -171,8 +171,8 @@ const AddOrUpdateAdmin = ({opened = false, open, close} : AddOrUpdateAdminTypes)
                                 }}
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <PhoneField onChange={onChange} onBlur={onBlur} value={value}
-                                                error={errors?.phone?.message}/>
+                                    <Index onChange={onChange} onBlur={onBlur} value={value}
+                                           error={errors?.phone?.message}/>
                                 )}
                             />
                         </Box>

@@ -32,7 +32,7 @@ const Logistics = () => {
     return (
         <SimplePage title="Логисты" isLoading={isLoading}>
             <LogisticsFilter/>
-            <UpdateLogistic opened={opened} close={close}/>
+            {/*<UpdateLogistic opened={opened} close={close}/>*/}
 
             {logistics?.length > 0 ? (
                 <Paper shadow="xs">

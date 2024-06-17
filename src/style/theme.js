@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     Checkbox,
     Container,
@@ -26,6 +27,13 @@ const Theme = createTheme({
     },
 
     components: {
+        Autocomplete: Autocomplete.extend({
+            styles: {
+                root: {
+                    marginBottom: '16px',
+                }
+            }
+        }),
         Container: Container.extend({
             defaultProps: {
                 size: 'xl'

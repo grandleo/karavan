@@ -17,7 +17,7 @@ const Admins = () => {
 
     return (
         <SimplePage title="Администраторы" isLoading={isLoading}>
-            <AddOrUpdateAdmin opened={opened} open={open} close={close}/>
+            {/*<AddOrUpdateAdmin opened={opened} open={open} close={close}/>*/}
 
             {admins?.length > 0 ? (
                 <Paper shadow="xs">

@@ -7,7 +7,7 @@ import {useActions} from "@/hooks/useActions";
 import {httpDaData} from "@/config/httpDaData";
 import _ from "lodash";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
-import {EmailField, NameField, PhoneField} from "@/components/inputs";
+import {EmailField, Index, Index} from "@/components/inputs";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL} from "@/config/apiRoutes";
 import React, {useEffect} from "react";
@@ -127,8 +127,8 @@ const UpdateClient = ({opened = false, close}: UpdateClientTypes) => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <NameField field={field} setField={setValue} error={errors?.name?.message}
-                                           clearErrors={clearErrors} setError={setError}/>
+                                <Index field={field} setField={setValue} error={errors?.name?.message}
+                                       clearErrors={clearErrors} setError={setError}/>
                             )}/>
 
                         <Controller
@@ -220,8 +220,8 @@ const UpdateClient = ({opened = false, close}: UpdateClientTypes) => {
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
-                                <PhoneField onChange={onChange} onBlur={onBlur} value={value}
-                                            error={errors?.phone?.message}/>
+                                <Index onChange={onChange} onBlur={onBlur} value={value}
+                                       error={errors?.phone?.message}/>
                             )}
                         />
                     </Box>

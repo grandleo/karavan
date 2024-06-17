@@ -1,21 +1,15 @@
-import {Controller, useForm, useFormContext} from "react-hook-form";
+import {useFormContext} from "react-hook-form";
 import {EmailField} from "@/components/inputs";
 import {Button} from "@mantine/core";
 
-const AuthLogin = ({onSubmit} : AuthLoginTypes) => {
-    const { control, handleSubmit, formState: { errors } } = useFormContext();
+const AuthLogin = ({onSubmit, loading} : AuthLoginTypes) => {
+    const { control, handleSubmit } = useFormContext();
 
     return (
         <form  onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-                name="email"
-                control={control}
-                render={({field}) => (
-                    <EmailField field={field} errors={errors}/>
-                )}
-            />
+            <EmailField control={control} context="auth"/>
 
-            <Button type="submit" fullWidth>Продолжить</Button>
+            <Button type="submit" loading={loading} fullWidth>Продолжить</Button>
         </form>
     )
 }

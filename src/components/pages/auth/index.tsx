@@ -1,3 +1,5 @@
+'use client'
+
 import NextImage from "next/image";
 import {Box, Flex, Image} from "@mantine/core";
 import classes from './auth.module.css';

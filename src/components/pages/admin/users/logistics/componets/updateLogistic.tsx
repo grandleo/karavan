@@ -1,5 +1,4 @@
 import {useSelector} from "react-redux";
-import {getClientsState} from "@/store/slices/clientSlice";
 import {useActions} from "@/hooks/useActions";
 import {useGetUserFormQuery, useUpdateUserMutation} from "@/store/api/admin/users.api";
 import {Controller, useForm} from "react-hook-form";
@@ -8,7 +7,7 @@ import _ from "lodash";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {httpDaData} from "@/config/httpDaData";
 import {Box, Button, Drawer, Flex, TextInput} from "@mantine/core";
-import {EmailField, NameField, PhoneField} from "@/components/inputs";
+import {EmailField, Index, Index} from "@/components/inputs";
 import {http} from "@/config/http";
 import {CHECK_EMAIL_URL} from "@/config/apiRoutes";
 import {getLogisticsState} from "@/store/slices/logisticSlice";
@@ -128,8 +127,8 @@ const UpdateLogistic = ({opened = false, close} : UpdateLogisticTypes) => {
                             }}
                             control={control}
                             render={({field}) => (
-                                <NameField field={field} setField={setValue} error={errors?.name?.message}
-                                           clearErrors={clearErrors} setError={setError}/>
+                                <Index field={field} setField={setValue} error={errors?.name?.message}
+                                       clearErrors={clearErrors} setError={setError}/>
                             )}/>
 
                         <Controller
@@ -221,8 +220,8 @@ const UpdateLogistic = ({opened = false, close} : UpdateLogisticTypes) => {
                             }}
                             control={control}
                             render={({field: {onChange, onBlur, value}}) => (
-                                <PhoneField onChange={onChange} onBlur={onBlur} value={value}
-                                            error={errors?.phone?.message}/>
+                                <Index onChange={onChange} onBlur={onBlur} value={value}
+                                       error={errors?.phone?.message}/>
                             )}
                         />
                     </Box>

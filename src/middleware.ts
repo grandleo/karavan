@@ -19,6 +19,14 @@ export async function middleware(request: NextRequest) {
     const role = session?.user.role;
     const accessToken = session?.user.accessToken;
 
+    // If role is not set and trying to access protected routes, redirect to public_url
+    if (!role && (request.nextUrl.pathname.startsWith('/admin') ||
+        request.nextUrl.pathname.startsWith('/client') ||
+        request.nextUrl.pathname.startsWith('/logistic') ||
+        request.nextUrl.pathname.startsWith('/supplier'))) {
+        return NextResponse.redirect(new URL(public_url, request.url));
+    }
+
     if(role) {
         if ((request.nextUrl.href === public_url) && accessToken) {
             return NextResponse.redirect(new URL('/'+role, request.url))
@@ -40,10 +48,17 @@ export async function middleware(request: NextRequest) {
             return NextResponse.redirect(new URL('/'+role, request.url))
         }
     }
+
+    // If none of the conditions match, proceed with the request
+    return NextResponse.next();
 }
 
 export const config = {
     matcher: [
         "/",
+        "/admin/:path*",
+        "/client/:path*",
+        "/logistic/:path*",
+        "/supplier/:path*",
     ]
 }

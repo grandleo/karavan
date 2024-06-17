@@ -6,4 +6,7 @@ interface IAuthForm{
     fio: [],
     company: string;
     phone: string;
+    search: {
+        name: string;
+    }
 }

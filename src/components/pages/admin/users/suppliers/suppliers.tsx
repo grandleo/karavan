@@ -32,7 +32,7 @@ const Suppliers = () => {
     return (
         <SimplePage title="Поставщики" isLoading={isLoading}>
             <SuppliersFilter/>
-            <UpdateSupplier opened={opened} close={close}/>
+            {/*<UpdateSupplier opened={opened} close={close}/>*/}
 
             {suppliers?.length > 0 ? (
                 <Paper shadow="xs">
