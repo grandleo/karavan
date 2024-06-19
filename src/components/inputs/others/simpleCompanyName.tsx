@@ -3,15 +3,15 @@ import {Controller} from "react-hook-form";
 import {SimpleCompanyNameProps} from "@/components/inputs/types";
 
 const SimpleCompanyName = ({control}: SimpleCompanyNameProps) => {
-    const validateCompany = (value) => {
+    const validateCompany = (value: string) => {
         if (!value) return "Поле обязательно для заполнения";
         if (value.startsWith(' ')) return "Название компании не должно начинаться с пробела";
         if (/ {2,}/.test(value)) return "Запрещено использование более одного пробела подряд";
-        if (/[^a-zA-Zа-яА-Я.,\-\'\s]/.test(value)) return "Запрещены символы кроме букв, запятой, точки, дефиса и кавычек";
+        if (/[^a-zA-Zа-яА-Я.,\-\'\"\<\«\s]/.test(value)) return "Запрещены символы кроме букв, запятой, точки, дефиса, кавычек и символов < и <<";
         return true;
     };
 
-    const processCompanyName = (value) => {
+    const processCompanyName = (value: string) => {
         let processedValue = value.trimStart();
         processedValue = processedValue.replace(/\s{2,}/g, ' '); // Remove extra spaces
         return processedValue.replace(/^\w|^\s*[а-яА-Я]/, (char) => char.toUpperCase());

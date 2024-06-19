@@ -40,28 +40,11 @@ const Theme = createTheme({
             }
         }),
         TextInput: TextInput.extend({
-            classNames: {
-                root: classes.textInputRoot,
-                input: classes.textInput,
-                label: classes.textInputLabel,
-                description: classes.textInputDescription,
-            },
             styles: {
                 root: {
-                    marginBottom: '24px',
+                    marginBottom: '16px',
                     position: "relative"
                 },
-                input: {
-                    backgroundColor: '#fff',
-                    height: '40px',
-                    borderRadius: '8px',
-                    border: '1px solid #D4D4D8'
-                },
-                error: {
-                    position: "absolute",
-                    left: 0,
-                    bottom: "-20px"
-                }
             },
         }),
         NumberInput: NumberInput.extend({

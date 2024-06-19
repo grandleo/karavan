@@ -62,7 +62,7 @@ const EmailField = ({control, context, name = "email"} : EmailFieldProps) => {
                 required: "Поле обязательно для заполнения",
                 maxLength: { value: 150, message: "Максимальное количество символов 150" },
                 pattern: {
-                    value: /^(?=.{1,64}@)[A-Za-z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$/,
+                    value: /^(?![-._])[A-Za-z0-9]+([._-]?[A-Za-z0-9]+)*@(?=[A-Za-z0-9])[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})(?<![-._])$/,
                     message: "Введите email в правильном формате",
                 },
                 validate: validateEmail
