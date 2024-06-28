@@ -97,22 +97,24 @@ const StockForm = () => {
         }).catch((error) => ErrorNotifications(error));
     }
 
+    const resetFormState = () => {
+        close();
+        methods.reset();
+        setSelectedCategories([]);
+        setSubCategories([]);
+        setProducts([]);
+        setMainCategory('');
+        setShowPeriodValidity(false);
+        setShowRestForm(false);
+    };
+
     return (
         <>
             <Button onClick={open}>Добавить товар</Button>
 
             <Drawer.Root
                 opened={opened}
-                onClose={() => {
-                    close()
-                    methods.reset();
-                    setSelectedCategories([])
-                    setSubCategories([])
-                    setProducts([])
-                    setMainCategory('')
-                    setShowPeriodValidity(false)
-                    setShowRestForm(false)
-                }}
+                onClose={resetFormState}
                 position="right"
             >
                 <Drawer.Overlay/>
@@ -184,7 +186,8 @@ const StockForm = () => {
                                     </Box>
                                     <Box>
                                         <Flex gap={16} className={`${classes.bodyBlock}`}>
-                                            <Button variant="outline" fullWidth>Отменить</Button>
+                                            <Button variant="outline" fullWidth
+                                                    onClick={resetFormState}>Отменить</Button>
                                             <Button type="submit" fullWidth>Добавить товар</Button>
                                         </Flex>
                                     </Box>
