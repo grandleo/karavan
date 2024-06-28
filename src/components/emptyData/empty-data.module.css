@@ -1,22 +1,41 @@
 .emptyData {
-	height: 100vh;
+	height: calc(100vh - 116px);
 }
 
 .emptyDataIcon {
-	color: #2997A3;
-	background: #E6FCFA;
+	color: rgba(27, 31, 59, 0.9);
+	background: #EEF0F5;
 	border-radius: 50%;
-	border: 8px solid #fff;
 	margin-bottom: 10px;
 
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
-	width: 90px;
-	height: 90px;
+	width: 72px;
+	height: 72px;
 
 	svg {
 		display: inline-flex;
 	}
+}
+
+.emptyTitle {
+	color: rgba(25, 28, 48, 0.9);
+	font-size: 24px;
+	font-weight: 800;
+	line-height: 28px;
+	margin-bottom: 8px;
+}
+
+.emptyTitle.noSubTitle {
+	margin-bottom: 16px;
+}
+
+.emptySubTitle {
+	color: rgba(116, 119, 141, 0.9);
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 24px;
+	margin-bottom: 16px;
 }

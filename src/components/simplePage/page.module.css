@@ -1,11 +1,15 @@
 .pageWrapper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: calc(100vh - 16px);
 }
 
 .pageHeaderWrapper {
-    padding: 16px 32px;
-    border-bottom: 1px solid #E4E4E7;
+    padding: 12px 24px;
     background: #FFF;
+    border-radius: 0 0 12px 12px;
 }
 
 .pageHeaderTitle {
@@ -22,20 +26,10 @@
 }
 
 .pageContent {
-    padding: 28px 32px;
-    height: calc(100vh - 70px);
-}
-
-.pageWrapperNoPadding{
-    padding: 0;
-}
-
-.pageContentNoPadding{
-     padding: 0;
-}
-
-.pageContentFullHeight{
-    height: 100vh;
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 12px 24px;
+    flex-grow: 1;
 }
 
 .backButton{

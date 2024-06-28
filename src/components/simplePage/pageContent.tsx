@@ -1,4 +1,4 @@
-import {ScrollArea} from "@mantine/core";
+import {Box, ScrollArea} from "@mantine/core";
 import classes from './page.module.css';
 
 interface Props {
@@ -10,9 +10,11 @@ interface Props {
 const PageContent = ({children, fullHeight, noPadding = false}: Props) => {
 
     return (
-        <ScrollArea className={`${classes.pageContent} ${fullHeight ? classes.pageContentFullHeight : null} ${noPadding === true && classes.pageWrapperNoPadding}`}>
-            {children}
-        </ScrollArea>
+            <ScrollArea
+                className={classes.pageContent}
+            >
+                {children}
+            </ScrollArea>
     )
 }
 

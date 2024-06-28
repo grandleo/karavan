@@ -1,6 +1,7 @@
 import {Paper, Table, Text} from "@mantine/core";
 import {WarehouseItem} from "@/components/warehouses";
 import EmptyData from "@/components/emptyData";
+import {IconMapPinFilled} from "@tabler/icons-react";
 
 const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
     return (
@@ -23,7 +24,11 @@ const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
                     </Table>
                 </Paper>
             ) : (
-                <EmptyData height="calc(100vh - 130px)" text="Складов нет, добавьте их"/>
+                <EmptyData
+                    text="Склад не создан"
+                    subTitle="Добавьте адрес для формирования каталога склада"
+                    icon={<IconMapPinFilled size={24}/>}
+                />
             )}
         </>
     );

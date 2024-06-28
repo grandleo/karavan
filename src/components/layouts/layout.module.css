@@ -18,7 +18,8 @@
 
 .controlPanelContent {
     flex-grow:1;
-    background: #FAFAFA;
+    background: #EAEDF4;
+    padding: 0 16px 16px 16px;
     /*margin-left: 300px;*/
 }
 
