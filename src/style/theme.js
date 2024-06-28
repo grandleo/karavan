@@ -3,9 +3,9 @@ import {
     Button,
     Checkbox,
     Container,
-    createTheme,
+    createTheme, Drawer,
     NumberInput, Paper,
-    SegmentedControl,
+    SegmentedControl, Select,
     Switch, Table,
     TextInput
 } from "@mantine/core";
@@ -96,6 +96,35 @@ const Theme = createTheme({
                 root: {
                     boxShadow: '0px 0px 7px 0px rgba(0, 0, 0, 0.2)',
                     // boxShadow: '0px 0px 2px 0px rgba(0, 0, 0, 0.12)',
+                }
+            }
+        }),
+        Drawer: Drawer.extend({
+            styles: {
+                content: {
+                    borderRadius: '25px 0 0 0'
+                },
+                header: {
+                    borderBottom: '1px solid #E0E0E0',
+                },
+                title: {
+                    fontSize: '28px',
+                    fontWeight: 800,
+                    lineHeight: '32px'
+
+                }
+            }
+        }),
+        Select: Select.extend({
+            styles: {
+                label: {
+                    fontSize: '14px',
+                    lineHeight: '16px',
+                    letterSpacing: '0.4px',
+                    color: 'rgba(27, 31, 59, 0.65)'
+                },
+                root: {
+                    marginBottom: '10px'
                 }
             }
         })

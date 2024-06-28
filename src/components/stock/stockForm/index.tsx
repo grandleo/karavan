@@ -1,4 +1,4 @@
-import {Button, Drawer, NumberInput, Select} from "@mantine/core";
+import {Box, Button, Drawer, Flex, Grid, NumberInput, Select, Text} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import {
     useAddProductToSupplierStockMutation,
@@ -15,12 +15,14 @@ import SelectSubCategory from "@/components/stock/stockForm/selectSubCategory";
 import {useParams} from "next/navigation";
 import {IconCalendar} from "@tabler/icons-react";
 import {DatePickerInput} from "@mantine/dates";
+import classes from "@/components/stock/styles.module.css";
+import Link from "next/link";
 
 const StockForm = () => {
     const {id} = useParams<{ id: string; }>();
 
     const defaultValues = {
-        product_id: undefined,
+        product_id: null,
         price: '',
         quantity: '',
         warehouse_id: id,
@@ -77,12 +79,14 @@ const StockForm = () => {
 
         const {has_children, required_period_validity} = optionSelectCategory
 
+        setProducts([]);
+        setShowRestForm(false);
+
         if (has_children) {
             await fetchSubCategories(id)
         } else {
             await fetchProducts(id)
             setShowPeriodValidity(required_period_validity)
-            setShowRestForm(true)
         }
     }
 
@@ -97,7 +101,7 @@ const StockForm = () => {
         <>
             <Button onClick={open}>Добавить товар</Button>
 
-            <Drawer
+            <Drawer.Root
                 opened={opened}
                 onClose={() => {
                     close()
@@ -109,59 +113,87 @@ const StockForm = () => {
                     setShowPeriodValidity(false)
                     setShowRestForm(false)
                 }}
-                title="Добавить товар в сток"
                 position="right"
             >
-                <FormProvider {...methods}>
-                    <form
-                        onSubmit={methods.handleSubmit(onSubmit)}
-                    >
-                        <Select
-                            checkIconPosition="right"
-                            label="Категория"
-                            placeholder="Выберите категорию"
-                            allowDeselect={false}
-                            searchable
-                            nothingFoundMessage="Категории не найдено..."
-                            data={categories ?? []}
-                            value={mainCategory}
-                            onChange={(id) => {
-                                if (id) {
-                                    const filteredCategory = _.find(categories, {'value': id});
-                                    setMainCategory(id);
-                                    handleSelectCategory(id, 0, filteredCategory);
-                                }
-                            }}
-                        />
+                <Drawer.Overlay/>
+                <Drawer.Content>
+                    <Drawer.Header>
+                        <Drawer.Title>Добавить товар</Drawer.Title>
+                        <Drawer.CloseButton className={classes.drawerCloseButton}/>
+                    </Drawer.Header>
+                    <Drawer.Body className={classes.drawerBody}>
+                        <FormProvider {...methods}>
+                            <form
+                                onSubmit={methods.handleSubmit(onSubmit)}
+                            >
+                                <Flex direction="column" style={{height: 'calc(100vh - 65px)'}}>
+                                    <Box style={{flex: 1}}>
 
-                        {subCategories.map((items, index) => {
-                            return (
-                                <SelectSubCategory
-                                    key={index}
-                                    index={index + 1}
-                                    categories={items}
-                                    handleSelectCategory={handleSelectCategory}
-                                />
-                            )
-                        })}
+                                <Box className={`${classes.bodyBlock} ${classes.categoriesBlock}`}>
+                                    <Select
+                                        checkIconPosition="right"
+                                        label="Категория"
+                                        placeholder="Выберите категорию"
+                                        allowDeselect={false}
+                                        searchable
+                                        nothingFoundMessage="Категории не найдено..."
+                                        data={categories ?? []}
+                                        value={mainCategory}
+                                        onChange={(id) => {
+                                            if (id) {
+                                                const filteredCategory = _.find(categories, {'value': id});
+                                                setMainCategory(id);
+                                                handleSelectCategory(id, 0, filteredCategory);
+                                            }
+                                        }}
+                                    />
 
-                        {products.length > 0 && (
-                            <SelectProduct products={products}/>
-                        )}
-
-                        {showRestForm && (
-                            <>
-                                {showPeriodValidity && (
-                                    <PeriodValidity/>
+                                    {subCategories.map((items, index) => {
+                                        return (
+                                            <SelectSubCategory
+                                                key={index}
+                                                index={index + 1}
+                                                categories={items}
+                                                handleSelectCategory={handleSelectCategory}
+                                            />
+                                        )
+                                    })}
+                                </Box>
+                                {products.length > 0 && (
+                                    <Box className={`${classes.bodyBlock}`}>
+                                        <SelectProduct products={products} setShowRestForm={setShowRestForm}/>
+                                    </Box>
                                 )}
-                                <QuantityInput/>
-                                <PriceInput/>
-                                <Button type="submit">Добавить товар</Button>
-                            </>
-                        )}
-                    </form>
-                </FormProvider>
-            </Drawer>
+                                {showRestForm && (
+                                    <Box className={`${classes.bodyBlock}`}>
+                                        <Flex gap={8}>
+                                            {showPeriodValidity && (
+                                                <Box style={{flex: 1}}>
+                                                    <PeriodValidity/>
+                                                </Box>
+                                            )}
+                                            <Box style={{flex: 1}}>
+                                                <QuantityInput/>
+                                            </Box>
+                                            <Box style={{flex: 1}}>
+                                                <PriceInput/>
+                                            </Box>
+                                        </Flex>
+                                    </Box>
+                                )}
+                                    </Box>
+                                    <Box>
+                                        <Flex gap={16} className={`${classes.bodyBlock}`}>
+                                            <Button variant="outline" fullWidth>Отменить</Button>
+                                            <Button type="submit" fullWidth>Добавить товар</Button>
+                                        </Flex>
+                                    </Box>
+                                </Flex>
+                            </form>
+                        </FormProvider>
+                    </Drawer.Body>
+                </Drawer.Content>
+            </Drawer.Root>
         </>
     )
 }
@@ -178,8 +210,8 @@ const PriceInput = () => {
             }}
             render={({field: {onChange, onBlur, value}}) => (
                 <NumberInput
-                    label="Цена товара"
-                    placeholder="Укажите цену товара"
+                    label="Цена"
+                    placeholder="0"
                     value={value}
                     onChange={(quantity) => {
                         onChange(quantity);
@@ -208,13 +240,13 @@ const QuantityInput = () => {
             }}
             render={({field: {onChange, value}}) => (
                 <NumberInput
-                    label="Кол-во товара"
-                    placeholder="Укажите кол-во товара"
+                    label="Кол-во"
+                    placeholder="0"
                     value={value}
                     onChange={(quantity) => {
                         onChange(quantity);
                     }}
-                    rightSection="pc"
+                    rightSection="PC"
                     rightSectionPointerEvents="none"
                     min={0}
                     max={9999}
@@ -226,7 +258,7 @@ const QuantityInput = () => {
     )
 }
 
-const PeriodValidity = ( ) => {
+const PeriodValidity = () => {
     const {control, formState: {errors}} = useFormContext();
     let currentDate = new Date();
 
@@ -243,9 +275,9 @@ const PeriodValidity = ( ) => {
             }}
             render={({field: {onChange, value}}) => (
                 <DatePickerInput
-                    label="Срок годности товара"
-                    placeholder="Срок годности"
-                    rightSection={<IconCalendar style={{ width: '60%', height: '60%' }} stroke={1} />}
+                    label="Годен до:"
+                    placeholder="ММ.ГГГГ"
+                    rightSection={<IconCalendar style={{width: '60%', height: '60%'}} stroke={1}/>}
                     rightSectionPointerEvents="none"
                     value={value}
                     onChange={(quantity) => {

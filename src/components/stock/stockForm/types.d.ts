@@ -18,4 +18,5 @@ interface ISelectProduct {
 
 interface SelectProductTypes {
     products: ISelectProduct[];
+    setShowRestForm: (show: boolean) => void;
 }

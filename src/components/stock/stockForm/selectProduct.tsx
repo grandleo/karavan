@@ -1,26 +1,18 @@
-import {Select} from "@mantine/core";
+import {Select, Text} from "@mantine/core";
 import {useEffect, useState} from "react";
 import {Controller, useFormContext} from "react-hook-form";
+import Link from "next/link";
+import classes from "@/components/stock/styles.module.css";
 
-const SelectProduct = ({products}: SelectProductTypes) => {
-    const {control, getValues, formState: {errors}} = useFormContext();
+const SelectProduct = ({products, setShowRestForm}: SelectProductTypes) => {
+    const {control, formState: {errors}} = useFormContext();
     const [items, setItems] = useState<ISelectProduct[]>([]);
-
-    const [item, setItem] = useState('')
-
-    const product_id = getValues('product_id')
 
     useEffect(() => {
         if (products) {
             setItems(products);
         }
     }, [products]);
-
-    useEffect(() => {
-        if(product_id === undefined){
-            setItem('')
-        }
-    }, [product_id]);
 
     return (
         <Controller
@@ -29,22 +21,26 @@ const SelectProduct = ({products}: SelectProductTypes) => {
             rules={{
                 required: "Выберите товар",
             }}
-            render={({field: {onChange, onBlur, value}}) => (
-                <Select
-                    label="Товар"
-                    placeholder="Выберите товар"
-                    checkIconPosition="right"
-                    searchable
-                    nothingFoundMessage="Ничего не найдено..."
-                    data={items}
-                    value={item ? item : value}
-                    onBlur={onBlur}
-                    onChange={(value) => {
-                        onChange(value);
-                    }}
-                    error={errors?.product_id?.message ? String(errors?.product_id?.message) : undefined}
-                    mb={15}
-                />
+            render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
+                <>
+                    <Select
+                        label="Товар"
+                        placeholder="Выберите товар"
+                        checkIconPosition="right"
+                        searchable
+                        nothingFoundMessage="Ничего не найдено..."
+                        data={items}
+                        value={value}
+                        onBlur={onBlur}
+                        onChange={(value) => {
+                            onChange(value);
+                            setShowRestForm(!!value);
+                        }}
+                        error={error?.message}
+                        mb={5}
+                    />
+                    <Text className={classes.productNotFound}>Если товар не найден, <Link href="#">обратитесь в поддержку</Link></Text>
+                </>
             )}
         />
     )

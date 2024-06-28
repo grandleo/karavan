@@ -1,0 +1,28 @@
+.drawerBody {
+    padding: 0;
+}
+
+.drawerCloseButton {
+    background: #F3F3F3;
+    color: rgba(27, 31, 59, 0.4);
+}
+
+.bodyBlock {
+    padding: 10px;
+}
+
+.bodyBlock + .bodyBlock {
+    border-top: 1px solid #E0E0E0;
+}
+
+.categoriesBlock{
+    background: #F8F8F8;
+}
+
+.productNotFound{
+    color: rgba(27, 31, 59, 0.65);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 5px;
+}
