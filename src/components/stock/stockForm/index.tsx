@@ -93,6 +93,7 @@ const StockForm = () => {
     const onSubmit = async (data): Promise<void> => {
         addProductToSupplierStock(data).unwrap().then((payload) => {
             methods.reset()
+            setShowRestForm(false);
             SuccessNotifications(payload)
         }).catch((error) => ErrorNotifications(error));
     }
