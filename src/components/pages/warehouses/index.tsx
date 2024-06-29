@@ -19,7 +19,9 @@ import {useActions} from "@/hooks/useActions";
 const defaultValues = {
     id: '',
     address: '',
-    city_id: ''
+    region_id: null,
+    city_id: null,
+    type_orders: 'cart'
 }
 
 const SupplierWarehouses = () => {

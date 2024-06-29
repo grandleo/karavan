@@ -45,6 +45,12 @@ const Theme = createTheme({
                     marginBottom: '16px',
                     position: "relative"
                 },
+                label: {
+                    fontSize: '14px',
+                    lineHeight: '16px',
+                    letterSpacing: '0.4px',
+                    color: 'rgba(27, 31, 59, 0.65)'
+                }
             },
         }),
         NumberInput: NumberInput.extend({
@@ -77,9 +83,9 @@ const Theme = createTheme({
         }),
         Table: Table.extend({
             styles: {
-                thead: {
-                    backgroundColor: 'rgb(239 239 239)',
-                },
+                // thead: {
+                //     backgroundColor: 'rgb(239 239 239)',
+                // },
                 th: {
                     fontSize: '14px',
                     fontWeight: 400,

@@ -41,8 +41,11 @@ export const WarehousesApi = api.injectEndpoints({
                 type: 'Products'
             }]
         }),
+        getWarehouseRegions: builder.query({
+            query: () => ({url: 'warehouses/get-regions', method: 'get'}),
+        }),
         getCitiesWarehouse: builder.query({
-            query: () => ({url: 'warehouses/get-cities', method: 'get'}),
+            query: (id) => ({url: 'warehouses/get-cities', method: 'post', data: {region_id: id}}),
         }),
 
 
@@ -69,6 +72,7 @@ export const {
     useCreateWarehouseMutation,
     useUpdateWarehouseMutation,
     useDeleteWarehouseMutation,
+    useGetWarehouseRegionsQuery,
     useGetCitiesWarehouseQuery,
     useAddPriceWarehouseProductMutation,
     useAddQtyWarehouseProductMutation

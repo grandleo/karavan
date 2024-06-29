@@ -132,58 +132,58 @@ const StockForm = () => {
                                 <Flex direction="column" style={{height: 'calc(100vh - 65px)'}}>
                                     <Box style={{flex: 1}}>
 
-                                <Box className={`${classes.bodyBlock} ${classes.categoriesBlock}`}>
-                                    <Select
-                                        checkIconPosition="right"
-                                        label="Категория"
-                                        placeholder="Выберите категорию"
-                                        allowDeselect={false}
-                                        searchable
-                                        nothingFoundMessage="Категории не найдено..."
-                                        data={categories ?? []}
-                                        value={mainCategory}
-                                        onChange={(id) => {
-                                            if (id) {
-                                                const filteredCategory = _.find(categories, {'value': id});
-                                                setMainCategory(id);
-                                                handleSelectCategory(id, 0, filteredCategory);
-                                            }
-                                        }}
-                                    />
-
-                                    {subCategories.map((items, index) => {
-                                        return (
-                                            <SelectSubCategory
-                                                key={index}
-                                                index={index + 1}
-                                                categories={items}
-                                                handleSelectCategory={handleSelectCategory}
+                                        <Box className={`${classes.bodyBlock} ${classes.categoriesBlock}`}>
+                                            <Select
+                                                checkIconPosition="right"
+                                                label="Категория"
+                                                placeholder="Выберите категорию"
+                                                allowDeselect={false}
+                                                searchable
+                                                nothingFoundMessage="Категории не найдено..."
+                                                data={categories ?? []}
+                                                value={mainCategory}
+                                                onChange={(id) => {
+                                                    if (id) {
+                                                        const filteredCategory = _.find(categories, {'value': id});
+                                                        setMainCategory(id);
+                                                        handleSelectCategory(id, 0, filteredCategory);
+                                                    }
+                                                }}
                                             />
-                                        )
-                                    })}
-                                </Box>
-                                {products.length > 0 && (
-                                    <Box className={`${classes.bodyBlock}`}>
-                                        <SelectProduct products={products} setShowRestForm={setShowRestForm}/>
-                                    </Box>
-                                )}
-                                {showRestForm && (
-                                    <Box className={`${classes.bodyBlock}`}>
-                                        <Flex gap={8}>
-                                            {showPeriodValidity && (
-                                                <Box style={{flex: 1}}>
-                                                    <PeriodValidity/>
-                                                </Box>
-                                            )}
-                                            <Box style={{flex: 1}}>
-                                                <QuantityInput/>
+
+                                            {subCategories.map((items, index) => {
+                                                return (
+                                                    <SelectSubCategory
+                                                        key={index}
+                                                        index={index + 1}
+                                                        categories={items}
+                                                        handleSelectCategory={handleSelectCategory}
+                                                    />
+                                                )
+                                            })}
+                                        </Box>
+                                        {products.length > 0 && (
+                                            <Box className={`${classes.bodyBlock}`}>
+                                                <SelectProduct products={products} setShowRestForm={setShowRestForm}/>
                                             </Box>
-                                            <Box style={{flex: 1}}>
-                                                <PriceInput/>
+                                        )}
+                                        {showRestForm && (
+                                            <Box className={`${classes.bodyBlock}`}>
+                                                <Flex gap={8}>
+                                                    {showPeriodValidity && (
+                                                        <Box style={{flex: 1}}>
+                                                            <PeriodValidity/>
+                                                        </Box>
+                                                    )}
+                                                    <Box style={{flex: 1}}>
+                                                        <QuantityInput/>
+                                                    </Box>
+                                                    <Box style={{flex: 1}}>
+                                                        <PriceInput/>
+                                                    </Box>
+                                                </Flex>
                                             </Box>
-                                        </Flex>
-                                    </Box>
-                                )}
+                                        )}
                                     </Box>
                                     <Box>
                                         <Flex gap={16} className={`${classes.bodyBlock}`}>
