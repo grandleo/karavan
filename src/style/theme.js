@@ -3,7 +3,7 @@ import {
     Button,
     Checkbox,
     Container,
-    createTheme, Drawer,
+    createTheme, Drawer, MultiSelect,
     NumberInput, Paper,
     SegmentedControl, Select,
     Switch, Table,
@@ -83,24 +83,28 @@ const Theme = createTheme({
         }),
         Table: Table.extend({
             styles: {
-                // thead: {
-                //     backgroundColor: 'rgb(239 239 239)',
-                // },
+                tr: {
+                    // borderBottom: '1px solid rgba(246, 246, 246, 1)',
+                },
                 th: {
+                    color: 'rgba(25, 28, 48, 0.45)',
                     fontSize: '14px',
-                    fontWeight: 400,
-                    lineHeight: '20px',
-                    letterSpacing: 0,
-                    textAlign: 'left',
-                    height: '45px',
+                    fontWeight: 500,
+                    lineHeight: '18px',
+                    whiteSpace: 'nowrap',
+                },
+                td: {
+                    color: 'rgba(25, 28, 48, 0.45)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    lineHeight: '18px',
                     whiteSpace: 'nowrap',
                 },
             },
         }),
         Paper: Paper.extend({
             styles: {
-                root: {
-                }
+                root: {}
             }
         }),
         Drawer: Drawer.extend({
@@ -117,6 +121,16 @@ const Theme = createTheme({
                     lineHeight: '32px'
 
                 }
+            }
+        }),
+        MultiSelect: MultiSelect.extend({
+            styles: {
+                label: {
+                    fontSize: '14px',
+                    lineHeight: '16px',
+                    letterSpacing: '0.4px',
+                    color: 'rgba(27, 31, 59, 0.65)'
+                },
             }
         }),
         Select: Select.extend({

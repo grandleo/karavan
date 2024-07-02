@@ -4,8 +4,9 @@ import {PriceInput, QuantityInput} from "@/components/stock/inpunts";
 import {FormProvider, useForm} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {useUpdateProductToSupplierStockMutation} from "@/store/api/supplier/stockSupplier.api";
+import classes from "@/components/stock/styles.module.css";
 
-const SupplierStockItem = ({index, item}: SupplierStockItemTypes) => {
+const SupplierStockItem = ({index, item, showInfo}: SupplierStockItemTypes) => {
     if (!item) return null
 
     const [updateProductToSupplierStock] = useUpdateProductToSupplierStockMutation()
@@ -46,19 +47,19 @@ const SupplierStockItem = ({index, item}: SupplierStockItemTypes) => {
                                     fit="contain"
                                 />
                             </Tooltip>
-                            <Text>{item.product.name}</Text>
+                            <Text className={classes.productName} onClick={showInfo}>{item.product.name}</Text>
                         </Flex>
                     </Table.Td>
                     <Table.Td>
                         <QuantityInput
-                            width={100}
+                            width={50}
                             handleUpdate={handleUpdate}
                         />
                     </Table.Td>
                     <Table.Td>
                         <PriceInput
                             new_price={Number(item.new_price)}
-                            width={120}
+                            width={80}
                             handleUpdate={handleUpdate}
                         />
                     </Table.Td>

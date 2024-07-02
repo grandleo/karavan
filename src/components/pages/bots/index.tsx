@@ -4,7 +4,7 @@ import {FormProvider, useForm} from "react-hook-form";
 import {
     useCreateBotApiMutation,
     useDeleteBotApiMutation,
-    useGetBotsApiQuery,
+    useGetBotsApiQuery, useToggleActiveBotApiMutation,
     useUpdateBotApiMutation
 } from "@/store/api/bots.api";
 import {useActions} from "@/hooks/useActions";
@@ -31,10 +31,11 @@ const defaultValues = {
 const ApiBots = () => {
     const methods = useForm({defaultValues});
     const {data: warehouses = []} = useGetWarehousesQuery('')
-    const {data: botsApi = [], isLoading} = useGetBotsApiQuery('');
+    const {data: botsApi = [], isLoading} = useGetBotsApiQuery();
     const [createBotApi] = useCreateBotApiMutation();
     const [updateBotApi] = useUpdateBotApiMutation();
     const [deleteBotApi] = useDeleteBotApiMutation();
+    const [toggleActiveBotApi] = useToggleActiveBotApiMutation();
     const {resetBotApiFormValues} = useActions();
 
     const [opened, {open, close}] = useDisclosure(false);
@@ -70,6 +71,12 @@ const ApiBots = () => {
         }).catch((error) => ErrorNotifications(error));
     }
 
+    const handleToggleActiveBotApi = (data:  IBotType) => {
+        toggleActiveBotApi(data).unwrap().then((payload) => {
+            SuccessNotifications(payload);
+        }).catch((error) => ErrorNotifications(error));
+    }
+
     return (
         <SimplePage
             title="Список api"
@@ -82,6 +89,7 @@ const ApiBots = () => {
         >
             <BotsApiList
                 apiBots={botsApi}
+                handleToggleActiveBotApi={handleToggleActiveBotApi}
                 onDelete={handleDeleteBotApi}/>
 
             <FormProvider {...methods}>
@@ -90,6 +98,7 @@ const ApiBots = () => {
                     onClose={close}
                     onAddApiBot={handleAddBotApi}
                     onEditApiBot={handleEditBotApi}
+                    onDelete={handleDeleteBotApi}
                     warehouses={warehouses}
                 />
             </FormProvider>

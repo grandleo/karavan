@@ -56,7 +56,11 @@ export const BotsApi = api.injectEndpoints({
         deleteBotApi: builder.mutation({
             query: (id) => ({url: 'bots/delete', method: 'post', data: {id: id}}),
             invalidatesTags: ['UserBotsApi'],
-        })
+        }),
+        toggleActiveBotApi: builder.mutation({
+            query: (data) => ({url: 'bots/toggle-active', method: 'post', data: data}),
+            invalidatesTags: ['UserBotsApi'],
+        }),
     })
 })
 
@@ -64,5 +68,6 @@ export const {
     useGetBotsApiQuery,
     useCreateBotApiMutation,
     useUpdateBotApiMutation,
-    useDeleteBotApiMutation
+    useDeleteBotApiMutation,
+    useToggleActiveBotApiMutation
 } = BotsApi;
