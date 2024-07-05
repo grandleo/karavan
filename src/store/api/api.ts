@@ -74,7 +74,8 @@ const api = createApi({
         //Оптимизировано
         'UserBotsApi',
         'SupplierStock',
-        'SupplierClients'
+        'SupplierClients',
+        'UserInfo'
     ],
     endpoints: () => ({}),
     // Добавьте Laravel Echo и наш кастомный обработчик событий

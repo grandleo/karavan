@@ -1,6 +1,6 @@
 import {useState} from "react";
-import {Box, Collapse, Group, rem, Text, ThemeIcon, UnstyledButton} from "@mantine/core";
-import classes from "@/components/ui/NavBar/navbar.module.css";
+import {ActionIcon, Box, Collapse, Group, rem, Text, ThemeIcon, UnstyledButton} from "@mantine/core";
+import classes from "@/components/navBar/styles.module.css";
 import {IconChevronRight} from "@tabler/icons-react";
 import Icons from "@/components/ui/Icons/Icons";
 import Link from "next/link";
@@ -21,10 +21,9 @@ const LinksGroupNB = ({name, url, icon, children,initiallyOpened, theme}: LinksG
     const child = (hasChildren ? children : []).map((link, index: number) => (
         <Text
             component={Link}
-            className={classes.link}
+            className={`${classes.link}`}
             href={link.url}
             key={index}
-            // onClick={(event) => event.preventDefault()}
         >
             {link.name}
         </Text>
@@ -34,12 +33,12 @@ const LinksGroupNB = ({name, url, icon, children,initiallyOpened, theme}: LinksG
         <>
             {hasChildren ? (
                 <>
-                <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
+                <UnstyledButton onClick={() => setOpened((o) => !o)} className={`${classes.control}`}>
                     <Group justify="space-between" gap={0}>
                         <Box style={{ display: 'flex', alignItems: 'center' }}>
-                            <ThemeIcon variant="light" size={30} color={theme === 'dark' ? '#fff' : "#3B9F98"} className={classes.navIcon}>
+                            <ActionIcon variant="transparent" color={theme === 'dark' ? '#fff' : "#303345"}>
                                 <Icons iconName={icon}/>
-                            </ThemeIcon>
+                            </ActionIcon>
                             <Box ml="md">{name}</Box>
                         </Box>
                         {hasChildren && (
@@ -63,9 +62,9 @@ const LinksGroupNB = ({name, url, icon, children,initiallyOpened, theme}: LinksG
                     className={`${classes.control} ${classes.simpleLink}`}
                     href={url}
                 >
-                    <ThemeIcon variant="light" size={30} color={theme === 'dark' ? '#fff' : "#3B9F98"} className={classes.navIcon}>
+                    <ActionIcon variant="transparent" color={theme === 'dark' ? '#fff' : "#303345"}>
                         <Icons iconName={icon}/>
-                    </ThemeIcon>
+                    </ActionIcon>
                     {name}
                 </Text>
             </>)}

@@ -1,4 +1,12 @@
-import {IconSettings, IconBuildingWarehouse, IconUsers, IconUsersGroup, IconTruckLoading, IconFileDollar} from '@tabler/icons-react';
+import {
+    IconSettings,
+    IconBuildingWarehouse,
+    IconUsers,
+    IconUsersGroup,
+    IconTruckLoading,
+    IconFileDollar,
+    IconBasket, IconBox
+} from '@tabler/icons-react';
 
 interface IconProps {
     iconName: string
@@ -12,7 +20,9 @@ const Icons = ({ iconName }: IconProps) => {
         clients: IconUsers,
         suppliers: IconUsersGroup,
         logistics: IconTruckLoading,
-        invoice: IconFileDollar
+        invoice: IconFileDollar,
+        basket: IconBasket,
+        box: IconBox,
     };
 
     const SelectedIcon = iconsMapping[iconName];

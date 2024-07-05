@@ -1,8 +1,7 @@
 .navbar {
 	background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-6));
-	/*height: rem(800px);*/
-	width: rem(300px);
-	padding: var(--mantine-spacing-xs);
+	height: 100vh;
+	width: 300px;
 	padding-bottom: 0;
 	display: flex;
 	flex-direction: column;
@@ -11,9 +10,6 @@
 
 .navbarDark {
 	background-color: #3B9F98;
-	/*height: rem(800px);*/
-	width: rem(300px);
-	padding: var(--mantine-spacing-xs);
 	padding-bottom: 0;
 	display: flex;
 	flex-direction: column;
@@ -22,9 +18,6 @@
 
 .header {
 	padding: var(--mantine-spacing-md);
-	padding-top: 0;
-	margin-left: calc(var(--mantine-spacing-md) * -1);
-	margin-right: calc(var(--mantine-spacing-md) * -1);
 	color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 	border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 	text-align: center;
@@ -32,8 +25,6 @@
 
 .links {
 	flex: 1;
-	margin-left: calc(var(--mantine-spacing-md) * -1);
-	margin-right: calc(var(--mantine-spacing-md) * -1);
 }
 
 .linksInner {
@@ -42,20 +33,33 @@
 }
 
 .footer {
-	margin-left: calc(var(--mantine-spacing-md) * -1);
-	margin-right: calc(var(--mantine-spacing-md) * -1);
 	border-top: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 	padding: var(--mantine-spacing-xs);
 }
 
 .userInfo {
 	width: 100%;
-	margin-top: 12px;
 	margin-bottom: 12px;
 }
 
-.navbarDark .userInfoText{
+.userInfoText {
+	font-size: 16px;
+	color: #000000;
+	line-height: 24px;
+}
+
+.userInfoRole {
+	font-size: 14px;
+	color: #71717A;
+	line-height: 14px;
+}
+
+.navbarDark .userInfoText {
 	color: #fff;
+}
+
+.navbarDark .userInfoRole {
+	color: #f1ebeb;
 }
 
 .logout {
@@ -95,7 +99,7 @@
 	}
 }
 
-.navbarDark .control:hover .navIcon{
+.navbarDark .control:hover .navIcon {
 	color: #3B9F98;
 	background: rgba(59, 159, 152, 0.2);
 }
@@ -118,15 +122,15 @@
 }
 
 .simpleLink {
-	align-items: var(--group-align,center);
+	align-items: var(--group-align, center);
 	display: flex;
 	flex-direction: row;
-	flex-wrap: var(--group-wrap,wrap);
-	gap: var(--group-gap,var(--mantine-spacing-md));
-	justify-content: var(--group-justify,flex-start);
+	flex-wrap: var(--group-wrap, wrap);
+	gap: var(--group-gap, var(--mantine-spacing-md));
+	justify-content: var(--group-justify, flex-start);
 }
 
-.navbarDark .link{
+.navbarDark .link {
 	color: #fff;
 
 	@mixin hover {
