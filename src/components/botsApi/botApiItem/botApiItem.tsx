@@ -28,7 +28,7 @@ const BotApiItem = ({apiBot, onDelete, handleToggleActiveBotApi} : BotApiItemTyp
             <Table.Td>{warehouseLabels}</Table.Td>
             <Table.Td>
                 <ActionIcon.Group>
-                    <ActionIcon aria-label="Редактировать"  onClick={handleEditClick}>
+                    <ActionIcon variant="transparent" color="rgba(0, 0, 0, 1)" aria-label="Редактировать"  onClick={handleEditClick}>
                         <IconPencil style={{ width: '70%', height: '70%' }} stroke={1.5} />
                     </ActionIcon>
                 </ActionIcon.Group>

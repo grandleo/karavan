@@ -9,7 +9,7 @@ interface Index {
     // headerChildrenLeft?: () => JSX.Element | ReactNode,
     headerChildrenLeft?(): ReactNode,
     headerChildren?(): ReactNode,
-    title: string,
+    title?: string,
     isLoading?: boolean,
     pageSetting?: {
         backButton?: boolean,

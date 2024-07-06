@@ -1,4 +1,4 @@
-import {Box, Button, Drawer, Flex, Grid, NumberInput, Select, Text} from "@mantine/core";
+import {Box, Button, Drawer, Flex, NumberInput, Select} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import {
     useAddProductToSupplierStockMutation,
@@ -16,7 +16,6 @@ import {useParams} from "next/navigation";
 import {IconCalendar} from "@tabler/icons-react";
 import {DatePickerInput} from "@mantine/dates";
 import classes from "@/components/stock/styles.module.css";
-import Link from "next/link";
 
 const StockForm = () => {
     const {id} = useParams<{ id: string; }>();
@@ -81,6 +80,7 @@ const StockForm = () => {
 
         setProducts([]);
         setShowRestForm(false);
+        methods.setValue('product_id', null)
 
         if (has_children) {
             await fetchSubCategories(id)
@@ -91,6 +91,13 @@ const StockForm = () => {
     }
 
     const onSubmit = async (data): Promise<void> => {
+        const { product_id, price, quantity } = data;
+
+        if (product_id === null || price === '' || quantity === '') {
+            ErrorNotifications('Заполните все поля');
+            return;
+        }
+
         addProductToSupplierStock(data).unwrap().then((payload) => {
             methods.reset()
             setShowRestForm(false);
@@ -211,6 +218,10 @@ const PriceInput = () => {
             control={control}
             rules={{
                 required: "Цена товара обязательна",
+                max: {
+                    value: 9999999,
+                    message: "Цена товара не может превышать 9999999"
+                }
             }}
             render={({field: {onChange, onBlur, value}}) => (
                 <NumberInput
@@ -241,6 +252,10 @@ const QuantityInput = () => {
             control={control}
             rules={{
                 required: "Кол-во товара обязательно",
+                max: {
+                    value: 9999,
+                    message: "Кол-во товара не может превышать 9999"
+                }
             }}
             render={({field: {onChange, value}}) => (
                 <NumberInput

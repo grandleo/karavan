@@ -14,7 +14,6 @@ const SelectSubCategory = ({categories, index, handleSelectCategory}: SelectSubC
 
     return (
         <Select
-            label="Подкатегория"
             placeholder="Выберите подкатегорию"
             allowDeselect={false}
             searchable

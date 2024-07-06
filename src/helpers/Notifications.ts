@@ -27,7 +27,7 @@ export function ErrorNotifications(error: unknown) {
         showNotification(error.data, 'red');
     } else {
         showNotification({
-            title: 'Ошибка',
+            title: '',
             message: String(error)
         }, 'red');
     }

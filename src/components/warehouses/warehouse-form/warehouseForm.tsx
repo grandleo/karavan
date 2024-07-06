@@ -6,15 +6,18 @@ import {useSelector} from "react-redux";
 import {getWarehouseState} from "@/store/slices/warehouseSlice";
 import {useActions} from "@/hooks/useActions";
 import classes from "@/components/warehouses/styles.module.css";
+import {ErrorNotifications} from "@/helpers/Notifications";
 
-const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse}: WarehouseFormTypes) => {
+const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDelete}: WarehouseFormTypes) => {
     const {editValues} = useSelector(getWarehouseState);
     const {data: regions = [], isLoading: regionsLoading} = useGetWarehouseRegionsQuery('');
-    const {control, handleSubmit, reset, setValue, formState: {errors}, watch} = useFormContext();
+    const {control, handleSubmit, reset, setValue, watch, formState: {errors}} = useFormContext();
     const typeOrders = watch('type_orders');
     const {resetWarehouseFormValues} = useActions();
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const region_id = watch('region_id');
+    const city_id = watch('city_id');
     const {data: cities = [], isLoading: citiesLoading} = useGetCitiesWarehouseQuery(region_id, {
         skip: region_id === null
     });
@@ -51,6 +54,43 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse}: Wareh
         }
     }, [editValues, regionsLoading, citiesLoading]);
 
+    useEffect(() => {
+        if (!region_id) {
+            setValue('city_id', null);
+            setValue('address', '');
+        }
+    }, [region_id, setValue]);
+
+    useEffect(() => {
+        setValue('address', '');
+    }, [city_id, setValue]);
+
+    const handleDelete = async () => {
+        setIsDeleting(true);
+        try {
+            if (editValues) {
+                await onDelete(editValues.id);
+                handleClose();
+            }
+        } finally {
+            setIsDeleting(false);
+        }
+    }
+
+    const handleFormErrors = () => {
+        ErrorNotifications('Заполните поля');
+    };
+
+    const sanitizeAddressInput = (input: string) => {
+        // Remove leading spaces
+        input = input.replace(/^\s+/g, '');
+        // Remove consecutive spaces
+        input = input.replace(/\s{2,}/g, ' ');
+        // Allow only digits, Cyrillic characters, and ./-:, symbols
+        input = input.replace(/[^\dА-Яа-я./\-:, ]/g, '');
+        return input;
+    };
+
     return (
         <Drawer.Root opened={isOpen}
                      onClose={handleClose}
@@ -63,7 +103,7 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse}: Wareh
                     <Drawer.CloseButton className={classes.drawerCloseButton}/>
                 </Drawer.Header>
                 <Drawer.Body className={classes.drawerBody}>
-                    <form onSubmit={handleSubmit(handleFormSubmit)}>
+                    <form onSubmit={handleSubmit(handleFormSubmit, handleFormErrors)}>
 
                         <Box p="relative">
                             <LoadingOverlay visible={regionsLoading || citiesLoading} zIndex={1000}
@@ -98,51 +138,59 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse}: Wareh
                                             />
                                         )}/>
 
+                                    {region_id && (
+                                        <Controller
+                                            name="city_id"
+                                            control={control}
+                                            rules={{
+                                                required: "Город или область обязательно нужно выбрать",
+                                            }}
+                                            render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
+                                                <Select
+                                                    label="Город или область"
+                                                    placeholder="Выберите"
+                                                    checkIconPosition="right"
+                                                    searchable
+                                                    nothingFoundMessage="Ничего не найдено..."
+                                                    data={cities || []}
+                                                    clearable
+                                                    value={value}
+                                                    onBlur={onBlur}
+                                                    onChange={(value) => {
+                                                        onChange(value);
+                                                    }}
+                                                    error={error?.message}
+                                                    mb={15}
+                                                />
+                                            )}
+                                        />
+                                    )}
 
-                                    <Controller
-                                        name="city_id"
-                                        control={control}
-                                        rules={{
-                                            required: "Город или область обязательно нужно выбрать",
-                                        }}
-                                        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
-                                            <Select
-                                                label="Город или область"
-                                                placeholder="Выберите"
-                                                checkIconPosition="right"
-                                                searchable
-                                                nothingFoundMessage="Ничего не найдено..."
-                                                data={cities || []}
-                                                clearable
-                                                value={value}
-                                                onBlur={onBlur}
-                                                onChange={(value) => {
-                                                    onChange(value);
-                                                }}
-                                                error={error?.message}
-                                                mb={15}
-                                            />
-                                        )}
-                                    />
-                                    <Controller
-                                        name="address"
-                                        control={control}
-                                        rules={{
-                                            required: "Адрес обязателен",
-                                        }}
-                                        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
-                                            <TextInput
-                                                label="Улица"
-                                                placeholder="Введите название улицы"
-                                                onBlur={onBlur}
-                                                onChange={(event) => {
-                                                    onChange(event.currentTarget.value);
-                                                }}
-                                                value={value}
-                                                error={error?.message}
-                                            />
-                                        )}
-                                    />
+                                    {city_id && (
+                                        <Controller
+                                            name="address"
+                                            control={control}
+                                            rules={{
+                                                required: "Адрес обязателен",
+                                                minLength: { value: 3, message: "Минимальное количество символов - 3" },
+                                                maxLength: { value: 100, message: "Максимальное количество символов - 100" }
+                                            }}
+                                            render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
+                                                <TextInput
+                                                    label="Улица"
+                                                    placeholder="Введите название улицы"
+                                                    onBlur={onBlur}
+                                                    onChange={(event) => {
+                                                        const sanitizedValue = sanitizeAddressInput(event.currentTarget.value);
+                                                        onChange(sanitizedValue);
+                                                    }}
+                                                    value={value}
+                                                    error={error?.message}
+                                                />
+                                            )}
+                                        />
+
+                                    )}
                                 </Box>
                                 <Box className={classes.bodyBlock}>
                                     <Text>Оформить заказ</Text>
@@ -197,6 +245,12 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse}: Wareh
 
                                 </Box>
                             </Box>
+                            {editValues && (
+                                <Box className={classes.bodyBlock}>
+                                    <Button variant="filled" color="red" fullWidth
+                                            onClick={handleDelete} loading={isDeleting}>Удалить</Button>
+                                </Box>
+                            )}
                             <Box>
                                 <Flex gap={16} className={`${classes.bodyBlock}`}>
                                     <Button variant="outline" fullWidth onClick={handleClose}>Отменить</Button>

@@ -3,4 +3,5 @@ interface WarehouseFormTypes {
     onClose: any;
     onAddWarehouse: any;
     onEditWarehouse: any;
+    onDelete: any;
 }

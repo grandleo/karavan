@@ -75,14 +75,14 @@ const SupplierWarehouses = () => {
             }}
         >
             <WarehousesList
-                warehouses={warehouses}
-                onDelete={handleDeleteWarehouse}/>
+                warehouses={warehouses}/>
 
             <FormProvider {...methods}>
                 <WarehouseForm isOpen={opened}
                                onClose={close}
                                onAddWarehouse={handleAddWarehouse}
-                               onEditWarehouse={handleEditWarehouse}/>
+                               onEditWarehouse={handleEditWarehouse}
+                               onDelete={handleDeleteWarehouse}/>
             </FormProvider>
         </SimplePage>
     )

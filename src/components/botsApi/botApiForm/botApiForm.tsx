@@ -53,6 +53,16 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
         }
     }, [editValues]);
 
+    const sanitizeAddressInput = (input: string) => {
+        // Remove leading spaces
+        input = input.replace(/^\s+/g, '');
+        // Remove consecutive spaces
+        input = input.replace(/\s{2,}/g, ' ');
+        // Allow only digits, Cyrillic characters, and ./-:, symbols
+        input = input.replace(/[^\dА-Яа-я./\-:, ]/g, '');
+        return input;
+    };
+
     return (
         <Drawer.Root opened={isOpen}
                      onClose={handleClose}
@@ -74,6 +84,8 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
                                         control={control}
                                         rules={{
                                             required: "Название обязательно",
+                                            minLength: { value: 5, message: "Минимальное количество символов - 5" },
+                                            maxLength: { value: 100, message: "Максимальное количество символов - 100" }
                                         }}
                                         render={({field: {onChange, onBlur, value}}) => (
                                             <TextInput
@@ -81,7 +93,8 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
                                                 placeholder="Введите название"
                                                 onBlur={onBlur}
                                                 onChange={(event) => {
-                                                    onChange(event.currentTarget.value);
+                                                    const sanitizedValue = sanitizeAddressInput(event.currentTarget.value);
+                                                    onChange(sanitizedValue);
                                                 }}
                                                 value={value}
                                                 error={errors?.name?.message ? String(errors?.name?.message) : undefined}
@@ -93,6 +106,11 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
                                         control={control}
                                         rules={{
                                             required: "Token бота обязательно",
+                                            minLength: { value: 5, message: "Минимальное количество символов - 5" },
+                                            maxLength: { value: 100, message: "Максимальное количество символов - 100" },
+                                            validate: {
+                                                noSpaces: value => !/\s/.test(value) || "Ввод пробелов запрещен",
+                                            }
                                         }}
                                         render={({field: {onChange, onBlur, value}}) => (
                                             <TextInput
@@ -129,6 +147,14 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
                                     <Controller
                                         name="username_support"
                                         control={control}
+                                        rules={{
+                                            minLength: { value: 5, message: "Минимальное количество символов - 5" },
+                                            maxLength: { value: 100, message: "Максимальное количество символов - 100" },
+                                            pattern: {
+                                                value: /^[a-zA-Z0-9._]+$/,
+                                                message: "Только латинские буквы, цифры и символы ._"
+                                            }
+                                        }}
                                         render={({field: {onChange, onBlur, value}}) => (
                                             <TextInput
                                                 label="Поддержка"

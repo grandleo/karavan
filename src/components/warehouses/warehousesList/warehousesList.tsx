@@ -3,7 +3,7 @@ import {WarehouseItem} from "@/components/warehouses";
 import EmptyData from "@/components/emptyData";
 import {IconMapPinFilled} from "@tabler/icons-react";
 
-const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
+const WarehousesList = ({ warehouses} : WarehousesListTypes) => {
     return (
         <>
             {warehouses.length > 0 ? (
@@ -13,12 +13,13 @@ const WarehousesList = ({ warehouses, onDelete } : WarehousesListTypes) => {
                         <Table.Tr>
                             <Table.Th w="30%">Город</Table.Th>
                             <Table.Th>Адрес</Table.Th>
+                            <Table.Th>Оформить заказ</Table.Th>
                             <Table.Th w="1%">Действия</Table.Th>
                         </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
                         {warehouses.map((warehouse : IWarehouse) => (
-                            <WarehouseItem key={warehouse.id} warehouse={warehouse} onDelete={onDelete} />
+                            <WarehouseItem key={warehouse.id} warehouse={warehouse} />
                         ))}
                         </Table.Tbody>
                     </Table>

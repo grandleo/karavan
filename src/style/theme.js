@@ -94,7 +94,6 @@ const Theme = createTheme({
                     whiteSpace: 'nowrap',
                 },
                 td: {
-                    color: 'rgba(25, 28, 48, 0.45)',
                     fontSize: '14px',
                     fontWeight: 500,
                     lineHeight: '18px',
