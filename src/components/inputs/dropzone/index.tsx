@@ -3,7 +3,7 @@ import {Box, Image, SimpleGrid, Text} from "@mantine/core";
 import {useState} from "react";
 import {IconPhoto, IconUpload, IconX} from "@tabler/icons-react";
 
-const DropzoneImages = ({uploaderFiles, setValue, error, image} : DropzoneImageTypes) => {
+const DropzoneUploader = ({uploaderFiles, setValue, error, image, clearErrors} : DropzoneTypes) => {
     const [files, setFiles] = useState<FileWithPath[]>([]);
 
     const previews = files.map((file, index) => {
@@ -19,10 +19,13 @@ const DropzoneImages = ({uploaderFiles, setValue, error, image} : DropzoneImageT
                 ]}
                 onDrop={
                     (files) => {
+                        clearErrors()
                         setFiles(files)
                         setValue('image', files)
                     }
-                }>
+                }
+                maxFiles={1}
+                multiple={false}>
 
                 <Dropzone.Accept>
                     <IconUpload
@@ -60,4 +63,4 @@ const DropzoneImages = ({uploaderFiles, setValue, error, image} : DropzoneImageT
     )
 }
 
-export default DropzoneImages;
+export default DropzoneUploader;
