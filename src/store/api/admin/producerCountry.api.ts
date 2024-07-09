@@ -8,9 +8,6 @@ export const producerCountryApi = api.injectEndpoints({
                 type: 'ProducerCountries'
             }]
         }),
-        getProducerCountry: builder.query({
-            query: (id) => ({url: 'admin/settings/producer-countries/get-country', method: 'post', data: {id: id}}),
-        }),
         addProducerCountry: builder.mutation({
             query: (data) => ({
                 url: 'admin/settings/producer-countries/add', method: 'post', data: data, headers: {
@@ -52,7 +49,6 @@ export const producerCountryApi = api.injectEndpoints({
 
 export const {
     useGetProducerCountriesQuery,
-    useGetProducerCountryQuery,
     useAddProducerCountryMutation,
     useUpdateProducerCountryMutation,
     useDeleteProducerCountryMutation,
