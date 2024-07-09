@@ -1,5 +1,4 @@
-import ProducerCountries from "@/components/pages/admin/producerCountries";
-
+import ProducerCountries from "@/components/producerCountries";
 
 export default function Page () {
     return <ProducerCountries/>

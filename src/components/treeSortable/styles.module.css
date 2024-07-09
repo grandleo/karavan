@@ -1,0 +1,16 @@
+.treeItem {
+    cursor: pointer;
+}
+
+.treeHandle {
+
+    color: #E4E4E7;
+    border: 0;
+    height: 24.8px;
+    width: 24.8px;
+}
+
+.treeHandle:hover {
+     color: #000;
+     background: #F4F4F5;
+ }

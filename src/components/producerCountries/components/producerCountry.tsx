@@ -1,15 +1,14 @@
 import NextImage from 'next/image';
 import {ActionIcon, Box, Flex, Image, Menu, rem, Text} from "@mantine/core";
-import {TreeHandle} from "@/components/ui/sortableList/TreeItem";
 import classes from "../producer-countries.module.css";
 import {useDeleteProducerCountryMutation} from "@/store/api/admin/producerCountry.api";
 import {modals} from "@mantine/modals";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
-import {useActions} from "@/hooks/useActions";
+import {TreeSortable} from "@/components/treeSortable";
+import {IProducerCountryTypes} from "@/components/producerCountries/types";
 
-const ProducerCountry = ({country, open} : ProducerCountryTypes) => {
-    const {setProducerCountryId} = useActions();
+const ProducerCountry = ({country, open, setEditValues} : IProducerCountryTypes) => {
     const [deleteProducerCountry] = useDeleteProducerCountryMutation();
 
     const confirmDeleteModal = () => {
@@ -36,9 +35,9 @@ const ProducerCountry = ({country, open} : ProducerCountryTypes) => {
             gap={8}
             className={classes.producerCountry}
         >
-            <TreeHandle/>
+            <TreeSortable.DragHandle active={true}/>
             <Box w={35}>
-                <Image component={NextImage} src={country.image} alt={country.name} fit="contain" width={24} height={24} />
+                <Image component={NextImage} src={country.image_url} alt={country.name} fit="contain" width={24} height={24} />
             </Box>
             <Text className={classes.name}>{country.name}</Text>
 
@@ -53,7 +52,7 @@ const ProducerCountry = ({country, open} : ProducerCountryTypes) => {
                     <Menu.Item
                         leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
                         onClick={() => {
-                            setProducerCountryId(country.id);
+                            setEditValues(country);
                             open();
                         }}
                     >

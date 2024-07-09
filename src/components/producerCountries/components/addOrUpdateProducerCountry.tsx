@@ -1,60 +1,49 @@
 import {Box, Button, Drawer, Flex, TextInput} from "@mantine/core";
-import {DropzoneImages} from "@/components/inputs";
+import {DropzoneUploader} from "@/components/inputs";
 import {Controller, useForm} from "react-hook-form";
 import {
     useAddProducerCountryMutation,
-    useGetProducerCountryQuery, useUpdateProducerCountryMutation
+    useUpdateProducerCountryMutation
 } from "@/store/api/admin/producerCountry.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
-import {useSelector} from "react-redux";
-import {getProducerCountriesState} from "@/store/slices/producerCountrySlice";
 import {useEffect} from "react";
-import {useActions} from "@/hooks/useActions";
+import {IAddOrUpdateProducerCountryTypes, ICountry} from "@/components/producerCountries/types";
 
-const AddOrUpdateProducerCountry = ({opened = false, open, close} : AddOrUpdateProducerCountryTypes) => {
-    const {producer_country_id} = useSelector(getProducerCountriesState);
-    const {setProducerCountryId} = useActions();
+const AddOrUpdateProducerCountry = ({opened = false, open, close, editValues, setEditValues} : IAddOrUpdateProducerCountryTypes) => {
     const [addProducerCountry] = useAddProducerCountryMutation();
     const [updateProducerCountry] = useUpdateProducerCountryMutation();
-
-    const {data: country, refetch} = useGetProducerCountryQuery(producer_country_id, {
-        skip: producer_country_id === 0,
-    });
 
     const {
         handleSubmit,
         formState: {errors},
         setError,
+        clearErrors,
         setValue,
         control,
-        getValues,
-        reset
-    } = useForm<IForm>({
+        reset,
+        watch
+    } = useForm<ICountry>({
         defaultValues: {
             id: 0,
             name: '',
             image: [],
-            uploaded_image: ''
+            image_url: ''
         }
     })
 
-    useEffect(() => {
-        if(country){
-            setValue('id', country.id);
-            setValue('name', country.name);
-            setValue('uploaded_image', country.uploaded_image);
-        }
-    }, [country]);
+    const image_url = watch('image_url');
 
     useEffect(() => {
-        if(producer_country_id !== 0) {
-            refetch()
+        if(editValues){
+            setValue('id', editValues.id);
+            setValue('name', editValues.name);
+            setValue('image_url', editValues.image_url);
         }
-    }, [producer_country_id]);
+    }, [editValues]);
 
-    const onSubmit = async (data: IForm) => {
+    const onSubmit = async (data: ICountry) => {
 
-        if(data.image.length === 0 && !data.uploaded_image) {
+        if(data.image.length === 0 && !data.image_url) {
             setError('image',  { type: 'custom', message: 'Изображение обязательное' })
 
             return;
@@ -68,12 +57,12 @@ const AddOrUpdateProducerCountry = ({opened = false, open, close} : AddOrUpdateP
             formData.append(`image[${index}]`, image);
         });
 
-        const request = country ? updateProducerCountry(formData) : addProducerCountry(formData);
+        const request = editValues ? updateProducerCountry(formData) : addProducerCountry(formData);
 
         request.unwrap().then((payload) => {
             reset();
             close();
-            setProducerCountryId(0);
+            setEditValues(undefined)
             SuccessNotifications(payload)
         }).catch((error) => ErrorNotifications(error))
     }
@@ -85,11 +74,11 @@ const AddOrUpdateProducerCountry = ({opened = false, open, close} : AddOrUpdateP
                 opened={opened}
                 onClose={() => {
                     reset();
-                    setProducerCountryId(0);
+                    setEditValues(undefined)
                     close();
                 }}
                 position="right"
-                title={country ? "Редактирование страны" : "Добавление страны"}>
+                title={editValues ? "Редактирование страны" : "Добавление страны"}>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <Flex direction="column" justify="space-between" gap={15} h="calc(100vh - 80px)">
@@ -114,10 +103,10 @@ const AddOrUpdateProducerCountry = ({opened = false, open, close} : AddOrUpdateP
                                     />
                                 )}/>
 
-                            <DropzoneImages setValue={setValue} image={country?.uploaded_image} error={errors.image?.message}/>
+                            <DropzoneUploader setValue={setValue} image={image_url} error={errors.image?.message} clearErrors={clearErrors}/>
                         </Box>
 
-                        <Button type="submit">{country ? "Обновить" : "Добавить"}</Button>
+                        <Button type="submit">{editValues ? "Обновить" : "Добавить"}</Button>
                     </Flex>
                 </form>
 
