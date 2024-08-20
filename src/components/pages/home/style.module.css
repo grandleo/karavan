@@ -1,0 +1,92 @@
+.homeFirstScreen {
+    position: relative;
+    background: url("/images/homepage/homeFirstScreen.svg");
+    background-size: 100% 100%;
+}
+
+.title {
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 64px;
+    text-align: center;
+    color: #1B1F3BE5;
+    margin-bottom: 18px;
+}
+
+.subTitle {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 28px;
+    text-align: center;
+    color: #1B1F3BE5;
+}
+
+.salesOnHomePage {
+    margin-top: 64px;
+    margin-bottom: 120px;
+}
+
+.salesTitle {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    color: #1B1F3BE5;
+    margin-bottom: 24px;
+}
+
+.productName {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #1B1F3BE5;
+}
+
+.productPrice {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 28px;
+    color: #1B1F3BE5;
+}
+
+.productQty {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    color: #1B1F3BE5;
+}
+
+.productDate {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: left;
+    color: #1B1F3B73;
+}
+
+@media (max-width: 74em) {
+    .homeFirstScreen {
+        background: url("/images/homepage/homeFirstScreenSmall.svg");
+        padding-top: 300px;
+        background-size: cover;
+    }
+
+    .title {
+        font-size: 34px;
+        line-height: 42px;
+    }
+}
+
+@media (max-width: 64em) {
+    .homeFirstScreen {
+        background: url("/images/homepage/homeFirstScreenExtraSmall.svg");
+        padding-top: 180px;
+        background-size: cover;
+    }
+
+    .title {
+        font-size: 26px;
+        line-height: 32px;
+    }
+}

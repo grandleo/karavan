@@ -1,0 +1,21 @@
+.bannerApp {
+    background: #fff;
+    border-radius: 16px;
+    padding: 58px 42px 0;
+}
+
+.bannerAppTitle {
+    color: #1B1F3BE5;
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 36px;
+    margin-bottom: 16px;
+}
+
+.bannerAppSubTitle {
+    color: #1B1F3B73;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 32px;
+}

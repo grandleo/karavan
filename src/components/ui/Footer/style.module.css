@@ -1,0 +1,26 @@
+.homeFooter {
+    margin-top: 72px;
+    padding-top: 32px;
+    padding-bottom: 48px;
+    border-top: 1px solid transparent;
+    position: relative;
+}
+
+.homeFooter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(226, 229, 233, 0) 0%, #E2E5E9 11.46%, #E2E5E9 88.02%, rgba(226, 229, 233, 0) 100%);
+}
+
+.copyright {
+    color: #1B1F3B73;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    margin-top: 24px;
+}

@@ -1,0 +1,31 @@
+.capabilityHomeTitle {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 52px;
+    text-align: center;
+    color: #1B1F3BE5;
+    margin-bottom: 56px;
+}
+
+.capabilityTitle {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 28px;
+    color: #436CFBB2;
+}
+
+.capabilityDescription {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 28px;
+    color: #1B1F3B73;
+}
+
+@media (max-width: 64em) {
+    .capabilityInfo {
+        order: 1;
+    }
+    .capabilityImage {
+        order: 2;
+    }
+}

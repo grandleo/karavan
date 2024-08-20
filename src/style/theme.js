@@ -9,18 +9,18 @@ import {
     Switch, Table,
     TextInput
 } from "@mantine/core";
-import {Inter} from "next/font/google";
+import {Inter, Manrope} from "next/font/google";
 import classes from "./global.module.css";
 
-const inter = Inter({
+const manrope = Manrope({
     subsets: ['latin', 'cyrillic'],
     display: 'swap',
     weight: ['300', '400', '600'],
-    variable: '--font-inter',
+    variable: '--font-manrope',
 });
 
 const Theme = createTheme({
-    fontFamily: inter.style.fontFamily,
+    fontFamily: manrope.style.fontFamily,
 
     a: {
         color: 'red'
@@ -63,22 +63,22 @@ const Theme = createTheme({
         }),
         Button: Button.extend({
             defaultProps: {
-                color: "#1470C6"
+                color: "#436CFB"
             }
         }),
         Switch: Switch.extend({
             defaultProps: {
-                color: "#1470C6"
+                color: "#436CFB"
             }
         }),
         Checkbox: Checkbox.extend({
             defaultProps: {
-                color: "#1470C6"
+                color: "#436CFB"
             }
         }),
         SegmentedControl: SegmentedControl.extend({
             defaultProps: {
-                color: "#1470C6"
+                color: "#436CFB"
             }
         }),
         Table: Table.extend({
