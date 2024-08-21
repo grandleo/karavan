@@ -1,0 +1,28 @@
+.productSpecification {
+    border-radius: 8px;
+    border: 1px solid #E4E4E7;
+    background: #FFF;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.valueSpecification {
+    border-radius: 8px;
+    border: 1px solid #E4E4E7;
+    background: #FFF;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+.valueSpecificationInput {
+    flex-grow: 1;
+    margin-bottom: 0 !important;
+}
+
+.valueSpecificationInputWrapper {
+    margin-bottom: 0 !important;
+}
+
+.productSpecification .name {
+    flex-grow: 1;
+}

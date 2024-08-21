@@ -2,14 +2,11 @@ import {api} from "@/store/api/api";
 
 export const specificationsApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getSpecifications: builder.query({
+        getProductSpecifications: builder.query({
             query: () => ({url: 'admin/specifications', method: 'get'}),
             providesTags: () => [{
                 type: 'Specifications'
             }]
-        }),
-        getSpecification: builder.query({
-            query: (data) => ({url: 'admin/specifications/get-specification', method: 'post', data: {id: data}})
         }),
         createSpecification: builder.mutation({
             query: (data) => ({url: 'admin/specifications/create', method: 'post', data: data}),
@@ -29,6 +26,34 @@ export const specificationsApi = api.injectEndpoints({
                 type: 'Specifications'
             }]
         }),
+        setSortSpecification: builder.mutation({
+            query: (data) => ({url: 'admin/specifications/set-sort', method: 'post', data: {'new_sort': data}}),
+            invalidatesTags: () => [{
+                type: 'Specifications'
+            }]
+        }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+        getSpecifications: builder.query({
+            query: () => ({url: 'admin/specifications', method: 'get'}),
+            providesTags: () => [{
+                type: 'Specifications'
+            }]
+        }),
+        getSpecification: builder.query({
+            query: (data) => ({url: 'admin/specifications/get-specification', method: 'post', data: {id: data}})
+        }),
         getSpecificationValues: builder.query({
             query: (id) => ({url: 'admin/specifications/get-values', method: 'post', data: {id_specification: id}}),
             providesTags: () => [{
@@ -46,24 +71,22 @@ export const specificationsApi = api.injectEndpoints({
             invalidatesTags: () => [{
                 type: 'SpecificationValues'
             }]
-        }),
-        setSortSpecification: builder.mutation({
-            query: (data) => ({url: 'admin/specifications/set-sort', method: 'post', data: {'new_sort': data}}),
-            invalidatesTags: () => [{
-                type: 'Specifications'
-            }]
         })
     })
 });
 
 export const {
-    useGetSpecificationsQuery,
-    useGetSpecificationQuery,
+    useGetProductSpecificationsQuery,
     useCreateSpecificationMutation,
-    useDeleteSpecificationMutation,
     useUpdateSpecificationMutation,
+    useDeleteSpecificationMutation,
+    useSetSortSpecificationMutation,
+
+
+
+
+    useGetSpecificationsQuery,
     useGetSpecificationValuesQuery,
     useAddSpecificationValuesMutation,
     useDeleteSpecificationValueMutation,
-    useSetSortSpecificationMutation
 } = specificationsApi;
