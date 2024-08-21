@@ -120,12 +120,11 @@ const Nomenclature = () => {
                             <EmptyData text="Нет добавленых категорий"/>
                         ) : (
                             <>
-                                <ProductsTable products={products} activeCategory={activeCategory} availableSpecifications={availableSpecifications}/>
-                                {/*{activeCategory === null ? (*/}
-                                {/*    <EmptyData text="Выберите категорию" height="calc(100vh - 140px)"/>*/}
-                                {/*) : (*/}
-                                {/*    <ProductsTable products={products} activeCategory={activeCategory} availableSpecifications={availableSpecifications}/>*/}
-                                {/*)}*/}
+                                {activeCategory === null ? (
+                                    <EmptyData text="Выберите категорию" height="calc(100vh - 140px)"/>
+                                ) : (
+                                    <ProductsTable products={products} activeCategory={activeCategory} availableSpecifications={availableSpecifications}/>
+                                )}
                             </>
                         )}
                     </ScrollArea>
