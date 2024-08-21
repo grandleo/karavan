@@ -5,7 +5,7 @@ import classes from "@/components/productSpecifications/productSpecifications.mo
 import {IconDotsVertical, IconPencil, IconTrash} from "@tabler/icons-react";
 
 const productSpecification = ({item, open, handleDeleteSpecification, setEditValues} : ProductSpecificationProps) => {
-    const countValues = item.values.length;
+    const countValues = item.values?.length;
 
     return (
         <Flex
