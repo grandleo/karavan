@@ -5,6 +5,7 @@ import {useDisclosure} from "@mantine/hooks";
 import {useEffect, useState} from "react";
 import {modals} from "@mantine/modals";
 import Authentication from "@/components/auth";
+import LanguageSwitch from "@/components/LanguageSwitch";
 
 const HeaderHome = () => {
     const [isSticky, setIsSticky] = useState(false);
@@ -50,6 +51,7 @@ const HeaderHome = () => {
                         </Group>
 
                         <Flex align="center" gap={16}>
+                            <LanguageSwitch/>
                             <Button onClick={openLogin}>Войти</Button>
                             <Burger opened={openedMenu} onClick={toggleMenu} hiddenFrom="xs" size="sm" />
                         </Flex>

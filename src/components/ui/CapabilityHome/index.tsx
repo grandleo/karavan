@@ -20,7 +20,7 @@ const CapabilityHome = () => {
                     <Image
                         className={classes.capabilityImage}
                         component={NextImage}
-                        src="images/homepage/best-price.svg"
+                        src="/images/homepage/best-price.png"
                         width={400}
                         height={382}
                         fit="cover"
@@ -36,11 +36,11 @@ const CapabilityHome = () => {
                     <Image
                         className={classes.capabilityImage}
                         component={NextImage}
-                        src="images/homepage/speed.svg"
+                        src="/images/homepage/tender.png"
                         width={400}
                         height={382}
                         fit="cover"
-                        alt="Скорость"/>
+                        alt="Торг"/>
                     <Box className={classes.capabilityInfo}>
                         <Text className={classes.capabilityTitle}>Торг</Text>
                         <Text className={classes.capabilityDescription}>Дополнительная возможность купить товар, ещё
@@ -63,11 +63,11 @@ const CapabilityHome = () => {
                     <Image
                         className={classes.capabilityImage}
                         component={NextImage}
-                        src="images/homepage/volume.svg"
+                        src="/images/homepage/volume.png"
                         width={400}
                         height={382}
                         fit="cover"
-                        alt="Скорость"/>
+                        alt="Объем"/>
                 </Flex>
                 <Flex
                     className={classes.capability}
@@ -77,7 +77,7 @@ const CapabilityHome = () => {
                     <Image
                         className={classes.capabilityImage}
                         component={NextImage}
-                        src="images/homepage/tender.svg"
+                        src="/images/homepage/speed.png"
                         width={400}
                         height={382}
                         fit="cover"

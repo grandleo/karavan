@@ -13,7 +13,7 @@ import Providers from "@/provider/providers";
 const manrope = Manrope({
     subsets: ['latin', 'cyrillic'],
     display: 'swap',
-    weight: ['300', '400', '600'],
+    weight: ['300', '400', '500', '600', '700', '800'],
     variable: '--font-manrope',
 });
 
