@@ -1,11 +1,18 @@
 import {Box, Flex, Image, Text} from "@mantine/core";
 import NextImage from "next/image";
 import classes from "@/components/ui/CapabilityHome/style.module.css";
+import {useTranslations} from "@/hooks/useTranslations";
 
 const CapabilityHome = () => {
+    const { translations, loading } = useTranslations('home');
+
+    if (loading) {
+        return <div>Loading...</div>; // Пока загружаются переводы, показываем loader
+    }
+
     return (
         <Box mb={{ base: 48, sm: 72, md: 96 }}>
-            <Text className={classes.capabilityHomeTitle}>Открывайте новые возможности</Text>
+            <Text className={classes.capabilityHomeTitle}>{translations.capabilityScreen.title}</Text>
             <Flex direction="column" gap={{ base: 32, md: 56 }}>
                 <Flex
                     className={classes.capability}
@@ -13,9 +20,12 @@ const CapabilityHome = () => {
                     gap={{ base: 12, sm: 24, md: 32 }}
                     direction={{base: 'column', md: 'row'}}>
                     <Box className={classes.capabilityInfo}>
-                        <Text className={classes.capabilityTitle}>Лучшая цена</Text>
-                        <Text className={classes.capabilityDescription}>Благодаря снижению цены, предложение поставщика
-                            выводиться первым в списке у клиента.</Text>
+                        <Text className={classes.capabilityTitle}>
+                            {translations.capabilityScreen.bestPrice.title}
+                        </Text>
+                        <Text className={classes.capabilityDescription}>
+                            {translations.capabilityScreen.bestPrice.description}
+                        </Text>
                     </Box>
                     <Image
                         className={classes.capabilityImage}
@@ -42,10 +52,12 @@ const CapabilityHome = () => {
                         fit="cover"
                         alt="Торг"/>
                     <Box className={classes.capabilityInfo}>
-                        <Text className={classes.capabilityTitle}>Торг</Text>
-                        <Text className={classes.capabilityDescription}>Дополнительная возможность купить товар, ещё
-                            дешевле. Устанавливайте свои цены и торгуйтесь поставщиками, чтобы купить товары ещё
-                            дешевле.</Text>
+                        <Text className={classes.capabilityTitle}>
+                            {translations.capabilityScreen.tender.title}
+                        </Text>
+                        <Text className={classes.capabilityDescription}>
+                            {translations.capabilityScreen.tender.description}
+                        </Text>
                     </Box>
                 </Flex>
                 <Flex
@@ -55,10 +67,12 @@ const CapabilityHome = () => {
                     direction={{base: 'column', md: 'row'}}
                 >
                     <Box className={classes.capabilityInfo}>
-                        <Text className={classes.capabilityTitle}>Объем</Text>
-                        <Text className={classes.capabilityDescription}>Поставщики, постоянно обновляют ассортимент.
-                            Благодаря этому, клиент имеет широкий выбор и возможность купить в больших и мелких
-                            объемах.</Text>
+                        <Text className={classes.capabilityTitle}>
+                            {translations.capabilityScreen.volume.title}
+                        </Text>
+                        <Text className={classes.capabilityDescription}>
+                            {translations.capabilityScreen.volume.description}
+                        </Text>
                     </Box>
                     <Image
                         className={classes.capabilityImage}
@@ -83,10 +97,12 @@ const CapabilityHome = () => {
                         fit="cover"
                         alt="Скорость"/>
                     <Box className={classes.capabilityInfo}>
-                        <Text className={classes.capabilityTitle}>Скорость</Text>
-                        <Text className={classes.capabilityDescription}>Единая платформа, позволяет в два клика купить
-                            товар или выставить предложение, отслеживать статус заказа или просмотреть статистику
-                            продаж.</Text>
+                        <Text className={classes.capabilityTitle}>
+                            {translations.capabilityScreen.speed.title}
+                        </Text>
+                        <Text className={classes.capabilityDescription}>
+                            {translations.capabilityScreen.speed.description}
+                        </Text>
                     </Box>
                 </Flex>
             </Flex>

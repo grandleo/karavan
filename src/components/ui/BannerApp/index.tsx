@@ -1,8 +1,15 @@
 import {Button, Grid, Text, Image, Flex, Box} from "@mantine/core";
 import NextImage from "next/image";
 import classes from "@/components/ui/BannerApp/style.module.css";
+import {useTranslations} from "@/hooks/useTranslations";
 
 const BannerApp = () => {
+    const { translations, loading } = useTranslations('home');
+
+    if (loading) {
+        return <div>Loading...</div>; // Пока загружаются переводы, показываем loader
+    }
+
     return (
         <>
             <Flex
@@ -12,12 +19,13 @@ const BannerApp = () => {
                 gap={{base: 16, md: 25, lg: 72}}>
                 <Box>
                     <Text className={classes.bannerAppTitle}>
-                        Karavan App
+                        {translations.bannerScreen.title}
                     </Text>
-                    <Text className={classes.bannerAppSubTitle}>Все это в одном приложении, позволяющем совершать лучшие
-                        покупки на рынке. </Text>
-                    <Button>iOS</Button>
-                    <Button>Android</Button>
+                    <Text className={classes.bannerAppSubTitle}>
+                        {translations.bannerScreen.subTitle}
+                    </Text>
+                    <Button>{translations.bannerScreen.buttonIos}</Button>
+                    <Button>{translations.bannerScreen.buttonAndroid}</Button>
                 </Box>
                 <Image
                     component={NextImage}
