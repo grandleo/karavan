@@ -1,7 +1,9 @@
 .homeFirstScreen {
     position: relative;
-    background: url("/images/homepage/homeFirstScreen.svg");
-    background-size: 100% 100%;
+    background: url("/images/homepage/firstScreenPc.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding-top: 600px;
 }
 
 .title {
@@ -65,28 +67,31 @@
     color: #1B1F3B73;
 }
 
-@media (max-width: 74em) {
+/* Для телефонов (меньше 768px) */
+@media (max-width: 767px) {
     .homeFirstScreen {
-        background: url("/images/homepage/homeFirstScreenSmall.svg");
-        padding-top: 300px;
+        background: url("/images/homepage/firstScreenMob.svg");
+        background-repeat: no-repeat;
         background-size: cover;
-    }
-
-    .title {
-        font-size: 34px;
-        line-height: 42px;
-    }
-}
-
-@media (max-width: 64em) {
-    .homeFirstScreen {
-        background: url("/images/homepage/homeFirstScreenExtraSmall.svg");
-        padding-top: 180px;
-        background-size: cover;
+        padding-top: 260px;
     }
 
     .title {
         font-size: 26px;
         line-height: 32px;
+    }
+}
+
+/* Для планшетов (768px - 1199px) */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .homeFirstScreen {
+        background: url("/images/homepage/firstScreenTab.svg");
+        background-repeat: no-repeat;
+        padding-top: 600px;
+    }
+
+    .title {
+        font-size: 34px;
+        line-height: 42px;
     }
 }

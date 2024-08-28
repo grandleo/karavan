@@ -14,7 +14,7 @@ const HomeFirstScreen = () => {
 
     return (
         <>
-            <Container size="md" pt={{base: 180, md: 300, lg: 480}}>
+            <Container size="md">
                 <Text className={classes.title}>
                     {translations.title}
                 </Text>
