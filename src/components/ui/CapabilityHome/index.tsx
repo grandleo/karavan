@@ -11,7 +11,7 @@ const CapabilityHome = () => {
     }
 
     return (
-        <Box mb={{ base: 48, sm: 72, md: 96 }}>
+        <Box mb={{ base: 48, sm: 72, md: 96 }} id="capability">
             <Text className={classes.capabilityHomeTitle}>{translations.capabilityScreen.title}</Text>
             <Flex direction="column" gap={{ base: 32, md: 56 }}>
                 <Flex

@@ -16,7 +16,8 @@ const BannerApp = () => {
                 className={classes.bannerApp}
                 direction={{base: 'column', md: 'row'}}
                 align="center"
-                gap={{base: 16, md: 25, lg: 72}}>
+                gap={{base: 16, md: 25, lg: 72}}
+            id="download">
                 <Box>
                     <Text className={classes.bannerAppTitle}>
                         {translations.bannerScreen.title}

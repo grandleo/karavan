@@ -5,7 +5,7 @@ import NextImage from "next/image";
 
 const HomeFooter = () => {
     return (
-        <Box className={classes.homeFooter}>
+        <Box className={classes.homeFooter} id="footer">
             <Container size="md">
                 <Flex
                     direction={{ base: 'column', md: 'row' }}
@@ -20,8 +20,8 @@ const HomeFooter = () => {
                         fit="contain"
                         alt="Karavan"/>
                     <Flex gap={{ base: 8, md: 32 }} direction={{ base: 'column', md: 'row' }}>
-                        <Text component={Link} href="#">Политика конфидециальности</Text>
-                        <Text component={Link} href="#">Политика обработки данных</Text>
+                        <Text component={Link} href='/privacy'>Политика конфидециальности</Text>
+                        <Text component={Link} href="/processing">Политика обработки данных</Text>
                     </Flex>
                 </Flex>
                 <Flex

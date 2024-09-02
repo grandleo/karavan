@@ -2,7 +2,7 @@
 
 import {HeaderHome} from "@/components/ui/header";
 import {HomeFooter} from "@/components/ui/Footer";
-import {Box, Container, Text, Title} from "@mantine/core";
+import {Container, Select, Text, Title} from "@mantine/core";
 
 const PrivacyScreen = () => {
     return (
