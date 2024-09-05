@@ -27,6 +27,7 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
             setSelected(updated);
             onChange(updated);
         }
+    };
 
     const handleRemove = (item) => {
         const updated = selected.filter(selectedItem => selectedItem.id !== item.id);
