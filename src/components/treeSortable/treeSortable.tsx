@@ -11,8 +11,10 @@ import {
     useSensors
 } from "@dnd-kit/core";
 import {arrayMove, SortableContext, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
-import {restrictToVerticalAxis} from "@dnd-kit/modifiers";
+import {restrictToVerticalAxis, restrictToWindowEdges} from "@dnd-kit/modifiers";
 import {TreeItem, DragHandle} from "@/components/treeSortable/treeItem";
+import {Box} from "@mantine/core";
+import classes from "@/components/treeSortable/styles.module.css";
 
 
 const TreeSortable = <T extends BaseItem>({items, onChange, onSortEnd, renderItem}: TreeSortableProps<T>) => {
@@ -25,19 +27,19 @@ const TreeSortable = <T extends BaseItem>({items, onChange, onSortEnd, renderIte
         })
     );
 
-    const handleDragStart = useCallback(({ active }: { active: Active }) => {
+    const handleDragStart = useCallback(({active}: { active: Active }) => {
         setActive(active);
     }, []);
 
-    const handleDragEnd = useCallback(({ active, over }: { active: Active, over: any }) => {
+    const handleDragEnd = useCallback(({active, over}: { active: Active, over: any }) => {
         if (over && active.id !== over.id) {
-            const activeIndex = items.findIndex(({ id }) => id === active.id);
-            const overIndex = items.findIndex(({ id }) => id === over.id);
+            const activeIndex = items.findIndex(({id}) => id === active.id);
+            const overIndex = items.findIndex(({id}) => id === over.id);
 
             const newSort = arrayMove(items, activeIndex, overIndex);
             onChange(newSort);
 
-            if(onSortEnd) onSortEnd(newSort.map(item => item.id));
+            if (onSortEnd) onSortEnd(newSort.map(item => item.id));
         }
         setActive(null);
     }, [items, onChange, onSortEnd]);
@@ -59,22 +61,24 @@ const TreeSortable = <T extends BaseItem>({items, onChange, onSortEnd, renderIte
     };
 
     return (
-        <DndContext
-            sensors={sensors}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-            onDragCancel={handleDragCancel}
-            modifiers={[restrictToVerticalAxis]}
-        >
-            <SortableContext items={items}>
-                {items.map((item, index) => (
-                    <React.Fragment key={item.id}>{renderItem(item, index)}</React.Fragment>
-                ))}
-            </SortableContext>
-            <DragOverlay dropAnimation={dropAnimationConfig}>
-                {activeItem && renderItem(activeItem)}
-            </DragOverlay>
-        </DndContext>
+        <Box className={classes.treeBox}>
+            <DndContext
+                sensors={sensors}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDragCancel={handleDragCancel}
+                modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
+            >
+                    <SortableContext items={items}>
+                        {items.map((item, index) => (
+                            <React.Fragment key={item.id}>{renderItem(item, index)}</React.Fragment>
+                        ))}
+                    </SortableContext>
+                    <DragOverlay dropAnimation={dropAnimationConfig}>
+                        {activeItem && renderItem(activeItem)}
+                    </DragOverlay>
+            </DndContext>
+        </Box>
     );
 }
 
