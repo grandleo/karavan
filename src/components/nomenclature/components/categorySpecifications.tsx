@@ -16,14 +16,6 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
         setSelected(selectedSpecifications);
     }, [selectedSpecifications]);
 
-    // const handleOptionSubmit = (item) => {
-    //     const isSelected = selected.some(selectedItem => selectedItem.id === item.id);
-    //     if (isSelected) {
-    //         setSelected(selected.filter(selectedItem => selectedItem.id !== item.id));
-    //     } else {
-    //         setSelected([...selected, item]);
-    //     }
-    // };
     const handleOptionSubmit = (item) => {
         const isSelected = selected.some(selectedItem => selectedItem.id === item.id);
         if (isSelected) {
@@ -35,11 +27,6 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
             setSelected(updated);
             onChange(updated);
         }
-    };
-
-    // const handleRemove = (item) => {
-    //     setSelected(selected.filter(selectedItem => selectedItem.id !== item.id));
-    // };
 
     const handleRemove = (item) => {
         const updated = selected.filter(selectedItem => selectedItem.id !== item.id);
@@ -47,19 +34,11 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
         onChange(updated);
     };
 
-    // const handleClear = () => {
-    //     setSelected([]);
-    // };
     const handleClear = () => {
         setSelected([]);
         onChange([]);
     };
 
-    // const handleTradingFeatureToggle = (itemId) => {
-    //     setSelected(selected.map(selectedItem =>
-    //         selectedItem.id === itemId ? {...selectedItem, trading_feature: !selectedItem.trading_feature} : selectedItem
-    //     ));
-    // };
     const handleTradingFeatureToggle = (itemId) => {
         const updated = selected.map(selectedItem =>
             selectedItem.id === itemId ? {...selectedItem, trading_feature: !selectedItem.trading_feature} : selectedItem

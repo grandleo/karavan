@@ -14,3 +14,8 @@
      color: #000;
      background: #F4F4F5;
  }
+
+.treeBox:has([role="status"][aria-live="assertive"]) [role="status"][aria-live="assertive"] {
+    bottom: 0;
+    left: 0;
+}
