@@ -107,23 +107,15 @@ const StockForm = () => {
 
     useEffect(() => {
         const filterProducts = () => {
-            // Если нет активных фильтров, возвращаем все товары
-            const isFilterEmpty = Object.values(productFilters).every(filterValues => filterValues.length === 0);
-
-            if (isFilterEmpty) {
-                setFilteredProducts(products);
-                return;
-            }
-
+            // Пройдемся по productFilters и найдем пересечения с product.filter
             const filtered = products.filter(product => {
-                // Проверяем пересечение значений в фильтрах, если фильтры есть
-                return Object.keys(productFilters).some(filterKey => {
-                    const filterValues = productFilters[filterKey];
-                    // Если для данного фильтра есть значения, проверяем пересечения
-                    if (filterValues.length > 0) {
-                        return product.filter.some(f => filterValues.includes(f));
+                return Object.values(productFilters).every(filterValues => {
+                    // Игнорируем пустые массивы фильтров
+                    if (filterValues.length === 0) {
+                        return true;
                     }
-                    return true;
+                    // Проверяем, есть ли пересечения значений
+                    return filterValues.some(filterValue => product.filter.includes(filterValue));
                 });
             });
 
@@ -131,7 +123,7 @@ const StockForm = () => {
         };
 
         filterProducts();
-    }, [products, productFilters]); // Отслеживаем изменения в products и productFilters
+    }, [products, productFilters]);
 
     const onSubmit = async (data): Promise<void> => {
         const { product_id, price, quantity } = data;
