@@ -41,9 +41,6 @@ const StockForm = () => {
     const [products, setProducts] = useState<ISelectProduct[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<ISelectProduct[]>([]);
 
-    console.log(productFilters);
-    console.log(products);
-
     const [showRestForm, setShowRestForm] = useState(false);
     const [showPeriodValidity, setShowPeriodValidity] = useState(false);
 

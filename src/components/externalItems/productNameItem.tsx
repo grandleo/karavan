@@ -12,16 +12,18 @@ const ProductNameItem = ({item}: ProductNameItemProps) => {
     return (
         <>
             <Flex align="center" gap={5}>
-                <Tooltip label={item.producer_country_data.name}>
-                    <Image
-                        component={NextImage}
-                        src={item.producer_country_data.image_url}
-                        alt={item.producer_country_data.name}
-                        width={20}
-                        height={20}
-                        fit="contain"
-                    />
-                </Tooltip>
+                {item?.producer_country_data?.id && (
+                    <Tooltip label={item.producer_country_data.name}>
+                        <Image
+                            component={NextImage}
+                            src={item.producer_country_data.image_url}
+                            alt={item.producer_country_data.name}
+                            width={20}
+                            height={20}
+                            fit="contain"
+                        />
+                    </Tooltip>
+                )}
                 <Box>
                     <Text className={classes.productName}>
                         {item.name}

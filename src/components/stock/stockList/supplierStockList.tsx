@@ -11,7 +11,6 @@ const SupplierStockList = ({products}: SupplierStockListTypes) => {
 
     const handleShowInfo = (product) => {
         setCurrentProduct(product);
-        console.log(product)
         open();
     };
 
@@ -41,29 +40,28 @@ const SupplierStockList = ({products}: SupplierStockListTypes) => {
                                 gap="8"
                                 className={classes.productInfo}
                             >
-                                <Tooltip label={currentProduct.product.country.name}>
-                                    <Image
-                                        component={NextImage}
-                                        src={currentProduct.product.country.image_url}
-                                        alt={currentProduct.product.country.name}
-                                        width="30"
-                                        height="20"
-                                        fit="contain"
-                                    />
-                                </Tooltip>
+                                {currentProduct.product?.country?.id && (
+                                    <Tooltip label={currentProduct.product.country.name}>
+                                        <Image
+                                            component={NextImage}
+                                            src={currentProduct.product.country.image_url}
+                                            alt={currentProduct.product.country.name}
+                                            width="30"
+                                            height="20"
+                                            fit="contain"
+                                        />
+                                    </Tooltip>
+                                )}
                                 <Text className={classes.productName}>{currentProduct.product.name}</Text>
                             </Flex>
 
                             <Text className={classes.info}>Артикул: <Text span>{currentProduct.product.article}</Text></Text>
-                            {/*{currentProduct.card_specifications && (*/}
-                            {/*    <Text className={classes.info}>Производитель: <Text span>Фармстандарт</Text></Text>*/}
-                            {/*)}*/}
 
-                            {currentProduct.card_specifications.length > 0 && currentProduct.card_specifications.map((spec, idx) => (
+                            {currentProduct?.card_specifications.length > 0 && currentProduct.card_specifications.map((spec, idx) => (
                                 <Text key={idx} className={classes.info}>{spec.label}: <Text span>{spec.value}</Text></Text>
                             ))}
 
-                            {currentProduct.trading_text && (
+                            {currentProduct?.trading_text && (
                                 <Text className={classes.info}>Торг.особенность: <Text span>{currentProduct.trading_text}</Text></Text>
                             )}
                         </Box>

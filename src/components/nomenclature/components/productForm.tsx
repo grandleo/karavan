@@ -198,7 +198,7 @@ const ProductForm = ({opened, close, activeCategory, transformedCountries, avail
                                 <Controller
                                     control={methods.control}
                                     rules={{
-                                        required: "Поле обязательно для заполнения.",
+                                        // required: "Поле обязательно для заполнения.",
                                     }}
                                     name="producer_country_id"
                                     render={({ field: {value, onChange, onBlur}, fieldState: {error} }) => (
@@ -206,6 +206,7 @@ const ProductForm = ({opened, close, activeCategory, transformedCountries, avail
                                             label="Страна производства"
                                             placeholder="Выберите значение"
                                             searchable
+                                            clearable
                                             nothingFoundMessage="Ничего не найдено..."
                                             value={value}
                                             onBlur={onBlur}

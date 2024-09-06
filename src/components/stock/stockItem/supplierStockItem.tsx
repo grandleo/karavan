@@ -37,16 +37,18 @@ const SupplierStockItem = ({index, item, showInfo}: SupplierStockItemTypes) => {
                             align="center"
                             gap="8"
                         >
-                            <Tooltip label={item.product.country.name}>
-                                <Image
-                                    component={NextImage}
-                                    src={item.product.country.image_url}
-                                    alt={item.product.country.name}
-                                    width={20}
-                                    height={20}
-                                    fit="contain"
-                                />
-                            </Tooltip>
+                            {item?.product.country?.id && (
+                                <Tooltip label={item.product.country.name}>
+                                    <Image
+                                        component={NextImage}
+                                        src={item.product.country.image_url}
+                                        alt={item.product.country.name}
+                                        width={20}
+                                        height={20}
+                                        fit="contain"
+                                    />
+                                </Tooltip>
+                            )}
                             <Text className={classes.productName} onClick={showInfo}>{item.product.name}</Text>
                         </Flex>
                     </Table.Td>
