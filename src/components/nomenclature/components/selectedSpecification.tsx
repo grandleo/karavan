@@ -3,10 +3,14 @@ import {IconTrash} from "@tabler/icons-react";
 import {TreeSortable} from "@/components/treeSortable";
 import classes from "@/components/nomenclature/styles.module.css";
 
-const SelectedSpecification = ({item, onRemove, onToggleTradingFeature}) => {
+const SelectedSpecification = ({item, onRemove, onToggleTradingFeature, onToggleFilterable}) => {
     const handleToggle = () => {
         onToggleTradingFeature(item.id);
     };
+
+    const handleToggleIsFilterable = () => {
+        onToggleFilterable(item.id);
+    }
 
     return (
         <Flex className={classes.categorySelectedSpecification}>
@@ -15,6 +19,12 @@ const SelectedSpecification = ({item, onRemove, onToggleTradingFeature}) => {
                 <Switch
                     checked={item.trading_feature}
                     onChange={handleToggle}
+                />
+            </Tooltip>
+            <Tooltip label="Выводить в фильтре" refProp="rootRef">
+                <Switch
+                    checked={item.is_filterable}
+                    onChange={handleToggleIsFilterable}
                 />
             </Tooltip>
             <Text className={classes.name}>{item.name}</Text>

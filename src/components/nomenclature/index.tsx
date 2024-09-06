@@ -63,45 +63,6 @@ const Nomenclature = () => {
         }
     }, [categories]);
 
-    // useEffect(() => {
-    //     if (activeCategory && activeCategory.categorySpecifications) {
-    //         const specificationIds = activeCategory.categorySpecifications.map(spec => spec.specification_id);
-    //
-    //         const newAvailableSpecifications = productSpecifications.map((spec: ICategorySpecification) => {
-    //             const matchingSpec = activeCategory.categorySpecifications.find(
-    //                 catSpec => catSpec.specification_id === spec.id
-    //             );
-    //             if (matchingSpec) {
-    //                 return { ...spec, order_column: matchingSpec.order_column };
-    //             }
-    //             return spec;
-    //         }).filter((spec: ICategorySpecification) => specificationIds.includes(spec.id)).sort((a, b) => a.order_column - b.order_column);
-    //
-    //         setAvailableSpecifications(newAvailableSpecifications);
-    //     } else {
-    //         setAvailableSpecifications([]);
-    //     }
-    // }, [activeCategory, productSpecifications]);
-    //
-    // useEffect(() => {
-    //     // Данный эффект будет срабатывать при изменении данных категорий
-    //     if (categories.length > 0 && activeCategory) {
-    //         const specificationIds = activeCategory.categorySpecifications.map(spec => spec.specification_id);
-    //
-    //         const newAvailableSpecifications = productSpecifications.map((spec: ICategorySpecification) => {
-    //             const matchingSpec = activeCategory.categorySpecifications.find(
-    //                 catSpec => catSpec.specification_id === spec.id
-    //             );
-    //             if (matchingSpec) {
-    //                 return { ...spec, order_column: matchingSpec.order_column };
-    //             }
-    //             return spec;
-    //         }).filter((spec: ICategorySpecification) => specificationIds.includes(spec.id)).sort((a, b) => a.order_column - b.order_column);
-    //
-    //         setAvailableSpecifications(newAvailableSpecifications);
-    //     }
-    // }, [categories]);
-
     return (
         <SimplePage
             title="Номенклатура"

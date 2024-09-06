@@ -29,8 +29,8 @@ const SupplierRow = ({user, open} : SupplierRowTypes) => {
         <Table.Tr>
             <Table.Td className={classes.numberClient}>{user.id}</Table.Td>
             <Table.Td>{fullName}</Table.Td>
-            <Table.Td>{user.company.short_with_opf}</Table.Td>
-            <Table.Td>{user.company.inn}</Table.Td>
+            <Table.Td>{user.company?.short_with_opf}</Table.Td>
+            <Table.Td>{user.company?.inn}</Table.Td>
             <Table.Td>{user.phone}</Table.Td>
             <Table.Td>{user.email}</Table.Td>
             <Table.Td>{user.warehouses_count}</Table.Td>

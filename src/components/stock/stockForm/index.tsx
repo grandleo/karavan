@@ -1,4 +1,4 @@
-import {Box, Button, Drawer, Flex, NumberInput, Select} from "@mantine/core";
+import {Box, Button, Chip, Drawer, Flex, Group, NumberInput, Select, Text} from "@mantine/core";
 import {useDisclosure} from "@mantine/hooks";
 import {
     useAddProductToSupplierStockMutation,
@@ -6,7 +6,7 @@ import {
     useLazyGetCategoryProductsQuery,
     useLazyGetSubCategoriesWithProductsQuery
 } from "@/store/api/supplier/stockSupplier.api";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SelectProduct from "@/components/stock/stockForm/selectProduct";
 import _ from "lodash";
 import {Controller, FormProvider, useForm, useFormContext} from "react-hook-form";
@@ -34,8 +34,15 @@ const StockForm = () => {
     const [mainCategory, setMainCategory] = useState<string | null>('');
     const [selectedCategories, setSelectedCategories] = useState<ISelectCategory[]>();
 
+    const [filters, setFilters] = useState([]);
+    const [productFilters, setProductFilters] = useState([]);
+
     const [subCategories, setSubCategories] = useState<ISelectCategory[]>([]);
     const [products, setProducts] = useState<ISelectProduct[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<ISelectProduct[]>([]);
+
+    console.log(productFilters);
+    console.log(products);
 
     const [showRestForm, setShowRestForm] = useState(false);
     const [showPeriodValidity, setShowPeriodValidity] = useState(false);
@@ -62,8 +69,9 @@ const StockForm = () => {
     }
 
     const fetchProducts = async (id: string | null) => {
-        await triggerProducts({category_id: id}).then(({data}) => {
-            setProducts(data)
+        await triggerProducts(id).then(({data}) => {
+            setProducts(data.products);
+            setFilters(data.filters);
         })
     }
 
@@ -89,6 +97,43 @@ const StockForm = () => {
             setShowPeriodValidity(required_period_validity)
         }
     }
+
+    const handleSelectFilter = (filterId: string, selectedValues: string[]) => {
+        setProductFilters((prevFilters) => ({
+            ...prevFilters,
+            [filterId]: selectedValues
+        }));
+
+        console.log(productFilters)
+    };
+
+    useEffect(() => {
+        const filterProducts = () => {
+            // Если нет активных фильтров, возвращаем все товары
+            const isFilterEmpty = Object.values(productFilters).every(filterValues => filterValues.length === 0);
+
+            if (isFilterEmpty) {
+                setFilteredProducts(products);
+                return;
+            }
+
+            const filtered = products.filter(product => {
+                // Проверяем пересечение значений в фильтрах, если фильтры есть
+                return Object.keys(productFilters).some(filterKey => {
+                    const filterValues = productFilters[filterKey];
+                    // Если для данного фильтра есть значения, проверяем пересечения
+                    if (filterValues.length > 0) {
+                        return product.filter.some(f => filterValues.includes(f));
+                    }
+                    return true;
+                });
+            });
+
+            setFilteredProducts(filtered);
+        };
+
+        filterProducts();
+    }, [products, productFilters]); // Отслеживаем изменения в products и productFilters
 
     const onSubmit = async (data): Promise<void> => {
         const { product_id, price, quantity } = data;
@@ -169,9 +214,17 @@ const StockForm = () => {
                                                 )
                                             })}
                                         </Box>
+
                                         {products.length > 0 && (
                                             <Box className={`${classes.bodyBlock}`}>
-                                                <SelectProduct products={products} setShowRestForm={setShowRestForm}/>
+
+                                                {filters?.length > 0 && (
+                                                    filters.map((item, index) => {
+                                                        return <ProductFilter filter={item} handleSelectFilter={handleSelectFilter} key={index}/>
+                                                        })
+                                                )}
+
+                                                <SelectProduct products={filteredProducts} setShowRestForm={setShowRestForm}/>
                                             </Box>
                                         )}
                                         {showRestForm && (
@@ -205,6 +258,47 @@ const StockForm = () => {
                     </Drawer.Body>
                 </Drawer.Content>
             </Drawer.Root>
+        </>
+    )
+}
+
+const ProductFilter = ({filter, handleSelectFilter}) => {
+    const {id: filterId, name, values} = filter;
+    const [value, setValue] = useState(['']);
+
+    // Предустановка первого значения и вызов handleSelectFilter
+    // useEffect(() => {
+    //     if (values.length > 0 && value.length === 0) {
+    //         const defaultValue = [values[0].id];
+    //         setValue(defaultValue);
+    //         handleSelectFilter(filterId, defaultValue); // Передаем предустановленное значение
+    //     }
+    // }, [values, filterId, handleSelectFilter, value]);
+
+    const handleChange = (newValues: string[]) => {
+        setValue(newValues);
+        handleSelectFilter(filterId, newValues); // Передаем id фильтра и выбранные значения
+    };
+
+    return (
+        <>
+            <Text>{name}:</Text>
+            <Chip.Group multiple value={value} onChange={handleChange}>
+                <Group align="center">
+                    {values.map((item, index) => {
+                        return (
+                            <Chip
+                                value={item.id}
+                                color="rgba(67, 108, 251, 0.8)"
+                                size="xs"
+                                radius="xs"
+                                key={index}>
+                                {item.name}
+                        </Chip>
+                        )
+                    })}
+                </Group>
+            </Chip.Group>
         </>
     )
 }

@@ -48,6 +48,14 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
         onChange(updated);
     };
 
+    const handleFilterableToggle = (itemId) => {
+        const updated = selected.map(selectedItem =>
+            selectedItem.id === itemId ? {...selectedItem, is_filterable: !selectedItem.is_filterable} : selectedItem
+        );
+        setSelected(updated);
+        onChange(updated);
+    };
+
     const options = productSpecifications?.filter((item) => item.name.toLowerCase().includes(search.toLowerCase().trim()))
         .map((item) => {
             const isSelected = selected.some(selectedItem => selectedItem.id === item.id);
@@ -75,7 +83,7 @@ const CategorySpecifications = ({productSpecifications, selectedSpecifications, 
                               renderItem={(item) => {
                     return (
                         <TreeSortable.Item id={item.id}>
-                            <SelectedSpecification item={item} onRemove={handleRemove} onToggleTradingFeature={handleTradingFeatureToggle}/>
+                            <SelectedSpecification item={item} onRemove={handleRemove} onToggleTradingFeature={handleTradingFeatureToggle} onToggleFilterable={handleFilterableToggle}/>
                         </TreeSortable.Item>
                     )
                 }}/>
