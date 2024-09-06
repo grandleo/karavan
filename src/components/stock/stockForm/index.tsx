@@ -264,18 +264,19 @@ const StockForm = () => {
 
 const ProductFilter = ({filter, handleSelectFilter}) => {
     const {id: filterId, name, values} = filter;
-    const [value, setValue] = useState(['']);
+    const [value, setValue] = useState([]);
 
     // Предустановка первого значения и вызов handleSelectFilter
-    // useEffect(() => {
-    //     if (values.length > 0 && value.length === 0) {
-    //         const defaultValue = [values[0].id];
-    //         setValue(defaultValue);
-    //         handleSelectFilter(filterId, defaultValue); // Передаем предустановленное значение
-    //     }
-    // }, [values, filterId, handleSelectFilter, value]);
+    useEffect(() => {
+        if (values.length > 0 && value.length === 0) {
+            const defaultValue = [values[0].id];
+            setValue(defaultValue);
+            handleSelectFilter(filterId, defaultValue); // Передаем предустановленное значение
+        }
+    }, [values]);
 
     const handleChange = (newValues: string[]) => {
+        console.log('newValues', newValues);
         setValue(newValues);
         handleSelectFilter(filterId, newValues); // Передаем id фильтра и выбранные значения
     };
