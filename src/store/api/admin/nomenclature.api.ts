@@ -10,13 +10,27 @@ export const nomenclatureApi = api.injectEndpoints({
             }]
         }),
         createCategory: builder.mutation({
-            query: (data) => ({url: 'admin/settings/nomenclature/categories/create', method: 'post', data: data}),
+            query: (data) => ({
+                url: 'admin/settings/nomenclature/categories/create',
+                method: 'post',
+                data: data,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            }),
             invalidatesTags: () => [{
                 type: 'NomenclatureCategories'
             }]
         }),
         updateCategory: builder.mutation({
-            query: (data) => ({url: 'admin/settings/nomenclature/categories/update', method: 'post', data: data}),
+            query: (data) => ({
+                url: 'admin/settings/nomenclature/categories/update',
+                method: 'post',
+                data: data,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                }
+            }),
             invalidatesTags: ['NomenclatureCategories', 'NomenclatureProducts'],
         }),
         deleteCategory: builder.mutation({

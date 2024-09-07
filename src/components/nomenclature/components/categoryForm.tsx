@@ -5,6 +5,7 @@ import {CategoryFormProps, ICategoryTypes} from "@/components/nomenclature/types
 import {useCreateCategoryMutation, useUpdateCategoryMutation} from "@/store/api/admin/nomenclature.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {useEffect} from "react";
+import {DropzoneUploader} from "@/components/inputs";
 
 const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues, productSpecifications}: CategoryFormProps) => {
     const methods = useForm({
@@ -13,7 +14,13 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
             name: '',
             parent_id: 0,
             required_period_validity: false,
-            categorySpecifications: []
+            categorySpecifications: [],
+            image: [],
+            image_url: '',
+            app_title: {
+                ru: '',
+                en: '',
+            },
         }
     });
 
@@ -30,14 +37,36 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
             methods.setValue('parent_id', editValues.parent_id)
             methods.setValue('required_period_validity', editValues.required_period_validity)
             methods.setValue('categorySpecifications', editValues.categorySpecifications)
+            methods.setValue('image_url', editValues.image_url);
+            methods.setValue('app_title', JSON.parse(editValues.app_title));
         }
     }, [editValues]);
+
+    const image_url = methods.watch('image_url');
 
     const [createCategory] = useCreateCategoryMutation()
     const [updateCategory] = useUpdateCategoryMutation()
 
     const onSubmit = (data: ICategoryTypes) => {
-        const request = editValues ? updateCategory(data) : createCategory(data);
+        if(data.image.length === 0 && !data.image_url) {
+            methods.setError('image',  { type: 'custom', message: 'Изображение обязательное' })
+
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("id", data.id.toString());
+        formData.append("name", data.name);
+        formData.append("parent_id", data.parent_id);
+        formData.append("required_period_validity", data.required_period_validity);
+        formData.append("categorySpecifications", data.categorySpecifications);
+        formData.append("app_title", JSON.stringify(data.app_title));
+
+        data.image.forEach((image, index) => {
+            formData.append(`image[${index}]`, image);
+        });
+
+        const request = editValues ? updateCategory(formData) : createCategory(formData);
         request.unwrap()
             .then((payload) => {
                 SuccessNotifications(payload)
@@ -102,6 +131,30 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
                             />
 
                             <Controller
+                                name="app_title.ru"
+                                control={methods.control}
+                                render={({ field }) => (
+                                    <TextInput
+                                        label="Название блока в приложении"
+                                        placeholder="Введите название на русском"
+                                        {...field}
+                                    />
+                                )}
+                            />
+
+                            <Controller
+                                name="app_title.en"
+                                control={methods.control}
+                                render={({ field }) => (
+                                    <TextInput
+                                        label="Название блока в приложении"
+                                        placeholder="Введите название на английском"
+                                        {...field}
+                                    />
+                                )}
+                            />
+
+                            <Controller
                                 control={methods.control}
                                 name="categorySpecifications"
                                 render={({field}) => (
@@ -112,6 +165,14 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
                                     />
                                 )}
                             />
+
+                            <Box mb={20} mt={20}>
+                                <DropzoneUploader
+                                    setValue={methods.setValue}
+                                    image={image_url}
+                                    error={methods.formState.errors.image?.message}
+                                    clearErrors={methods.clearErrors}/>
+                            </Box>
                         </Box>
                         <Button type="submit">{editValues ? 'Обновить' : 'Добавить'}</Button>
                     </Flex>

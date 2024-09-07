@@ -60,6 +60,8 @@ const CategoriesTree = ({
             .catch((error) => ErrorNotifications(error))
     }
 
+    console.log(categories)
+
     return (
         <>
             <ScrollArea className={classes.nomenclatureCategories}>
