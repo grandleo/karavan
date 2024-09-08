@@ -54,7 +54,7 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
         formData.append("name", data.name);
         formData.append("parent_id", data.parent_id);
         formData.append("required_period_validity", data.required_period_validity);
-        formData.append("categorySpecifications", data.categorySpecifications);
+        formData.append("categorySpecifications", JSON.stringify(data.categorySpecifications));
         formData.append("app_title", JSON.stringify(data.app_title));
 
         data.image.forEach((image, index) => {
