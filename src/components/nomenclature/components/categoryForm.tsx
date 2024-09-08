@@ -48,11 +48,6 @@ const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues,
     const [updateCategory] = useUpdateCategoryMutation()
 
     const onSubmit = (data: ICategoryTypes) => {
-        if(data.image.length === 0 && !data.image_url) {
-            methods.setError('image',  { type: 'custom', message: 'Изображение обязательное' })
-
-            return;
-        }
 
         const formData = new FormData();
         formData.append("id", data.id.toString());
