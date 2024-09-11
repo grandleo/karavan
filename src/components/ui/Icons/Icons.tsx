@@ -5,7 +5,7 @@ import {
     IconUsersGroup,
     IconTruckLoading,
     IconFileDollar,
-    IconBasket, IconBox
+    IconBasket, IconBox, IconForklift
 } from '@tabler/icons-react';
 
 interface IconProps {
@@ -23,6 +23,7 @@ const Icons = ({ iconName }: IconProps) => {
         invoice: IconFileDollar,
         basket: IconBasket,
         box: IconBox,
+        forkLift: IconForklift
     };
 
     const SelectedIcon = iconsMapping[iconName];
