@@ -13,7 +13,7 @@ const WarehousesList = ({ warehouses} : WarehousesListTypes) => {
                         <Table.Tr>
                             <Table.Th w="30%">Город</Table.Th>
                             <Table.Th>Адрес</Table.Th>
-                            <Table.Th>Оформить заказ</Table.Th>
+                            {/*<Table.Th>Оформить заказ</Table.Th>*/}
                             <Table.Th w="1%">Действия</Table.Th>
                         </Table.Tr>
                         </Table.Thead>

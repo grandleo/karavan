@@ -28,7 +28,7 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
             region_id: data.region_id,
             city_id: data.city_id,
             address: data.address,
-            type_orders: data.type_orders,
+            // type_orders: data.type_orders,
         };
 
         if (editValues) {
@@ -50,7 +50,7 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
             setValue('region_id', String(editValues.region_id))
             setValue('city_id', String(editValues.city_id))
             setValue('address', editValues.address)
-            setValue('type_orders', editValues.type_orders)
+            // setValue('type_orders', editValues.type_orders)
         }
     }, [editValues, regionsLoading, citiesLoading]);
 
@@ -192,58 +192,58 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
 
                                     )}
                                 </Box>
-                                <Box className={classes.bodyBlock}>
-                                    <Text>Оформить заказ</Text>
-                                    <Controller
-                                        name="type_orders"
-                                        control={control}
-                                        rules={{required: "Тип заказов обязателен"}}
-                                        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
-                                            <Radio.Group
-                                                onChange={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                error={error?.message}
-                                                mb={15}
-                                            >
-                                                <Group mt="xs">
-                                                    <Radio value="cart" label="Произвольно"/>
-                                                    <Radio disabled value="control_point" label="По времени"/>
-                                                </Group>
-                                            </Radio.Group>
-                                        )}
-                                    />
+                                {/*<Box className={classes.bodyBlock}>*/}
+                                {/*    <Text>Оформить заказ</Text>*/}
+                                {/*    <Controller*/}
+                                {/*        name="type_orders"*/}
+                                {/*        control={control}*/}
+                                {/*        rules={{required: "Тип заказов обязателен"}}*/}
+                                {/*        render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (*/}
+                                {/*            <Radio.Group*/}
+                                {/*                onChange={onChange}*/}
+                                {/*                onBlur={onBlur}*/}
+                                {/*                value={value}*/}
+                                {/*                error={error?.message}*/}
+                                {/*                mb={15}*/}
+                                {/*            >*/}
+                                {/*                <Group mt="xs">*/}
+                                {/*                    <Radio value="cart" label="Произвольно"/>*/}
+                                {/*                    <Radio disabled value="control_point" label="По времени"/>*/}
+                                {/*                </Group>*/}
+                                {/*            </Radio.Group>*/}
+                                {/*        )}*/}
+                                {/*    />*/}
 
-                                    {typeOrders === 'cart' ?
-                                        <Text mb={15}>Произвольно — клиент сам меняет статус своего заказа по нажатию на
-                                            кнопку
-                                            оформить заказ.</Text> :
-                                        <Text mb={15}>По времени — клиент не может управлять своим заказом, смена
-                                            статуса заказа
-                                            меняться будет в определённое время</Text>}
+                                {/*    {typeOrders === 'cart' ?*/}
+                                {/*        <Text mb={15}>Произвольно — клиент сам меняет статус своего заказа по нажатию на*/}
+                                {/*            кнопку*/}
+                                {/*            оформить заказ.</Text> :*/}
+                                {/*        <Text mb={15}>По времени — клиент не может управлять своим заказом, смена*/}
+                                {/*            статуса заказа*/}
+                                {/*            меняться будет в определённое время</Text>}*/}
 
-                                    {typeOrders === 'control_point' && (
-                                        <Controller
-                                            name="control_point_time"
-                                            control={control}
-                                            rules={{required: "Время контрольной точки обязательно"}}
-                                            render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
-                                                <TextInput
-                                                    label="Время контрольной точки"
-                                                    placeholder="Введите время"
-                                                    onBlur={onBlur}
-                                                    onChange={(event) => {
-                                                        onChange(event.currentTarget.value);
-                                                    }}
-                                                    value={value}
-                                                    error={error?.message}
-                                                    mb={15}
-                                                />
-                                            )}
-                                        />
-                                    )}
+                                {/*    {typeOrders === 'control_point' && (*/}
+                                {/*        <Controller*/}
+                                {/*            name="control_point_time"*/}
+                                {/*            control={control}*/}
+                                {/*            rules={{required: "Время контрольной точки обязательно"}}*/}
+                                {/*            render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (*/}
+                                {/*                <TextInput*/}
+                                {/*                    label="Время контрольной точки"*/}
+                                {/*                    placeholder="Введите время"*/}
+                                {/*                    onBlur={onBlur}*/}
+                                {/*                    onChange={(event) => {*/}
+                                {/*                        onChange(event.currentTarget.value);*/}
+                                {/*                    }}*/}
+                                {/*                    value={value}*/}
+                                {/*                    error={error?.message}*/}
+                                {/*                    mb={15}*/}
+                                {/*                />*/}
+                                {/*            )}*/}
+                                {/*        />*/}
+                                {/*    )}*/}
 
-                                </Box>
+                                {/*</Box>*/}
                             </Box>
                             {editValues && (
                                 <Box className={classes.bodyBlock}>

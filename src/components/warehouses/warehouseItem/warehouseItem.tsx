@@ -14,7 +14,7 @@ const WarehouseItem = ({ warehouse} : WarehouseItemTypes) => {
         <Table.Tr>
             <Table.Td>{warehouse.city_name}</Table.Td>
             <Table.Td>{warehouse.address}</Table.Td>
-            <Table.Td>{warehouse.type_orders === 'cart' ? 'Произвольно' : 'По времени'}</Table.Td>
+            {/*<Table.Td>{warehouse.type_orders === 'cart' ? 'Произвольно' : 'По времени'}</Table.Td>*/}
             <Table.Td>
                 <ActionIcon.Group>
                     <ActionIcon variant="transparent" color="rgba(0, 0, 0, 1)" aria-label="Редактировать"  onClick={handleEditClick}>
