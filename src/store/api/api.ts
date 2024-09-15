@@ -78,6 +78,7 @@ const api = createApi({
         'UserInfo',
         'NomenclatureCategories',
         'NomenclatureProducts',
+        'OrderStatus',
     ],
     endpoints: () => ({}),
     // Добавьте Laravel Echo и наш кастомный обработчик событий

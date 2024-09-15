@@ -7,15 +7,17 @@ import {useParams} from "next/navigation";
 import React, {useEffect, useState} from "react";
 import {Flex, Group, Select, SelectProps} from "@mantine/core";
 import {IconCheck} from "@tabler/icons-react";
+import WarehouseSelector from "@/features/warehouses/components/WarehouseSelector";
+import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
 
 const SupplierStock = () => {
-    const {id} = useParams<{ id: string; }>();
+    const { selectedWarehouse } = useWarehouse();
     const [items, setItems] = useState<ISupplierProduct[]>([])
 
     const {data: supplierProducts} = useFetchSupplierStockQuery({
-        warehouse_id: id
+        warehouse_id: selectedWarehouse
     }, {
-        skip: id === null
+        skip: !selectedWarehouse
     })
 
     useEffect(() => {
@@ -26,7 +28,7 @@ const SupplierStock = () => {
         <SimplePage
             headerChildrenLeft={() => {
                 return (
-                    <></>
+                    <WarehouseSelector/>
                 )
             }}
             headerChildren={() => {

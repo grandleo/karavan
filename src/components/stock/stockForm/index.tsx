@@ -12,24 +12,29 @@ import _ from "lodash";
 import {Controller, FormProvider, useForm, useFormContext} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import SelectSubCategory from "@/components/stock/stockForm/selectSubCategory";
-import {useParams} from "next/navigation";
 import {IconCalendar} from "@tabler/icons-react";
 import {DatePickerInput} from "@mantine/dates";
 import classes from "@/components/stock/styles.module.css";
+import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
 
 const StockForm = () => {
-    const {id} = useParams<{ id: string; }>();
+    const { selectedWarehouse } = useWarehouse();
 
     const defaultValues = {
         product_id: null,
         price: '',
         quantity: '',
-        warehouse_id: id,
+        warehouse_id: selectedWarehouse,
         period_validity: null
     }
 
     const [opened, {open, close}] = useDisclosure(false);
     const methods = useForm({defaultValues});
+
+    useEffect(() => {
+        // Обновляем значение warehouse_id при изменении selectedWarehouse
+        methods.setValue('warehouse_id', selectedWarehouse);
+    }, [selectedWarehouse, methods]);
 
     const [mainCategory, setMainCategory] = useState<string | null>('');
     const [selectedCategories, setSelectedCategories] = useState<ISelectCategory[]>();
@@ -140,6 +145,7 @@ const StockForm = () => {
     const resetFormState = () => {
         close();
         methods.reset();
+        methods.setValue('warehouse_id', selectedWarehouse);
         setSelectedCategories([]);
         setSubCategories([]);
         setProducts([]);
