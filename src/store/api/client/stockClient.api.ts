@@ -1,5 +1,5 @@
-import {api} from "@/store/api/api";
-import echo from "@/config/laravel-echo";
+import {api} from "@/store/apiSlice";
+
 
 export const stockClientApi = api.injectEndpoints({
     endpoints: (builder) => ({

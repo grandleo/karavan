@@ -1,7 +1,6 @@
-import {api} from "@/store/api/api";
+
 import {IOrder} from "@/components/orders/types";
-import EditQuantityProduct from "@/components/orders/form/EditQuantityProduct";
-import echo from "@/config/laravel-echo";
+import {api} from "@/store/apiSlice";
 
 const OrderApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -9,23 +8,13 @@ const OrderApi = api.injectEndpoints({
             query: () => ({url: 'client/orders', method: 'get'}),
             providesTags: () => [{
                 type: 'Orders'
-            }],
-            async onCacheEntryAdded(data, { dispatch }) {
-                echo.channel('Orders').listen('UpdateOrdersEvent', (data: any) => {
-                    dispatch(api.util?.invalidateTags(['Orders']))
-                });
-            }
+            }]
         }),
         getOrder: builder.query<IOrder, number>({
             query: (number_id) => ({url: 'client/orders/get-order', method: 'post', data: {'number_id': number_id}}),
             providesTags: () => [{
                 type: 'Order'
-            }],
-            async onCacheEntryAdded(data, { dispatch }) {
-                echo.channel('Order').listen('UpdateOrderEvent', (data: any) => {
-                    dispatch(api.util?.invalidateTags(['Order']))
-                });
-            }
+            }]
         }),
         changeStatus: builder.mutation({
             query: (number_id) => ({url: 'client/orders/change-status', method: 'post', data: {'number_id': number_id}}),

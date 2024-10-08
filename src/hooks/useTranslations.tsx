@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useLanguage} from "@/provider/LanguageProvider";
+import {useLanguage} from "@/providers/LanguageProvider";
 
 export const useTranslations = (page: string) => {
     const { language } = useLanguage();

@@ -2,17 +2,12 @@ import {Card, Group, Text, Box, NumberFormatter, Flex} from "@mantine/core";
 import StatusBadge from "@/components/orders/StatusBadge";
 import {OrderCardProps} from "@/components/orders/types";
 import classes from "./orders.module.css";
-import {useActions} from "@/hooks/useActions";
-import {useSelector} from "react-redux";
-import {getOrdersState} from "@/store/slices/ordersSlice";
 
 const ExternalOrderCard = ({order} : OrderCardProps) => {
-    const {setActiveOrder} = useActions();
-    const {active} = useSelector(getOrdersState);
 
     return (
         <>
-            <Card shadow="xs" radius="md" withBorder mb={12} className={`${classes.externalOrderCard} ${order.number_id === active ? classes.active : ''}`} onClick={() => setActiveOrder(order.number_id)}>
+            <Card shadow="xs" radius="md" withBorder mb={12} className={`${classes.externalOrderCard}`}>
                 <Card.Section  p={8} withBorder>
                     <Group justify="space-between">
                         <Box>

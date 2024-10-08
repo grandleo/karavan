@@ -4,36 +4,22 @@ import SimplePage from "../../../../simplePage";
 import {useGetUsersQuery} from "@/store/api/admin/users.api";
 import {Paper, Table} from "@mantine/core";
 import ClientRow from "@/components/pages/admin/users/clients/components/clientRow";
-import ClientsFilter from "@/components/pages/admin/users/clients/components/clientsFilter";
-import {useSelector} from "react-redux";
-import {getClientsState} from "@/store/slices/clientSlice";
 import EmptyData from "@/components/emptyData";
 import {useEffect} from "react";
-import {useActions} from "@/hooks/useActions";
-import {useDisclosure} from "@mantine/hooks";
-import UpdateClient from "@/components/pages/admin/users/clients/components/updateClient";
 
 const Clients = () => {
-    const [opened, { open, close }] = useDisclosure(false);
-    const {search} = useSelector(getClientsState);
-    const {resetClientState} = useActions();
-
     const {data: clients, isLoading} = useGetUsersQuery({
-        role: 'client',
-        search: search
+        role: 'client'
     });
 
     useEffect(() => {
 
         return () => {
-            resetClientState();
         };
     }, []);
 
     return (
         <SimplePage title="Клиенты" isLoading={isLoading}>
-            <ClientsFilter/>
-            {/*<UpdateClient opened={opened} close={close}/>*/}
 
             {clients?.length > 0 ? (
                 <Paper shadow="xs">

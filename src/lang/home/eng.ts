@@ -1,9 +1,9 @@
 export const translations = {
     title: 'We make wholesale trade simple and fast',
-    subTitle: 'Software and services work together to provide suppliers and customers with optimal conditions for collaboration.',
+    subTitle: 'Software and utils work together to provide suppliers and customers with optimal conditions for collaboration.',
     firstScreen: {
         title: 'Making wholesale trade easy and fast',
-        subTitle: 'Software and services function together to provide suppliers and customers with the best possible cooperation conditions.',
+        subTitle: 'Software and utils function together to provide suppliers and customers with the best possible cooperation conditions.',
     },
     capabilityScreen: {
         title: 'Discover new opportunities',

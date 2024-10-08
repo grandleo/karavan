@@ -7,7 +7,7 @@ import {
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {useEffect} from "react";
 import {IAddOrUpdateProducerCountryTypes, ICountry} from "@/components/producerCountries/types";
-import {DropzoneUploader} from "@/components/inputs";
+import {DropzoneUploader} from "../../Inputs";
 
 const AddOrUpdateProducerCountry = ({opened = false, open, close, editValues, setEditValues} : IAddOrUpdateProducerCountryTypes) => {
     const [addProducerCountry] = useAddProducerCountryMutation();

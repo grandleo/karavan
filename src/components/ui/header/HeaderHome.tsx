@@ -1,17 +1,18 @@
-import { Burger, Button, Container, Flex, Group, Image, Modal, Text } from "@mantine/core";
+'use client'
+
+import { Burger, Container, Flex, Group, Image, Text } from "@mantine/core";
 import NextImage from "next/image";
 import classes from "@/components/ui/header/style.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
-import Authentication from "@/components/auth";
 import LanguageSwitch from "@/components/LanguageSwitch";
 import { Link as ScrollLink } from 'react-scroll';
 import Link from "next/link";
+import ModalAuth from "@/features/auth/components/ModalAuth/ModalAuth";
 
 const HeaderHome = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [openedMenu, { toggle: toggleMenu }] = useDisclosure(false);
-    const [openedLogin, { open: openLogin, close: closeLogin }] = useDisclosure(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,14 +56,11 @@ const HeaderHome = () => {
 
                         <Flex align="center" gap={16}>
                             <LanguageSwitch />
-                            <Button onClick={openLogin}>Войти</Button>
+                            <ModalAuth />
                             <Burger opened={openedMenu} onClick={toggleMenu} hiddenFrom="xs" size="sm" />
                         </Flex>
                     </Flex>
                 </Container>
-                <Modal opened={openedLogin} onClose={closeLogin} title="Авторизация">
-                    <Authentication />
-                </Modal>
             </header>
         </>
     );

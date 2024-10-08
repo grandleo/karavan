@@ -1,6 +1,6 @@
 import {Button} from "@mantine/core";
 import {useFormContext} from "react-hook-form";
-import {NameField, PhoneField, SimpleCompanyName} from "@/components/inputs";
+import {NameField, PhoneField, SimpleCompanyName} from "../../Inputs";
 
 const AuthRegister = ({onSubmit, loading} : AuthRegisterTypes) => {
     const { control, handleSubmit } = useFormContext();

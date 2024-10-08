@@ -5,20 +5,14 @@ import SimplePage from "../../../../simplePage";
 import {Paper, Table} from "@mantine/core";
 import EmptyData from "@/components/emptyData";
 import AdminRow from "@/components/pages/admin/users/admins/components/adminRow";
-import AddOrUpdateAdmin from "@/components/pages/admin/users/admins/components/addOrUpdateAdmin";
-import {useDisclosure} from "@mantine/hooks";
 
 const Admins = () => {
-    const [opened, { open, close }] = useDisclosure(false);
-
     const {data: admins, isLoading} = useGetUsersQuery({
         role: 'admin',
     });
 
     return (
         <SimplePage title="Администраторы" isLoading={isLoading}>
-            {/*<AddOrUpdateAdmin opened={opened} open={open} close={close}/>*/}
-
             {admins?.length > 0 ? (
                 <Paper shadow="xs">
                     <Table>

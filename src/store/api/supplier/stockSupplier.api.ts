@@ -1,5 +1,5 @@
-import {api} from "@/store/api/api";
-import echo from "@/config/laravel-echo";
+import {api} from "@/store/apiSlice";
+
 
 export const stockSupplierApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -8,11 +8,6 @@ export const stockSupplierApi = api.injectEndpoints({
             providesTags: () => [{
                 type: 'SupplierStock'
             }],
-            // async onCacheEntryAdded(data, { dispatch }) {
-            //     echo.channel('Stock').listen('UpdateStockEvent', (data) => {
-            //         dispatch(api.util?.invalidateTags(['StockSupplier']))
-            //     });
-            // }
         }),
         getCategoriesWithProducts: builder.query({
             query: () => ({
@@ -52,11 +47,6 @@ export const stockSupplierApi = api.injectEndpoints({
             providesTags: () => [{
                 type: 'StockSupplier'
             }],
-            // async onCacheEntryAdded(data, { dispatch }) {
-            //     echo.channel('Stock').listen('UpdateStockEvent', (data) => {
-            //         dispatch(api.util?.invalidateTags(['StockSupplier']))
-            //     });
-            // }
         }),
         getCategoriesForSupplierStock: builder.query({
             query: () => ({url: 'supplier/stock/add/get-categories', method: 'get'}),

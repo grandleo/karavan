@@ -3,6 +3,7 @@ import {useFetchWarehousesQuery} from "@/features/warehouses/api/warehousesApi";
 import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
 import {useRouter} from "next/navigation";
 import {useEffect} from "react";
+import {Warehouse} from "@/features/warehouses/types/warehouse.types";
 
 const WarehouseSelector = () => {
     const {data: warehouses, isLoading} = useFetchWarehousesQuery('');
@@ -26,7 +27,7 @@ const WarehouseSelector = () => {
 
     if (isLoading) return <>Loading...</>;
 
-    const options = warehouses.map((warehouse) => ({
+    const options = warehouses.map((warehouse: Warehouse) => ({
         value: String(warehouse.id),
         label: warehouse.address,
     }));

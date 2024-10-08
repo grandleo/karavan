@@ -1,38 +1,25 @@
 'use client'
 
 import SimplePage from "../../../../simplePage";
-import LogisticsFilter from "./componets/logisticsFilter";
 import {Paper, Table} from "@mantine/core";
-import {useSelector} from "react-redux";
-import {getLogisticsState} from "@/store/slices/logisticSlice";
 import {useGetUsersQuery} from "@/store/api/admin/users.api";
 import EmptyData from "@/components/emptyData";
 import LogisticRow from "@/components/pages/admin/users/logistics/componets/logisticRow";
 import {useEffect} from "react";
-import {useActions} from "@/hooks/useActions";
-import {useDisclosure} from "@mantine/hooks";
-import UpdateLogistic from "@/components/pages/admin/users/logistics/componets/updateLogistic";
 
 const Logistics = () => {
-    const [opened, { open, close }] = useDisclosure(false);
-    const {search} = useSelector(getLogisticsState);
-    const {resetLogisticState} = useActions();
 
     const {data: logistics, isLoading} = useGetUsersQuery({
-        role: 'logistic',
-        search: search
+        role: 'logistic'
     });
 
     useEffect(() => {
         return () => {
-            resetLogisticState();
         }
     }, []);
 
     return (
         <SimplePage title="Логисты" isLoading={isLoading}>
-            <LogisticsFilter/>
-            {/*<UpdateLogistic opened={opened} close={close}/>*/}
 
             {logistics?.length > 0 ? (
                 <Paper shadow="xs">

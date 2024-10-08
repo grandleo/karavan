@@ -1,5 +1,5 @@
-import {api} from "@/store/api/api";
-import echo from "@/config/laravel-echo";
+import {api} from "@/store/apiSlice";
+
 
 export const ordersLogisticApi = api.injectEndpoints({
     endpoints: (builder) => ({
@@ -7,12 +7,7 @@ export const ordersLogisticApi = api.injectEndpoints({
             query: () => ({url: 'logistic/orders', method: 'get'}),
             providesTags: () => [{
                 type: 'LogisticOrders'
-            }],
-            async onCacheEntryAdded(data, { dispatch }) {
-                echo.channel('Orders').listen('UpdateOrdersEvent', (data: any) => {
-                    dispatch(api.util?.invalidateTags(['LogisticOrders']))
-                });
-            }
+            }]
         })
     })
 })

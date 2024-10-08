@@ -1,0 +1,12 @@
+.wrapper {
+    background: #F9FAFF;
+    border-radius: 16px;
+    padding: 16px 24px 24px 24px;
+}
+
+.title {
+    color: #1B1F3BE5;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 24px;
+}

@@ -1,6 +1,6 @@
 import {Button, Group, PinInput} from "@mantine/core";
 import {Controller, useFormContext} from "react-hook-form";
-import {PinCode} from "@/components/inputs";
+import {PinCode} from "../../Inputs";
 
 const AuthCheckCode = ({onSubmit, loading} : AuthCheckCodeTypes) => {
     const { control, handleSubmit, formState: { errors } } = useFormContext();

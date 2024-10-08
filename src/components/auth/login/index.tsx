@@ -1,5 +1,5 @@
 import {useFormContext} from "react-hook-form";
-import {EmailField} from "@/components/inputs";
+import {EmailField} from "../../Inputs";
 import {Button} from "@mantine/core";
 
 const AuthLogin = ({onSubmit, loading} : AuthLoginTypes) => {

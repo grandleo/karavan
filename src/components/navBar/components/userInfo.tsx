@@ -5,9 +5,10 @@ import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 
 const UserInfo = () => {
-    const {data: user, isLoading} = useGetUserQuery('');
+    // const {data: user, isLoading} = useGetUserQuery('');
     const [showSkeleton, setShowSkeleton] = useState(true);
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         if (!isLoading) {

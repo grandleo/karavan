@@ -5,10 +5,8 @@ import _ from "lodash";
 import {Menu, rem, Table, UnstyledButton} from "@mantine/core";
 import classes from "@/components/pages/admin/users/clients/clients.module.css";
 import {IconDotsVertical, IconTrash} from "@tabler/icons-react";
-import {useActions} from "@/hooks/useActions";
 
 const LogisticRow = ({user, open} : LogisticRowTypes) => {
-    const {setLogisticIdUpdate} = useActions();
     const [deleteUser] = useDeleteUserMutation();
 
     const handleDeleteUser = () => {
@@ -45,7 +43,6 @@ const LogisticRow = ({user, open} : LogisticRowTypes) => {
                         <Menu.Item
                             leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                             onClick={() => {
-                                setLogisticIdUpdate(user.id)
                                 open();
                             }}
                         >

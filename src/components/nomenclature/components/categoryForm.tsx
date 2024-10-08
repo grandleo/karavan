@@ -5,7 +5,7 @@ import {CategoryFormProps, ICategoryTypes} from "@/components/nomenclature/types
 import {useCreateCategoryMutation, useUpdateCategoryMutation} from "@/store/api/admin/nomenclature.api";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {useEffect} from "react";
-import {DropzoneUploader} from "@/components/inputs";
+import {DropzoneUploader} from "../../Inputs";
 
 const CategoryForm = ({opened, close, activeCategory, editValues, setEditValues, productSpecifications}: CategoryFormProps) => {
     const methods = useForm({

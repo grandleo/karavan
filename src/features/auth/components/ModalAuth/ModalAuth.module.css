@@ -1,0 +1,38 @@
+.backButtonRoot {
+    background: #F3F3F3;
+}
+
+.backButtonRoot:hover {
+    background: #436CFB;
+}
+
+.titleModal {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 28px;
+    text-align: center;
+}
+
+.subtitleModal {
+    color: #191C3073;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+}
+
+.textConditions,
+.textConditions a{
+    color: #1B1F3B59;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 500;
+}
+
+.textConditions a{
+    color: #436CFB;
+}
+
+.textConditions a:hover {
+    text-decoration: underline;
+}

@@ -1,9 +1,7 @@
-import TransportsPage from "@/components/screens/logistic/transportsPage";
-
 export default function LogisticsDashboard () {
     return (
         <>
-            <TransportsPage/>
+            Главная страница логиста
         </>
     )
 }

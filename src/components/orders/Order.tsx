@@ -26,10 +26,7 @@ import OrderInfo from "@/components/orders/OrderInfo";
 import WeightOrder from "@/components/orders/form/WeightOrder";
 import DimensionsOrder from "@/components/orders/form/DimensionsOrder";
 import RequirementOrder from "@/components/orders/form/RequirementOrder";
-import {useSelector} from "react-redux";
-import {getOrdersState} from "@/store/slices/ordersSlice";
 import {NoBids, SelectOrder} from "@/components/orders/DataEmpty";
-import {useEffect} from "react";
 import _ from "lodash";
 import BidOrder from "@/components/orders/BidOrder";
 import {modals} from "@mantine/modals";
@@ -37,8 +34,7 @@ import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications"
 
 const Order = () => {
     const [opened, { open, close }] = useDisclosure(false);
-    const {active} = useSelector(getOrdersState);
-    const {data: order, isLoading} = useGetOrderQuery(active);
+    const {data: order, isLoading} = useGetOrderQuery('');
 
     const [change] = useChangeStatusMutation();
 

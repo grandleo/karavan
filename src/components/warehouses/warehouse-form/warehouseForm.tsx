@@ -2,18 +2,13 @@ import {Box, Button, Drawer, LoadingOverlay, Select, TextInput, Text, Radio, Gro
 import {Controller, FieldValues, SubmitHandler, useFormContext} from "react-hook-form";
 import {useGetCitiesWarehouseQuery, useGetWarehouseRegionsQuery} from "@/store/api/warehouses.api";
 import {useEffect, useState} from "react";
-import {useSelector} from "react-redux";
-import {getWarehouseState} from "@/store/slices/warehouseSlice";
-import {useActions} from "@/hooks/useActions";
 import classes from "@/components/warehouses/styles.module.css";
 import {ErrorNotifications} from "@/helpers/Notifications";
 
 const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDelete}: WarehouseFormTypes) => {
-    const {editValues} = useSelector(getWarehouseState);
     const {data: regions = [], isLoading: regionsLoading} = useGetWarehouseRegionsQuery('');
     const {control, handleSubmit, reset, setValue, watch, formState: {errors}} = useFormContext();
     const typeOrders = watch('type_orders');
-    const {resetWarehouseFormValues} = useActions();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const region_id = watch('region_id');
@@ -31,28 +26,17 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
             // type_orders: data.type_orders,
         };
 
-        if (editValues) {
-            onEditWarehouse(warehouseData);
-        } else {
-            onAddWarehouse(warehouseData);
-        }
+        // if (editValues) {
+        //     onEditWarehouse(warehouseData);
+        // } else {
+        //     onAddWarehouse(warehouseData);
+        // }
     };
 
     const handleClose = () => {
-        resetWarehouseFormValues('');
         reset();
         onClose();
     }
-
-    useEffect(() => {
-        if (editValues && !regionsLoading && !citiesLoading) {
-            setValue('id', editValues.id)
-            setValue('region_id', String(editValues.region_id))
-            setValue('city_id', String(editValues.city_id))
-            setValue('address', editValues.address)
-            // setValue('type_orders', editValues.type_orders)
-        }
-    }, [editValues, regionsLoading, citiesLoading]);
 
     useEffect(() => {
         if (!region_id) {
@@ -68,10 +52,10 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
     const handleDelete = async () => {
         setIsDeleting(true);
         try {
-            if (editValues) {
-                await onDelete(editValues.id);
-                handleClose();
-            }
+            // if (editValues) {
+            //     await onDelete(editValues.id);
+            //     handleClose();
+            // }
         } finally {
             setIsDeleting(false);
         }
@@ -99,7 +83,7 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
             <Drawer.Overlay/>
             <Drawer.Content>
                 <Drawer.Header>
-                    <Drawer.Title>{editValues ? 'Редактировать склад' : 'Добавить склад'}</Drawer.Title>
+                    <Drawer.Title>Добавить склад</Drawer.Title>
                     <Drawer.CloseButton className={classes.drawerCloseButton}/>
                 </Drawer.Header>
                 <Drawer.Body className={classes.drawerBody}>
@@ -245,17 +229,17 @@ const WarehouseForm = ({isOpen, onClose, onAddWarehouse, onEditWarehouse, onDele
 
                                 {/*</Box>*/}
                             </Box>
-                            {editValues && (
-                                <Box className={classes.bodyBlock}>
-                                    <Button variant="filled" color="red" fullWidth
-                                            onClick={handleDelete} loading={isDeleting}>Удалить</Button>
-                                </Box>
-                            )}
+                            {/*{editValues && (*/}
+                            {/*    <Box className={classes.bodyBlock}>*/}
+                            {/*        <Button variant="filled" color="red" fullWidth*/}
+                            {/*                onClick={handleDelete} loading={isDeleting}>Удалить</Button>*/}
+                            {/*    </Box>*/}
+                            {/*)}*/}
                             <Box>
                                 <Flex gap={16} className={`${classes.bodyBlock}`}>
                                     <Button variant="outline" fullWidth onClick={handleClose}>Отменить</Button>
                                     <Button fullWidth
-                                            type="submit">{editValues ? 'Обновить склад' : 'Добавить склад'}</Button>
+                                            type="submit">Добавить склад</Button>
                                 </Flex>
                             </Box>
                         </Flex>

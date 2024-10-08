@@ -2,13 +2,13 @@ import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/notifications/styles.css';
 import '@mantine/carousel/styles.css';
-import '@/style/global.css';
 import 'react-complex-tree/lib/style-modern.css';
 
+import '@/styles/global.css';
+
 import type {Metadata} from 'next'
-import {Inter} from 'next/font/google'
 import {Manrope} from 'next/font/google'
-import Providers from "@/provider/providers";
+import Providers from "@/providers/providers";
 
 const manrope = Manrope({
     subsets: ['latin', 'cyrillic'],

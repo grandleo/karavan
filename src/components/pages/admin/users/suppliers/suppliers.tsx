@@ -2,37 +2,22 @@
 
 import SimplePage from "../../../../simplePage";
 import {Paper, Table} from "@mantine/core";
-import SuppliersFilter from "./components/suppliersFilter";
-import {useSelector} from "react-redux";
-import {getSuppliersState} from "@/store/slices/supplierSlice";
 import {useGetUsersQuery} from "@/store/api/admin/users.api";
 import EmptyData from "@/components/emptyData";
 import SupplierRow from "@/components/pages/admin/users/suppliers/components/supplierRow";
 import {useEffect} from "react";
-import {useActions} from "@/hooks/useActions";
-import {useDisclosure} from "@mantine/hooks";
-import UpdateSupplier from "@/components/pages/admin/users/suppliers/components/updateSupplier";
 
 const Suppliers = () => {
-    const [opened, { open, close }] = useDisclosure(false);
-    const {search} = useSelector(getSuppliersState);
-    const {resetSupplierState} = useActions();
 
     const {data: suppliers, isLoading} = useGetUsersQuery({
         role: 'supplier',
-        search: search
     });
 
     useEffect(() => {
-        return () => {
-            resetSupplierState();
-        }
     }, []);
 
     return (
         <SimplePage title="Поставщики" isLoading={isLoading}>
-            <SuppliersFilter/>
-            {/*<UpdateSupplier opened={opened} close={close}/>*/}
 
             {suppliers?.length > 0 ? (
                 <Paper shadow="xs">

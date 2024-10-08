@@ -1,8 +1,6 @@
-import DashboardSupplier from "@/components/screens/supplier/DashboardSupplier";
+import SupplierStock from "@/components/pages/supplier/stock";
 
 export default function Page()
 {
-    return (
-        <DashboardSupplier/>
-    )
+    return <SupplierStock/>
 }

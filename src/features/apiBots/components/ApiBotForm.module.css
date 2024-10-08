@@ -1,0 +1,26 @@
+.wrapper {
+    min-height: calc(100vh - 60px);
+}
+
+.content {
+    padding: 24px;
+}
+
+.title {
+    color: #1B1F3BE5;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+.warehouseRow {
+    border-bottom: 1px solid #EAEDF4;
+    padding: 12px 6px;
+}
+
+.notFoundWarehouse{
+    background: #EAEDF4;
+    padding: 12px 6px;
+    border-radius: 12px;
+    text-align: center;
+}

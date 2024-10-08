@@ -8,7 +8,7 @@ import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 import classes from "@/components/screens/auth/auth.module.css";
 import Link from "next/link";
-import {EmailField} from "@/components/inputs";
+import {EmailField} from "../../Inputs";
 
 const Login = () => {
     const [email, setEmail] = useState<string | null>(null);

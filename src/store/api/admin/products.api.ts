@@ -1,8 +1,9 @@
-import {api} from "@/store/api/api";
+
 import {
     ADMIN_GET_PRODUCTS,
     ADMIN_PRODUCT_CREATE, ADMIN_PRODUCT_DELETE, SUPPLIER_GET_ALL_PRODUCTS
 } from "@/config/apiRoutes";
+import {api} from "@/store/apiSlice";
 
 export const productsApi = api.injectEndpoints({
     endpoints: (builder) => ({

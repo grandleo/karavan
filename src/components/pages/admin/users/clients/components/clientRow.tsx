@@ -6,10 +6,8 @@ import {IconDotsVertical, IconTrash} from "@tabler/icons-react";
 import classes from "../clients.module.css";
 import _ from "lodash";
 import {modals} from "@mantine/modals";
-import {useActions} from "@/hooks/useActions";
 
 const ClientRow = ({user, open} : ClientRowTypes) => {
-    const {setClientIdUpdate} = useActions();
     const [deleteUser] = useDeleteUserMutation();
 
     const handleDeleteUser = () => {
@@ -47,7 +45,6 @@ const ClientRow = ({user, open} : ClientRowTypes) => {
                         <Menu.Item
                             leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                             onClick={() => {
-                                setClientIdUpdate(user.id)
                                 open();
                             }}
                         >

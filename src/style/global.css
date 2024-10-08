@@ -5,3 +5,11 @@ a {
 body {
     background: #F8F9FB;
 }
+
+.my-close-button-root {
+    background: #F3F3F3;
+}
+.my-close-button-root:hover {
+    color: #fff;
+    background: #436CFB;
+}

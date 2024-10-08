@@ -1,16 +1,9 @@
-import {useSelector} from "react-redux";
-import {getBotApiSliceState} from "@/store/slices/botsApiSlice";
 import {Controller, FieldValues, SubmitHandler, useFormContext} from "react-hook-form";
-import {useActions} from "@/hooks/useActions";
-import {useEffect} from "react";
 import {Box, Button, Drawer, Flex, MultiSelect, TextInput} from "@mantine/core";
 import classes from "@/components/stock/styles.module.css";
 
 const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, warehouses}: BotApiFormTypes) => {
-    const {editValues} = useSelector(getBotApiSliceState);
     const {control, handleSubmit, reset, setValue, formState: {errors}} = useFormContext();
-
-    const {resetBotApiFormValues} = useActions();
 
     const handleFormSubmit: SubmitHandler<FieldValues> = (data) => {
         const ApiBotData: IBotType = {
@@ -22,36 +15,36 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
             warehouses: data.warehouses
         }
 
-        if (editValues) {
-            onEditApiBot(ApiBotData)
-        } else {
-            onAddApiBot(ApiBotData)
-        }
+        // if (editValues) {
+        //     onEditApiBot(ApiBotData)
+        // } else {
+        //     onAddApiBot(ApiBotData)
+        // }
     }
 
     const handleClose = () => {
-        resetBotApiFormValues('');
+
         reset();
         onClose();
     }
 
     const handleDelete = () => {
-        if(editValues){
-            onDelete(editValues.id)
-            handleClose()
-        }
+        // if(editValues){
+        //     onDelete(editValues.id)
+        //     handleClose()
+        // }
     }
 
-    useEffect(() => {
-        if (editValues) {
-            setValue('id', editValues.id)
-            setValue('name', editValues.name)
-            setValue('token', editValues.token)
-            setValue('username_bot', editValues.username_bot)
-            setValue('username_support', editValues.username_support)
-            setValue('warehouses', (editValues.warehouses ?? []).map(warehouse => String(warehouse.value)));
-        }
-    }, [editValues]);
+    // useEffect(() => {
+    //     if (editValues) {
+    //         setValue('id', editValues.id)
+    //         setValue('name', editValues.name)
+    //         setValue('token', editValues.token)
+    //         setValue('username_bot', editValues.username_bot)
+    //         setValue('username_support', editValues.username_support)
+    //         setValue('warehouses', (editValues.warehouses ?? []).map(warehouse => String(warehouse.value)));
+    //     }
+    // }, [editValues]);
 
     const sanitizeAddressInput = (input: string) => {
         // Remove leading spaces
@@ -71,7 +64,7 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
             <Drawer.Overlay/>
             <Drawer.Content>
                 <Drawer.Header>
-                    <Drawer.Title>{editValues ? 'Редактировать API' : 'Добавить API'}</Drawer.Title>
+                    {/*<Drawer.Title>{editValues ? 'Редактировать API' : 'Добавить API'}</Drawer.Title>*/}
                     <Drawer.CloseButton className={classes.drawerCloseButton}/>
                 </Drawer.Header>
                 <Drawer.Body className={classes.drawerBody}>
@@ -169,19 +162,19 @@ const BotApiForm = ({isOpen, onEditApiBot, onAddApiBot, onDelete, onClose, wareh
                                         )}
                                     />
                                 </Box>
-                                {editValues && (
-                                    <Box className={`${classes.bodyBlock}`}>
-                                        <Button variant="filled" color="red" fullWidth
-                                                onClick={handleDelete}>Удалить</Button>
-                                    </Box>
-                                )}
+                                {/*{editValues && (*/}
+                                {/*    <Box className={`${classes.bodyBlock}`}>*/}
+                                {/*        <Button variant="filled" color="red" fullWidth*/}
+                                {/*                onClick={handleDelete}>Удалить</Button>*/}
+                                {/*    </Box>*/}
+                                {/*)}*/}
 
                                 <Box>
                                     <Flex gap={16} className={`${classes.bodyBlock}`}>
                                         <Button variant="outline" fullWidth
                                                 onClick={handleClose}>Отменить</Button>
                                         <Button type="submit"
-                                                fullWidth>{editValues ? 'Обновить бот' : 'Добавить бот'}</Button>
+                                                fullWidth>Добавить бот</Button>
                                     </Flex>
                                 </Box>
                             </Flex>

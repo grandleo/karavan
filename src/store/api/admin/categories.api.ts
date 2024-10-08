@@ -1,10 +1,11 @@
-import {api} from "@/store/api/api";
+
 import {
     ADMIN_GET_CATEGORIES,
     ADMIN_GET_CATEGORIES_CREATE,
     ADMIN_GET_CATEGORIES_DELETE,
     ADMIN_GET_CATEGORIES_UPDATE
 } from "@/config/apiRoutes";
+import {api} from "@/store/apiSlice";
 
 export const categoriesApi = api.injectEndpoints({
     endpoints: (builder) => ({

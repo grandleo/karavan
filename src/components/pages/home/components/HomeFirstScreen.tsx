@@ -1,7 +1,7 @@
 import {Box, Container, Text} from "@mantine/core";
 import classes from "@/components/pages/home/style.module.css";
 import {HeaderHome} from "@/components/ui/header";
-import {useLanguage} from "@/provider/LanguageProvider";
+import {useLanguage} from "@/providers/LanguageProvider";
 import {useTranslations} from "@/hooks/useTranslations";
 
 

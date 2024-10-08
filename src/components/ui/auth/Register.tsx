@@ -11,7 +11,7 @@ import {IconInfoCircle} from "@tabler/icons-react";
 import _ from "lodash";
 import {signIn} from "next-auth/react";
 import {ErrorNotifications} from "@/helpers/Notifications";
-import {CompanyField, EmailField, Index, Index} from "@/components/inputs";
+import {CompanyField, EmailField, Index, Index} from "../../Inputs";
 import {httpDaData} from "@/config/httpDaData";
 
 interface CompanyProps {

@@ -1,6 +1,6 @@
 // Интерфейс для данных выбора
 import {Avatar, Group, Select, SelectProps, Text} from "@mantine/core";
-import {useLanguage} from "@/provider/LanguageProvider";
+import {useLanguage} from "@/providers/LanguageProvider";
 import {IconCaretDown, IconCaretDownFilled, IconCheck, IconChevronDown} from "@tabler/icons-react";
 import classes from "@/components/LanguageSwitch/style.module.css";
 

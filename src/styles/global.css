@@ -1,0 +1,18 @@
+a {
+    color: #436CFB;
+}
+
+body {
+    background: #F8F9FB;
+}
+
+
+
+.custom-close-button-root {
+    background: #F3F3F3;
+}
+
+.custom-close-button-root:hover {
+    color: #fff;
+    background: #436CFB;
+}

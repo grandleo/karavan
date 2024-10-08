@@ -1,10 +1,11 @@
-import {api} from "@/store/api/api";
+
 import {
     GET_DAYS_WEEK,
     GET_WAREHOUSE,
     SUPPLIER_SET_PRICE_PRODUCT_WAREHOUSE,
     SUPPLIER_SET_QTY_PRODUCT_WAREHOUSE
 } from "@/config/apiRoutes";
+import {api} from "@/store/apiSlice";
 
 export const WarehousesApi = api.injectEndpoints({
     endpoints: (builder) => ({
