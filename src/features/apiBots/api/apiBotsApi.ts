@@ -73,7 +73,6 @@ export const ApiBotsApi = api.injectEndpoints({
 
 export const {
     useFetchApiBotsQuery,
-    useFetchApiBotQuery,
     useLazyFetchApiBotQuery,
     useCreateApiBotMutation,
     useUpdateApiBotMutation,

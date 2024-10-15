@@ -8,6 +8,7 @@ export const api = createApi({
         'ApiBots',
         'Warehouses',
         'WarehouseFormData',
+        'SupplierClients',
 
 
 
@@ -39,7 +40,6 @@ export const api = createApi({
         //Оптимизировано
         'UserBotsApi',
         'SupplierStock',
-        'SupplierClients',
         'UserInfo',
         'NomenclatureCategories',
         'NomenclatureProducts',

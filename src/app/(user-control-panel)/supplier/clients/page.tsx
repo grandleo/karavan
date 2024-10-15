@@ -1,3 +1,5 @@
+import SupplierClientsPage from "@/screens/supplier/SupplierClientsPage";
+
 export default function Page() {
-    return "Список клиентов";
+    return <SupplierClientsPage/>;
 }
