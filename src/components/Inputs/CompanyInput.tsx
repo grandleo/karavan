@@ -3,7 +3,7 @@ import {TextInput} from "@mantine/core";
 import {capitalizeWords} from "@/utils/utils";
 
 const CompanyInput = () => {
-    const {control, setValue} = useFormContext();
+    const {control} = useFormContext();
 
     return (
         <>
@@ -19,6 +19,7 @@ const CompanyInput = () => {
                     onChange={(value) => {
                         field.onChange(capitalizeWords(value.currentTarget.value));
                     }}
+                    error={fieldState.error?.message}
                 />
             )}
             />

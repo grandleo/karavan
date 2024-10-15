@@ -1,29 +1,31 @@
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, Button, Divider, Modal, Text, Image, Flex, Box} from "@mantine/core";
+import {ActionIcon, Button, Divider, Modal, Text, Image, Flex, Box, TextInput} from "@mantine/core";
 import {useState} from "react";
 import {IconChevronLeft, IconX} from "@tabler/icons-react";
 
 import classes from "@/features/auth/components/ModalAuth/ModalAuth.module.css";
 import Link from "next/link";
-import {FormProvider, useForm} from "react-hook-form";
+import {Controller, FormProvider, useForm} from "react-hook-form";
 import EmailAutocomplete from "@/components/Inputs/EmailAutocomplete";
 import PinCodeInput from "@/components/Inputs/PinCodeInput";
 import FioAutocomplete from "@/components/Inputs/FioAutocomplete";
 import PhoneInput from "@/components/Inputs/PhoneInput";
 import CompanyInput from "@/components/Inputs/CompanyInput";
 import {useAuth} from "@/features/auth/hooks/useAuth";
+import {capitalizeWords} from "@/utils/utils";
 
 interface FormValues {
     email: string;
     pin: string;
+    name: string;
     phone: string;
     company: string;
-    fio: {
-        query?: string;
-        surname: string;
-        name: string;
-        patronymic: string;
-    };
+    // fio: {
+    //     query?: string;
+    //     surname: string;
+    //     name: string;
+    //     patronymic: string;
+    // };
 }
 
 const ModalAuth = () => {
@@ -55,14 +57,15 @@ const ModalAuth = () => {
         defaultValues: {
             email: '',
             pin: '',
+            name: '',
             phone: '',
             company: '',
-            fio: {
-                surname: '',
-                name: '',
-                patronymic: '',
-                query: '',
-            },
+            // fio: {
+            //     surname: '',
+            //     name: '',
+            //     patronymic: '',
+            //     query: '',
+            // },
         },
     });
 
@@ -107,7 +110,8 @@ const ModalAuth = () => {
                 const userData = {
                     email: data.email,
                     pin: data.pin, // Предполагаем, что PIN нужен при регистрации
-                    fio: data.fio,
+                    name: data.name,
+                    // fio: data.fio,
                     phone: data.phone,
                     company: data.company,
                 };
@@ -167,7 +171,23 @@ const ModalAuth = () => {
 
                         {step === 3 && (
                             <>
-                            <FioAutocomplete label="ФИО" placeholder="Введите ФИО"/>
+                            {/*<FioAutocomplete label="ФИО" placeholder="Введите ФИО"/>*/}
+                                <Controller
+                                    name="name"
+                                    control={methods.control}
+                                    rules={{required: 'Имя обязательно'}}
+                                    render={({field, fieldState}) => (
+                                        <TextInput
+                                            label="Имя"
+                                            placeholder="Введите ваше имя"
+                                            value={field.value}
+                                            onChange={(value) => {
+                                                field.onChange(capitalizeWords(value.currentTarget.value));
+                                            }}
+                                            error={fieldState.error?.message}
+                                        />
+                                    )}
+                                />
                             <PhoneInput/>
                             <CompanyInput/>
                             </>
