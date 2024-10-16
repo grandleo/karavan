@@ -15,7 +15,7 @@ const HomeFooter = () => {
                     <Image
                         component={NextImage}
                         src="logo.svg"
-                        width={100}
+                        width={125}
                         height={25}
                         fit="contain"
                         alt="Karavan"/>

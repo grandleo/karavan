@@ -31,16 +31,16 @@ const HeaderHome = () => {
             <header className={`${classes.header} ${isSticky ? classes.fixedHeader : classes.stickyHeader}`}>
                 <Container size="md" className={classes.inner}>
                     <Flex align="center" justify="space-between">
-                        <Text component={Link} href="/">
+                        <Link href="/" style={{ display: 'contents' }}>
                             <Image
                                 component={NextImage}
                                 src="/logo.svg"
-                                width={100}
+                                width={125}
                                 height={25}
                                 fit="contain"
                                 alt="Karavan"
                             />
-                        </Text>
+                        </Link>
 
                         <Group gap={32} visibleFrom="xs">
                             <Text className={classes.link} component={ScrollLink} to="capability" smooth={true} duration={1500}>
