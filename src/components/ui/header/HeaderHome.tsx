@@ -34,7 +34,7 @@ const HeaderHome = () => {
                         <Text component={Link} href="/">
                             <Image
                                 component={NextImage}
-                                src="/images/karavan-logo.svg"
+                                src="/logo.svg"
                                 width={100}
                                 height={25}
                                 fit="contain"
