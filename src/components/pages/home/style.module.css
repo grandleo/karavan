@@ -1,6 +1,6 @@
 .homeFirstScreen {
     position: relative;
-    background-color: #ffffff; /* Явное задание фонового цвета */
+    background-color: #f8f9fb; /* Явное задание фонового цвета */
     background-image: url("/images/homepage/firstScreenPc.svg");
     background-size: contain;
     background-repeat: no-repeat;
