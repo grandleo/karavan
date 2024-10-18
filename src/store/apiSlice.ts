@@ -9,6 +9,8 @@ export const api = createApi({
         'Warehouses',
         'WarehouseFormData',
         'SupplierClients',
+        'SupplierOrderNumbers',
+        'SupplierOrderDetails',
 
 
 

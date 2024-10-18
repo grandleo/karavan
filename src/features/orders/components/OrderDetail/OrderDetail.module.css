@@ -1,0 +1,35 @@
+.orderDetailClientId,
+.orderDetailNumberId {
+    color: #1B1F3BE5;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+.orderDetailClientName {
+    color: #1B1F3BE5;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.orderDetailDate {
+    color: #1B1F3B59;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.structureOrder {
+    color: #1B1F3BE5;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 28px;
+}
+
+.productName {
+    color: #234EE3;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 500;
+}

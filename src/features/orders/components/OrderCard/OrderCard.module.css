@@ -1,0 +1,33 @@
+.orderCardWrapper {
+    background-color: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ffffff;
+}
+
+.orderCardActive {
+    border: 2px solid #436CFB;
+}
+
+.orderCardClientId,
+.orderCardNumberId {
+    color: #1B1F3BE5;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 24px;
+}
+
+.orderCardDate,
+.orderCardTotalSum {
+    color: #1B1F3B73;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.orderCardDeliveryStatus {
+    color: #1B1F3BE5;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 20px;
+}
