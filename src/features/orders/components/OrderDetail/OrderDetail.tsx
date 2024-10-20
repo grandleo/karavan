@@ -178,7 +178,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                     {orderDetails?.order_items.map((item: any, index: number) => {
                         return (
                             <Table.Tr key={index}>
-                                <Table.Td>1</Table.Td>
+                                <Table.Td>{index+1}</Table.Td>
                                 <Table.Td>
                                     <Text className={classes.productName}>
                                         {item.product_name}
