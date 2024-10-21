@@ -8,11 +8,14 @@ import {
 } from "@/features/orders/api/ordersApi";
 import SidebarOrders from "@/features/orders/components/SidebarOrders/SidebarOrders";
 import OrderDetail from "@/features/orders/components/OrderDetail/OrderDetail";
-import {ActionIcon, Button, Center, Flex, Text} from "@mantine/core";
+import {ActionIcon, Center, Flex, Text} from "@mantine/core";
 import {IconMoodEmpty} from "@tabler/icons-react";
 
 export default function Page() {
-    const {data: orders, isLoading, isFetching} = useFetchSupplierOrderNumbersQuery('');
+    const {data: orders, isLoading, isFetching} = useFetchSupplierOrderNumbersQuery('', {
+        refetchOnMountOrArgChange: true,
+    });
+
     const [fetchOrderDetails, {data: orderDetails}] = useLazyFetchSupplierOrderDetailsQuery();
 
     // Состояние для хранения ID активного заказа
@@ -23,8 +26,6 @@ export default function Page() {
         setActiveOrderId(orderId);  // Устанавливаем активный заказ
         fetchOrderDetails(orderId); // Запрашиваем детали выбранного заказа
     };
-
-    console.log('orders',orders);
 
     return (
         <>
