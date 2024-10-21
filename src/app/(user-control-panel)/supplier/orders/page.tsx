@@ -28,7 +28,7 @@ export default function Page() {
         <>
             <PageWrapper
                 sidebarContent={
-                    orders && (
+                    orders?.length > 0 && (
                         <SidebarOrders orders={orders} activeOrderId={activeOrderId} onSelectOrder={handleSelectOrder}/>
                     )
                 }
