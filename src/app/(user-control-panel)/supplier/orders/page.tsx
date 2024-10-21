@@ -24,7 +24,7 @@ export default function Page() {
         fetchOrderDetails(orderId); // Запрашиваем детали выбранного заказа
     };
 
-    console.log(orders);
+    console.log('orders',orders);
 
     return (
         <>
