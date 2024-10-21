@@ -9,9 +9,6 @@ interface SidebarOrdersProps {
 }
 
 const SidebarOrders = ({orders, activeOrderId, onSelectOrder}: SidebarOrdersProps) => {
-
-    if (orders?.length === 0) return null;
-
     return (
         <Flex direction="column" gap="6px">
             {orders?.map((order) => (

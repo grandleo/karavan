@@ -1,43 +1,71 @@
 import React, {ReactNode} from "react";
-import {Box, Flex, ScrollArea} from "@mantine/core";
+import {Flex, ScrollArea} from "@mantine/core";
+import HeaderPage from "@/components/PageWrapper/HeaderPage/HeaderPage";
 import SidebarPage from "@/components/PageWrapper/SidebarPage";
-import HeaderPage from "@/components/PageWrapper/HeaderPage";
+import classes from "./PageWrapper.module.css";
 
 interface PageWrapperProps {
     children?: ReactNode;
-    sidebarChildren?: ReactNode;
-    sidebarWhite?: boolean;
-    emptyPage?: EmptyPageProps;
-    headerConfig?: HeaderPageProps;
+    sidebarBg?: 'white' | 'transparent';  // Проп для настройки фона Sidebar
+    sidebarContent?: ReactNode;  // Контент для Sidebar
+    header?: ReactNode;  // Динамический Header
 }
 
-interface HeaderPageProps {
-    title?: string;
-    actions?: () => void;
+// Функция для проверки пустоты ReactNode
+const isReactNodeEmpty = (node: ReactNode): boolean => {
+    if (node === null || node === undefined) {
+        return true;
+    }
+
+    if (typeof node === 'boolean') {
+        return true;
+    }
+
+    if (Array.isArray(node)) {
+        return node.every(isReactNodeEmpty);
+    }
+
+    if (typeof node === 'string' || typeof node === 'number') {
+        return node.toString().trim().length === 0;
+    }
+
+    if (React.isValidElement(node)) {
+        if (node.type === React.Fragment) {
+            return isReactNodeEmpty(node.props.children);
+        }
+        return false; // Любой другой элемент считается непустым
+    }
+
+    return false;
 }
 
-interface EmptyPageProps {
-    title?: string;
-    icon?: ReactNode;
-    action?: ReactNode;
-}
+const PageWrapper = ({children, sidebarBg = 'transparent', sidebarContent, header}: PageWrapperProps) => {
+    const isSidebarEmpty = isReactNodeEmpty(sidebarContent);
 
-const PageWrapper = ({children, sidebarChildren, sidebarWhite}: PageWrapperProps) => {
+    // Условное изменение класса для border-radius
+    const contentWrapperClass = `
+    ${classes.contentPageWrapper} 
+    ${sidebarBg === 'white' ? classes.contentPageWrapperConnected : ''}
+    ${header ? classes.contentPageWrapperWithHeader : classes.contentPageWrapperNoHeader}
+  `;
+    const flexGap = sidebarBg === 'white' ? 0 : '12px';
+    const flexContainerClass = header ? '' : classes.noHeaderMargin; // Класс для управления margin
+
     return (
         <>
-        <Flex direction="column" gap="12px">
-            {/*<HeaderPage/>*/}
-            <Flex gap="12px">
-                <Box>
-                    <SidebarPage bg_white={sidebarWhite}>
-                        {sidebarChildren}
-                    </SidebarPage>
-                </Box>
-                <ScrollArea style={{background: '#FFFFFF', borderRadius: '12px', height: '100vh', flexGrow: 1, padding: '12px'}}>
-                    {children}
-                </ScrollArea>
+            <Flex direction="column" gap="12px" className={flexContainerClass}>
+                {header && <HeaderPage>{header}</HeaderPage>}
+                <Flex gap={flexGap}>
+                    {!isSidebarEmpty && (
+                        <SidebarPage bg={sidebarBg} hasHeader={!!header}>
+                            {sidebarContent}
+                        </SidebarPage>
+                    )}
+                    <ScrollArea className={contentWrapperClass}>
+                        {children}
+                    </ScrollArea>
+                </Flex>
             </Flex>
-        </Flex>
         </>
     )
 }

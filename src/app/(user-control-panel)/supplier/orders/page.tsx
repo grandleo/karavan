@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from "react";
+import React, {useState} from "react";
 import PageWrapper from "@/components/PageWrapper";
 import {
     useFetchSupplierOrderNumbersQuery,
@@ -8,7 +8,7 @@ import {
 } from "@/features/orders/api/ordersApi";
 import SidebarOrders from "@/features/orders/components/SidebarOrders/SidebarOrders";
 import OrderDetail from "@/features/orders/components/OrderDetail/OrderDetail";
-import {ActionIcon, Center, Flex, Text} from "@mantine/core";
+import {ActionIcon, Button, Center, Flex, Text} from "@mantine/core";
 import {IconMoodEmpty} from "@tabler/icons-react";
 
 export default function Page() {
@@ -27,7 +27,7 @@ export default function Page() {
     return (
         <>
             <PageWrapper
-                sidebarChildren={
+                sidebarContent={
                     orders && (
                         <SidebarOrders orders={orders} activeOrderId={activeOrderId} onSelectOrder={handleSelectOrder}/>
                     )

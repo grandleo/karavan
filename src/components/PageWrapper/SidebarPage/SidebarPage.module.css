@@ -1,0 +1,20 @@
+
+.sidebarPageWrapper {
+    min-width: 300px;
+    height: calc(100vh - 12px);
+}
+
+.sidebarPageWrapperWithHeader {
+    height: calc(100vh - 72px);
+}
+
+.sidebarPageWrapperTransparent {
+    background-color: transparent;
+}
+
+.sidebarPageWrapperWhite {
+    background-color: #FFFFFF;
+    border-right: 1px solid #EAEDF4;
+    border-radius: 12px 0 0 12px;
+    padding: 12px
+}

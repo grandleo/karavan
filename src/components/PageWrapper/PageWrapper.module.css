@@ -1,19 +1,28 @@
+.contentPageWrapper{
+    background: #FFFFFF;
+    border-radius: 12px;
+    flex-grow: 1;
+    padding: 12px
+}
+
+.contentPageWrapperConnected {
+    border-radius: 0 12px 12px 0;
+}
+
+.contentPageWrapperNoHeader {
+    height: calc(100vh - 24px);
+}
+
+.noHeaderMargin {
+    margin-top: 12px;
+}
+
+.contentPageWrapperWithHeader {
+    height: calc(100vh - 84px);
+}
+
 .headerPageWrapper {
     background-color: #FFFFFF;
     border-radius: 0 0 12px 12px;
     padding: 12px;
-}
-
-.headerPageTitle {
-
-}
-
-.sidebarPageWrapper {}
-
-.sidebarPageWrapperTransparent {
-
-}
-
-.sidebarPageWrapperWhite {
-    background-color: #FFFFFF;
 }
