@@ -110,7 +110,7 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                             />
 
                         </Fieldset>
-                        <Fieldset legend="Оформаить заказ" variant="unstyled">
+                        <Fieldset legend="Оформить заказ" variant="unstyled">
                             <Controller
                                 name="type_orders"
                                 control={control}
