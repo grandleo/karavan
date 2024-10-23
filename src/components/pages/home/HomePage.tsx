@@ -15,9 +15,9 @@ const HomePage = () => {
         <>
             <Box className={classes.homeFirstScreen}>
                 <HeaderHome/>
-                <HomeFirstScreen/>
+                {/*<HomeFirstScreen/>*/}
             </Box>
-            <SalesOnHomePage/>
+            {/*<SalesOnHomePage/>*/}
             <Container size="md">
                 <CapabilityHome/>
                 {/*<BannerApp/>*/}
