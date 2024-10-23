@@ -20,7 +20,7 @@ const HomePage = () => {
             <SalesOnHomePage/>
             <Container size="md">
                 <CapabilityHome/>
-                <BannerApp/>
+                {/*<BannerApp/>*/}
             </Container>
 
             <HomeFooter/>
