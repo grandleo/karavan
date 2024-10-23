@@ -5,7 +5,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    padding-top: 600px;
+    padding-top: 200px;
 }
 
 .title {
@@ -75,7 +75,7 @@
         background: url("/images/homepage/firstScreenMob.svg");
         background-repeat: no-repeat;
         background-size: cover;
-        padding-top: 260px;
+        padding-top: 160px;
     }
 
     .title {
@@ -89,7 +89,7 @@
     .homeFirstScreen {
         background: url("/images/homepage/firstScreenTab.svg");
         background-repeat: no-repeat;
-        padding-top: 600px;
+        padding-top: 160px;
     }
 
     .title {
