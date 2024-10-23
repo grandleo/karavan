@@ -30,9 +30,9 @@ const HomeFooter = () => {
                     justify="space-between">
                     <Flex gap={{ base: 8, md: 32 }} direction={{ base: 'column', md: 'row' }}>
                         <Text component={Link} href="mailto:info@karavan.ru">info@karavan.ru</Text>
-                        <Text component={Link} href="tel:+79257712240">+7 (925) 771-22-40</Text>
+                        <Text component={Link} href="tel:+79257712201">+7 (925) 771 22 01</Text>
                     </Flex>
-                    <Text mt={{ base: 24, md: 0 }}>Москва, Ленинградский пр., д. 39, стр.79</Text>
+                    {/*<Text mt={{ base: 24, md: 0 }}>Москва, Ленинградский пр., д. 39, стр.79</Text>*/}
                 </Flex>
                 <Box>
                     <Text className={classes.copyright}>© 2024 Караван. Все права защищены.</Text>
