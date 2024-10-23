@@ -28,13 +28,13 @@ const BannerApp = () => {
                     <Button>{translations.bannerScreen.buttonIos}</Button>
                     <Button>{translations.bannerScreen.buttonAndroid}</Button>
                 </Box>
-                <Image
-                    component={NextImage}
-                    src="images/homepage/karavap-app.svg"
-                    width={435}
-                    height={387}
-                    fit="contain"
-                    alt="Karavan App"/>
+                {/*<Image*/}
+                {/*    component={NextImage}*/}
+                {/*    src="images/homepage/karavap-app.svg"*/}
+                {/*    width={435}*/}
+                {/*    height={387}*/}
+                {/*    fit="contain"*/}
+                {/*    alt="Karavan App"/>*/}
             </Flex>
             {/*direction={{ base: 'column', md: 'row' }}*/}
             {/*<Grid className={classes.bannerApp}>*/}

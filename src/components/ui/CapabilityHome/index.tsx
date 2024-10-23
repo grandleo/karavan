@@ -27,15 +27,15 @@ const CapabilityHome = () => {
                             {translations.capabilityScreen.bestPrice.description}
                         </Text>
                     </Box>
-                    <Image
-                        className={classes.capabilityImage}
-                        component={NextImage}
-                        src="/images/homepage/best-price.png"
-                        width={400}
-                        height={382}
-                        fit="cover"
-                        alt="Скорость"
-                    />
+                    {/*<Image*/}
+                    {/*    className={classes.capabilityImage}*/}
+                    {/*    component={NextImage}*/}
+                    {/*    src="/images/homepage/best-price.png"*/}
+                    {/*    width={400}*/}
+                    {/*    height={382}*/}
+                    {/*    fit="cover"*/}
+                    {/*    alt="Скорость"*/}
+                    {/*/>*/}
                 </Flex>
                 <Flex
                     className={classes.capability}
@@ -43,14 +43,14 @@ const CapabilityHome = () => {
                     gap={{ base: 12, sm: 24, md: 32 }}
                     direction={{base: 'column', md: 'row'}}
                 >
-                    <Image
-                        className={classes.capabilityImage}
-                        component={NextImage}
-                        src="/images/homepage/tender.png"
-                        width={400}
-                        height={382}
-                        fit="cover"
-                        alt="Торг"/>
+                    {/*<Image*/}
+                    {/*    className={classes.capabilityImage}*/}
+                    {/*    component={NextImage}*/}
+                    {/*    src="/images/homepage/tender.png"*/}
+                    {/*    width={400}*/}
+                    {/*    height={382}*/}
+                    {/*    fit="cover"*/}
+                    {/*    alt="Торг"/>*/}
                     <Box className={classes.capabilityInfo}>
                         <Text className={classes.capabilityTitle}>
                             {translations.capabilityScreen.tender.title}
@@ -74,28 +74,28 @@ const CapabilityHome = () => {
                             {translations.capabilityScreen.volume.description}
                         </Text>
                     </Box>
-                    <Image
-                        className={classes.capabilityImage}
-                        component={NextImage}
-                        src="/images/homepage/volume.png"
-                        width={400}
-                        height={382}
-                        fit="cover"
-                        alt="Объем"/>
+                    {/*<Image*/}
+                    {/*    className={classes.capabilityImage}*/}
+                    {/*    component={NextImage}*/}
+                    {/*    src="/images/homepage/volume.png"*/}
+                    {/*    width={400}*/}
+                    {/*    height={382}*/}
+                    {/*    fit="cover"*/}
+                    {/*    alt="Объем"/>*/}
                 </Flex>
                 <Flex
                     className={classes.capability}
                     align="center"
                     gap={{ base: 12, sm: 24, md: 32 }}
                     direction={{base: 'column', md: 'row'}}>
-                    <Image
-                        className={classes.capabilityImage}
-                        component={NextImage}
-                        src="/images/homepage/speed.png"
-                        width={400}
-                        height={382}
-                        fit="cover"
-                        alt="Скорость"/>
+                    {/*<Image*/}
+                    {/*    className={classes.capabilityImage}*/}
+                    {/*    component={NextImage}*/}
+                    {/*    src="/images/homepage/speed.png"*/}
+                    {/*    width={400}*/}
+                    {/*    height={382}*/}
+                    {/*    fit="cover"*/}
+                    {/*    alt="Скорость"/>*/}
                     <Box className={classes.capabilityInfo}>
                         <Text className={classes.capabilityTitle}>
                             {translations.capabilityScreen.speed.title}
