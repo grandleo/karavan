@@ -8,28 +8,26 @@ import {
     Tabs,
     TextInput,
     Text,
-    Select,
-    MultiSelect,
     Menu, ActionIcon, Popover, Switch
 } from "@mantine/core";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import classes from "./CategoryForm.module.css";
-import {IconDotsVertical, IconEdit, IconTrash} from "@tabler/icons-react";
+import {IconDotsVertical, IconTrash} from "@tabler/icons-react";
 import {
     useCreateCategoryMutation,
     useLazyFetchFormDataQuery,
     useUpdateCategoryMutation
 } from "@/features/categories/api/categoriesApi";
 import {useEffect} from "react";
-import Logger from "pusher-js/src/core/logger";
 
 interface CategoryFormProps {
     opened: boolean;
     close: () => void;
     categoryId?: string | null;
+    parentId?: string | null;
 }
 
-const CategoryForm = ({opened, close, categoryId}: CategoryFormProps) => {
+const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) => {
 
     const [triggerFetchFormData, { data, error, isLoading }] = useLazyFetchFormDataQuery();
     const [createCategory] = useCreateCategoryMutation();
@@ -100,7 +98,7 @@ const CategoryForm = ({opened, close, categoryId}: CategoryFormProps) => {
                 await updateCategory({ id: categoryId, ...formData }).unwrap();
             } else {
                 // Создание новой категории
-                await createCategory(formData).unwrap();
+                await createCategory({...formData, parent_id: parentId}).unwrap();
             }
             close();
         } catch (err) {

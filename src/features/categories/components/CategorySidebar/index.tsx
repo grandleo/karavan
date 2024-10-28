@@ -116,7 +116,7 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
                     onSelectCategory={handleSelectCategory}
                 />
             </Box>
-                <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId}/>
+                <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId} parentId={!editingCategoryId ? selectedCategoryId : null}/>
 
             <Modal
                 opened={openedDeleteModal}
