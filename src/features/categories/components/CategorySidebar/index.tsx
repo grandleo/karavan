@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import CategoryTree, {Category} from "@/features/categories/components/CategoryTree";
 import {ActionIcon, Box, Flex, Group, Text} from "@mantine/core";
 import {IconAdjustments, IconBasketPlus, IconFolderPlus} from "@tabler/icons-react";
@@ -57,7 +57,25 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
         setSelectedCategoryId(null);
     };
 
-    console.log('categories', categories);
+    // Создаём реф для CategoryTree
+    const categoryTreeRef = useRef<HTMLDivElement>(null);
+
+    // Обработчик двойного клика вне CategoryTree
+    const handleDoubleClickOutside = (event: MouseEvent) => {
+        if (
+            categoryTreeRef.current &&
+            !categoryTreeRef.current.contains(event.target as Node)
+        ) {
+            handleClearSelection();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("dblclick", handleDoubleClickOutside);
+        return () => {
+            document.removeEventListener("dblclick", handleDoubleClickOutside);
+        };
+    }, []);
 
     return (
         <Box onDoubleClick={(e) => {
@@ -76,7 +94,7 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
                         className={classes.addButton}
                         onClick={openCategoryForm}
                     >
-                        <IconFolderPlus size={16} stroke={1.5} />
+                        <IconFolderPlus size={16} stroke={1.5}/>
                     </ActionIcon>
                     <ActionIcon
                         variant="transparent"
@@ -85,22 +103,23 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
                         className={classes.addButton}
                         onClick={openProductForm}
                     >
-                        <IconBasketPlus size={16} stroke={1.5} />
+                        <IconBasketPlus size={16} stroke={1.5}/>
                     </ActionIcon>
                 </ActionIcon.Group>
             </Flex>
-            <CategoryTree
-                categories={categories}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                onDragEnd={handleDragEnd}
-                selectedCategoryId={selectedCategoryId}
-                onSelectCategory={handleSelectCategory}
-            />
-
-            <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId}/>
+            <Box ref={categoryTreeRef}>
+                <CategoryTree
+                    categories={categories}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                    onDragEnd={handleDragEnd}
+                    selectedCategoryId={selectedCategoryId}
+                    onSelectCategory={handleSelectCategory}
+                />
+            </Box>
+                <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId}/>
         </Box>
-    )
+)
 }
 
 export default CategorySidebar;
