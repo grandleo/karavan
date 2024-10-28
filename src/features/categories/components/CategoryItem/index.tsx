@@ -63,6 +63,14 @@ const CategoryItem = ({
         onSelect(category.id);
     };
 
+    const handleTextClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        onSelect(category.id); // Вызываем onSelect
+        if (hasChildren) {
+            toggleExpand(category.id); // Вызываем toggleExpand, если есть дочерние категории
+        }
+    };
+
     return (
         <Flex
             align="center"
@@ -79,19 +87,13 @@ const CategoryItem = ({
             </Box>
             <Text
                 className={classes.categoryName}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    if (hasChildren) toggleExpand(category.id);
-                }}
+                onClick={handleTextClick}
             >
                 {category.name}
             </Text>
             <Menu shadow="md" width={150}>
                 <Menu.Target>
                     <IconDotsVertical size={16} onClick={(e) => e.stopPropagation()}/>
-                    {/*<UnstyledButton className={classes.menuButton} onClick={(e) => e.stopPropagation()}>*/}
-                    {/*    <IconDotsVertical size={14}/>*/}
-                    {/*</UnstyledButton>*/}
                 </Menu.Target>
                 <Menu.Dropdown>
                     <Menu.Item icon={<IconEdit size={14}/>} onClick={() => onEdit(category)}>

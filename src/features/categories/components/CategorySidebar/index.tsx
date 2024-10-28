@@ -78,12 +78,7 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
     }, []);
 
     return (
-        <Box onDoubleClick={(e) => {
-            // Снимаем выбор, только если кликнули на пустое пространство
-            if (e.target === e.currentTarget) {
-                handleClearSelection();
-            }
-        }}>
+        <Box>
             <Flex align="center" wrap="nowrap" justify="space-between" mb={16}>
                 <Text className={classes.title}>Номеклатура</Text>
                 <ActionIcon.Group>

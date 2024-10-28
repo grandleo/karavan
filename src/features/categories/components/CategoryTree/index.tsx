@@ -102,8 +102,6 @@ const CategoryTree = ({
         setActiveDragCategory(null);
     };
 
-    console.log(categories)
-
     return (
         <DndContext
             sensors={sensors}
