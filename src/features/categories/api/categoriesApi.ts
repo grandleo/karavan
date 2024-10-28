@@ -82,7 +82,19 @@ export const CategoriesApi = api.injectEndpoints({
                     params,
                 }
             },
-        })
+        }),
+        updateSortOrder: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `/admin/categories/sort`,
+                    method: 'POST',
+                    data: {ids: data}
+                }
+            },
+            invalidatesTags: () => [{
+                type: 'Categories'
+            }]
+        }),
     })
 });
 
@@ -94,5 +106,6 @@ export const {
     useUpdateCategoryMutation,
     useDeleteCategoryMutation,
     useLazyFetchCategorySpecificationsQuery,
-    useLazyFetchCategoryPathQuery
+    useLazyFetchCategoryPathQuery,
+    useUpdateSortOrderMutation
 } = CategoriesApi;

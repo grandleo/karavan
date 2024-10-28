@@ -5,7 +5,7 @@ import {IconAdjustments, IconBasketPlus, IconFolderPlus, IconTrash} from "@table
 import classes from "./CategorySidebar.module.css";
 import {useDisclosure} from "@mantine/hooks";
 import CategoryForm from "@/features/categories/components/CategoryForm";
-import {useDeleteCategoryMutation} from "@/features/categories/api/categoriesApi";
+import {useDeleteCategoryMutation, useUpdateSortOrderMutation} from "@/features/categories/api/categoriesApi";
 
 const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCategoryId, openedProductForm, openProductForm, closeProductForm}) => {
     const [categories, setCategories] = useState<Category[]>(initialCategories);
@@ -17,6 +17,7 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
 
     // Используем хук удаления категории
     const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation();
+    const [updateSortOrder, { isLoading: isUpdatingSortOrder }] = useUpdateSortOrderMutation();
 
     useEffect(() => {
         if(initialCategories) {
@@ -49,8 +50,30 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
         }
     };
 
-    const handleDragEnd = (updatedCategories: Category[]) => {
+    const handleDragEnd = async (updatedCategories: Category[]) => {
         setCategories(updatedCategories);
+
+        // Функция для сбора всех ID категорий в глубоком обходе
+        const collectIds = (categories: Category[]): string[] => {
+            let ids: string[] = [];
+            for (const category of categories) {
+                ids.push(category.id);
+                if (category.children) {
+                    ids = ids.concat(collectIds(category.children));
+                }
+            }
+            return ids;
+        };
+
+        const sortedIds = collectIds(updatedCategories);
+
+        try {
+            await updateSortOrder(sortedIds).unwrap();
+            // Дополнительно можно добавить уведомление об успешном обновлении
+        } catch (error) {
+            console.error("Ошибка при обновлении порядка сортировки:", error);
+            // Здесь можно добавить уведомление об ошибке
+        }
     };
 
     const handleSelectCategory = (categoryId: string) => {
