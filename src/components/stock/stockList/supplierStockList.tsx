@@ -56,14 +56,6 @@ const SupplierStockList = ({products}: SupplierStockListTypes) => {
                             </Flex>
 
                             <Text className={classes.info}>Артикул: <Text span>{currentProduct.product.article}</Text></Text>
-
-                            {currentProduct?.card_specifications.length > 0 && currentProduct.card_specifications.map((spec, idx) => (
-                                <Text key={idx} className={classes.info}>{spec.label}: <Text span>{spec.value}</Text></Text>
-                            ))}
-
-                            {currentProduct?.trading_text && (
-                                <Text className={classes.info}>Торг.особенность: <Text span>{currentProduct.trading_text}</Text></Text>
-                            )}
                         </Box>
                         <Box>
                             <Modal.CloseButton />

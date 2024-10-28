@@ -1,0 +1,10 @@
+.title {
+    color: #1B1F3BE5;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 28px;
+}
+
+.addButton:hover {
+    color: #436CFB;
+}

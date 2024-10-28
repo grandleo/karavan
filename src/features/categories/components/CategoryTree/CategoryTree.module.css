@@ -1,0 +1,8 @@
+.categoryTree {
+    list-style: none;
+    padding-left: 0;
+}
+
+.children {
+    margin-left: 20px;
+}

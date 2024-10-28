@@ -23,10 +23,6 @@ const ProductSpecificationForm = ({
         defaultValues: {
             id: 0,
             name: '',
-            required: false,
-            use_product_name: false,
-            use_product_card: false,
-            type_choice: 'single',
             values: [
                 {id: Number(nanoid()), value: ''},
             ]
@@ -37,10 +33,6 @@ const ProductSpecificationForm = ({
         if (editValues) {
             methods.setValue('id', editValues.id)
             methods.setValue('name', editValues.name)
-            methods.setValue('required', editValues.required)
-            methods.setValue('use_product_name', editValues.use_product_name)
-            methods.setValue('use_product_card', editValues.use_product_card)
-            methods.setValue('type_choice', editValues.type_choice)
             methods.setValue('values', editValues.values)
         }
     }, [editValues]);
@@ -104,57 +96,6 @@ const ProductSpecificationForm = ({
                                         />
                                     )}
                                 />
-
-                                <Controller
-                                    control={methods.control}
-                                    name="required"
-                                    render={({field: {value, onChange}}) => (
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => onChange(e.currentTarget.checked)}
-                                            label="Обязательное поле"
-                                        />
-                                    )}
-                                />
-
-                                <Controller
-                                    control={methods.control}
-                                    name="use_product_name"
-                                    render={({field: {value, onChange}}) => (
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => onChange(e.currentTarget.checked)}
-                                            label="Участвует в формировании названия"
-                                        />
-                                    )}
-                                />
-
-                                <Controller
-                                    control={methods.control}
-                                    name="use_product_card"
-                                    render={({field: {value, onChange}}) => (
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => onChange(e.currentTarget.checked)}
-                                            label="Выводить в карточке товара"
-                                        />
-                                    )}
-                                />
-
-                                <Controller
-                                    name="type_choice"
-                                    control={methods.control}
-                                    render={({field}) => (
-                                        <Select
-                                            {...field}
-                                            label="Тип выбора"
-                                            data={[
-                                                {value: 'single', label: 'Единичный выбор'},
-                                                {value: 'multiple', label: 'Множественный выбор'},
-                                            ]}
-                                            mb={{base: 10}}
-                                        />
-                                    )}/>
 
                                 <SpecificationValues ref={specificationValuesRef}/>
                             </Box>
