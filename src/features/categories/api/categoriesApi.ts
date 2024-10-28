@@ -52,6 +52,17 @@ export const CategoriesApi = api.injectEndpoints({
                 type: 'Categories'
             }]
         }),
+        deleteCategory: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/admin/categories/delete/${id}`,
+                    method: 'GET',
+                }
+            },
+            invalidatesTags: () => [{
+                type: 'Categories'
+            }]
+        }),
         fetchCategorySpecifications: builder.query({
             query: (id) => {
                 const params = { category_id: id };
@@ -81,6 +92,7 @@ export const {
     useLazyFetchFormDataQuery,
     useCreateCategoryMutation,
     useUpdateCategoryMutation,
+    useDeleteCategoryMutation,
     useLazyFetchCategorySpecificationsQuery,
     useLazyFetchCategoryPathQuery
 } = CategoriesApi;

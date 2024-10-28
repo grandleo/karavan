@@ -1,15 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import CategoryTree, {Category} from "@/features/categories/components/CategoryTree";
-import {ActionIcon, Box, Flex, Group, Text} from "@mantine/core";
-import {IconAdjustments, IconBasketPlus, IconFolderPlus} from "@tabler/icons-react";
+import {ActionIcon, Box, Button, Flex, Group, Modal, Text} from "@mantine/core";
+import {IconAdjustments, IconBasketPlus, IconFolderPlus, IconTrash} from "@tabler/icons-react";
 import classes from "./CategorySidebar.module.css";
 import {useDisclosure} from "@mantine/hooks";
 import CategoryForm from "@/features/categories/components/CategoryForm";
-import ProductForm from "@/features/products/components/ProductForm";
+import {useDeleteCategoryMutation} from "@/features/categories/api/categoriesApi";
 
 const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCategoryId, openedProductForm, openProductForm, closeProductForm}) => {
     const [categories, setCategories] = useState<Category[]>(initialCategories);
     const [editingCategoryId, setEditingCategoryId] = useState<string | null>(null);
+
+    // Состояние для модального окна удаления
+    const [openedDeleteModal, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
+    const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
+
+    // Используем хук удаления категории
+    const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation();
 
     useEffect(() => {
         if(initialCategories) {
@@ -24,24 +31,21 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
         openCategoryForm();
     };
 
-    const handleDelete = (categoryToDelete: Category) => {
-        const deleteCategoryRecursively = (cats: Category[]): Category[] => {
-            return cats.reduce((acc: Category[], cat) => {
-                if (cat.id === categoryToDelete.id) {
-                    return acc;
-                }
-                if (cat.children) {
-                    const updatedChildren = deleteCategoryRecursively(cat.children);
-                    acc.push({ ...cat, children: updatedChildren });
-                } else {
-                    acc.push(cat);
-                }
-                return acc;
-            }, []);
-        };
-        setCategories(deleteCategoryRecursively(categories));
-        if (selectedCategoryId === categoryToDelete.id) {
-            setSelectedCategoryId(null);
+    const handleDelete = (category: Category) => {
+        setCategoryToDelete(category);
+        openDeleteModal();
+    };
+
+    const confirmDelete = async () => {
+        if (!categoryToDelete) return;
+
+        try {
+            await deleteCategory(categoryToDelete.id).unwrap();
+            closeDeleteModal();
+            setCategoryToDelete(null);
+        } catch (error) {
+            console.error("Ошибка при удалении категории:", error);
+            // Здесь можно добавить уведомление об ошибке
         }
     };
 
@@ -113,6 +117,23 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
                 />
             </Box>
                 <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId}/>
+
+            <Modal
+                opened={openedDeleteModal}
+                onClose={closeDeleteModal}
+                title="Подтверждение удаления"
+                centered
+            >
+                <Text>Вы уверены, что хотите удалить категорию "{categoryToDelete?.name}"?</Text>
+                <Group p="apart" mt="md">
+                    <Button variant="outline" onClick={closeDeleteModal}>
+                        Отмена
+                    </Button>
+                    <Button color="red" onClick={confirmDelete} loading={isDeleting} leftIcon={<IconTrash size={16} />}>
+                        Удалить
+                    </Button>
+                </Group>
+            </Modal>
         </Box>
 )
 }
