@@ -12,6 +12,7 @@ interface FormValues {
     region_id: string | null;
     city_id: string | null;
     type_orders: string;
+    delivery_day: string | null;
 }
 
 interface Region {
@@ -47,6 +48,7 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
             region_id: null,
             city_id: null,
             type_orders: 'cart',
+            delivery_day: ''
         },
     });
 

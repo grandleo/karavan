@@ -92,6 +92,7 @@ const useWarehouseManager = ({ isDrawerOpened, methods }: UseWarehouseManagerPro
                 region_id: data.region_id.toString(),
                 city_id: data.city_id.toString(),
                 type_orders: data.type_orders,
+                delivery_day: data.delivery_day,
             });
             setIsFastCreateOpen(true);
         } catch (error) {
