@@ -8,7 +8,7 @@ import {
     Tabs,
     TextInput,
     Text,
-    Menu, ActionIcon, Popover, Switch
+    Menu, ActionIcon, Popover, Switch, ScrollArea
 } from "@mantine/core";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import classes from "./CategoryForm.module.css";
@@ -18,7 +18,10 @@ import {
     useLazyFetchFormDataQuery,
     useUpdateCategoryMutation
 } from "@/features/categories/api/categoriesApi";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {SortableList} from "@/components/SortableList";
+import CategorySpecification
+    from "@/features/categories/components/CategoryForm/components/CategorySpecification/CategorySpecification";
 
 interface CategoryFormProps {
     opened: boolean;
@@ -123,8 +126,21 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
         }
     }, [data, setValue, reset]);
 
+    const handleSpecificationsReorder = ({ active, over }) => {
+        if (active.id !== over.id) {
+            const oldIndex = fields.findIndex((field) => field.id === active.id);
+            const newIndex = fields.findIndex((field) => field.id === over.id);
+            move(oldIndex, newIndex);
+        }
+    };
+
     return (
-        <Drawer opened={opened} onClose={close} padding={0} title={categoryId ? "Редактировать категорию" : "Добавить категорию"}>
+        <Drawer
+            opened={opened}
+            onClose={close}
+            padding={0}
+            scrollAreaComponent={ScrollArea.Autosize}
+            title={categoryId ? "Редактировать категорию" : "Добавить категорию"}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex direction="column" style={{minHeight: 'calc(100vh - 60px)'}}>
                     <Tabs defaultValue="information" style={{flexGrow: 1}}>
@@ -230,85 +246,100 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                         </Popover.Dropdown>
                                     </Popover>
                                 </Flex>
+                                <ScrollArea h={400}>
+
+                                    <SortableList
+                                        items={fields}
+                                        onChange={handleSpecificationsReorder}
+                                        renderItem={(field, index) => (
+                                            <CategorySpecification
+                                                field={field}
+                                                index={index}
+                                                control={control}
+                                                remove={remove}
+                                            />
+                                        )}
+                                    />
+                                </ScrollArea>
                                 <Flex direction="column" gap={8}>
-                                    {fields.map((field, index) => (
-                                        <Flex key={field.id} className={classes.specification}>
-                                            <Text className={classes.specificationTitle}>{field.name}</Text>
-                                            <Menu shadow="md">
-                                                <Menu.Target>
-                                                    <ActionIcon variant="white" aria-label="Настройки" size={16}>
-                                                        <IconDotsVertical size={16}/>
-                                                    </ActionIcon>
-                                                </Menu.Target>
-                                                <Menu.Dropdown>
-                                                    {/* Используем контейнерные элементы вместо Menu.Item */}
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_filterable`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Выводить в фильтр" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_trade_feature`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Выводить в торговую особенность" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_required`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Обязательное поле" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_title_part`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Участвует в формировании названия" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_multiple`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Множественный выбор" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                    <Box px="sm" py="xs">
-                                                        <Controller
-                                                            name={`specifications.${index}.is_displayed_in_product_card`}
-                                                            control={control}
-                                                            render={({ field }) => (
-                                                                <Checkbox {...field} checked={field.value} label="Выводить в карточку товара" />
-                                                            )}
-                                                        />
-                                                    </Box>
-                                                </Menu.Dropdown>
-                                            </Menu>
-                                            <ActionIcon
-                                                variant="white"
-                                                color="red"
-                                                aria-label="Удалить"
-                                                size={16}
-                                                onClick={() => remove(index)}
-                                            >
-                                                <IconTrash stroke={2} />
-                                            </ActionIcon>
-                                        </Flex>
-                                    ))}
+                                    {/*{fields.map((field, index) => (*/}
+                                    {/*    <Flex key={field.id} className={classes.specification}>*/}
+                                    {/*        <Text className={classes.specificationTitle}>{field.name}</Text>*/}
+                                    {/*        <Menu shadow="md">*/}
+                                    {/*            <Menu.Target>*/}
+                                    {/*                <ActionIcon variant="white" aria-label="Настройки" size={16}>*/}
+                                    {/*                    <IconDotsVertical size={16}/>*/}
+                                    {/*                </ActionIcon>*/}
+                                    {/*            </Menu.Target>*/}
+                                    {/*            <Menu.Dropdown>*/}
+                                    {/*                /!* Используем контейнерные элементы вместо Menu.Item *!/*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_filterable`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в фильтр" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_trade_feature`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в торговую особенность" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_required`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Обязательное поле" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_title_part`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Участвует в формировании названия" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_multiple`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Множественный выбор" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*                <Box px="sm" py="xs">*/}
+                                    {/*                    <Controller*/}
+                                    {/*                        name={`specifications.${index}.is_displayed_in_product_card`}*/}
+                                    {/*                        control={control}*/}
+                                    {/*                        render={({ field }) => (*/}
+                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в карточку товара" />*/}
+                                    {/*                        )}*/}
+                                    {/*                    />*/}
+                                    {/*                </Box>*/}
+                                    {/*            </Menu.Dropdown>*/}
+                                    {/*        </Menu>*/}
+                                    {/*        <ActionIcon*/}
+                                    {/*            variant="white"*/}
+                                    {/*            color="red"*/}
+                                    {/*            aria-label="Удалить"*/}
+                                    {/*            size={16}*/}
+                                    {/*            onClick={() => remove(index)}*/}
+                                    {/*        >*/}
+                                    {/*            <IconTrash stroke={2} />*/}
+                                    {/*        </ActionIcon>*/}
+                                    {/*    </Flex>*/}
+                                    {/*))}*/}
                                 </Flex>
                             </Box>
 

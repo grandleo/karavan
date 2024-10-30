@@ -94,7 +94,7 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
                 triggerFetchFormData(editingProductId)
                     .unwrap()
                     .then(async (productData) => {
-
+                        console.log('productData', productData);
                         if (productData.category_id) {
                             // Запрос пути категории
                             const categoryPathData = await triggerCategoryPath(productData.category_id).unwrap();
@@ -190,7 +190,10 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
         if (!selectedCategory) return;
 
         // Создаем копию текущих уровней до выбранного
-        const newLevels = categoryLevels.slice(0, levelIndex + 1);
+        // const newLevels = categoryLevels.slice(0, levelIndex + 1);
+        // newLevels[levelIndex].selectedCategory = selectedCategory;
+        // Создаем глубокую копию текущих уровней до выбранного
+        const newLevels = categoryLevels.slice(0, levelIndex + 1).map(level => ({ ...level }));
         newLevels[levelIndex].selectedCategory = selectedCategory;
 
         // Устанавливаем обновленные уровни

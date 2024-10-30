@@ -9,17 +9,3 @@
     line-height: 24px;
     text-align: left;
 }
-
-.specification {
-    border: 1px solid #EAEDF4;
-    border-radius: 4px;
-    padding: 7px 16px;
-}
-
-.specificationTitle {
-    color: #1B1F3BE5;
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 20px;
-    flex-grow: 1;
-}
