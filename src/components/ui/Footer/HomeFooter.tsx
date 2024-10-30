@@ -6,7 +6,7 @@ import NextImage from "next/image";
 const HomeFooter = () => {
     return (
         <Box className={classes.homeFooter} id="footer">
-            <Container size="md">
+            <Container size="lg">
                 <Flex
                     direction={{ base: 'column', md: 'row' }}
                     align="center"

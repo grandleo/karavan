@@ -29,7 +29,7 @@ const HeaderHome = () => {
     return (
         <>
             <header className={`${classes.header} ${isSticky ? classes.fixedHeader : classes.stickyHeader}`}>
-                <Container size="md" className={classes.inner}>
+                <Container size="lg" className={classes.inner}>
                     <Flex align="center" justify="space-between">
                         <Link href="/" style={{ display: 'contents' }}>
                             <Image
