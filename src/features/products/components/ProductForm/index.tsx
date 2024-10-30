@@ -22,6 +22,7 @@ import {
 } from "@/features/categories/api/categoriesApi";
 import CategorySpecifications
     from "@/features/products/components/ProductForm/components/CategorySpecifications/CategorySpecifications";
+import {notify} from "@/utils/notify";
 
 interface Category {
     id: number;
@@ -162,18 +163,21 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
 
     const onSubmit = async (formData) => {
         try {
+            let response;
             if (editingProductId) {
                 // Режим редактирования
-                await updateProduct({ id: editingProductId, ...formData }).unwrap();
+                response = await updateProduct({ id: editingProductId, ...formData }).unwrap();
+                notify(response.message, 'success');
             } else {
                 // Режим добавления
-                await createProduct(formData).unwrap();
+                response = await createProduct(formData).unwrap();
+                notify(response.message, 'success');
             }
             // Закрыть форму после успешной отправки
             close();
         } catch (error) {
-            console.error("Ошибка при отправке формы:", error);
-            // Здесь можно добавить уведомление пользователю об ошибке
+            const errorMessage = error?.data?.message || 'Ошибка при сохранении товара. Пожалуйста, попробуйте еще раз.';
+            notify(errorMessage, 'error');
         }
     }
 
