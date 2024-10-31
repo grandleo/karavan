@@ -22,6 +22,7 @@ import {useEffect, useState} from "react";
 import {SortableList} from "@/components/SortableList";
 import CategorySpecification
     from "@/features/categories/components/CategoryForm/components/CategorySpecification/CategorySpecification";
+import {IValueTypes} from "@/components/productSpecifications/types";
 
 interface CategoryFormProps {
     opened: boolean;
@@ -126,12 +127,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
         }
     }, [data, setValue, reset]);
 
-    const handleSpecificationsReorder = ({ active, over }) => {
-        if (active.id !== over.id) {
-            const oldIndex = fields.findIndex((field) => field.id === active.id);
-            const newIndex = fields.findIndex((field) => field.id === over.id);
-            move(oldIndex, newIndex);
-        }
+    const handleItemsChange = (newItems) => {
+        setValue('specifications', newItems);
     };
 
     return (
@@ -250,7 +247,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
 
                                     <SortableList
                                         items={fields}
-                                        onChange={handleSpecificationsReorder}
+                                        onChange={handleItemsChange}
                                         renderItem={(field, index) => (
                                             <CategorySpecification
                                                 field={field}
