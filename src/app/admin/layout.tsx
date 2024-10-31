@@ -1,4 +1,5 @@
 import AdminLayout from "@/components/layouts/adminLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 export default function AdminRootLayout({
                                             children,
@@ -6,8 +7,8 @@ export default function AdminRootLayout({
     children: React.ReactNode
 }) {
     return (
-        <AdminLayout>
+        <DashboardLayout>
             {children}
-        </AdminLayout>
+        </DashboardLayout>
     )
 }

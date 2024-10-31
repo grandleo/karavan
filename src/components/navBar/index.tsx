@@ -9,6 +9,7 @@ import UserLogout from "@/components/navBar/components/userLogout";
 import {useEffect, useState} from "react";
 import UserInfo from "@/components/navBar/components/userInfo";
 import { useRouter } from 'next/router';
+import Menu from "@/features/menuItems/components/Menu/Menu";
 
 enum Theme {
     Light = "light",
@@ -47,6 +48,8 @@ const NavBar = ({theme = Theme.Light}: NavBarProps) => {
                 <div className={classes.header}>
                     <UserLogo/>
                 </div>
+
+                <Menu />
 
                 <ScrollArea className={classes.links}>
                     {showSkeleton &&

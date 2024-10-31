@@ -1,4 +1,4 @@
-import UserControlPanelLayout from "@/components/layouts/userControlPanelLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 
 interface Props {
     children: React.ReactNode
@@ -6,8 +6,8 @@ interface Props {
 
 export default function UserControlPanelRootLayout({ children }: Props) {
     return (
-        <UserControlPanelLayout>
+        <DashboardLayout>
             {children}
-        </UserControlPanelLayout>
+        </DashboardLayout>
     )
 }
