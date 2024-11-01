@@ -57,6 +57,7 @@ const LanguageSwitch = () => {
                 root: classes.langSwitch,
                 input: classes.langSwitchInput,
             }}
+            display={{base: 'none', sm: 'block'}}
         />
     );
 }
