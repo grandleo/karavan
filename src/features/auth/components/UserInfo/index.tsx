@@ -48,8 +48,8 @@ const UserInfo = () => {
     return (
         <Flex gap={12} mb={12} align="center">
             <Avatar name={user?.full_name} color="initials" variant="light" size={48}/>
-            <Box p="relative">
-                <Text className={classes.fullName} truncate="end">{user?.full_name} {user?.full_name}</Text>
+            <Box p="relative" w={216}>
+                <Text className={classes.fullName} truncate="end">{user?.full_name}</Text>
                 <Text className={classes.roleName}>{user?.role_name}</Text>
             </Box>
         </Flex>
