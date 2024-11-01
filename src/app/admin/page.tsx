@@ -1,6 +1,5 @@
-import {Clients} from "@/components/pages/admin/users";
-
+import {redirect} from "next/navigation";
 
 export default function Admin () {
-    return <Clients/>
+    redirect('/admin/settings/nomenclature');
 }

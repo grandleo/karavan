@@ -1,6 +1,6 @@
-import SupplierStock from "@/components/pages/supplier/stock";
+import {redirect} from "next/navigation";
 
 export default function Page()
 {
-    return <SupplierStock/>
+    redirect('/supplier/stock');
 }
