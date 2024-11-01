@@ -37,6 +37,17 @@ const ProductsApi = api.injectEndpoints({
                 type: 'Products'
             }]
         }),
+        deleteProduct: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `/admin/products/delete/${id}`,
+                    method: 'GET',
+                }
+            },
+            invalidatesTags: () => [{
+                type: 'Products'
+            }]
+        }),
         fetchProductFormData: builder.query({
             query: (id) => {
                 // Создаем объект параметров
@@ -57,4 +68,5 @@ export const {
     useLazyFetchProductFormDataQuery,
     useCreateProductMutation,
     useUpdateProductMutation,
+    useDeleteProductMutation,
 } = ProductsApi;

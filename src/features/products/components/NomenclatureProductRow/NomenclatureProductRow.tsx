@@ -6,7 +6,7 @@ interface NomenclatureProductRowProps {
 
 }
 
-const NomenclatureProductRow = ({product, handleProductEdit}: NomenclatureProductRowProps) => {
+const NomenclatureProductRow = ({product, handleProductEdit, onDelete}: NomenclatureProductRowProps) => {
     return (
         <Table.Tr>
             <Table.Td>1</Table.Td>
@@ -26,7 +26,7 @@ const NomenclatureProductRow = ({product, handleProductEdit}: NomenclatureProduc
                 <ActionIcon variant="white" color="rgba(0, 0, 0, 1)" aria-label="Settings">
                     <IconCopy stroke={2} />
                 </ActionIcon>
-                <ActionIcon variant="white" color="red" aria-label="Settings">
+                <ActionIcon variant="white" color="red" aria-label="Settings" onClick={() => onDelete(product)}>
                     <IconTrash stroke={2} />
                 </ActionIcon>
             </Table.Td>
