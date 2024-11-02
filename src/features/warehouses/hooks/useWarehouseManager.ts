@@ -5,6 +5,7 @@ import {
     useLazyFetchWarehousesQuery,
 } from '@/features/warehouses/api/warehousesApi';
 import { UseFormReturn } from 'react-hook-form';
+import {notify} from "@/utils/notify";
 
 interface UseWarehouseManagerProps {
     isDrawerOpened: boolean;
@@ -57,7 +58,7 @@ const useWarehouseManager = ({ isDrawerOpened, methods }: UseWarehouseManagerPro
     const handleConfirmDelete = async () => {
         if (warehouseToDelete !== null) {
             try {
-                await deleteWarehouse(warehouseToDelete).unwrap();
+                const response = await deleteWarehouse(warehouseToDelete).unwrap();
                 // Обновляем список складов в форме
                 methods.setValue(
                     'warehouses',
@@ -65,8 +66,9 @@ const useWarehouseManager = ({ isDrawerOpened, methods }: UseWarehouseManagerPro
                 );
                 setDeleteModalOpened(false);
                 setWarehouseToDelete(null);
+                notify(response.message, 'success')
             } catch (error) {
-                console.error('Ошибка при удалении склада:', error);
+                notify(error?.data?.message, 'error');
             }
         }
     };

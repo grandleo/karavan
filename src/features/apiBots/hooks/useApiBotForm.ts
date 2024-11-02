@@ -6,6 +6,7 @@ import {
     useUpdateApiBotMutation,
     useDeleteApiBotMutation,
 } from '@/features/apiBots/api/apiBotsApi';
+import {notify} from "@/utils/notify";
 
 interface FormValues {
     active: boolean;
@@ -65,14 +66,17 @@ const useApiBotForm = ({ mode, apiBotId, initialData, onClose }: UseApiBotFormPr
     // Функция обработки отправки формы
     const onSubmit = async (data: FormValues) => {
         try {
+            let response;
             if (mode === 'add') {
-                await createApiBot(data).unwrap();
+                response = await createApiBot(data).unwrap();
+                notify(response.message, 'success')
             } else if (mode === 'edit' && apiBotId !== null) {
-                await updateApiBot({ id: apiBotId, ...data }).unwrap();
+                response = await updateApiBot({ id: apiBotId, ...data }).unwrap();
+                notify(response.message, 'success')
             }
             onClose();
         } catch (error) {
-            console.error('Ошибка при сохранении ApiBot:', error);
+            notify(error?.data?.message, 'error');
         }
     };
 
@@ -84,12 +88,13 @@ const useApiBotForm = ({ mode, apiBotId, initialData, onClose }: UseApiBotFormPr
     const confirmDelete = async () => {
         try {
             if (apiBotId) {
-                await deleteApiBot({ id: apiBotId }).unwrap();
+                const response = await deleteApiBot({ id: apiBotId }).unwrap();
                 setModalOpened(false);
                 onClose();
+                notify(response.message, 'success')
             }
         } catch (error) {
-            console.error('Ошибка при удалении ApiBot:', error);
+            notify(error?.data?.message, 'error');
         }
     };
 

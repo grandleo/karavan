@@ -5,6 +5,7 @@ import {
     useEditWarehouseMutation,
     useLazyFetchWarehouseFormDataQuery,
 } from '@/features/warehouses/api/warehousesApi';
+import {notify} from "@/utils/notify";
 
 interface FormValues {
     id?: number;
@@ -114,18 +115,17 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
 
     const onSubmit = async (data: FormValues) => {
         try {
+            let response;
             if (mode === 'add') {
-                await addWarehouse(data).unwrap();
+                response = await addWarehouse(data).unwrap();
             } else if (mode === 'edit' && data.id) {
-                await editWarehouse(data).unwrap();
+                response = await editWarehouse(data).unwrap();
             }
             reset();
             onSuccess();
+            notify(response.message, 'success')
         } catch (error) {
-            console.error(
-                mode === 'add' ? 'Ошибка при создании склада:' : 'Ошибка при обновлении склада:',
-                error
-            );
+            notify(error?.data?.message, 'error');
         }
     };
 

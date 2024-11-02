@@ -14,7 +14,7 @@ const WarehouseSelector = () => {
         if (!isLoading && warehouses) {
             if (warehouses.length === 0) {
                 // Перенаправление, если складов нет
-                router.push('/supplier/warehouses');
+                router.push('/supplier/api');
             } else {
                 // Установка первого склада по умолчанию, если ничего не выбрано
                 if (!selectedWarehouse) {

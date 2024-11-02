@@ -6,6 +6,7 @@ import Link from "next/link";
 import {Box, Flex, NavLink, Skeleton} from "@mantine/core";
 import {useFetchMenuItemsQuery} from "@/features/menuItems/api/menuItemsApi";
 import {
+    IconApiApp,
     IconBasket, IconBox,
     IconBuildingWarehouse,
     IconFileDollar, IconForklift,
@@ -43,6 +44,8 @@ const getIconComponent = (iconName: string | null) => {
             return <IconBox size={16} />;
         case 'forkLift':
             return <IconForklift size={16} />;
+        case 'api':
+            return <IconApiApp size={16} />;
         // Добавьте другие иконки по необходимости
         default:
             return null;
