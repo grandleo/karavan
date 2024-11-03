@@ -131,10 +131,26 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
         setValue('specifications', newItems);
     };
 
+    const handleClose = () => {
+        reset({
+            name: {
+                ru: '',
+                en: '',
+            },
+            app_title: {
+                ru: '',
+                en: '',
+            },
+            required_period_validity: false,
+            specifications: []
+        }); // Сбрасываем форму
+        close();
+    };
+
     return (
         <Drawer
             opened={opened}
-            onClose={close}
+            onClose={handleClose}
             padding={0}
             scrollAreaComponent={ScrollArea.Autosize}
             title={categoryId ? "Редактировать категорию" : "Добавить категорию"}>

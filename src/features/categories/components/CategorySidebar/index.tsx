@@ -104,6 +104,11 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
         };
     }, []);
 
+    const handleCloseCategoryForm = () => {
+        closeCategoryForm();
+        setEditingCategoryId(null);
+    };
+
     return (
         <Box>
             <Flex align="center" wrap="nowrap" justify="space-between" mb={16}>
@@ -139,7 +144,7 @@ const CategorySidebar = ({initialCategories, selectedCategoryId, setSelectedCate
                     onSelectCategory={handleSelectCategory}
                 />
             </Box>
-                <CategoryForm opened={openedCategoryForm} close={closeCategoryForm} categoryId={editingCategoryId} parentId={!editingCategoryId ? selectedCategoryId : null}/>
+                <CategoryForm opened={openedCategoryForm} close={handleCloseCategoryForm} categoryId={editingCategoryId} parentId={!editingCategoryId ? selectedCategoryId : null}/>
 
             <Modal
                 opened={openedDeleteModal}

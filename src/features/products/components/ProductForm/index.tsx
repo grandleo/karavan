@@ -51,9 +51,10 @@ interface ProductFormProps {
     close: () => void;
     categoryId?: string | null;
     editingProductId?: string | null;
+    copyProduct?: boolean;
 }
 
-const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormProps) => {
+const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}: ProductFormProps) => {
     const [triggerFetchFormData, {isLoading: isLoadingFormData}] = useLazyFetchProductFormDataQuery();
     const [triggerFetchCategories] = useLazyFetchCategoriesByIdQuery();
     const [triggerFetchCategorySpecifications, {data: categorySpecifications = []}] = useLazyFetchCategorySpecificationsQuery();
@@ -75,6 +76,7 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
     const {control, handleSubmit, setValue, watch, reset} = methods;
 
     const [categoryLevels, setCategoryLevels] = useState<{ categories: Category[]; selectedCategory: Category | null }[]>([]);
+    const [localCategorySpecifications, setLocalCategorySpecifications] = useState([]);
 
     // Функция для загрузки категорий по ID
     const fetchCategories = async (category_id: number): Promise<Category[]> => {
@@ -108,7 +110,8 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
                             }
 
                             // Запрос характеристик категории
-                            await triggerFetchCategorySpecifications(productData.category_id).unwrap();
+                            await triggerFetchCategorySpecifications(productData.category_id).unwrap().then((data) => setLocalCategorySpecifications(data))
+                                .catch((error) => console.error("Ошибка загрузки спецификаций:", error));
                         }
 
                         reset({
@@ -164,21 +167,37 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
     const onSubmit = async (formData) => {
         try {
             let response;
-            if (editingProductId) {
-                // Режим редактирования
-                response = await updateProduct({ id: editingProductId, ...formData }).unwrap();
-                notify(response.message, 'success');
-            } else {
-                // Режим добавления
+            if (copyProduct || !editingProductId) {
+                // Создание нового товара
                 response = await createProduct(formData).unwrap();
-                notify(response.message, 'success');
+            } else {
+                // Обновление товара
+                response = await updateProduct({ id: editingProductId, ...formData }).unwrap();
             }
-            // Закрыть форму после успешной отправки
-            close();
+            notify(response.message, 'success');
+            handleClose();
         } catch (error) {
             const errorMessage = error?.data?.message || 'Ошибка при сохранении товара. Пожалуйста, попробуйте еще раз.';
             notify(errorMessage, 'error');
         }
+
+        // try {
+        //     let response;
+        //     if (editingProductId) {
+        //         // Режим редактирования
+        //         response = await updateProduct({ id: editingProductId, ...formData }).unwrap();
+        //         notify(response.message, 'success');
+        //     } else {
+        //         // Режим добавления
+        //         response = await createProduct(formData).unwrap();
+        //         notify(response.message, 'success');
+        //     }
+        //     // Закрыть форму после успешной отправки
+        //     close();
+        // } catch (error) {
+        //     const errorMessage = error?.data?.message || 'Ошибка при сохранении товара. Пожалуйста, попробуйте еще раз.';
+        //     notify(errorMessage, 'error');
+        // }
     }
 
     // Функция для сброса характеристик при изменении категории
@@ -215,7 +234,8 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
             // Если подкатегорий нет, устанавливаем category_id в форму и загружаем данные формы
             setValue("category_id", selectedCategory.id.toString());
             try {
-                await triggerFetchCategorySpecifications(selectedCategory.id).unwrap();
+                await triggerFetchCategorySpecifications(selectedCategory.id).unwrap().then((data) => setLocalCategorySpecifications(data))
+                    .catch((error) => console.error("Ошибка загрузки спецификаций:", error));
             } catch (err) {
                 console.error("Ошибка при загрузке данных формы:", err);
             }
@@ -225,11 +245,25 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
         resetSpecifications();
     };
 
+    const handleClose = () => {
+        reset({
+            name: '',
+            article: '',
+            description: '',
+            category_id: '',
+            producer_country_id: '',
+            specifications: {}
+        }); // Сбрасываем форму
+        setCategoryLevels([]);
+        setLocalCategorySpecifications([]);
+        close();
+    };
+
     return (
         <Drawer
             opened={opened}
-            onClose={close}
-            title={editingProductId ? "Редактировать товар" : "Добавить товар"}
+            onClose={handleClose}
+            title={editingProductId && !copyProduct ? "Редактировать товар" : "Добавить товар"}
             padding={0}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -302,7 +336,7 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
                             </Box>
                             <Box className={classes.sectionForm}>
                                 <CategorySpecifications
-                                    categorySpecifications={categorySpecifications}
+                                    categorySpecifications={localCategorySpecifications}
                                     control={control}
                                     setValue={setValue}
                                     watchedSpecifications={watchedSpecifications}
@@ -314,9 +348,8 @@ const ProductForm = ({opened, close, categoryId, editingProductId}: ProductFormP
                     <Box className={classes.sectionForm}>
                         <Flex gap={16}>
                             <Button variant="outline" fullWidth>Отменить</Button>
-                            <Button type="submit" variant="filled"
-                                    fullWidth>
-                                {editingProductId ? "Сохранить" : "Добавить"}
+                            <Button type="submit" variant="filled" fullWidth>
+                                {editingProductId && !copyProduct ? "Сохранить" : "Добавить"}
                             </Button>
                         </Flex>
                     </Box>

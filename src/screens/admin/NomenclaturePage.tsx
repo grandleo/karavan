@@ -17,6 +17,7 @@ const NomenclaturePage = () => {
 
     const [openedProductForm, { open: openProductForm, close: closeProductForm }] = useDisclosure(false);
     const [editingProductId, setEditingProductId] = useState<string | null>(null);
+    const [copyProduct, setCopyProduct] = useState(false);
 
     const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] = useDisclosure(false);
     const [productToDelete, setProductToDelete] = useState(null);
@@ -32,7 +33,14 @@ const NomenclaturePage = () => {
     }, [selectedCategoryId]);
 
     const handleProductEdit = (id) => {
-        setEditingProductId(id); // Устанавливаем ID редактируемой категории
+        setEditingProductId(id);
+        setCopyProduct(false);
+        openProductForm();
+    };
+
+    const handleProductCopy = (id) => {
+        setEditingProductId(id);
+        setCopyProduct(true);
         openProductForm();
     };
 
@@ -56,6 +64,12 @@ const NomenclaturePage = () => {
         }
     };
 
+    const handleCloseProductForm = () => {
+        closeProductForm();
+        setEditingProductId(null);
+        setCopyProduct(false);
+    };
+
     return (
         <>
             <PageWrapper
@@ -74,7 +88,7 @@ const NomenclaturePage = () => {
                 {selectedCategoryId ? (
                     <>
                         {products.length > 0 ? (
-                                <Table>
+                                <Table stickyHeader>
                                     <Table.Thead>
                                         <Table.Tr>
                                             <Table.Th>№</Table.Th>
@@ -83,14 +97,16 @@ const NomenclaturePage = () => {
                                         </Table.Tr>
                                     </Table.Thead>
                                     <Table.Tbody>
-                                        {products.map((product: any) => {
+                                        {products.map((product: any, index) => {
                                             return (
                                                 <NomenclatureProductRow
                                                     key={product.id}
+                                                    number={index+1}
                                                     product={product}
                                                     setEditingProductId={setEditingProductId}
                                                     handleProductEdit={handleProductEdit}
                                                     onDelete={handleDeleteClick}
+                                                    onCopy={handleProductCopy}
                                                 />
                                             )
                                         })}
@@ -123,7 +139,7 @@ const NomenclaturePage = () => {
                     </>
                 )}
 
-                <ProductForm opened={openedProductForm} close={closeProductForm} categoryId={selectedCategoryId} editingProductId={editingProductId}/>
+                <ProductForm opened={openedProductForm} close={handleCloseProductForm} categoryId={selectedCategoryId} editingProductId={editingProductId} copyProduct={copyProduct}/>
                 <Modal
                     opened={deleteModalOpened}
                     onClose={closeDeleteModal}
