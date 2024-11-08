@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react';
 import {getUser} from "@/features/auth/utils/userUtil";
 import {allTranslations, Filename, Language, languages} from "@/lang/translations";
