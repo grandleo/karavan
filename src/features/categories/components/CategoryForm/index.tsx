@@ -250,7 +250,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                                 return (
                                                     <Switch
                                                         key={item.id}
-                                                        label={item.name}
+                                                        label={item.name.ru}
                                                         checked={isActive}
                                                         onChange={() => handleToggleSpecification(item)}
                                                     />

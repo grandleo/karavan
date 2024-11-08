@@ -1,12 +1,11 @@
 'use client'
 
-import { Burger, Container, Flex, Group, Image, Text } from "@mantine/core";
+import { Burger, Container, Flex, Image } from "@mantine/core";
 import NextImage from "next/image";
 import classes from "@/components/ui/header/style.module.css";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import LanguageSwitch from "@/components/LanguageSwitch";
-import { Link as ScrollLink } from 'react-scroll';
 import Link from "next/link";
 import ModalAuth from "@/features/auth/components/ModalAuth/ModalAuth";
 
@@ -41,18 +40,6 @@ const HeaderHome = () => {
                                 alt="Karavan"
                             />
                         </Link>
-
-                        <Group gap={32} visibleFrom="xs">
-                            <Text className={classes.link} component={ScrollLink} to="capability" smooth={true} duration={1500}>
-                                Преимущества
-                            </Text>
-                            <Text className={classes.link} component={ScrollLink} to="download" smooth={true} duration={1500}>
-                                Скачать
-                            </Text>
-                            <Text className={classes.link} component={ScrollLink} to="footer" smooth={true} duration={1500}>
-                                Контакты
-                            </Text>
-                        </Group>
 
                         <Flex align="center" gap={16}>
                             <LanguageSwitch />

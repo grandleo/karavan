@@ -17,6 +17,7 @@ import {Controller, FormProvider} from "react-hook-form";
 import classes from "./ApiBotForm.module.css";
 import useWarehouseManager from "@/features/warehouses/hooks/useWarehouseManager";
 import useApiBotForm from "@/features/apiBots/hooks/useApiBotForm";
+import {useTranslation} from "@/hooks/useTranslation";
 
 interface ApiBotFormProps {
     opened: boolean;
@@ -33,6 +34,9 @@ interface Warehouse {
 }
 
 const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProps) => {
+
+    const { trans } = useTranslation();
+
     // Используем хук формы ApiBot
     const {
         methods,
@@ -79,7 +83,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
             <Drawer
                 opened={opened}
                 onClose={handleClose}
-                title={mode === 'add' ? "Добавить API" : "Редактировать API"}
+                title={mode === 'add' ? trans('api', 'form.title.add') : trans('api', 'form.title.edit')}
                 padding={0}>
                 <Flex direction="column" className={classes.wrapper}>
                     <FormProvider {...methods}>
@@ -90,7 +94,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                     control={methods.control}
                                     render={({field: {value, onChange}}) => (
                                         <Switch
-                                            label="Включено"
+                                            label={trans('api', 'form.inputs.on')}
                                             size="md"
                                             checked={value}
                                             onChange={(event) => onChange(event.currentTarget.checked)}
@@ -109,7 +113,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                             <TextInput
                                                 value={value}
                                                 onChange={onChange}
-                                                label="Название"
+                                                label={trans('api', 'form.inputs.name')}
                                                 rightSection={
                                                     <ActionIcon
                                                         variant="white"
@@ -138,7 +142,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                             <TextInput
                                                 value={value}
                                                 onChange={onChange}
-                                                label="API"
+                                                label={trans('api', 'form.inputs.api')}
                                                 rightSection={
                                                     <ActionIcon
                                                         variant="white"
@@ -170,7 +174,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                             <TextInput
                                                 value={value}
                                                 onChange={onChange}
-                                                label="Поддержка"
+                                                label={trans('api', 'form.inputs.support')}
                                                 rightSection={
                                                     <ActionIcon
                                                         variant="white"
@@ -192,7 +196,9 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                             <Divider/>
 
                             <Box className={classes.content}>
-                                <Text className={classes.title}>Склады</Text>
+                                <Text className={classes.title}>
+                                    {trans('warehouses', 'form.title.block')}
+                                </Text>
 
                                 {showSkeleton ? (
                                     <Flex direction="column" gap={8}>
@@ -247,7 +253,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                         />
                                     ) : (
                                         <Box className={classes.notFoundWarehouse} mt={16}>
-                                            <Text>Нет добавленных складов, добавьте их ниже чтобы выбрать склад.</Text>
+                                            <Text>{trans('warehouses', 'no_warehouses')}</Text>
                                         </Box>
                                     )
                                 )}
@@ -259,7 +265,7 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                                         leftSection={<IconCirclePlusFilled size={16}/>}
                                         onClick={handleAddWarehouseClick}
                                         mt={16}>
-                                        Добавить склад
+                                        {trans('warehouses', 'buttons.add')}
                                     </Button>
                                 )}
 
@@ -282,16 +288,18 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
 
                     <Box className={classes.content}>
                         {mode === 'edit' && (
-                            <Button fullWidth color="#DD4C1E" mb={16} onClick={handleDelete}>Удалить</Button>
+                            <Button fullWidth color="#DD4C1E" mb={16} onClick={handleDelete}>{trans('buttons', 'delete')}</Button>
                         )}
                         <Flex gap={16}>
-                            <Button fullWidth onClick={handleClose}>Отменить</Button>
+                            <Button fullWidth onClick={handleClose}>
+                                {trans('buttons', 'cancel')}
+                            </Button>
                             <Button
                                 fullWidth
                                 onClick={onSubmit}
                                 loading={isCreating || isUpdating}
                             >
-                                {mode === 'add' ? "Добавить API" : "Сохранить"}
+                                {mode === 'add' ? trans('api', 'form.buttons.add') : trans('buttons', 'save')}
                             </Button>
                         </Flex>
                     </Box>
@@ -307,10 +315,10 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                 <Text>Вы действительно хотите удалить этот APIBot?</Text>
                 <Flex justify="flex-end" mt="md">
                     <Button variant="outline" onClick={cancelDelete} mr="sm">
-                        Отмена
+                        {trans('buttons', 'cancel')}
                     </Button>
                     <Button color="red" onClick={confirmDelete} loading={isDeleting}>
-                        Удалить
+                        {trans('buttons', 'delete')}
                     </Button>
                 </Flex>
             </Modal>
@@ -323,10 +331,10 @@ const ApiBotForm = ({opened, close, mode, apiBotId, initialData}: ApiBotFormProp
                 <Text>Вы действительно хотите удалить этот склад?</Text>
                 <Flex justify="flex-end" mt="md">
                     <Button variant="outline" onClick={handleCancelDelete} mr="sm">
-                        Отмена
+                        {trans('buttons', 'cancel')}
                     </Button>
                     <Button color="red" onClick={handleConfirmDelete}>
-                        Удалить
+                        {trans('buttons', 'delete')}
                     </Button>
                 </Flex>
             </Modal>

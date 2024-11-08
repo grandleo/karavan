@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import {Select} from "@mantine/core";
 import _ from "lodash";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const SelectSubCategory = ({categories, index, handleSelectCategory}: SelectSubCategoryTypes) => {
+    const { trans } = useTranslation();
     const [items, setItems] = useState<ISelectCategory[]>([]);
     const [selected, setSelected] = useState<string | null>('');
 
@@ -14,10 +16,10 @@ const SelectSubCategory = ({categories, index, handleSelectCategory}: SelectSubC
 
     return (
         <Select
-            placeholder="Выберите подкатегорию"
+            placeholder={trans('stock', 'supplier.form.placeholders.subcategory')}
             allowDeselect={false}
             searchable
-            nothingFoundMessage="Категории не найдено..."
+            nothingFoundMessage={trans('stock', 'supplier.form.search.subcategory')}
             data={items}
             value={selected}
             onChange={(id) => {

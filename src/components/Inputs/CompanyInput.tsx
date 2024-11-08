@@ -1,8 +1,10 @@
 import {Controller, useFormContext} from "react-hook-form";
 import {TextInput} from "@mantine/core";
 import {capitalizeWords} from "@/utils/utils";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const CompanyInput = () => {
+    const { trans } = useTranslation('en');
     const {control} = useFormContext();
 
     return (
@@ -13,8 +15,8 @@ const CompanyInput = () => {
             rules={{required: 'ФИО обязательно'}}
             render={({field, fieldState}) => (
                 <TextInput
-                    label="Компания"
-                    placeholder="Введите названия компании"
+                    label={trans('auth', 'inputs.company')}
+                    placeholder={trans('auth', 'placeholders.company')}
                     value={field.value}
                     onChange={(value) => {
                         field.onChange(capitalizeWords(value.currentTarget.value));

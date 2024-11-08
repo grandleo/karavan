@@ -2,6 +2,7 @@ import NextImage from "next/image";
 import {Box, Divider, Flex, Image, NumberFormatter, Text} from "@mantine/core";
 import {IOrderCard} from "@/features/orders/types/orders.types";
 import classes from "./OrderCard.module.css";
+import {useMemo} from "react";
 
 interface OrderCardProps {
     order: IOrderCard;
@@ -11,9 +12,6 @@ interface OrderCardProps {
 
 
 const OrderCard = ({order, isActive, onClick}: OrderCardProps) => {
-    console.log("order", order);
-
-
     return (
         <Box
             className={`${classes.orderCardWrapper} ${isActive ? classes.orderCardActive : ''}`}
@@ -24,8 +22,14 @@ const OrderCard = ({order, isActive, onClick}: OrderCardProps) => {
                 <Text className={classes.orderCardNumberId}>№ {order.id}</Text>
             </Flex>
             <Flex wrap="nowrap" justify="space-between">
-                <Text className={classes.orderCardDate}>{order.order_date}</Text>
-                <NumberFormatter suffix=" ₽" value={order.total_sum} thousandSeparator=" " className={classes.orderCardTotalSum}/>
+                <Text className={classes.orderCardDate}>{order.warehouse}</Text>
+                <NumberFormatter
+                    prefix={order.currency.prefix ? order.currency.prefix : ''}
+                    suffix={order.currency.suffix ? order.currency.suffix : ''}
+                    value={order.total_sum}
+                    thousandSeparator=" "
+                    className={classes.orderCardTotalSum}
+                />
             </Flex>
             <Divider mt={8} mb={8}/>
             <Flex wrap="nowrap" justify="space-between" align="center">

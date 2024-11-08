@@ -86,22 +86,24 @@ const CategorySpecifications = ({
                                     return (
                                         <Select
                                             {...field}
-                                            label={spec.name}
-                                            placeholder={`Выберите ${spec.name}`}
+                                            label={spec.name.ru}
+                                            placeholder={`Выберите ${spec.name.ru}`}
                                             data={selectData}
                                             value={field.value || ""}
                                             onChange={(value) => field.onChange(value)}
+                                            searchable
                                         />
                                     );
                                 } else if (spec.selection_type === "multiple") {
                                     return (
                                         <MultiSelect
                                             {...field}
-                                            label={spec.name}
-                                            placeholder={`Выберите ${spec.name}`}
+                                            label={spec.name.ru}
+                                            placeholder={`Выберите ${spec.name.ru}`}
                                             data={selectData}
                                             value={field.value || []}
                                             onChange={(values) => field.onChange(values)}
+                                            searchable
                                         />
                                     );
                                 }

@@ -19,7 +19,7 @@ const CategorySpecification = ({ field, index, control, remove }: CategorySpecif
             <Box mr={5}>
                 <DragHandle active={false}/>
             </Box>
-            <Text className={classes.specificationTitle}>{field.name}</Text>
+            <Text className={classes.specificationTitle}>{field.name.ru}</Text>
             <Menu shadow="md">
                 <Menu.Target>
                     <ActionIcon variant="white" aria-label="Настройки" size={16}>

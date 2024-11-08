@@ -1,6 +1,8 @@
+'use client'
+
 import {useDisclosure} from "@mantine/hooks";
 import {ActionIcon, Button, Divider, Modal, Text, Image, Flex, Box, TextInput} from "@mantine/core";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {IconChevronLeft, IconX} from "@tabler/icons-react";
 
 import classes from "@/features/auth/components/ModalAuth/ModalAuth.module.css";
@@ -8,11 +10,12 @@ import Link from "next/link";
 import {Controller, FormProvider, useForm} from "react-hook-form";
 import EmailAutocomplete from "@/components/Inputs/EmailAutocomplete";
 import PinCodeInput from "@/components/Inputs/PinCodeInput";
-import FioAutocomplete from "@/components/Inputs/FioAutocomplete";
 import PhoneInput from "@/components/Inputs/PhoneInput";
 import CompanyInput from "@/components/Inputs/CompanyInput";
 import {useAuth} from "@/features/auth/hooks/useAuth";
 import {capitalizeWords} from "@/utils/utils";
+import {useTranslation} from "@/hooks/useTranslation";
+import {useLanguage} from "@/providers/LanguageProvider";
 
 interface FormValues {
     email: string;
@@ -20,32 +23,30 @@ interface FormValues {
     name: string;
     phone: string;
     company: string;
-    // fio: {
-    //     query?: string;
-    //     surname: string;
-    //     name: string;
-    //     patronymic: string;
-    // };
+    lang: string;
 }
 
 const ModalAuth = () => {
+    const { language } = useLanguage();
     const [opened, {open, close}] = useDisclosure(false);
     const [step, setStep] = useState(1);
     const { sendCode, checkCode, login, register, isLoading, error } = useAuth();
 
+    const { trans } = useTranslation();
+
     // Массив объектов для каждого шага с заголовком и подзаголовком
     const steps = [
         {
-            title: 'Введите почту',
-            subtitle: '',
+            title: trans('auth', 'steps.one.title'),
+            subtitle: trans('auth', 'steps.one.subtitle'),
         },
         {
-            title: 'Проверка почты',
-            subtitle: 'Введите код из письма.',
+            title: trans('auth', 'steps.two.title'),
+            subtitle: trans('auth', 'steps.two.subtitle'),
         },
         {
-            title: 'Регистрация',
-            subtitle: 'Введите данные для регистрации.',
+            title: trans('auth', 'steps.three.title'),
+            subtitle: trans('auth', 'steps.three.subtitle'),
         },
     ];
 
@@ -60,16 +61,17 @@ const ModalAuth = () => {
             name: '',
             phone: '',
             company: '',
-            // fio: {
-            //     surname: '',
-            //     name: '',
-            //     patronymic: '',
-            //     query: '',
-            // },
+            lang: ''
         },
     });
 
     const {handleSubmit} = methods;
+
+    useEffect(() => {
+        if (language) {
+            methods.setValue('lang', language);
+        }
+    }, [language, methods]);
 
     const onSubmit = async (data: FormValues) => {
         if (step === 1) {
@@ -78,7 +80,6 @@ const ModalAuth = () => {
                 await sendCode({ email: data.email });
                 setStep(2);
             } catch (err: any) {
-                console.error('Ошибка при отправке кода:', err);
                 methods.setError('email', {
                     type: 'manual',
                     message: error || 'Не удалось отправить код на почту',
@@ -94,11 +95,9 @@ const ModalAuth = () => {
                     close(); // Закрываем модальное окно после успешного входа
                 } else {
                     // Пользователь не зарегистрирован, переходим к регистрации
-                    console.log('Пользователь не зарегистрирован, переходим к шагу 3');
                     setStep(3);
                 }
             } catch (err: any) {
-                console.error('Ошибка при проверке кода:', err);
                 methods.setError('pin', {
                     type: 'manual',
                     message: error || 'Неверный код',
@@ -111,14 +110,13 @@ const ModalAuth = () => {
                     email: data.email,
                     pin: data.pin, // Предполагаем, что PIN нужен при регистрации
                     name: data.name,
-                    // fio: data.fio,
                     phone: data.phone,
                     company: data.company,
+                    lang: data.lang,
                 };
                 await register(userData);
                 close(); // Закрываем модальное окно после успешной регистрации и входа
             } catch (err: any) {
-                console.error('Ошибка при регистрации:', err);
                 // Можно установить ошибку на конкретное поле, если нужно
                 methods.setError('company', {
                     type: 'manual',
@@ -138,7 +136,6 @@ const ModalAuth = () => {
                     <ActionIcon
                         variant="light"
                         color="#1B1F3BA6"
-                        aria-label="Назад"
                         onClick={handleBack}>
                         <IconChevronLeft style={{width: '80%', height: '80%'}} stroke={2}/>
                     </ActionIcon>
@@ -149,7 +146,6 @@ const ModalAuth = () => {
                     <ActionIcon
                         variant="light"
                         color="#1B1F3BA6"
-                        aria-label="Закрыть"
                         onClick={close}>
                         <IconX style={{width: '80%', height: '80%'}} stroke={2}/>
                     </ActionIcon>
@@ -160,8 +156,8 @@ const ModalAuth = () => {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         {step === 1 && (
                             <EmailAutocomplete
-                                label="Почта"
-                                placeholder="name@mail.ru"
+                                label={trans('auth', 'inputs.email')}
+                                placeholder={trans('auth', 'placeholders.email')}
                             />
                         )}
 
@@ -175,11 +171,11 @@ const ModalAuth = () => {
                                 <Controller
                                     name="name"
                                     control={methods.control}
-                                    rules={{required: 'Имя обязательно'}}
+                                    rules={{required: trans('auth', 'rules.required')}}
                                     render={({field, fieldState}) => (
                                         <TextInput
-                                            label="Имя"
-                                            placeholder="Введите ваше имя"
+                                            label={trans('auth', 'inputs.name')}
+                                            placeholder={trans('auth', 'placeholders.name')}
                                             value={field.value}
                                             onChange={(value) => {
                                                 field.onChange(capitalizeWords(value.currentTarget.value));
@@ -194,24 +190,24 @@ const ModalAuth = () => {
                         )}
 
                         <Button fullWidth loading={isLoading} type="submit" mt={16}>
-                            {step < 3 ? 'Далее' : 'Зарегистрироваться'}
+                            {step < 3 ? trans('buttons', 'next') : trans('buttons', 'register')}
                         </Button>
                     </form>
                 </FormProvider>
 
-                <Divider label="Или" labelPosition="center" mt={25} mb={25}/>
+                <Divider label={trans('global', 'or')} labelPosition="center" mt={25} mb={25}/>
 
                 <Button variant="outline" fullWidth={true} mb={25} disabled>
                     <Image src="/icons/yandex.svg" width="16" height="16" mr={8}/>
-                    Яндекс (скоро)
+                    {trans('auth', 'buttons.yandex')} {trans('global', 'soon')}
                 </Button>
 
-                <Text className={classes.textConditions}>Создавая учетную запись, вы соглашаетесь с нашими <Text
-                    component={Link} href="#">условиями обработки данных</Text> и <Text component={Link} href="#">политикой
-                    конфиденциальности.</Text></Text>
+                <Text className={classes.textConditions}>
+                    {trans('auth', 'conditions.text')} <Text component={Link} href="#">{trans('auth', 'conditions.processing')}</Text> {trans('global', 'and')} <Text component={Link} href="#">{trans('auth', 'conditions.privacy')}</Text>
+                </Text>
             </Modal>
 
-            <Button onClick={open}>Войти</Button>
+            <Button onClick={open}>{trans('buttons', 'login')}</Button>
         </>
     );
 }

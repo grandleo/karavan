@@ -15,7 +15,7 @@ const HomePage = () => {
         <>
             <Box className={classes.homeFirstScreen}>
                 <HeaderHome/>
-                {/*<HomeFirstScreen/>*/}
+                <HomeFirstScreen/>
             </Box>
             {/*<SalesOnHomePage/>*/}
             <Container size="md">

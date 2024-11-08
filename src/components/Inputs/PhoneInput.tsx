@@ -3,6 +3,7 @@ import {InputBase} from "@mantine/core";
 import {Controller, useFormContext} from "react-hook-form";
 import React, {useCallback} from "react";
 import {formatPhoneNumber, handlePaste} from "@/utils/utils";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const PhoneInputBase = InputBase.withProps({
     mask: '+7 (000) 000-0000',
@@ -12,6 +13,7 @@ const PhoneInputBase = InputBase.withProps({
 });
 
 const PhoneInput = () => {
+    const { trans } = useTranslation('en');
     const {control, setValue} = useFormContext();
 
     // Используем useCallback для мемоизации функции изменения значения
@@ -32,8 +34,8 @@ const PhoneInput = () => {
             }}
             render={({field, fieldState}) => (
                 <PhoneInputBase
-                    placeholder="Номер телефона"
-                    label="Телефон"
+                    placeholder={trans('auth', 'placeholder.phone')}
+                    label={trans('auth', 'inputs.phone')}
                     value={field.value}
                     onChange={(value) => onChangeHandler(value, field.onChange)}
                     onPaste={(event) => handlePaste(event, field.onChange)}

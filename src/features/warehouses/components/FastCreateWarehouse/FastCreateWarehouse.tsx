@@ -15,6 +15,7 @@ import classes from "./FastCreateWarehouse.module.css";
 import {Controller, FormProvider} from "react-hook-form";
 import {IconX} from "@tabler/icons-react";
 import useWarehouseForm from "@/features/warehouses/hooks/useWarehouseForm";
+import {useTranslation} from "@/hooks/useTranslation";
 
 interface FastCreateWarehouseProps {
     onClose: () => void;
@@ -23,6 +24,9 @@ interface FastCreateWarehouseProps {
 }
 
 const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouseProps) => {
+
+    const { trans } = useTranslation();
+
     const {
         methods,
         onSubmit,
@@ -31,6 +35,7 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
         regionsData,
         filteredCities,
         selectedRegionId,
+        currenciesData
     } = useWarehouseForm({
         mode,
         initialData,
@@ -45,22 +50,53 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                 <Box className={classes.wrapper}>
                     <Flex justify="space-between" align="center">
                         <Text className={classes.title}>
-                            {mode === 'add' ? 'Создание склада' : 'Обновление склада'}
+                            {mode === 'add' ? trans('warehouses', 'form.title.add') : trans('warehouses', 'form.title.edit')}
                         </Text>
                         <ActionIcon onClick={onClose}>
                             <IconX size={16} />
                         </ActionIcon>
                     </Flex>
                     <form onSubmit={onSubmit}>
-                        <Fieldset legend="Адрес" variant="unstyled">
+                        <Controller
+                            name="name"
+                            control={methods.control}
+                            rules={{
+                                required: "Это поле обязательно.",
+                            }}
+                            render={({field: {value, onChange}, fieldState: {error}}) => {
+                                return (
+                                    <TextInput
+                                        value={value}
+                                        onChange={onChange}
+                                        label={trans('warehouses', 'form.inputs.name')}
+                                        placeholder={trans('warehouses', 'form.placeholders.name')}
+                                        rightSection={
+                                            <ActionIcon
+                                                variant="white"
+                                                color="#1B1F3B59"
+                                                aria-label="Очистить"
+                                                onClick={() => onChange('')}
+                                                style={{display: value ? 'block' : 'none'}}
+                                            >
+                                                <IconX style={{width: '70%', height: '70%'}} stroke={2}/>
+                                            </ActionIcon>
+                                        }
+                                        error={error?.message}
+                                        mb={15}
+                                    />
+                                )
+                            }}
+                        />
+
+                        <Fieldset legend={trans('warehouses', 'form.fieldset.address')} variant="unstyled">
                             <Controller
                                 name="region_id"
                                 control={control}
                                 rules={{required: "Выбор региона обязателен."}}
                                 render={({field: {value, onChange}, fieldState: {error}}) => (
                                     <Select
-                                        label="Область"
-                                        placeholder="Выберите область"
+                                        label={trans('warehouses', 'form.inputs.region')}
+                                        placeholder={trans('warehouses', 'form.placeholders.region')}
                                         data={regionsData}
                                         value={value}
                                         onChange={(newValue) => {
@@ -79,8 +115,8 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                                 rules={{required: "Выбор города обязателен."}}
                                 render={({field: {value, onChange}, fieldState: {error}}) => (
                                     <Select
-                                        label="Город"
-                                        placeholder="Выберите город"
+                                        label={trans('warehouses', 'form.inputs.city')}
+                                        placeholder={trans('warehouses', 'form.placeholders.city')}
                                         data={filteredCities}
                                         value={value}
                                         onChange={onChange}
@@ -102,8 +138,8 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                                         <TextInput
                                             value={value}
                                             onChange={onChange}
-                                            label="Улица"
-                                            placeholder="Укажите улицу"
+                                            label={trans('warehouses', 'form.inputs.address')}
+                                            placeholder={trans('warehouses', 'form.placeholders.address')}
                                             rightSection={
                                                 <ActionIcon
                                                     variant="white"
@@ -122,7 +158,7 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                             />
 
                         </Fieldset>
-                        <Fieldset legend="Настройки доставки" variant="unstyled" mt={15} mb={15}>
+                        <Fieldset legend={trans('warehouses', 'form.fieldset.delivery')} variant="unstyled" mt={15} mb={15}>
                             <Controller
                                 name="delivery_day"
                                 control={control}
@@ -136,26 +172,11 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                                 }}
                                 render={({ field: { value, onChange }, fieldState: { error } }) => (
                                     <NumberInput
-                                        label="Кол-во дней доставки"
-                                        placeholder="Укажите кол-во"
+                                        label={trans('warehouses', 'form.inputs.delivery_day')}
+                                        placeholder={trans('warehouses', 'form.placeholders.delivery_day')}
                                         value={value}
                                         onChange={(val) => onChange(val)}
                                         min={1}
-                                        // Allow the field to be cleared by setting value to null
-                                        clearable
-                                        rightSection={
-                                            value ? (
-                                                <ActionIcon
-                                                    variant="white"
-                                                    color="#1B1F3B59"
-                                                    aria-label="Очистить"
-                                                    onClick={() => onChange(null)}
-                                                    style={{ display: 'block' }}
-                                                >
-                                                    <IconX style={{ width: '70%', height: '70%' }} stroke={2} />
-                                                </ActionIcon>
-                                            ) : null
-                                        }
                                         error={error?.message}
                                         // Optional: You can adjust the step and precision as needed
                                         step={1}
@@ -164,15 +185,32 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                                 )}
                             />
                         </Fieldset>
-                        <Fieldset legend="Оформить заказ" variant="unstyled">
+                        <Fieldset legend={trans('warehouses', 'form.fieldset.payment')} variant="unstyled">
+                            <Controller
+                                name="currency_id"
+                                control={control}
+                                rules={{required: "Поле обязательно"}}
+                                render={({field: {value, onChange}, fieldState: {error}}) => (
+                                    <Select
+                                        label={trans('warehouses', 'form.inputs.currency_id')}
+                                        placeholder={trans('warehouses', 'form.placeholders.currency_id')}
+                                        data={currenciesData}
+                                        value={value}
+                                        onChange={onChange}
+                                        clearable
+                                        error={error?.message}
+                                    />
+                                )}
+                            />
+
                             <Controller
                                 name="type_orders"
                                 control={control}
                                 render={({field}) => (
                                     <Radio.Group {...field} name="type_orders">
                                         <Group mt="xs">
-                                            <Radio value="cart" label="Произвольно"/>
-                                            <Radio value="control_point" label="По времени" disabled/>
+                                            <Radio value="cart" label={trans('warehouses', 'form.type_orders.cart')}/>
+                                            <Radio value="control_point" label={trans('warehouses', 'form.type_orders.control_point')} disabled/>
                                         </Group>
                                     </Radio.Group>
                                 )}
@@ -180,11 +218,11 @@ const FastCreateWarehouse = ({ onClose, mode, initialData }: FastCreateWarehouse
                         </Fieldset>
 
                         <Text>
-                            Произвольно — клиент сам меняет статус своего заказа по нажатию на кнопку оформить заказ.
+                            {trans('warehouses', 'form.type_orders.cart_text')}
                         </Text>
 
                         <Button type="submit" fullWidth loading={isCreating || isUpdating}>
-                            {mode === 'add' ? "Создать" : "Обновить"}
+                            {mode === 'add' ? trans('buttons', 'create') : trans('buttons', 'update')}
                         </Button>
                     </form>
                 </Box>

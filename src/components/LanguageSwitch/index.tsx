@@ -13,7 +13,7 @@ interface LanguageItem {
 // Данные для выбора языка
 const data: LanguageItem[] = [
     { label: 'Рус', value: 'ru', image: '/images/flags/ru.svg' },
-    { label: 'Eng', value: 'eng', image: '/images/flags/eng.svg' },
+    { label: 'Eng', value: 'en', image: '/images/flags/eng.svg' },
 ];
 
 const iconProps = {

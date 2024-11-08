@@ -10,8 +10,10 @@ import SidebarOrders from "@/features/orders/components/SidebarOrders/SidebarOrd
 import OrderDetail from "@/features/orders/components/OrderDetail/OrderDetail";
 import {ActionIcon, Center, Flex, Text} from "@mantine/core";
 import {IconMoodEmpty} from "@tabler/icons-react";
+import {useTranslation} from "@/hooks/useTranslation";
 
 export default function Page() {
+    const { trans } = useTranslation();
     const {data: orders, isLoading, isFetching} = useFetchSupplierOrderNumbersQuery('', {
         refetchOnMountOrArgChange: true,
     });
@@ -48,7 +50,7 @@ export default function Page() {
                                 <IconMoodEmpty/>
                             </ActionIcon>
                             <Text size="24px" fw={800}>
-                                В данный момент не заказов
+                                {trans('orders', 'supplier.no_orders')}
                             </Text>
                         </Flex>
                     </Center>

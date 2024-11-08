@@ -15,6 +15,7 @@ import {IconCheck, IconDownload} from "@tabler/icons-react";
 import classes from "./OrderDetail.module.css";
 import {useSupplierUpdateOrderStatusMutation} from "@/features/orders/api/ordersApi";
 import {useState} from "react";
+import {useTranslation} from "@/hooks/useTranslation";
 
 interface OrderDetailProps {
     orderDetails: IOrderDetail; // Здесь можно уточнить тип данных, если структура известна
@@ -48,6 +49,8 @@ interface OrderDetailStatuses {
 }
 
 const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderDetailProps) => {
+    const { trans } = useTranslation();
+
     // Хук для вызова мутации смены статуса
     const [updateOrderStatus] = useSupplierUpdateOrderStatusMutation();
 
@@ -75,7 +78,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
 
     const renderSelectOption: SelectProps['renderOption'] = ({ option, checked }) => (
         <Group wrap="nowrap">
-            <Image src={option.image_url} alt={option.label} width={24} height={24}/>
+            <Image src={option.image_url} alt={option.label} width={16} height={16}/>
             <span>{option.label}</span>
             {checked && <IconCheck style={{marginLeft: 'auto'}}/>}
         </Group>
@@ -100,15 +103,20 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
 
     return (
         <>
-            <Modal opened={modalOpen} onClose={() => setModalOpen(false)} title="Подтверждение">
+            <Modal opened={modalOpen} onClose={() => setModalOpen(false)} title={trans('orders', 'supplier.change_status.title')}>
                 <Text>
                     {statusType === 'delivery'
-                        ? 'Вы точно хотите сменить статус доставки?'
-                        : 'Вы точно хотите сменить статус оплаты?'}
+                        ? trans('orders', 'supplier.change_status.change_delivery')
+                        : trans('orders', 'supplier.change_status.change_payment')
+                    }
                 </Text>
                 <Group p="right" mt="md">
-                    <Button onClick={confirmStatusChange} variant="filled" color="blue">Подтвердить</Button>
-                    <Button onClick={() => setModalOpen(false)} variant="outline">Отмена</Button>
+                    <Button onClick={confirmStatusChange} variant="filled" color="blue">
+                        {trans('buttons', 'confirm')}
+                    </Button>
+                    <Button onClick={() => setModalOpen(false)} variant="outline">
+                        {trans('buttons', 'cancel')}
+                    </Button>
                 </Group>
             </Modal>
 
@@ -131,8 +139,8 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                             <Image
                                 src={selectedDeliveryImage || ''}
                                 alt="Selected option"
-                                width={24}
-                                height={24}
+                                width={16}
+                                height={16}
                             />
                         }
                     />
@@ -148,30 +156,32 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                             <Image
                                 src={selectedPaymentImage || ''}
                                 alt="Selected option"
-                                width={24}
-                                height={24}
+                                width={16}
+                                height={16}
                             />
                         }
                     />
-                    <Divider orientation="vertical" ml={8} mr={8}/>
-                    <Button variant="white" disabled>Подробнее (скоро)</Button>
+                    {/*<Divider orientation="vertical" ml={8} mr={8}/>*/}
+                    {/*<Button variant="white" disabled>{trans('buttons', 'more')} {trans('global', 'soon')}</Button>*/}
                 </Flex>
                 <Text className={classes.orderDetailDate}>от {orderDetails.order_date}</Text>
             </Flex>
             <Divider mt={8} mb={24}/>
             <Flex justify="space-between" align="center">
-                <Text className={classes.structureOrder}>Состав заказа</Text>
-                <Button variant="white" leftSection={<IconDownload stroke={2}/>} disabled>Накладная (скоро)</Button>
+                <Text className={classes.structureOrder}>{trans('orders', 'supplier.products.title')}</Text>
+                <Button variant="white" leftSection={<IconDownload stroke={2}/>} disabled>
+                    {trans('orders', 'supplier.buttons.invoice')} {trans('global', 'soon')}
+                </Button>
             </Flex>
             <Divider mt={8} mb={8}/>
             <Table stickyHeader>
                 <Table.Thead>
                     <Table.Tr>
-                        <Table.Th>№</Table.Th>
-                        <Table.Th>Наименование</Table.Th>
-                        <Table.Th>Цена за ед. ₽</Table.Th>
-                        <Table.Th>Кол-во</Table.Th>
-                        <Table.Th>Стоимость</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.number')}</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.name')}</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.price')}</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.quantity')}</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.cost')}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -185,13 +195,26 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                     </Text>
                                 </Table.Td>
                                 <Table.Td>
-                                    <NumberFormatter suffix=" ₽" value={item.price} thousandSeparator=" "/>
+                                    <NumberFormatter
+                                        prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
+                                        suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
+                                        value={item.price}
+                                        thousandSeparator=" "
+                                    />
                                 </Table.Td>
                                 <Table.Td>
-                                    <NumberFormatter value={item.quantity} thousandSeparator=" "/>
+                                    <NumberFormatter
+                                        value={item.quantity}
+                                        thousandSeparator=" "
+                                    />
                                 </Table.Td>
                                 <Table.Td>
-                                    <NumberFormatter suffix=" ₽" value={item.total_price} thousandSeparator=" "/>
+                                    <NumberFormatter
+                                        prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
+                                        suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
+                                        value={item.total_price}
+                                        thousandSeparator=" "
+                                    />
                                 </Table.Td>
                             </Table.Tr>
                         )
@@ -199,12 +222,17 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                 </Table.Tbody>
                 <Table.Tfoot>
                     <Table.Tr>
-                        <Table.Td colSpan={3}>Итого:</Table.Td>
+                        <Table.Td colSpan={3}>{trans('orders', 'supplier.products.table.total')}</Table.Td>
                         <Table.Td>
                             <NumberFormatter value={orderDetails.total_quantity} thousandSeparator=" "/>
                         </Table.Td>
                         <Table.Td>
-                            <NumberFormatter suffix=" ₽" value={orderDetails.total_sum} thousandSeparator=" "/>
+                            <NumberFormatter
+                                prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
+                                suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
+                                value={orderDetails.total_sum}
+                                thousandSeparator=" "
+                            />
                         </Table.Td>
                     </Table.Tr>
                 </Table.Tfoot>

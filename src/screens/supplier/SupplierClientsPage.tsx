@@ -6,8 +6,10 @@ import SelectApiBot from "@/features/apiBots/components/SelectApiBot/SelectApiBo
 import {useEffect, useState} from "react";
 import {useLazyFetchClientsByBotIdQuery, useUpdateSupplierClientStatusMutation} from "@/features/users/api/usersApi";
 import {IconUsers} from "@tabler/icons-react";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const SupplierClientsPage = () => {
+    const { trans } = useTranslation();
     const [selectedBotId, setSelectedBotId] = useState<string | null>(null);
     const [triggerFetchClients, {data: responseData = {}, isLoading, isFetching}] = useLazyFetchClientsByBotIdQuery();
     const [updateStatus] = useUpdateSupplierClientStatusMutation();
@@ -62,7 +64,7 @@ const SupplierClientsPage = () => {
                                     <IconUsers style={{width: '50%', height: '50%'}} stroke={1.5}/>
                                 </ActionIcon>
                                 <Text size="24px" fw={800}>
-                                    В данный момент нет пользователей в этом API
+                                    {trans('clients', 'supplier.no_clients')}
                                 </Text>
                             </Flex>
                         </Center>
@@ -70,12 +72,12 @@ const SupplierClientsPage = () => {
                         <Table>
                             <Table.Thead>
                                 <Table.Tr>
-                                    <Table.Th>ID</Table.Th>
-                                    <Table.Th>Имя</Table.Th>
-                                    <Table.Th>Компания</Table.Th>
-                                    <Table.Th>Телефон</Table.Th>
-                                    <Table.Th>Chat ID</Table.Th>
-                                    <Table.Th>Статус</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.id')}</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.name')}</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.company')}</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.phone')}</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.chat_id')}</Table.Th>
+                                    <Table.Th>{trans('clients', 'supplier.table.status')}</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -109,13 +111,13 @@ const SupplierClientsPage = () => {
             <Modal
                 opened={modalOpened}
                 onClose={() => setModalOpened(false)}
-                title="Подтверждение"
+                title={trans('clients', 'supplier.change_status.title')}
             >
-                <Text>Вы уверены, что хотите изменить статус клиента?</Text>
+                <Text>{trans('clients', 'supplier.change_status.text')}</Text>
                 <Button
                     onClick={() => handleStatusChange(selectedClient.id, selectedClient.status_id)}
                 >
-                    Изменить статус
+                    {trans('clients', 'supplier.change_status.button')}
                 </Button>
             </Modal>
         </SimplePage>

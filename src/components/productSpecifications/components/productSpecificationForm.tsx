@@ -22,7 +22,10 @@ const ProductSpecificationForm = ({
     const methods = useForm({
         defaultValues: {
             id: 0,
-            name: '',
+            name: {
+                ru: '',
+                en: '',
+            },
             values: [
                 {id: Number(nanoid()), value: ''},
             ]
@@ -32,7 +35,8 @@ const ProductSpecificationForm = ({
     useEffect(() => {
         if (editValues) {
             methods.setValue('id', editValues.id)
-            methods.setValue('name', editValues.name)
+            methods.setValue("name.ru", editValues.name.ru)
+            methods.setValue("name.en", editValues.name.en)
             methods.setValue('values', editValues.values)
         }
     }, [editValues]);
@@ -72,8 +76,8 @@ const ProductSpecificationForm = ({
                     <form onSubmit={methods.handleSubmit(onSubmit)}>
                             <Box style={{flexGrow: 1}}>
                                 <Controller
+                                    name="name.ru"
                                     control={methods.control}
-                                    name="name"
                                     rules={{
                                         required: "Поле обязательно для заполнения",
                                         minLength: {
@@ -88,6 +92,30 @@ const ProductSpecificationForm = ({
                                     render={({field, fieldState: {error}}) => (
                                         <TextInput
                                             label="Название"
+                                            value={field.value}
+                                            error={error?.message}
+                                            onChange={(event) => {
+                                                field.onChange(event.currentTarget.value.trimStart());
+                                            }}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="name.en"
+                                    control={methods.control}
+                                    rules={{
+                                        minLength: {
+                                            value: 3,
+                                            message: "Минимальная длина поля - 3 символа",
+                                        },
+                                        maxLength: {
+                                            value: 50,
+                                            message: "Максимальная длина поля - 50 символов",
+                                        },
+                                    }}
+                                    render={({field, fieldState: {error}}) => (
+                                        <TextInput
+                                            label="Название en"
                                             value={field.value}
                                             error={error?.message}
                                             onChange={(event) => {

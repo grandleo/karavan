@@ -4,8 +4,10 @@ import NextImage from "next/image";
 import {useDisclosure} from "@mantine/hooks";
 import classes from "@/components/stock/styles.module.css";
 import {useState} from "react";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const SupplierStockList = ({products}: SupplierStockListTypes) => {
+    const { trans } = useTranslation();
     const [opened, {open, close}] = useDisclosure(false);
     const [currentProduct, setCurrentProduct] = useState(null);
 
@@ -68,9 +70,9 @@ const SupplierStockList = ({products}: SupplierStockListTypes) => {
                 <Table.Thead>
                     <Table.Tr>
                         <Table.Th w={1}>№</Table.Th>
-                        <Table.Th>Наименование</Table.Th>
-                        <Table.Th w={1} ta="center">Кол-во</Table.Th>
-                        <Table.Th w={1} ta="center">Цена ₽</Table.Th>
+                        <Table.Th>{trans('stock', 'supplier.table.name')}</Table.Th>
+                        <Table.Th w={1} ta="center">{trans('stock', 'supplier.table.quantity')}</Table.Th>
+                        <Table.Th w={1} ta="center">{trans('stock', 'supplier.table.price')}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

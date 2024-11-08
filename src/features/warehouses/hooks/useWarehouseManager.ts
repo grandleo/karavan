@@ -90,10 +90,12 @@ const useWarehouseManager = ({ isDrawerOpened, methods }: UseWarehouseManagerPro
             const data = await fetchWarehouseById(warehouseId).unwrap();
             setEditingWarehouseData({
                 id: data.id,
+                name: data.name,
                 address: data.address,
                 region_id: data.region_id.toString(),
                 city_id: data.city_id.toString(),
                 type_orders: data.type_orders,
+                currency_id: data.currency_id,
                 delivery_day: data.delivery_day,
             });
             setIsFastCreateOpen(true);

@@ -1,3 +1,5 @@
+import {ICurrency} from "@/features/currencies/types/currencies.types";
+
 export interface IOrderCard {
     id: number;
     client_id: number;
@@ -5,4 +7,6 @@ export interface IOrderCard {
     order_date: string;
     payment_status_image: string;
     delivery_status_name: string;
+    warehouse: string;
+    currency: ICurrency;
 }

@@ -5,8 +5,11 @@ import {HeaderHome} from "@/components/ui/header";
 import {HomeFooter} from "@/components/ui/Footer";
 import {IconCameraFilled, IconDeviceLaptop, IconDeviceMobile, IconDots} from "@tabler/icons-react";
 import {useMediaQuery} from "@mantine/hooks";
+import {useLanguage} from "@/providers/LanguageProvider";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const HomePage = () => {
+    const {trans} = useTranslation();
     const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
     return (
@@ -21,7 +24,9 @@ const HomePage = () => {
                         lineHeight: '24px',
                         marginBottom: '20px',
                     }}
-                >Категории с которыми работаем</Text>
+                >
+                    {trans('home', 'categories.title')}
+                </Text>
                 <Box
                     style={{
                         background: '#F2F5FF',
@@ -40,7 +45,9 @@ const HomePage = () => {
                                     fontWeight: '500',
                                     lineHeight: '23px',
                                 }}
-                            >Мобильные телефоны</Text>
+                            >
+                                {trans('home', 'categories.category_1')}
+                            </Text>
                         </Box>
                         <Divider orientation="vertical"/>
                         <Box>
@@ -52,7 +59,9 @@ const HomePage = () => {
                                     fontWeight: '500',
                                     lineHeight: '23px',
                                 }}
-                            >IT Продукты</Text>
+                            >
+                                {trans('home', 'categories.category_2')}
+                            </Text>
                         </Box>
                         <Divider orientation="vertical"/>
 
@@ -65,7 +74,10 @@ const HomePage = () => {
                                     fontWeight: '500',
                                     lineHeight: '23px',
                                 }}
-                            >Фото и Видео</Text>
+                            >
+
+                                {trans('home', 'categories.category_3')}
+                            </Text>
                         </Box>
                         <Divider orientation="vertical"/>
 
@@ -78,7 +90,10 @@ const HomePage = () => {
                                     fontWeight: '500',
                                     lineHeight: '23px',
                                 }}
-                            >И другие</Text>
+                            >
+
+                                {trans('home', 'categories.category_4')}
+                            </Text>
                         </Box>
                     </Flex>
                 </Box>
@@ -100,7 +115,8 @@ const HomePage = () => {
                                   }}
                                   size="lg"
                                   mb={{base: '150px', sm: '300px'}}>
-                                ДЛЯ КЛИЕНТОВ
+
+                                {trans('home', 'banners.clients.subtitle')}
                             </Text>
                             <Text c="white"
                                   style={{
@@ -111,7 +127,7 @@ const HomePage = () => {
                                   }}
                                   mb={{base: '20px', sm: '75px'}}
                             >
-                                Выгодно, быстро и удобно в Karavan
+                                {trans('home', 'banners.clients.title')}
                             </Text>
                             <Text c="white"
                                   style={{
@@ -119,8 +135,7 @@ const HomePage = () => {
                                       fontWeight: '400',
                                       lineHeight: isSmallScreen ? '15px' : '26px',
                                   }}>
-                                Доступ к лучшим предложениям от множества поставщиков в пару кликов. Отслеживайте статус
-                                заказа на каждом этапе.
+                                {trans('home', 'banners.clients.description')}
                             </Text>
                         </Box>
                     </BackgroundImage>
@@ -139,7 +154,7 @@ const HomePage = () => {
                                     textAlign: 'center'
                                 }}
                                 mb={{base: '150px', sm: '300px'}}>
-                                ДЛЯ ПОСТАВЩИКОВ
+                                {trans('home', 'banners.suppliers.subtitle')}
                             </Text>
                             <Text c="white"
                                   style={{
@@ -150,7 +165,7 @@ const HomePage = () => {
                                   }}
                                   mb={{base: '20px', sm: '75px'}}
                             >
-                                Получайте новых клиентов и увеличивайте продажи
+                                {trans('home', 'banners.suppliers.title')}
                             </Text>
                             <Text c="white"
                                   style={{
@@ -158,8 +173,7 @@ const HomePage = () => {
                                       fontWeight: '400',
                                       lineHeight: isSmallScreen ? '15px' : '26px',
                                   }}>
-                                Ваш онлайн-сток в телеграмм-ботте. Откройте для себя и ваших клиентов удобное место для
-                                ведения бизнеса
+                                {trans('home', 'banners.suppliers.description')}
                             </Text></Box>
                     </BackgroundImage>
 

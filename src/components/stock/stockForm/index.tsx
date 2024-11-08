@@ -16,8 +16,10 @@ import {IconCalendar} from "@tabler/icons-react";
 import {DatePickerInput} from "@mantine/dates";
 import classes from "@/components/stock/styles.module.css";
 import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const StockForm = () => {
+    const { trans } = useTranslation();
     const { selectedWarehouse } = useWarehouse();
 
     const defaultValues = {
@@ -138,6 +140,7 @@ const StockForm = () => {
         addProductToSupplierStock(data).unwrap().then((payload) => {
             methods.reset()
             setShowRestForm(false);
+            methods.setValue('warehouse_id', selectedWarehouse);
             SuccessNotifications(payload)
         }).catch((error) => ErrorNotifications(error));
     }
@@ -156,7 +159,7 @@ const StockForm = () => {
 
     return (
         <>
-            <Button onClick={open}>Добавить товар</Button>
+            <Button onClick={open}>{trans('stock', 'supplier.buttons.add')}</Button>
 
             <Drawer.Root
                 opened={opened}
@@ -166,7 +169,7 @@ const StockForm = () => {
                 <Drawer.Overlay/>
                 <Drawer.Content>
                     <Drawer.Header>
-                        <Drawer.Title>Добавить товар</Drawer.Title>
+                        <Drawer.Title>{trans('stock', 'supplier.form.title')}</Drawer.Title>
                         <Drawer.CloseButton className={classes.drawerCloseButton}/>
                     </Drawer.Header>
                     <Drawer.Body className={classes.drawerBody}>
@@ -180,11 +183,11 @@ const StockForm = () => {
                                         <Box className={`${classes.bodyBlock} ${classes.categoriesBlock}`}>
                                             <Select
                                                 checkIconPosition="right"
-                                                label="Категория"
-                                                placeholder="Выберите категорию"
+                                                label={trans('stock', 'supplier.form.inputs.category')}
+                                                placeholder={trans('stock', 'supplier.form.placeholders.category')}
                                                 allowDeselect={false}
                                                 searchable
-                                                nothingFoundMessage="Категории не найдено..."
+                                                nothingFoundMessage={trans('stock', 'supplier.form.search.category')}
                                                 data={categories ?? []}
                                                 value={mainCategory}
                                                 onChange={(id) => {
@@ -241,8 +244,8 @@ const StockForm = () => {
                                     <Box>
                                         <Flex gap={16} className={`${classes.bodyBlock}`}>
                                             <Button variant="outline" fullWidth
-                                                    onClick={resetFormState}>Отменить</Button>
-                                            <Button type="submit" fullWidth>Добавить товар</Button>
+                                                    onClick={resetFormState}>{trans('buttons', 'cancel')}</Button>
+                                            <Button type="submit" fullWidth>{trans('stock', 'supplier.buttons.add')}</Button>
                                         </Flex>
                                     </Box>
                                 </Flex>
@@ -278,7 +281,7 @@ const ProductFilter = ({filter, handleSelectFilter}) => {
                                 radius="xs"
                                 key={index}>
                                 {item.name}
-                        </Chip>
+                            </Chip>
                         )
                     })}
                 </Group>
@@ -288,6 +291,7 @@ const ProductFilter = ({filter, handleSelectFilter}) => {
 }
 
 const PriceInput = () => {
+    const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
 
     return (
@@ -303,7 +307,7 @@ const PriceInput = () => {
             }}
             render={({field: {onChange, onBlur, value}}) => (
                 <NumberInput
-                    label="Цена"
+                    label={trans('stock', 'supplier.form.inputs.price')}
                     placeholder="0"
                     value={value}
                     onChange={(quantity) => {
@@ -322,6 +326,7 @@ const PriceInput = () => {
 }
 
 const QuantityInput = () => {
+    const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
 
     return (
@@ -337,7 +342,7 @@ const QuantityInput = () => {
             }}
             render={({field: {onChange, value}}) => (
                 <NumberInput
-                    label="Кол-во"
+                    label={trans('stock', 'supplier.form.inputs.quantity')}
                     placeholder="0"
                     value={value}
                     onChange={(quantity) => {

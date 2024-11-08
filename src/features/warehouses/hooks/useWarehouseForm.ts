@@ -9,14 +9,21 @@ import {notify} from "@/utils/notify";
 
 interface FormValues {
     id?: number;
+    name: string;
     address: string;
     region_id: string | null;
     city_id: string | null;
     type_orders: string;
+    currency_id: string | null;
     delivery_day: string | null;
 }
 
 interface Region {
+    id: number;
+    name: string;
+}
+
+interface Currency {
     id: number;
     name: string;
 }
@@ -45,10 +52,12 @@ interface UseWarehouseFormProps {
 const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProps) => {
     const methods = useForm<FormValues>({
         defaultValues: {
+            name: '',
             address: '',
             region_id: null,
             city_id: null,
             type_orders: 'cart',
+            currency_id: null,
             delivery_day: ''
         },
     });
@@ -73,11 +82,14 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
             // Устанавливаем region_id и city_id явно
             methods.setValue('region_id', initialData.region_id);
             methods.setValue('city_id', initialData.city_id);
+            methods.setValue('currency_id', String(initialData.currency_id));
         } else {
             methods.reset({
+                name: '',
                 address: '',
                 region_id: null,
                 city_id: null,
+                currency_id: null,
                 type_orders: 'cart',
             });
         }
@@ -113,6 +125,15 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
             .map(({ label, value }) => ({ label, value }));
     }, [selectedRegionId, allCitiesData]);
 
+    const currenciesData: SelectOption[] = useMemo(
+        () =>
+            warehouseFormData?.currencies.map((currency: Currency) => ({
+                label: currency.name,
+                value: currency.id.toString(),
+            })) || [],
+        [warehouseFormData]
+    );
+
     const onSubmit = async (data: FormValues) => {
         try {
             let response;
@@ -137,6 +158,7 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
         regionsData,
         filteredCities,
         selectedRegionId,
+        currenciesData
     };
 };
 

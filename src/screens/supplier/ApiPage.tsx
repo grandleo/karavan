@@ -5,8 +5,10 @@ import {ActionIcon, Button, Center, Flex, Switch, Table, Text} from "@mantine/co
 import {IconApiApp, IconCirclePlusFilled, IconPencilMinus} from "@tabler/icons-react";
 import ApiBotForm from "@/features/apiBots/components/ApiBotForm";
 import useApiBotManager from "@/features/apiBots/hooks/useApiBotManager";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const ApiPage = () => {
+    const { trans } = useTranslation();
     const {
         apiBots,
         isLoadingWithDelay,
@@ -29,7 +31,7 @@ const ApiPage = () => {
                             onClick={openAddForm}
                             leftSection={<IconCirclePlusFilled size={16} />}
                         >
-                            Добавить API
+                            {trans('api', 'buttons.add')}
                         </Button>
                     )
                 }}
@@ -39,10 +41,10 @@ const ApiPage = () => {
                 <Table>
                     <Table.Thead>
                         <Table.Tr>
-                            <Table.Th>Вкл/Выкл</Table.Th>
-                            <Table.Th>Название</Table.Th>
-                            <Table.Th>Склады</Table.Th>
-                            <Table.Th>Действия</Table.Th>
+                            <Table.Th>{trans('api', 'table.off')}</Table.Th>
+                            <Table.Th>{trans('api', 'table.name')}</Table.Th>
+                            <Table.Th>{trans('api', 'table.warehouses')}</Table.Th>
+                            <Table.Th>{trans('api', 'table.action')}</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -85,13 +87,13 @@ const ApiPage = () => {
                                 <IconApiApp style={{ width: '50%', height: '50%' }} stroke={1.5} />
                             </ActionIcon>
                             <Text size="24px" fw={800}>
-                                Добавьте API
+                                {trans('api', 'no_api')}
                             </Text>
                             <Button
                                 leftSection={<IconCirclePlusFilled size={16} />}
                                 onClick={openAddForm}
                                 fullWidth>
-                                Добавить API
+                                {trans('api', 'buttons.add')}
                             </Button>
                         </Flex>
                     </Center>

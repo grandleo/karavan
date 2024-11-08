@@ -3,8 +3,10 @@ import {useEffect, useState} from "react";
 import {Controller, useFormContext} from "react-hook-form";
 import Link from "next/link";
 import classes from "@/components/stock/styles.module.css";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const SelectProduct = ({products, setShowRestForm}: SelectProductTypes) => {
+    const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
     const [items, setItems] = useState<ISelectProduct[]>([]);
 
@@ -24,11 +26,11 @@ const SelectProduct = ({products, setShowRestForm}: SelectProductTypes) => {
             render={({field: {onChange, onBlur, value}, fieldState: {error}}) => (
                 <>
                     <Select
-                        label="Товар"
-                        placeholder="Выберите товар"
+                        label={trans('stock', 'supplier.form.inputs.product')}
+                        placeholder={trans('stock', 'supplier.form.placeholders.product')}
                         checkIconPosition="right"
                         searchable
-                        nothingFoundMessage="Ничего не найдено..."
+                        nothingFoundMessage={trans('stock', 'supplier.form.search.product')}
                         data={items}
                         value={value}
                         onBlur={onBlur}
@@ -39,7 +41,7 @@ const SelectProduct = ({products, setShowRestForm}: SelectProductTypes) => {
                         error={error?.message}
                         mb={5}
                     />
-                    <Text className={classes.productNotFound}>Если товар не найден, <Link href="#">обратитесь в поддержку</Link></Text>
+                    <Text className={classes.productNotFound}>{trans('stock', 'supplier.form.notfound')} <Link href="#">{trans('stock', 'supplier.form.support')}у</Link></Text>
                 </>
             )}
         />

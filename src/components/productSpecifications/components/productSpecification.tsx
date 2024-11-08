@@ -15,7 +15,7 @@ const productSpecification = ({item, open, handleDeleteSpecification, setEditVal
             className={classes.productSpecification}
         >
             <TreeSortable.DragHandle active={true}/>
-            <Text className={classes.name}>{item.name}</Text>
+            <Text className={classes.name}>{item.name.ru}</Text>
             <Text>В списке: {countValues}</Text>
             <Menu shadow="md" width={200}>
                 <Menu.Target>

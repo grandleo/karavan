@@ -2,8 +2,12 @@ import {Box, Container, Flex, Image, Text} from "@mantine/core";
 import classes from "@/components/ui/Footer/style.module.css";
 import Link from "next/link";
 import NextImage from "next/image";
+import {useLanguage} from "@/providers/LanguageProvider";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const HomeFooter = () => {
+    const {trans} = useTranslation();
+
     return (
         <Box className={classes.homeFooter} id="footer">
             <Container size="lg">
@@ -20,8 +24,8 @@ const HomeFooter = () => {
                         fit="contain"
                         alt="Karavan"/>
                     <Flex gap={{ base: 8, md: 32 }} direction={{ base: 'column', md: 'row' }}>
-                        <Text component={Link} href='/privacy'>Политика конфидециальности</Text>
-                        <Text component={Link} href="/processing">Политика обработки данных</Text>
+                        <Text component={Link} href='/privacy'>{trans('global', 'processing')}</Text>
+                        <Text component={Link} href="/processing">{trans('global', 'privacy')}</Text>
                     </Flex>
                 </Flex>
                 <Flex
@@ -35,7 +39,7 @@ const HomeFooter = () => {
                     {/*<Text mt={{ base: 24, md: 0 }}>Москва, Ленинградский пр., д. 39, стр.79</Text>*/}
                 </Flex>
                 <Box>
-                    <Text className={classes.copyright}>© 2024 Караван. Все права защищены.</Text>
+                    <Text className={classes.copyright}>{trans('global', 'copyright')}</Text>
                 </Box>
             </Container>
         </Box>
