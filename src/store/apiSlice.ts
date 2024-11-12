@@ -11,6 +11,7 @@ export const api = createApi({
         'SupplierClients',
         'SupplierOrderNumbers',
         'SupplierOrderDetails',
+        'Currencies',
 
 
 

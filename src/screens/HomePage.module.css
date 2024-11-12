@@ -1,0 +1,17 @@
+.welcome {
+    position: relative;
+}
+
+.welcome::after {
+    content: '';
+    position: absolute;
+    background-image: url('/images/homepage/welcome.svg'); /* Укажите путь к изображению */
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    width: 619px;
+    height: 654px;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}

@@ -361,7 +361,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                     <Divider/>
                     <Box className={classes.sectionForm}>
                         <Flex gap={16}>
-                            <Button variant="outline" fullWidth>Отменить</Button>
+                            <Button variant="outline" fullWidth onClick={handleClose}>Отменить</Button>
                             <Button type="submit" variant="filled" fullWidth>{categoryId ? "Обновить" : "Добавить"}</Button>
                         </Flex>
                     </Box>

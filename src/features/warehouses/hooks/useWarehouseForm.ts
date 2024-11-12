@@ -58,7 +58,7 @@ const useWarehouseForm = ({ mode, initialData, onSuccess }: UseWarehouseFormProp
             city_id: null,
             type_orders: 'cart',
             currency_id: null,
-            delivery_day: ''
+            delivery_day: '',
         },
     });
 

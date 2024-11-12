@@ -1,12 +1,12 @@
 'use client'
 
-import {BackgroundImage, Box, Container, Divider, Flex, Text} from "@mantine/core";
+import {BackgroundImage, Box, Button, Container, Divider, Flex, Grid, Text} from "@mantine/core";
 import {HeaderHome} from "@/components/ui/header";
 import {HomeFooter} from "@/components/ui/Footer";
 import {IconCameraFilled, IconDeviceLaptop, IconDeviceMobile, IconDots} from "@tabler/icons-react";
 import {useMediaQuery} from "@mantine/hooks";
-import {useLanguage} from "@/providers/LanguageProvider";
 import {useTranslation} from "@/hooks/useTranslation";
+import classes from "./HomePage.module.css";
 
 const HomePage = () => {
     const {trans} = useTranslation();
@@ -15,7 +15,34 @@ const HomePage = () => {
     return (
         <>
             <HeaderHome/>
-            <Container mt={120} size="lg" mb={30}>
+            <Box className={classes.welcome}>
+            <Container mt={120} size="lg" mb={280}>
+                <Grid>
+                    <Grid.Col span={6}>
+                        <Text
+                            style={{
+                                fontSize: '72px',
+                                fontWeight: 500,
+                                lineHeight: '66px',
+                                letterSpacing: '-0.02em',
+                                marginBottom: '24px',
+                            }}
+                        >
+                            {trans('home', 'welcome.title')}
+                        </Text>
+                        <Text
+                            style={{
+                                fontSize: '20px',
+                                fontWeight: '400',
+                                lineHeight: '30px',
+                                marginBottom: '24px',
+                            }}
+                        >{trans('home', 'welcome.subtitle')}</Text>
+                    </Grid.Col>
+                </Grid>
+            </Container>
+            </Box>
+            <Container size="lg" mb={30}>
                 <Text
                     style={{
                         color: '#000',

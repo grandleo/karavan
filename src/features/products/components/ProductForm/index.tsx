@@ -347,7 +347,7 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
                     <Divider/>
                     <Box className={classes.sectionForm}>
                         <Flex gap={16}>
-                            <Button variant="outline" fullWidth>Отменить</Button>
+                            <Button variant="outline" fullWidth onClick={handleClose}>Отменить</Button>
                             <Button type="submit" variant="filled" fullWidth>
                                 {editingProductId && !copyProduct ? "Сохранить" : "Добавить"}
                             </Button>
