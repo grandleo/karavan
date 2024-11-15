@@ -4,7 +4,7 @@ export const translations = {
             'number': '№',
             'name': 'Наименование',
             'quantity': 'Кол-во',
-            'price': 'Цена ₽',
+            'price': 'Цена :symbol',
         },
         'form': {
             'title': 'Добавить товар',

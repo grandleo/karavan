@@ -6,7 +6,7 @@ import classes from "@/components/stock/styles.module.css";
 import {useState} from "react";
 import {useTranslation} from "@/hooks/useTranslation";
 
-const SupplierStockList = ({products}: SupplierStockListTypes) => {
+const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
     const { trans } = useTranslation();
     const [opened, {open, close}] = useDisclosure(false);
     const [currentProduct, setCurrentProduct] = useState(null);
@@ -72,7 +72,7 @@ const SupplierStockList = ({products}: SupplierStockListTypes) => {
                         <Table.Th w={1}>№</Table.Th>
                         <Table.Th>{trans('stock', 'supplier.table.name')}</Table.Th>
                         <Table.Th w={1} ta="center">{trans('stock', 'supplier.table.quantity')}</Table.Th>
-                        <Table.Th w={1} ta="center">{trans('stock', 'supplier.table.price')}</Table.Th>
+                        <Table.Th w={1} ta="center" style={{whiteSpace: 'nowrap'}}>{trans('stock', 'supplier.table.price', {'symbol': currency.prefix || currency.suffix})}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>

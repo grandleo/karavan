@@ -5,8 +5,11 @@ import {useRouter} from "next/navigation";
 import {useEffect} from "react";
 import {Warehouse} from "@/features/warehouses/types/warehouse.types";
 
-const WarehouseSelector = () => {
-    const {data: warehouses, isLoading} = useFetchWarehousesQuery('');
+const WarehouseSelector = ({setCurrency}) => {
+    const {data: warehouses, isLoading} = useFetchWarehousesQuery('', {
+        refetchOnMountOrArgChange: true,
+    });
+
     const { selectedWarehouse, setSelectedWarehouse } = useWarehouse();
     const router = useRouter();
 
@@ -20,6 +23,7 @@ const WarehouseSelector = () => {
                 if (!selectedWarehouse) {
                     const firstWarehouse = warehouses[0];
                     setSelectedWarehouse(String(firstWarehouse.id));
+                    setCurrency(firstWarehouse.currency); // Установить валюту для первого склада
                 }
             }
         }
@@ -32,6 +36,14 @@ const WarehouseSelector = () => {
         label: warehouse.address,
     }));
 
+    const handleWarehouseChange = (value: string) => {
+        setSelectedWarehouse(value);
+        const selected = warehouses.find((warehouse) => String(warehouse.id) === value);
+        if (selected) {
+            setCurrency(selected.currency); // Установить валюту для выбранного склада
+        }
+    };
+
     return (
         <Select
             placeholder="Выберите склад"
@@ -39,7 +51,8 @@ const WarehouseSelector = () => {
             variant="unstyled"
             mb={0}
             value={selectedWarehouse || undefined}
-            onChange={(value) => setSelectedWarehouse(value)}
+            allowDeselect={false}
+            onChange={handleWarehouseChange}
         />
     );
 }

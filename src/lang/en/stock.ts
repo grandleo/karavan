@@ -4,7 +4,7 @@ export const translations = {
             'number': '№',
             'name': 'Name',
             'quantity': 'Qty',
-            'price': 'Price',
+            'price': 'Price :symbol',
         },
         'form': {
             'title': 'Add product',

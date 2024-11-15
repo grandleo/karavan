@@ -10,12 +10,15 @@ import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
 
 const SupplierStock = () => {
     const { selectedWarehouse } = useWarehouse();
-    const [items, setItems] = useState<ISupplierProduct[]>([])
+    const [items, setItems] = useState<ISupplierProduct[]>([]);
+
+    const [currency, setCurrency] = useState('')
 
     const {data: supplierProducts} = useFetchSupplierStockQuery({
         warehouse_id: selectedWarehouse
     }, {
-        skip: !selectedWarehouse
+        skip: !selectedWarehouse,
+        refetchOnMountOrArgChange: true,
     })
 
     useEffect(() => {
@@ -26,7 +29,7 @@ const SupplierStock = () => {
         <SimplePage
             headerChildrenLeft={() => {
                 return (
-                    <WarehouseSelector/>
+                    <WarehouseSelector setCurrency={setCurrency}/>
                 )
             }}
             headerChildren={() => {
@@ -35,13 +38,13 @@ const SupplierStock = () => {
                         justify="flex-end"
                         gap={8}
                     >
-                        <StockForm/>
+                        <StockForm currency={currency}/>
                     </Flex>
                 )
             }}
         >
             <>
-                <SupplierStockList products={items}/>
+                <SupplierStockList products={items} currency={currency}/>
             </>
         </SimplePage>
     )

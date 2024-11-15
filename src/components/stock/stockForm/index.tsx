@@ -18,7 +18,7 @@ import classes from "@/components/stock/styles.module.css";
 import {useWarehouse} from "@/features/warehouses/providers/WarehouseProvider";
 import {useTranslation} from "@/hooks/useTranslation";
 
-const StockForm = () => {
+const StockForm = ({currency}) => {
     const { trans } = useTranslation();
     const { selectedWarehouse } = useWarehouse();
 
@@ -197,16 +197,19 @@ const StockForm = () => {
                                                         handleSelectCategory(id, 0, filteredCategory);
                                                     }
                                                 }}
+                                                mb={5}
                                             />
 
                                             {subCategories.map((items, index) => {
                                                 return (
+                                                    <Box mb={5}>
                                                     <SelectSubCategory
                                                         key={index}
                                                         index={index + 1}
                                                         categories={items}
                                                         handleSelectCategory={handleSelectCategory}
                                                     />
+                                                    </Box>
                                                 )
                                             })}
                                         </Box>
@@ -235,7 +238,7 @@ const StockForm = () => {
                                                         <QuantityInput/>
                                                     </Box>
                                                     <Box style={{flex: 1}}>
-                                                        <PriceInput/>
+                                                        <PriceInput currency={currency}/>
                                                     </Box>
                                                 </Flex>
                                             </Box>
@@ -290,7 +293,7 @@ const ProductFilter = ({filter, handleSelectFilter}) => {
     )
 }
 
-const PriceInput = () => {
+const PriceInput = ({currency}) => {
     const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
 
@@ -313,7 +316,7 @@ const PriceInput = () => {
                     onChange={(quantity) => {
                         onChange(quantity);
                     }}
-                    rightSection="₽"
+                    rightSection={currency.prefix || currency.suffix}
                     rightSectionPointerEvents="none"
                     min={0}
                     max={9999999}
