@@ -1,12 +1,13 @@
 import NextImage from 'next/image';
-import {Image, Text, Table, Flex, Tooltip} from "@mantine/core";
+import {Image, Text, Table, Flex, Tooltip, ActionIcon} from "@mantine/core";
 import {PriceInput, QuantityInput} from "@/components/stock/inpunts";
 import {FormProvider, useForm} from "react-hook-form";
 import {ErrorNotifications, SuccessNotifications} from "@/helpers/Notifications";
 import {useUpdateProductToSupplierStockMutation} from "@/store/api/supplier/stockSupplier.api";
 import classes from "@/components/stock/styles.module.css";
+import {IconGavel} from "@tabler/icons-react";
 
-const SupplierStockItem = ({index, item, showInfo}: SupplierStockItemTypes) => {
+const SupplierStockItem = ({index, item, showInfo, auction}: SupplierStockItemTypes) => {
     if (!item) return null
 
     const [updateProductToSupplierStock] = useUpdateProductToSupplierStockMutation()
@@ -64,6 +65,11 @@ const SupplierStockItem = ({index, item, showInfo}: SupplierStockItemTypes) => {
                             width={80}
                             handleUpdate={handleUpdate}
                         />
+                    </Table.Td>
+                    <Table.Td>
+                        <ActionIcon variant="filled" aria-label="Торг" onClick={() => auction(item.id)}>
+                            <IconGavel style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                        </ActionIcon>
                     </Table.Td>
                 </Table.Tr>
             </FormProvider>

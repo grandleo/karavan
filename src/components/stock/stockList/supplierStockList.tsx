@@ -1,15 +1,21 @@
 import {SupplierStockItem} from "@/components/stock";
-import {Box, Flex, Image, Modal, Table, Text, Tooltip} from "@mantine/core";
+import {ActionIcon, Box, Drawer, Flex, Image, Modal, Table, Text, Tooltip} from "@mantine/core";
 import NextImage from "next/image";
 import {useDisclosure} from "@mantine/hooks";
 import classes from "@/components/stock/styles.module.css";
 import {useState} from "react";
 import {useTranslation} from "@/hooks/useTranslation";
+import {useApproveP2pBidMutation, useLazyFetchP2pBidsQuery} from "@/store/api/supplier/stockSupplier.api";
+import {IconCheck, IconGavel} from "@tabler/icons-react";
 
 const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
     const { trans } = useTranslation();
     const [opened, {open, close}] = useDisclosure(false);
+    const [openedAuction, { open: openAuction, close: closeAuction }] = useDisclosure(false);
     const [currentProduct, setCurrentProduct] = useState(null);
+
+    const [triggerP2p, { data: p2pData = []}] = useLazyFetchP2pBidsQuery();
+    const [approveP2pBid] = useApproveP2pBidMutation();
 
     const handleShowInfo = (product) => {
         setCurrentProduct(product);
@@ -20,6 +26,19 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
         setCurrentProduct(null);
         close();
     };
+
+    const openP2pBids = async (id) => {
+        try {
+            await triggerP2p({ id }).unwrap();
+            openAuction(); // Открытие Drawer
+        } catch (error) {
+            console.error("Error fetching p2p data:", error);
+        }
+    };
+
+    const approveBid = async (id) => {
+        await approveP2pBid({ id });
+    }
 
     return (
         <>
@@ -66,6 +85,38 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
                     )}
                 </Modal.Content>
             </Modal.Root>
+            <Drawer opened={openedAuction} onClose={closeAuction} withCloseButton={false} size="lg">
+                {p2pData.length > 0 ? (
+                <Table>
+                <Table.Thead>
+                    <Table.Tr>
+                        <Table.Th w={1}>№</Table.Th>
+                        <Table.Th>Клиент</Table.Th>
+                        <Table.Th w={1} ta="center">Сумма</Table.Th>
+                        <Table.Th w={1} ta="center" style={{whiteSpace: 'nowrap'}}>Кол-во</Table.Th>
+                        <Table.Th w={1} ta="center" style={{whiteSpace: 'nowrap'}}></Table.Th>
+                    </Table.Tr>
+                </Table.Thead>
+                    <Table.Tbody>
+                        {p2pData.map((bid, index) => (
+                            <Table.Tr key={index}>
+                                <Table.Td>{index + 1}</Table.Td>
+                                <Table.Td>{bid.client_name}</Table.Td>
+                                <Table.Td>{bid.price}</Table.Td>
+                                <Table.Td>{bid.qty}</Table.Td>
+                                <Table.Td>
+                                    <ActionIcon variant="filled" aria-label="Торг" onClick={() => approveBid(bid.id)}>
+                                        <IconCheck style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                                    </ActionIcon>
+                                </Table.Td>
+                            </Table.Tr>
+                        ))}
+                    </Table.Tbody>
+                </Table>
+                ) : (
+                    <Text>Данные отсутствуют</Text>
+                )}
+            </Drawer>
             <Table>
                 <Table.Thead>
                     <Table.Tr>
@@ -73,6 +124,7 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
                         <Table.Th>{trans('stock', 'supplier.table.name')}</Table.Th>
                         <Table.Th w={1} ta="center">{trans('stock', 'supplier.table.quantity')}</Table.Th>
                         <Table.Th w={1} ta="center" style={{whiteSpace: 'nowrap'}}>{trans('stock', 'supplier.table.price', {'symbol': currency.prefix || currency.suffix})}</Table.Th>
+                        <Table.Th w={1} ta="center" style={{whiteSpace: 'nowrap'}}>Торг</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -83,6 +135,7 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
                                 index={index + 1}
                                 item={product}
                                 showInfo={() => handleShowInfo(product)}
+                                auction={openP2pBids}
                             />
                         )
                     })}

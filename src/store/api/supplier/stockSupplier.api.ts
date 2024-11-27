@@ -66,6 +66,28 @@ export const stockSupplierApi = api.injectEndpoints({
                 type: 'StockSupplier'
             }]
         }),
+
+        fetchP2pBids: builder.query({
+            query: (data) => ({
+                url: 'supplier/stock/fetch-p2p-bids',
+                method: 'POST',
+                data: data
+            }),
+            providesTags: () => [{
+                type: 'P2pBids'
+            }]
+        }),
+
+        approveP2pBid: builder.mutation({
+            query: (data) => ({
+                url: 'supplier/stock/approve-p2p-bid',
+                method: 'POST',
+                data: data
+            }),
+            invalidatesTags: () => [{
+                type: 'P2pBids'
+            }]
+        }),
     }),
 })
 
@@ -77,6 +99,8 @@ export const {
     useAddProductToSupplierStockMutation,
     useUpdateProductToSupplierStockMutation,
 
+    useLazyFetchP2pBidsQuery,
+    useApproveP2pBidMutation,
 
     useGetStockSupplierQuery,
     useGetCategoriesForSupplierStockQuery,

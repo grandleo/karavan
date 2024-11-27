@@ -8,7 +8,7 @@ import {
     Tabs,
     TextInput,
     Text,
-    Menu, ActionIcon, Popover, Switch, ScrollArea
+    Menu, ActionIcon, Popover, Switch, ScrollArea, NumberInput
 } from "@mantine/core";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import classes from "./CategoryForm.module.css";
@@ -57,6 +57,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                 ru: '',
                 en: '',
             },
+            min_p2p_quantity: 0,
+            max_p2p_percent: 0,
             required_period_validity: false,
             specifications: []
         }
@@ -119,6 +121,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
             setValue("name.en", data.category.name.en);
             setValue("app_title.ru", data.category.app_title.ru);
             setValue("app_title.en", data.category.app_title.en);
+            setValue("min_p2p_quantity", data.category.min_p2p_quantity);
+            setValue("max_p2p_percent", data.category.max_p2p_percent);
             setValue("required_period_validity", data.category.required_period_validity);
             setValue("specifications", data.category.specifications || []);
         } else {
@@ -141,6 +145,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                 ru: '',
                 en: '',
             },
+            min_p2p_quantity: 0,
+            max_p2p_percent: 0,
             required_period_validity: false,
             specifications: []
         }); // Сбрасываем форму
@@ -219,6 +225,39 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                 />
                             </Box>
                             <Divider/>
+                            <Box className={classes.sectionForm}>
+                                <Text>P2p</Text>
+                                <Controller
+                                    name="min_p2p_quantity"
+                                    control={methods.control}
+                                    render={({field}) => (
+                                        <NumberInput
+                                            label="Минимальное кол-во для торга"
+                                            placeholder="Введите кол-во"
+                                            allowNegative={false}
+                                            allowDecimal={false}
+                                            hideControls={true}
+                                            {...field}
+                                        />
+                                    )}
+                                />
+                                <Controller
+                                    name="max_p2p_percent"
+                                    control={methods.control}
+                                    render={({field}) => (
+                                        <NumberInput
+                                            label="Макс процент скидки на товар"
+                                            placeholder="Введите процент"
+                                            allowNegative={false}
+                                            decimalScale={2}
+                                            hideControls={true}
+                                            max={100}
+                                            {...field}
+                                        />
+                                    )}
+                                />
+                            </Box>
+                            <Divider/>
 
                             <Box className={classes.sectionForm} style={{flexGrow: 1}}>
                                 <Controller
@@ -260,7 +299,6 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                     </Popover>
                                 </Flex>
                                 <ScrollArea h={400}>
-
                                     <SortableList
                                         items={fields}
                                         onChange={handleItemsChange}
@@ -274,86 +312,6 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                         )}
                                     />
                                 </ScrollArea>
-                                <Flex direction="column" gap={8}>
-                                    {/*{fields.map((field, index) => (*/}
-                                    {/*    <Flex key={field.id} className={classes.specification}>*/}
-                                    {/*        <Text className={classes.specificationTitle}>{field.name}</Text>*/}
-                                    {/*        <Menu shadow="md">*/}
-                                    {/*            <Menu.Target>*/}
-                                    {/*                <ActionIcon variant="white" aria-label="Настройки" size={16}>*/}
-                                    {/*                    <IconDotsVertical size={16}/>*/}
-                                    {/*                </ActionIcon>*/}
-                                    {/*            </Menu.Target>*/}
-                                    {/*            <Menu.Dropdown>*/}
-                                    {/*                /!* Используем контейнерные элементы вместо Menu.Item *!/*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_filterable`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в фильтр" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_trade_feature`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в торговую особенность" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_required`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Обязательное поле" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_title_part`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Участвует в формировании названия" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_multiple`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Множественный выбор" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*                <Box px="sm" py="xs">*/}
-                                    {/*                    <Controller*/}
-                                    {/*                        name={`specifications.${index}.is_displayed_in_product_card`}*/}
-                                    {/*                        control={control}*/}
-                                    {/*                        render={({ field }) => (*/}
-                                    {/*                            <Checkbox {...field} checked={field.value} label="Выводить в карточку товара" />*/}
-                                    {/*                        )}*/}
-                                    {/*                    />*/}
-                                    {/*                </Box>*/}
-                                    {/*            </Menu.Dropdown>*/}
-                                    {/*        </Menu>*/}
-                                    {/*        <ActionIcon*/}
-                                    {/*            variant="white"*/}
-                                    {/*            color="red"*/}
-                                    {/*            aria-label="Удалить"*/}
-                                    {/*            size={16}*/}
-                                    {/*            onClick={() => remove(index)}*/}
-                                    {/*        >*/}
-                                    {/*            <IconTrash stroke={2} />*/}
-                                    {/*        </ActionIcon>*/}
-                                    {/*    </Flex>*/}
-                                    {/*))}*/}
-                                </Flex>
                             </Box>
 
                         </Tabs.Panel>

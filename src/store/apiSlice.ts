@@ -12,6 +12,7 @@ export const api = createApi({
         'SupplierOrderNumbers',
         'SupplierOrderDetails',
         'Currencies',
+        'P2pBids',
 
 
 
