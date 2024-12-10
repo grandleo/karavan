@@ -67,7 +67,7 @@ const SupplierStockItem = ({index, item, showInfo, auction}: SupplierStockItemTy
                         />
                     </Table.Td>
                     <Table.Td>
-                        <ActionIcon variant="filled" aria-label="Торг" onClick={() => auction(item.id)}>
+                        <ActionIcon variant="filled" aria-label="Торг" onClick={() => auction(item.id)} disabled={item.p2p_bids_count === 0}>
                             <IconGavel style={{ width: '70%', height: '70%' }} stroke={1.5} />
                         </ActionIcon>
                     </Table.Td>
