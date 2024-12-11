@@ -4,7 +4,7 @@ import {capitalizeWords} from "@/utils/utils";
 import {useTranslation} from "@/hooks/useTranslation";
 
 const CompanyInput = () => {
-    const { trans } = useTranslation('en');
+    const { trans } = useTranslation();
     const {control} = useFormContext();
 
     return (
@@ -12,7 +12,7 @@ const CompanyInput = () => {
             <Controller
             name="company"
             control={control}
-            rules={{required: 'ФИО обязательно'}}
+            rules={{required: 'Компания обязательно'}}
             render={({field, fieldState}) => (
                 <TextInput
                     label={trans('auth', 'inputs.company')}
