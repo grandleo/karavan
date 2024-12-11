@@ -199,8 +199,8 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
                                         )}
                                     />
                                 </Table.Td>
-                                <Table.Td>{bid.price}</Table.Td>
-                                <Table.Td>{bid.qty}</Table.Td>
+                                <Table.Td>{bid.client_price}</Table.Td>
+                                <Table.Td>{bid.client_qty}</Table.Td>
                                 <Table.Td>
                                     <ActionIcon variant="filled" aria-label="Торг" onClick={() => handleApproveClick(bid.id)}>
                                         <IconCheck style={{ width: '70%', height: '70%' }} stroke={1.5} />

@@ -55,14 +55,14 @@ const SupplierStockItem = ({index, item, showInfo, auction}: SupplierStockItemTy
                     </Table.Td>
                     <Table.Td>
                         <QuantityInput
-                            width={50}
+                            width={60}
                             handleUpdate={handleUpdate}
                         />
                     </Table.Td>
                     <Table.Td>
                         <PriceInput
                             new_price={Number(item.new_price)}
-                            width={80}
+                            width={90}
                             handleUpdate={handleUpdate}
                         />
                     </Table.Td>
