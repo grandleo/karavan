@@ -16,6 +16,7 @@ import {useAuth} from "@/features/auth/hooks/useAuth";
 import {capitalizeWords} from "@/utils/utils";
 import {useTranslation} from "@/hooks/useTranslation";
 import {useLanguage} from "@/providers/LanguageProvider";
+import {notify} from "@/utils/notify";
 
 interface FormValues {
     email: string;
@@ -77,13 +78,10 @@ const ModalAuth = () => {
         if (step === 1) {
             // Step 1: Отправка кода на почту
             try {
-                await sendCode({ email: data.email });
+                await sendCode({ email: data.email, lang: data.lang });
                 setStep(2);
             } catch (err: any) {
-                methods.setError('email', {
-                    type: 'manual',
-                    message: error || 'Не удалось отправить код на почту',
-                });
+                notify(err.response?.data?.message, 'error');
             }
         } else if (step === 2) {
             // Step 2: Проверка кода и авторизация

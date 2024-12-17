@@ -3,6 +3,7 @@ import {useRouter} from "next/navigation";
 import http from "@/utils/http";
 import {setToken} from "@/features/auth/utils/tokenUtil";
 import {setUser} from "@/features/auth/utils/userUtil";
+import {notify} from "@/utils/notify";
 
 interface SendCodePayload {
     email: string;
@@ -47,8 +48,6 @@ export const useAuth = (): UseAuthReturn => {
         try {
             await http.post('/auth/send-code', payload);
         } catch (err: any) {
-            console.error('Ошибка при отправке кода:', err);
-            setError(err.response?.data?.message || 'Не удалось отправить код на почту');
             throw err; // Пробрасываем ошибку для обработки в компоненте
         } finally {
             setIsLoading(false);
