@@ -124,11 +124,17 @@ const ModalAuth = () => {
         }
     };
 
+    const handleClose = () => {
+        methods.reset(); // Сброс всех полей формы
+        setStep(1); // Возвращение на первый шаг
+        close(); // Закрытие модального окна
+    };
+
     return (
         <>
             <Modal
                 opened={opened}
-                onClose={close}
+                onClose={handleClose}
                 withCloseButton={false}>
                 <Flex justify="space-between" align="flex-start" wrap="nowrap" mb={30}>
                     <ActionIcon
@@ -144,7 +150,7 @@ const ModalAuth = () => {
                     <ActionIcon
                         variant="light"
                         color="#1B1F3BA6"
-                        onClick={close}>
+                        onClick={handleClose}>
                         <IconX style={{width: '80%', height: '80%'}} stroke={2}/>
                     </ActionIcon>
                 </Flex>
@@ -201,7 +207,7 @@ const ModalAuth = () => {
                 </Button>
 
                 <Text className={classes.textConditions}>
-                    {trans('auth', 'conditions.text')} <Text component={Link} href="#">{trans('auth', 'conditions.processing')}</Text> {trans('global', 'and')} <Text component={Link} href="#">{trans('auth', 'conditions.privacy')}</Text>
+                    {trans('auth', 'conditions.text')} <Text component={Link} href="/processing">{trans('auth', 'conditions.processing')}</Text> {trans('global', 'and')} <Text component={Link} href="/privacy">{trans('auth', 'conditions.privacy')}</Text>
                 </Text>
             </Modal>
 
