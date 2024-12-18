@@ -8,6 +8,7 @@ export default function TelegramWebAppDebug() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
     const [userInfo, setUserInfo] = useState<any>(null); // Информация о пользователе
     const [loading, setLoading] = useState<boolean>(true); // Индикатор загрузки
+    const [error, setError] = useState<string | null>(null); // Сообщения об ошибках
 
     useEffect(() => {
         try {
@@ -15,28 +16,39 @@ export default function TelegramWebAppDebug() {
 
             tg.ready(); // Сообщаем Telegram, что WebApp готов
 
-            // Получаем параметры из URL
-            const searchParams = new URLSearchParams(window.location.search);
-            const tokenHash = searchParams.get("token_hash");
+            // Получение initData
+            const initDataUnsafe = tg.initDataUnsafe;
 
-            if (!tokenHash) {
-                setLoading(false);
-                setDebugInfo("Error: token_hash отсутствует в URL");
-                return;
+            // Извлечение start_param, если передан
+            const startParam = initDataUnsafe?.start_param || null;
+
+            // Логируем данные для отладки
+            console.log("initDataUnsafe:", initDataUnsafe);
+            console.log("startParam:", startParam);
+
+            // Если start_param существует, раскодируем его
+            let decodedData = null;
+            if (startParam) {
+                try {
+                    decodedData = JSON.parse(atob(startParam));
+                    console.log("Декодированные данные из start_param:", decodedData);
+                } catch (decodeError) {
+                    console.error("Ошибка декодирования start_param:", decodeError);
+                }
             }
 
-            // Отправляем `initData` и `token_hash` на сервер для проверки
+            // Отправляем данные на сервер для проверки
             axios
-                .post("/api/webapp/verify", {
+                .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
                     init_data: tg.initData,
-                    token_hash: tokenHash,
+                    token_hash: decodedData?.token_hash || null, // Если есть хэш токена, передаём его
                 })
                 .then((response) => {
                     setLoading(false);
 
                     if (response.data.error) {
                         console.error("Ошибка проверки:", response.data.error);
-                        setDebugInfo(`Ошибка: ${response.data.error}`);
+                        setError(response.data.error);
                     } else {
                         setUserInfo(response.data); // Устанавливаем данные пользователя
                         console.log("Успешная проверка:", response.data);
@@ -45,21 +57,21 @@ export default function TelegramWebAppDebug() {
                 .catch((error) => {
                     setLoading(false);
                     console.error("Ошибка запроса:", error.response?.data || error.message);
-                    setDebugInfo(`Ошибка запроса: ${error.message}`);
+                    setError(error.message);
                 });
 
             // Отладочная информация
             const debugData = {
                 initData: tg.initData,
-                user: tg.initDataUnsafe?.user || null,
+                user: initDataUnsafe?.user || null,
                 theme: tg.themeParams,
             };
 
             setDebugInfo(JSON.stringify(debugData, null, 2));
         } catch (error) {
             setLoading(false);
-            console.error("Ошибка при получении данных Telegram WebApp:", error);
-            setDebugInfo(`Error: ${error.message}`);
+            console.error("Ошибка при обработке WebApp:", error);
+            setError(error.message);
         }
     }, []);
 
@@ -74,12 +86,16 @@ export default function TelegramWebAppDebug() {
                     Telegram WebApp Debug Info
                 </Text>
 
-                {/* Показываем индикатор загрузки */}
+                {/* Показ загрузки или ошибок */}
                 {loading ? (
                     <Loader />
+                ) : error ? (
+                    <Text weight={700} color="red">
+                        Ошибка: {error}
+                    </Text>
                 ) : userInfo ? (
                     <div>
-                        {/* Вывод данных пользователя */}
+                        {/* Вывод информации о пользователе */}
                         <Text weight={700}>Информация о пользователе:</Text>
                         <Text>Имя: {userInfo.user.first_name}</Text>
                         <Text>ID пользователя: {userInfo.user.id}</Text>
@@ -93,6 +109,7 @@ export default function TelegramWebAppDebug() {
                     </Text>
                 )}
 
+                {/* Отладочная информация */}
                 <pre
                     style={{
                         background: "#f4f4f4",
