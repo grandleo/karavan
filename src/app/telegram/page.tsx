@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Container, Text } from "@mantine/core";
+import { Container, Text, Loader } from "@mantine/core";
 import Script from "next/script";
+import axios from "axios";
 
 export default function TelegramWebAppDebug() {
-    const [debugInfo, setDebugInfo] = useState<string>("");
-
-
+    const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
+    const [userInfo, setUserInfo] = useState<any>(null); // Информация о пользователе
+    const [loading, setLoading] = useState<boolean>(true); // Индикатор загрузки
 
     useEffect(() => {
         try {
@@ -14,18 +15,38 @@ export default function TelegramWebAppDebug() {
 
             tg.ready(); // Сообщаем Telegram, что WebApp готов
 
-            // Собираем отладочные данные
-            const data = {
-                initData: tg.initData,
+            const initData = tg.initData;
+
+            // Отправляем `initData` на сервер для проверки
+            axios
+                .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
+                    init_data: initData,
+                })
+                .then((response) => {
+                    setLoading(false);
+
+                    if (response.data.error) {
+                        console.error("Ошибка проверки:", response.data.error);
+                    } else {
+                        setUserInfo(response.data); // Устанавливаем данные пользователя
+                        console.log("Успешная проверка:", response.data);
+                    }
+                })
+                .catch((error) => {
+                    setLoading(false);
+                    console.error("Ошибка запроса:", error.response?.data || error.message);
+                });
+
+            // Отладочная информация
+            const debugData = {
+                initData,
                 user: tg.initDataUnsafe?.user || null,
                 theme: tg.themeParams,
             };
 
-            console.log("Отладочная информация:", data);
-
-            // Устанавливаем данные в состояние для отображения на странице
-            setDebugInfo(JSON.stringify(data, null, 2));
+            setDebugInfo(JSON.stringify(debugData, null, 2));
         } catch (error) {
+            setLoading(false);
             console.error("Ошибка при получении данных Telegram WebApp:", error);
             setDebugInfo(`Error: ${error.message}`);
         }
@@ -33,25 +54,46 @@ export default function TelegramWebAppDebug() {
 
     return (
         <>
-        <Script
-            src="https://telegram.org/js/telegram-web-app.js"
-            strategy="beforeInteractive" // Гарантирует, что скрипт загрузится перед вашим кодом
-        />
-        <Container>
-            <Text weight={500} size="lg" style={{ marginBottom: "1rem" }}>
-                Telegram WebApp Debug Info
-            </Text>
-            <pre
-                style={{
-                    background: "#f4f4f4",
-                    padding: "1rem",
-                    borderRadius: "8px",
-                    overflowX: "auto",
-                }}
-            >
-                {debugInfo}
-            </pre>
-        </Container></>
+            <Script
+                src="https://telegram.org/js/telegram-web-app.js"
+                strategy="beforeInteractive" // Гарантирует, что скрипт загрузится перед вашим кодом
+            />
+            <Container>
+                <Text weight={500} size="lg" style={{ marginBottom: "1rem" }}>
+                    Telegram WebApp Debug Info
+                </Text>
+
+                {/* Показываем индикатор загрузки */}
+                {loading ? (
+                    <Loader />
+                ) : userInfo ? (
+                    <div>
+                        {/* Вывод данных пользователя */}
+                        <Text weight={700}>Информация о пользователе:</Text>
+                        <Text>Имя: {userInfo.user_name}</Text>
+                        <Text>ID пользователя: {userInfo.user_id}</Text>
+                        <Text>ID бота: {userInfo.bot_id}</Text>
+                        <Text>Статус: {userInfo.status}</Text>
+                    </div>
+                ) : (
+                    <Text weight={700} color="red">
+                        Не удалось получить данные о пользователе.
+                    </Text>
+                )}
+
+                <pre
+                    style={{
+                        background: "#f4f4f4",
+                        padding: "1rem",
+                        borderRadius: "8px",
+                        overflowX: "auto",
+                        marginTop: "1rem",
+                    }}
+                >
+                    {debugInfo}
+                </pre>
+            </Container>
+        </>
     );
 }
 
