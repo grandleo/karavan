@@ -32,7 +32,7 @@ export default function TelegramWebApp() {
                     <p>Ваш chat_id: {chatId}</p>
                     <p>Ваш токен: {token}</p>
 
-                    <Link href="orders" passHref>
+                    <Link href="/telegram/orders" passHref>
 
                             Перейти в заказы
 
