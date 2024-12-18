@@ -4,7 +4,7 @@ import { Container, Text, Loader } from "@mantine/core";
 import Script from "next/script";
 import axios from "axios";
 
-export default function TelegramWebAppDebug() {
+export default function TelegramWebApp() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
     const [userInfo, setUserInfo] = useState<any>(null); // Информация о пользователе
     const [loading, setLoading] = useState<boolean>(true); // Индикатор загрузки
@@ -16,29 +16,38 @@ export default function TelegramWebAppDebug() {
 
             tg.ready(); // Сообщаем Telegram, что WebApp готов
 
-            // Получение initData
-            const initDataUnsafe = tg.initDataUnsafe;
+            // Получение start_param или start_parameter из URL
+            const searchParams = new URLSearchParams(window.location.search);
+            const startParam = searchParams.get("start_param");
+            const startParameter = searchParams.get("start_parameter");
 
-            // Извлечение start_param, если передан
-            const startParam = initDataUnsafe?.start_param || null;
-
-            console.log("initDataUnsafe:", initDataUnsafe);
-            console.log("startParam:", startParam);
+            console.log("start_param:", startParam);
+            console.log("start_parameter:", startParameter);
 
             let decodedData = null;
-            if (startParam) {
+
+            // Декодируем либо start_param, либо start_parameter
+            if (startParam || startParameter) {
                 try {
-                    decodedData = JSON.parse(atob(startParam)); // Декодируем Base64
-                    console.log("Декодированные данные из start_param:", decodedData);
+                    decodedData = JSON.parse(
+                        atob(startParam || startParameter)
+                    ); // Раскодировка Base64
+                    console.log(
+                        "Декодированные данные:",
+                        decodedData
+                    );
                 } catch (decodeError) {
-                    console.error("Ошибка декодирования start_param:", decodeError);
-                    setError("Ошибка декодирования start_param");
+                    console.error(
+                        "Ошибка декодирования:",
+                        decodeError
+                    );
+                    setError("Ошибка декодирования параметра");
                     setLoading(false);
                     return;
                 }
             } else {
-                console.error("start_param отсутствует");
-                setError("start_param отсутствует");
+                console.error("start_param или start_parameter отсутствует");
+                setError("start_param или start_parameter отсутствует");
                 setLoading(false);
                 return;
             }
@@ -69,7 +78,7 @@ export default function TelegramWebAppDebug() {
             // Отладочная информация
             const debugData = {
                 initData: tg.initData,
-                user: initDataUnsafe?.user || null,
+                user: tg.initDataUnsafe?.user || null,
                 theme: tg.themeParams,
             };
 
