@@ -10,27 +10,27 @@ export default function TelegramWebApp() {
 
     useEffect(() => {
         try {
-            // Получение параметров из URL
-            console.log("window.location.search:", window.location.search);
-            const searchParams = new URLSearchParams(window.location.search);
-
-            const chat_id = searchParams.get("chat_id");
-            const bot_token = searchParams.get("token");
-
-            console.log("Полученные параметры:", { chat_id, bot_token });
-
-            if (chat_id) setChatId(chat_id);
-            if (bot_token) setToken(bot_token);
-
-            // Получение данных из WebApp API
             const tg = window.Telegram.WebApp;
-            if (tg.initDataUnsafe) {
-                console.log("Данные пользователя:", tg.initDataUnsafe.user);
-                setUserData(tg.initDataUnsafe.user);
-            }
-
-            // Инициализация WebApp
             tg.ready();
+
+            const debugInfo = {
+                user: tg.initDataUnsafe.user,
+                theme: tg.themeParams,
+                initData: tg.initData,
+            };
+
+            // Добавляем данные на страницу
+            const debugDiv = document.createElement("div");
+            debugDiv.style.position = "fixed";
+            debugDiv.style.bottom = "0";
+            debugDiv.style.left = "0";
+            debugDiv.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            debugDiv.style.color = "white";
+            debugDiv.style.padding = "10px";
+            debugDiv.style.zIndex = "1000";
+            debugDiv.style.fontSize = "12px";
+            debugDiv.innerText = `Debug Info: ${JSON.stringify(debugInfo, null, 2)}`;
+            document.body.appendChild(debugDiv);
 
         } catch (error) {
             console.error("Ошибка при получении параметров из URL:", error);
