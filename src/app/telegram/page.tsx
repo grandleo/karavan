@@ -15,18 +15,28 @@ export default function TelegramWebAppDebug() {
 
             tg.ready(); // Сообщаем Telegram, что WebApp готов
 
-            const initData = tg.initData;
+            // Получаем параметры из URL
+            const searchParams = new URLSearchParams(window.location.search);
+            const tokenHash = searchParams.get("token_hash");
 
-            // Отправляем `initData` на сервер для проверки
+            if (!tokenHash) {
+                setLoading(false);
+                setDebugInfo("Error: token_hash отсутствует в URL");
+                return;
+            }
+
+            // Отправляем `initData` и `token_hash` на сервер для проверки
             axios
-                .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
-                    init_data: initData,
+                .post("/api/webapp/verify", {
+                    init_data: tg.initData,
+                    token_hash: tokenHash,
                 })
                 .then((response) => {
                     setLoading(false);
 
                     if (response.data.error) {
                         console.error("Ошибка проверки:", response.data.error);
+                        setDebugInfo(`Ошибка: ${response.data.error}`);
                     } else {
                         setUserInfo(response.data); // Устанавливаем данные пользователя
                         console.log("Успешная проверка:", response.data);
@@ -35,11 +45,12 @@ export default function TelegramWebAppDebug() {
                 .catch((error) => {
                     setLoading(false);
                     console.error("Ошибка запроса:", error.response?.data || error.message);
+                    setDebugInfo(`Ошибка запроса: ${error.message}`);
                 });
 
             // Отладочная информация
             const debugData = {
-                initData,
+                initData: tg.initData,
                 user: tg.initDataUnsafe?.user || null,
                 theme: tg.themeParams,
             };
@@ -70,10 +81,11 @@ export default function TelegramWebAppDebug() {
                     <div>
                         {/* Вывод данных пользователя */}
                         <Text weight={700}>Информация о пользователе:</Text>
-                        <Text>Имя: {userInfo.user_name}</Text>
-                        <Text>ID пользователя: {userInfo.user_id}</Text>
-                        <Text>ID бота: {userInfo.bot_id}</Text>
-                        <Text>Статус: {userInfo.status}</Text>
+                        <Text>Имя: {userInfo.user.first_name}</Text>
+                        <Text>ID пользователя: {userInfo.user.id}</Text>
+                        <Text>ID бота: {userInfo.bot.id}</Text>
+                        <Text>Имя бота: {userInfo.bot.name}</Text>
+                        <Text>Статус проверки: Успешно</Text>
                     </div>
                 ) : (
                     <Text weight={700} color="red">
