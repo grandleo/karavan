@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import {Button} from "@mantine/core";
+import Link from "next/link";
 
 export default function TelegramWebApp() {
     const [chatId, setChatId] = useState<string | null>(null);
@@ -29,6 +31,12 @@ export default function TelegramWebApp() {
                 <>
                     <p>Ваш chat_id: {chatId}</p>
                     <p>Ваш токен: {token}</p>
+
+                    <Link href="orders" passHref>
+
+                            Перейти в заказы
+
+                    </Link>
                 </>
             ) : (
                 <p>Загрузка данных...</p>
