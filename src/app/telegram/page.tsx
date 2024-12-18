@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Container, Text } from "@mantine/core";
+import Script from "next/script";
 
 export default function TelegramWebAppDebug() {
     const [debugInfo, setDebugInfo] = useState<string>("");
+
+
 
     useEffect(() => {
         try {
@@ -29,6 +32,11 @@ export default function TelegramWebAppDebug() {
     }, []);
 
     return (
+        <>
+        <Script
+            src="https://telegram.org/js/telegram-web-app.js"
+            strategy="beforeInteractive" // Гарантирует, что скрипт загрузится перед вашим кодом
+        />
         <Container>
             <Text weight={500} size="lg" style={{ marginBottom: "1rem" }}>
                 Telegram WebApp Debug Info
@@ -43,7 +51,7 @@ export default function TelegramWebAppDebug() {
             >
                 {debugInfo}
             </pre>
-        </Container>
+        </Container></>
     );
 }
 
