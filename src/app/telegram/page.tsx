@@ -24,6 +24,7 @@ export default function TelegramWebApp() {
         tg.ready();
         console.log("Telegram WebApp готов");
 
+        // Извлечение параметров из URL
         const searchParams = new URLSearchParams(window.location.search);
         const tokenHash = searchParams.get("token_hash");
         const chatId = searchParams.get("chat_id");
@@ -40,8 +41,7 @@ export default function TelegramWebApp() {
         // Отправка запроса на сервер
         axios
             .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
-                init_data: tg.initData, // Telegram init_data
-                token_hash: tokenHash, // token_hash из URL
+                token_hash: tokenHash,
             })
             .then((response) => {
                 setLoading(false);
@@ -76,27 +76,34 @@ export default function TelegramWebApp() {
                     Telegram WebApp Debug Info
                 </Text>
 
+                {/* Состояние загрузки */}
                 {loading ? (
                     <Loader />
                 ) : error ? (
+                    // Если есть ошибка
                     <Text weight={700} color="red">
                         Ошибка: {error}
                     </Text>
                 ) : userInfo ? (
+                    // Если данные успешно получены
                     <div>
-                        <Text weight={700}>Информация о пользователе:</Text>
-                        <Text>Имя: {userInfo.user.first_name}</Text>
-                        <Text>ID пользователя: {userInfo.user.id}</Text>
-                        <Text>ID бота: {userInfo.bot.id}</Text>
+                        <Text weight={700} style={{ marginBottom: "1rem" }}>
+                            Информация о боте:
+                        </Text>
                         <Text>Имя бота: {userInfo.bot.name}</Text>
+                        <Text>ID бота: {userInfo.bot.id}</Text>
+                        <Text>Имя пользователя: {userInfo.user.first_name}</Text>
+                        <Text>ID пользователя: {userInfo.user.id}</Text>
                         <Text>Статус проверки: Успешно</Text>
                     </div>
                 ) : (
+                    // Если данные не получены
                     <Text weight={700} color="red">
                         Не удалось получить данные о пользователе.
                     </Text>
                 )}
 
+                {/* Отладочная информация */}
                 <pre
                     style={{
                         background: "#f4f4f4",
