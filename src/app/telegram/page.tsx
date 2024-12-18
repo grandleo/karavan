@@ -11,83 +11,42 @@ export default function TelegramWebApp() {
     const [error, setError] = useState<string | null>(null); // Сообщения об ошибках
 
     useEffect(() => {
-        try {
-            const tg = window.Telegram.WebApp;
+        // Извлечение параметров из URL
+        const searchParams = new URLSearchParams(window.location.search);
+        const tokenHash = searchParams.get("token_hash");
+        const chatId = searchParams.get("chat_id");
 
-            tg.ready(); // Сообщаем Telegram, что WebApp готов
+        console.log("token_hash:", tokenHash);
+        console.log("chat_id:", chatId);
 
-            // Получение start_param или start_parameter из URL
-            const searchParams = new URLSearchParams(window.location.search);
-            const startParam = searchParams.get("start_param");
-            const startParameter = searchParams.get("start_parameter");
-
-            console.log("start_param:", startParam);
-            console.log("start_parameter:", startParameter);
-
-            let decodedData = null;
-
-            // Декодируем либо start_param, либо start_parameter
-            if (startParam || startParameter) {
-                try {
-                    decodedData = JSON.parse(
-                        atob(startParam || startParameter)
-                    ); // Раскодировка Base64
-                    console.log(
-                        "Декодированные данные:",
-                        decodedData
-                    );
-                } catch (decodeError) {
-                    console.error(
-                        "Ошибка декодирования:",
-                        decodeError
-                    );
-                    setError("Ошибка декодирования параметра");
-                    setLoading(false);
-                    return;
-                }
-            } else {
-                console.error("start_param или start_parameter отсутствует");
-                setError("start_param или start_parameter отсутствует");
-                setLoading(false);
-                return;
-            }
-
-            // Отправляем данные на сервер для проверки
-            axios
-                .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
-                    init_data: tg.initData, // Данные Telegram
-                    token_hash: decodedData?.token_hash || null, // Передаём токен хэш
-                })
-                .then((response) => {
-                    setLoading(false);
-
-                    if (response.data.error) {
-                        console.error("Ошибка проверки:", response.data.error);
-                        setError(response.data.error);
-                    } else {
-                        setUserInfo(response.data); // Устанавливаем данные пользователя
-                        console.log("Успешная проверка:", response.data);
-                    }
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    console.error("Ошибка запроса:", error.response?.data || error.message);
-                    setError(error.message);
-                });
-
-            // Отладочная информация
-            const debugData = {
-                initData: tg.initData,
-                user: tg.initDataUnsafe?.user || null,
-                theme: tg.themeParams,
-            };
-
-            setDebugInfo(JSON.stringify(debugData, null, 2));
-        } catch (error) {
+        if (!tokenHash) {
+            setError("token_hash отсутствует в URL");
             setLoading(false);
-            console.error("Ошибка при обработке WebApp:", error);
-            setError(error.message);
+            return;
         }
+
+        // Отправка запроса на сервер
+        axios
+            .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
+                init_data: tg.initData, // Telegram init_data
+                token_hash: tokenHash, // token_hash из URL
+            })
+            .then((response) => {
+                setLoading(false);
+
+                if (response.data.error) {
+                    console.error("Ошибка проверки:", response.data.error);
+                    setError(response.data.error);
+                } else {
+                    setUserInfo(response.data); // Устанавливаем данные пользователя
+                    console.log("Успешная проверка:", response.data);
+                }
+            })
+            .catch((error) => {
+                setLoading(false);
+                console.error("Ошибка запроса:", error.response?.data || error.message);
+                setError(error.message);
+            });
     }, []);
 
     return (
