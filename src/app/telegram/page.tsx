@@ -22,26 +22,32 @@ export default function TelegramWebAppDebug() {
             // Извлечение start_param, если передан
             const startParam = initDataUnsafe?.start_param || null;
 
-            // Логируем данные для отладки
             console.log("initDataUnsafe:", initDataUnsafe);
             console.log("startParam:", startParam);
 
-            // Если start_param существует, раскодируем его
             let decodedData = null;
             if (startParam) {
                 try {
-                    decodedData = JSON.parse(atob(startParam));
+                    decodedData = JSON.parse(atob(startParam)); // Декодируем Base64
                     console.log("Декодированные данные из start_param:", decodedData);
                 } catch (decodeError) {
                     console.error("Ошибка декодирования start_param:", decodeError);
+                    setError("Ошибка декодирования start_param");
+                    setLoading(false);
+                    return;
                 }
+            } else {
+                console.error("start_param отсутствует");
+                setError("start_param отсутствует");
+                setLoading(false);
+                return;
             }
 
             // Отправляем данные на сервер для проверки
             axios
                 .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
-                    init_data: tg.initData,
-                    token_hash: decodedData?.token_hash || null, // Если есть хэш токена, передаём его
+                    init_data: tg.initData, // Данные Telegram
+                    token_hash: decodedData?.token_hash || null, // Передаём токен хэш
                 })
                 .then((response) => {
                     setLoading(false);
@@ -79,14 +85,13 @@ export default function TelegramWebAppDebug() {
         <>
             <Script
                 src="https://telegram.org/js/telegram-web-app.js"
-                strategy="beforeInteractive" // Гарантирует, что скрипт загрузится перед вашим кодом
+                strategy="beforeInteractive"
             />
             <Container>
                 <Text weight={500} size="lg" style={{ marginBottom: "1rem" }}>
                     Telegram WebApp Debug Info
                 </Text>
 
-                {/* Показ загрузки или ошибок */}
                 {loading ? (
                     <Loader />
                 ) : error ? (
@@ -95,7 +100,6 @@ export default function TelegramWebAppDebug() {
                     </Text>
                 ) : userInfo ? (
                     <div>
-                        {/* Вывод информации о пользователе */}
                         <Text weight={700}>Информация о пользователе:</Text>
                         <Text>Имя: {userInfo.user.first_name}</Text>
                         <Text>ID пользователя: {userInfo.user.id}</Text>
@@ -109,7 +113,6 @@ export default function TelegramWebAppDebug() {
                     </Text>
                 )}
 
-                {/* Отладочная информация */}
                 <pre
                     style={{
                         background: "#f4f4f4",
