@@ -11,7 +11,19 @@ export default function TelegramWebApp() {
     const [error, setError] = useState<string | null>(null); // Сообщения об ошибках
 
     useEffect(() => {
-        // Извлечение параметров из URL
+        if (typeof window === "undefined") return;
+
+        const tg = window.Telegram?.WebApp;
+
+        if (!tg) {
+            setError("Telegram WebApp не доступен");
+            setLoading(false);
+            return;
+        }
+
+        tg.ready();
+        console.log("Telegram WebApp готов");
+
         const searchParams = new URLSearchParams(window.location.search);
         const tokenHash = searchParams.get("token_hash");
         const chatId = searchParams.get("chat_id");
@@ -54,6 +66,10 @@ export default function TelegramWebApp() {
             <Script
                 src="https://telegram.org/js/telegram-web-app.js"
                 strategy="beforeInteractive"
+                onError={() => {
+                    setError("Не удалось загрузить Telegram WebApp Script");
+                    setLoading(false);
+                }}
             />
             <Container>
                 <Text weight={500} size="lg" style={{ marginBottom: "1rem" }}>
