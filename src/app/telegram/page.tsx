@@ -5,6 +5,7 @@ import Script from "next/script";
 import axios from "axios";
 import { setCookie, getCookie, removeCookie } from "@/utils/cookieUtil";
 import Link from "next/link";
+import {setToken} from "@/features/auth/utils/tokenUtil";
 
 export default function TelegramWebApp() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
@@ -26,30 +27,28 @@ export default function TelegramWebApp() {
         tg.ready();
         console.log("Telegram WebApp готов");
 
-        const searchParams = new URLSearchParams(window.location.search);
-        const tokenHash = searchParams.get("token_hash");
-        const chatId = searchParams.get("chat_id");
+        const fetchData = async () => {
+            const searchParams = new URLSearchParams(window.location.search);
+            const tokenHash = searchParams.get("token_hash");
+            const chatId = searchParams.get("chat_id");
 
-        console.log("token_hash:", tokenHash);
-        console.log("chat_id:", chatId);
+            const userData = tg.initDataUnsafe || null;
 
-        const userData = tg.initDataUnsafe || null;
+            if (!tokenHash || !userData) {
+                setError("Недостаточно данных для верификации");
+                setLoading(false);
+                return;
+            }
 
-        if (!tokenHash || !userData) {
-            setError("Недостаточно данных для верификации");
-            setLoading(false);
-            return;
-        }
+            setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
 
-        setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
+            try {
+                const response = await axios.post(`https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify`, {
+                    token_hash: tokenHash,
+                    chat_id: chatId,
+                    user_data: userData,
+                });
 
-        axios
-            .post(`https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify`, {
-                token_hash: tokenHash,
-                chat_id: chatId,
-                user_data: userData,
-            })
-            .then((response) => {
                 setLoading(false);
 
                 if (response.data.error) {
@@ -62,20 +61,21 @@ export default function TelegramWebApp() {
                     const { access_token, expires_in, user } = response.data;
 
                     // Сохраняем токен и данные пользователя
-                    setCookie("auth_token", access_token, expires_in);
+                    await setToken(access_token, expires_in); // Теперь await используется в правильном контексте
                     setCookie("user_data", JSON.stringify(user), expires_in);
 
                     // Устанавливаем данные пользователя в состояние
                     setUserInfo(user);
                     console.log("Успешная проверка:", response.data);
                 }
-            })
-            .catch((error) => {
+            } catch (error) {
                 setLoading(false);
                 console.error("Ошибка запроса:", error.response?.data || error.message);
                 setError(error.message);
-            });
+            }
+        };
 
+        fetchData();
     }, []);
 
     const logout = () => {

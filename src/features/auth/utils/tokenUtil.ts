@@ -5,19 +5,6 @@ import {decryptData, encryptData} from "@/utils/joseUtil";
 const TOKEN_COOKIE_KEY = 'auth_token';
 const EXPIRY_COOKIE_KEY = 'auth_token_expiry';
 
-// export const setToken = async (
-//     token: string,
-//     expiresIn: number,
-//     isServer: boolean = false,
-//     res?: NextResponse
-// ) => {
-//     const encryptedToken = await encryptData(token);
-//     setCookie(TOKEN_COOKIE_KEY, encryptedToken, expiresIn, isServer, res);
-//
-//     const expiryDate = new Date(Date.now() + expiresIn * 1000).toISOString();
-//     setCookie(EXPIRY_COOKIE_KEY, expiryDate, expiresIn, isServer, res);
-// };
-
 export const setToken = async (
     token: string,
     expiresIn: number,
