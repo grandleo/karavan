@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Container, Text, Loader } from "@mantine/core";
 import Script from "next/script";
 import axios from "axios";
+import { setCookie, getCookie, removeCookie } from "@/utils/cookieUtil";
 
 export default function TelegramWebApp() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
@@ -24,7 +25,6 @@ export default function TelegramWebApp() {
         tg.ready();
         console.log("Telegram WebApp готов");
 
-        // Извлечение параметров из URL
         const searchParams = new URLSearchParams(window.location.search);
         const tokenHash = searchParams.get("token_hash");
         const chatId = searchParams.get("chat_id");
@@ -40,7 +40,6 @@ export default function TelegramWebApp() {
             return;
         }
 
-        // Логируем для отладки
         setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
 
         axios
@@ -56,7 +55,13 @@ export default function TelegramWebApp() {
                     console.error("Ошибка проверки:", response.data.error);
                     setError(response.data.error);
                 } else {
-                    setUserInfo(response.data); // Устанавливаем данные пользователя
+                    const { access_token, expires_in } = response.data[2]; // Токен
+                    const user = response.data[1]; // Данные пользователя
+
+                    setCookie("auth_token", access_token, expires_in);
+                    setCookie("user_data", JSON.stringify(user), expires_in);
+
+                    setUserInfo(user);
                     console.log("Успешная проверка:", response.data);
                 }
             })
@@ -66,6 +71,13 @@ export default function TelegramWebApp() {
                 setError(error.message);
             });
     }, []);
+
+    const logout = () => {
+        removeCookie("auth_token");
+        removeCookie("user_data");
+        setUserInfo(null);
+        console.log("Пользователь вышел из системы");
+    };
 
     return (
         <>
@@ -82,34 +94,28 @@ export default function TelegramWebApp() {
                     Telegram WebApp Debug Info
                 </Text>
 
-                {/* Состояние загрузки */}
                 {loading ? (
                     <Loader />
                 ) : error ? (
-                    // Если есть ошибка
                     <Text weight={700} color="red">
                         Ошибка: {error}
                     </Text>
                 ) : userInfo ? (
-                    // Если данные успешно получены
                     <div>
                         <Text weight={700} style={{ marginBottom: "1rem" }}>
-                            Информация о боте:
+                            Информация о пользователе:
                         </Text>
-                        <Text>Имя бота: {userInfo.bot?.name}</Text>
-                        <Text>ID бота: {userInfo.bot?.id}</Text>
-                        <Text>Имя пользователя: {userInfo.user?.first_name}</Text>
-                        <Text>ID пользователя: {userInfo.user?.id}</Text>
-                        <Text>Статус проверки: Успешно</Text>
+                        <Text>Имя: {userInfo.full_name}</Text>
+                        <Text>Роль: {userInfo.role}</Text>
+                        <Text>Язык: {userInfo.lang}</Text>
+                        <button onClick={logout}>Выйти</button>
                     </div>
                 ) : (
-                    // Если данные не получены
                     <Text weight={700} color="red">
                         Не удалось получить данные о пользователе.
                     </Text>
                 )}
 
-                {/* Отладочная информация */}
                 <pre
                     style={{
                         background: "#f4f4f4",
@@ -125,141 +131,3 @@ export default function TelegramWebApp() {
         </>
     );
 }
-
-// "use client";
-// import { useEffect, useState } from "react";
-// import {Badge, Box, Button, Container, Grid, Text, Image} from "@mantine/core";
-// import Link from "next/link";
-//
-// export default function TelegramWebApp() {
-//     const [chatId, setChatId] = useState<string | null>(null);
-//     const [token, setToken] = useState<string | null>(null);
-//     const [userData, setUserData] = useState<any | null>(null);
-//
-//     useEffect(() => {
-//         try {
-//             const tg = window.Telegram.WebApp;
-//             tg.ready();
-//
-//             const debugInfo = {
-//                 user: tg.initDataUnsafe.user,
-//                 theme: tg.themeParams,
-//                 initData: tg.initData,
-//             };
-//
-//             // Добавляем данные на страницу
-//             const debugDiv = document.createElement("div");
-//             debugDiv.style.position = "fixed";
-//             debugDiv.style.bottom = "0";
-//             debugDiv.style.left = "0";
-//             debugDiv.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-//             debugDiv.style.color = "white";
-//             debugDiv.style.padding = "10px";
-//             debugDiv.style.zIndex = "1000";
-//             debugDiv.style.fontSize = "12px";
-//             debugDiv.innerText = `Debug Info: ${JSON.stringify(debugInfo, null, 2)}`;
-//             document.body.appendChild(debugDiv);
-//
-//         } catch (error) {
-//             console.error("Ошибка при получении параметров из URL:", error);
-//         }
-//     }, []);
-//
-//     const phoneModels = [
-//         { name: "iPhone SE", isNew: true },
-//         { name: "iPhone SE", isNew: false },
-//         { name: "iPhone 11", isNew: false },
-//         { name: "iPhone 11 Pro Max", isNew: false },
-//         { name: "iPhone 12", isNew: false },
-//         { name: "iPhone 13 mini", isNew: false },
-//         { name: "iPhone 13", isNew: false },
-//         { name: "iPhone 13 Pro Max", isNew: true },
-//         { name: "iPhone 14 Pro", isNew: false },
-//         { name: "iPhone 14 Pro Max", isNew: false },
-//         { name: "iPhone 15", isNew: false },
-//     ];
-//
-//     const [active, setActive] = useState(null);
-//
-//     return (
-//         <Container size='xs'>
-//             {/* Вывод данных пользователя */}
-//             {userData && (
-//                 <Box>
-//                     <Text size="sm" weight={500}>Привет, {userData.first_name} {userData.last_name || ""}</Text>
-//                     <Text size="sm">Ваш username: @{userData.username}</Text>
-//                 </Box>
-//             )}
-//             <Grid>
-//                 <Grid.Col span={3}>
-//                     <Box>
-//                         <Image src="https://placehold.co/32x32" alt="" fit="contain"/>
-//                         <Text style={{
-//                             color: "#1B1F3BE5",
-//                             fontSize: '13px',
-//                         }}>Apple</Text>
-//                     </Box>
-//                 </Grid.Col>
-//                 <Grid.Col span={3}></Grid.Col>
-//                 <Grid.Col span={3}></Grid.Col>
-//                 <Grid.Col span={3}></Grid.Col>
-//             </Grid>
-//
-//             {phoneModels.map((model, index) => (
-//                 <Button
-//                     key={index}
-//                     variant="default"
-//                     fullWidth
-//                     radius="md"
-//                     onClick={() => setActive(index)}
-//                     style={{
-//                         height: "50px",
-//                         padding: "0 15px",
-//                         marginBottom: "10px",
-//                         backgroundColor: active === index ? "#F0F9FF" : "#fff",
-//                         border: active === index
-//                             ? "1px solid #228BE6"
-//                             : "1px solid #E0E0E0",
-//                     }}
-//                 >
-//                     <Text
-//                         size="sm"
-//                         weight={500}
-//                         style={{
-//                             textAlign: "center",
-//                             flexGrow: 1,
-//                             color: active === index ? "#228BE6" : "#000",
-//                         }}
-//                     >
-//                         {model.name}
-//                     </Text>
-//                 </Button>
-//             ))}
-//             <Text style={{
-//                 color: "#1B1F3BE5",
-//                 fontSize: '20px',
-//                 fontWeight: '800',
-//                 lineHeight: '24px',
-//                 textAlign: 'center'
-//             }}>Выберите устройство</Text>
-//
-//
-//
-//             <Text style={{
-//                 color: "#1B1F3BE5",
-//                 fontSize: '20px',
-//                 fontWeight: '800',
-//                 lineHeight: '24px',
-//                 textAlign: 'center'
-//             }}>Выберите объем памяти и цвет</Text>
-//             <Text style={{
-//                 color: "#1B1F3BE5",
-//                 fontSize: '20px',
-//                 fontWeight: '800',
-//                 lineHeight: '24px',
-//                 textAlign: 'center'
-//             }}>Выберите спецификацию</Text>
-//
-//         </Container>
-//     );
-// }
