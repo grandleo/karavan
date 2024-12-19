@@ -1,6 +1,19 @@
 "use client";
 
-import {Container, Title, Card, Text, Grid, Group, Progress, SimpleGrid, Stack, Flex, Box} from '@mantine/core';
+import {
+    Container,
+    Title,
+    Card,
+    Text,
+    Grid,
+    Group,
+    Progress,
+    SimpleGrid,
+    Stack,
+    Flex,
+    Box,
+    NumberFormatter
+} from '@mantine/core';
 import {
     IconShoppingCart,
     IconClock,
@@ -73,21 +86,49 @@ export default function OrdersPage() {
                         <Text>Загрузка...</Text> // Отображается пока данные загружаются
                     ) : orders && Array.isArray(orders) && orders.length > 0 ? (
                         orders.map((order) => (
-                            <Card shadow="xs" padding="md" style={{ borderRadius: '12px' }} key={order.id}>
-                                <Text weight={600} size="sm" style={{ marginBottom: '10px' }}>
-                                    Комплектуется {order.id}
-                                </Text>
-                                <Progress value={30} size="sm" radius="xl" color="green" />
-                                <Group position="apart" style={{ marginTop: '10px' }}>
-                                    <Group spacing="xs">
-                                        <IconShoppingCart size={18} color="green" />
-                                        <Text size="sm">60 шт</Text>
-                                    </Group>
-                                    <Text size="sm" color="dimmed">
-                                        03.06.23
-                                    </Text>
-                                    <Text size="sm">$1250</Text>
-                                </Group>
+                            <Card radius="md" mb={8} key={order.id}>
+                                <Text
+                                    style={{
+                                        color: '#1B1F3BE5',
+                                        fontSize: '19px',
+                                        lineHeight: '24px',
+                                        marginBottom: '28px',
+                                        textAlign: 'center'
+                                    }}>Заказ #{order.id}</Text>
+                                <Text
+                                    style={{
+                                        color: '#1B1F3BE5',
+                                        fontSize: '19px',
+                                        lineHeight: '24px',
+                                        marginBottom: '28px',
+                                        textAlign: 'center'
+                                    }}
+                                >{order.status}</Text>
+                                <Progress value={30} size="sm" radius="xl" color="green" style={{ marginBottom: '16px' }}/>
+                                <Flex
+                                    justify="space-evenly"
+                                    align="center"
+                                >
+                                    <Text
+                                        style={{
+                                            color: '#1B1F3B73',
+                                            fontSize: '15px',
+                                            lineHeight: '24px',
+                                        }}
+                                    >{order.total_qty} шт</Text>
+                                    <Text
+                                        style={{
+                                            color: '#1B1F3B73',
+                                            fontSize: '15px',
+                                            lineHeight: '24px',
+                                        }}>{order.date}</Text>
+
+                                    <NumberFormatter value={order.total} prefix={order.currency.prefix} suffix={order.currency.suffix} style={{
+                                        color: '#1B1F3B73',
+                                        fontSize: '15px',
+                                        lineHeight: '24px',
+                                    }} />
+                                </Flex>
                             </Card>
                         ))
                     ) : (
