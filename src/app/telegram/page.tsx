@@ -55,12 +55,16 @@ export default function TelegramWebApp() {
                     console.error("Ошибка проверки:", response.data.error);
                     setError(response.data.error);
                 } else {
-                    const { access_token, expires_in } = response.data[2]; // Токен
-                    const user = response.data[1]; // Данные пользователя
+                    console.log("API Response:", response.data);
 
+                    // Извлекаем данные
+                    const { access_token, expires_in, user } = response.data;
+
+                    // Сохраняем токен и данные пользователя
                     setCookie("auth_token", access_token, expires_in);
                     setCookie("user_data", JSON.stringify(user), expires_in);
 
+                    // Устанавливаем данные пользователя в состояние
                     setUserInfo(user);
                     console.log("Успешная проверка:", response.data);
                 }
@@ -70,6 +74,7 @@ export default function TelegramWebApp() {
                 console.error("Ошибка запроса:", error.response?.data || error.message);
                 setError(error.message);
             });
+
     }, []);
 
     const logout = () => {
