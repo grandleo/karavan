@@ -14,7 +14,7 @@ import Link from "next/link";
 import {useFetchClientOrderNumbersQuery} from "@/features/orders/api/ordersApi";
 
 export default function OrdersPage() {
-    const {data: orders, isLoading, isFetching} = useFetchClientOrderNumbersQuery('', {
+    const { data: orders, isLoading, isFetching, error } = useFetchClientOrderNumbersQuery('', {
         refetchOnMountOrArgChange: true,
     });
 
