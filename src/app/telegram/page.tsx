@@ -43,11 +43,8 @@ export default function TelegramWebApp() {
         // Логируем для отладки
         setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
 
-        // Отправка запроса на сервер
-        const API_URL = "https://3f19-193-46-56-10.ngrok-free.app ";
-
         axios
-            .post(`${API_URL}/api/webapp/verify`, {
+            .post(`https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify`, {
                 token_hash: tokenHash,
                 chat_id: chatId,
                 user_data: userData,
