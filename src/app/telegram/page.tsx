@@ -6,6 +6,7 @@ import axios from "axios";
 import { setCookie, getCookie, removeCookie } from "@/utils/cookieUtil";
 import Link from "next/link";
 import {setToken} from "@/features/auth/utils/tokenUtil";
+import {setBotId} from "@/utils/botUtil";
 
 export default function TelegramWebApp() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
@@ -58,10 +59,11 @@ export default function TelegramWebApp() {
                     console.log("API Response:", response.data);
 
                     // Извлекаем данные
-                    const { access_token, expires_in, user } = response.data;
+                    const { access_token, expires_in, user, bot_id } = response.data;
 
                     // Сохраняем токен и данные пользователя
                     await setToken(access_token, expires_in); // Теперь await используется в правильном контексте
+                    await setBotId(bot_id, expires_in);
                     setCookie("user_data", JSON.stringify(user), expires_in);
 
                     // Устанавливаем данные пользователя в состояние
