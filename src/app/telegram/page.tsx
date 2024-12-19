@@ -32,16 +32,25 @@ export default function TelegramWebApp() {
         console.log("token_hash:", tokenHash);
         console.log("chat_id:", chatId);
 
-        if (!tokenHash) {
-            setError("token_hash отсутствует в URL");
+        const userData = tg.initDataUnsafe || null;
+
+        if (!tokenHash || !userData) {
+            setError("Недостаточно данных для верификации");
             setLoading(false);
             return;
         }
 
+        // Логируем для отладки
+        setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
+
         // Отправка запроса на сервер
+        const API_URL = "https://3f19-193-46-56-10.ngrok-free.app ";
+
         axios
-            .post("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/verify", {
+            .post(`${API_URL}/api/webapp/verify`, {
                 token_hash: tokenHash,
+                chat_id: chatId,
+                user_data: userData,
             })
             .then((response) => {
                 setLoading(false);
@@ -90,10 +99,10 @@ export default function TelegramWebApp() {
                         <Text weight={700} style={{ marginBottom: "1rem" }}>
                             Информация о боте:
                         </Text>
-                        <Text>Имя бота: {userInfo.bot.name}</Text>
-                        <Text>ID бота: {userInfo.bot.id}</Text>
-                        <Text>Имя пользователя: {userInfo.user.first_name}</Text>
-                        <Text>ID пользователя: {userInfo.user.id}</Text>
+                        <Text>Имя бота: {userInfo.bot?.name}</Text>
+                        <Text>ID бота: {userInfo.bot?.id}</Text>
+                        <Text>Имя пользователя: {userInfo.user?.first_name}</Text>
+                        <Text>ID пользователя: {userInfo.user?.id}</Text>
                         <Text>Статус проверки: Успешно</Text>
                     </div>
                 ) : (
