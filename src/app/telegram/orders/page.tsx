@@ -53,17 +53,19 @@ export default function OrdersPage() {
                 {/*    </Grid>*/}
                 {/*</Card>*/}
 
-                {orders.length > 0 && (
-                    orders.map((order) => {
-                        return (
-                            <Card shadow="xs" padding="md" style={{borderRadius: '12px'}} key={order.id}>
-                                <Text weight={600} size="sm" style={{marginBottom: '10px'}}>
+                <Box style={{ flexGrow: 1 }}>
+                    {isLoading ? (
+                        <Text>Загрузка...</Text> // Отображается пока данные загружаются
+                    ) : orders && Array.isArray(orders) && orders.length > 0 ? (
+                        orders.map((order) => (
+                            <Card shadow="xs" padding="md" style={{ borderRadius: '12px' }} key={order.id}>
+                                <Text weight={600} size="sm" style={{ marginBottom: '10px' }}>
                                     Комплектуется {order.id}
                                 </Text>
-                                <Progress value={30} size="sm" radius="xl" color="green"/>
-                                <Group position="apart" style={{marginTop: '10px'}}>
+                                <Progress value={30} size="sm" radius="xl" color="green" />
+                                <Group position="apart" style={{ marginTop: '10px' }}>
                                     <Group spacing="xs">
-                                        <IconShoppingCart size={18} color="green"/>
+                                        <IconShoppingCart size={18} color="green" />
                                         <Text size="sm">60 шт</Text>
                                     </Group>
                                     <Text size="sm" color="dimmed">
@@ -72,9 +74,34 @@ export default function OrdersPage() {
                                     <Text size="sm">$1250</Text>
                                 </Group>
                             </Card>
-                        )
-                        })
-                )}
+                        ))
+                    ) : (
+                        <Text>Нет заказов</Text> // Отображается, если данные загружены, но заказов нет
+                    )}
+                </Box>
+
+                {/*{orders.length > 0 && (*/}
+                {/*    orders.map((order) => {*/}
+                {/*        return (*/}
+                {/*            <Card shadow="xs" padding="md" style={{borderRadius: '12px'}} key={order.id}>*/}
+                {/*                <Text weight={600} size="sm" style={{marginBottom: '10px'}}>*/}
+                {/*                    Комплектуется {order.id}*/}
+                {/*                </Text>*/}
+                {/*                <Progress value={30} size="sm" radius="xl" color="green"/>*/}
+                {/*                <Group position="apart" style={{marginTop: '10px'}}>*/}
+                {/*                    <Group spacing="xs">*/}
+                {/*                        <IconShoppingCart size={18} color="green"/>*/}
+                {/*                        <Text size="sm">60 шт</Text>*/}
+                {/*                    </Group>*/}
+                {/*                    <Text size="sm" color="dimmed">*/}
+                {/*                        03.06.23*/}
+                {/*                    </Text>*/}
+                {/*                    <Text size="sm">$1250</Text>*/}
+                {/*                </Group>*/}
+                {/*            </Card>*/}
+                {/*        )*/}
+                {/*        })*/}
+                {/*)}*/}
 
                 {/* Заказы */}
                 {/*<Stack spacing="md">*/}
