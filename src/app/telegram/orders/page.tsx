@@ -54,6 +54,21 @@ export default function OrdersPage() {
                 {/*</Card>*/}
 
                 <Box style={{ flexGrow: 1 }}>
+                    {/* Блок отладки */}
+                    <Box style={{ marginBottom: '20px', background: '#f4f4f4', padding: '10px', borderRadius: '8px' }}>
+                        <Text weight={700} size="sm" style={{ marginBottom: '10px' }}>
+                            Отладка данных:
+                        </Text>
+                        <Text size="xs" color="dimmed">
+                            {isLoading ? "Загрузка данных..." : null}
+                            {error ? `Ошибка: ${error.message}` : null}
+                        </Text>
+                        <pre style={{ fontSize: '12px', overflowX: 'auto' }}>
+                            {JSON.stringify({ orders, isLoading, isFetching, error }, null, 2)}
+                        </pre>
+                    </Box>
+
+
                     {isLoading ? (
                         <Text>Загрузка...</Text> // Отображается пока данные загружаются
                     ) : orders && Array.isArray(orders) && orders.length > 0 ? (
@@ -79,29 +94,6 @@ export default function OrdersPage() {
                         <Text>Нет заказов</Text> // Отображается, если данные загружены, но заказов нет
                     )}
                 </Box>
-
-                {/*{orders.length > 0 && (*/}
-                {/*    orders.map((order) => {*/}
-                {/*        return (*/}
-                {/*            <Card shadow="xs" padding="md" style={{borderRadius: '12px'}} key={order.id}>*/}
-                {/*                <Text weight={600} size="sm" style={{marginBottom: '10px'}}>*/}
-                {/*                    Комплектуется {order.id}*/}
-                {/*                </Text>*/}
-                {/*                <Progress value={30} size="sm" radius="xl" color="green"/>*/}
-                {/*                <Group position="apart" style={{marginTop: '10px'}}>*/}
-                {/*                    <Group spacing="xs">*/}
-                {/*                        <IconShoppingCart size={18} color="green"/>*/}
-                {/*                        <Text size="sm">60 шт</Text>*/}
-                {/*                    </Group>*/}
-                {/*                    <Text size="sm" color="dimmed">*/}
-                {/*                        03.06.23*/}
-                {/*                    </Text>*/}
-                {/*                    <Text size="sm">$1250</Text>*/}
-                {/*                </Group>*/}
-                {/*            </Card>*/}
-                {/*        )*/}
-                {/*        })*/}
-                {/*)}*/}
 
                 {/* Заказы */}
                 {/*<Stack spacing="md">*/}
