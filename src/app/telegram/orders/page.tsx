@@ -54,9 +54,9 @@ export default function OrdersPage() {
                 {/*</Card>*/}
 
                 {orders.length > 0 && (
-                    orders.map((order, index) => {
+                    orders.map((order) => {
                         return (
-                            <Card shadow="xs" padding="md" style={{borderRadius: '12px'}}>
+                            <Card shadow="xs" padding="md" style={{borderRadius: '12px'}} key={order.id}>
                                 <Text weight={600} size="sm" style={{marginBottom: '10px'}}>
                                     Комплектуется {order.id}
                                 </Text>
