@@ -115,7 +115,7 @@ export default function TelegramWebApp() {
                         <Text>Роль: {userInfo.role}</Text>
                         <Text>Язык: {userInfo.lang}</Text>
                         {/*<button onClick={logout}>Выйти</button>*/}
-                        <Link href="orders">Заказы</Link>
+                        <Link href="/telegram/orders">Заказы</Link>
                     </div>
                 ) : (
                     <Text weight={700} color="red">
