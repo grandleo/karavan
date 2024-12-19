@@ -123,11 +123,16 @@ export default function OrdersPage() {
                                             lineHeight: '24px',
                                         }}>{order.date}</Text>
 
-                                    <NumberFormatter value={order.total} prefix={order.currency.prefix} suffix={order.currency.suffix} style={{
-                                        color: '#1B1F3B73',
-                                        fontSize: '15px',
-                                        lineHeight: '24px',
-                                    }} />
+                                    <NumberFormatter
+                                        value={order.total}
+                                        prefix={order.currency?.prefix || ''}
+                                        suffix={order.currency?.suffix || ''}
+                                        style={{
+                                            color: '#1B1F3B73',
+                                            fontSize: '15px',
+                                            lineHeight: '24px',
+                                        }}
+                                    />
                                 </Flex>
                             </Card>
                         ))
