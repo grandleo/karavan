@@ -4,6 +4,7 @@ import { Container, Text, Loader } from "@mantine/core";
 import Script from "next/script";
 import axios from "axios";
 import { setCookie, getCookie, removeCookie } from "@/utils/cookieUtil";
+import Link from "next/link";
 
 export default function TelegramWebApp() {
     const [debugInfo, setDebugInfo] = useState<string>(""); // Для отладки
@@ -113,13 +114,16 @@ export default function TelegramWebApp() {
                         <Text>Имя: {userInfo.full_name}</Text>
                         <Text>Роль: {userInfo.role}</Text>
                         <Text>Язык: {userInfo.lang}</Text>
-                        <button onClick={logout}>Выйти</button>
+                        {/*<button onClick={logout}>Выйти</button>*/}
+                        <Link href="orders">Заказы</Link>
                     </div>
                 ) : (
                     <Text weight={700} color="red">
                         Не удалось получить данные о пользователе.
                     </Text>
                 )}
+
+
 
                 <pre
                     style={{

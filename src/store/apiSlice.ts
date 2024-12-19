@@ -14,6 +14,9 @@ export const api = createApi({
         'Currencies',
         'P2pBids',
 
+        //webApp
+        'ClientAllOrders',
+
 
 
 

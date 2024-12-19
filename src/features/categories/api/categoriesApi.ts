@@ -95,6 +95,8 @@ export const CategoriesApi = api.injectEndpoints({
                 type: 'Categories'
             }]
         }),
+
+
     })
 });
 
