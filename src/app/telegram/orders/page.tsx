@@ -11,10 +11,10 @@ import {
     IconShoppingCartFilled
 } from '@tabler/icons-react';
 import Link from "next/link";
-import {useFetchAllOrdersForClient} from "@/features/orders/api/ordersApi";
+import {useFetchClientOrderNumbersQuery} from "@/features/orders/api/ordersApi";
 
 export default function OrdersPage() {
-    const {data: orders, isLoading, isFetching} = useFetchAllOrdersForClient('', {
+    const {data: orders, isLoading, isFetching} = useFetchClientOrderNumbersQuery('', {
         refetchOnMountOrArgChange: true,
     });
 

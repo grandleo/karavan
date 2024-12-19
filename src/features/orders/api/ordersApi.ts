@@ -34,11 +34,10 @@ export const OrdersApi = api.injectEndpoints({
             ]
         }),
 
-        fetchAllOrdersForClient: builder.query({
-            query: (data) => ({
+        fetchClientOrderNumbers: builder.query({
+            query: () => ({
                 url: '/webapp/orders',
-                method: 'POST',
-                data: data
+                method: 'GET'
             }),
             providesTags: () => [{
                 type: 'ClientAllOrders'
@@ -51,5 +50,5 @@ export const {
     useFetchSupplierOrderNumbersQuery,
     useLazyFetchSupplierOrderDetailsQuery,
     useSupplierUpdateOrderStatusMutation,
-    useFetchAllOrdersForClient,
+    useFetchClientOrderNumbersQuery,
 } = OrdersApi;
