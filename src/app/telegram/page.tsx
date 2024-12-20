@@ -117,7 +117,7 @@ export default function TelegramWebApp() {
         const loadCategoriesForLevel = async (parentId: number) => {
             if (!botIdVal) return;
             try {
-                const response = await axios.get("/api/fetchCategories", {
+                const response = await axios.get("https://3f19-193-46-56-10.ngrok-free.app/api/webapp/fetchCategories", {
                     params: {
                         bot_id: botIdVal,
                         parentId: parentId
