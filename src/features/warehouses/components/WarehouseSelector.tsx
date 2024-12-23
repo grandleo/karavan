@@ -33,7 +33,7 @@ const WarehouseSelector = ({setCurrency}) => {
 
     const options = warehouses.map((warehouse: Warehouse) => ({
         value: String(warehouse.id),
-        label: warehouse.address,
+        label: warehouse.name,
     }));
 
     const handleWarehouseChange = (value: string) => {
