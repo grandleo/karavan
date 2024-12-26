@@ -43,6 +43,17 @@ export const OrdersApi = api.injectEndpoints({
                 type: 'ClientAllOrders'
             }],
         }),
+
+        createOrder: builder.mutation({
+            query: (data) => ({
+                url: `/webapp/order`,
+                method: 'POST',
+                data: data
+            }),
+            invalidatesTags: () => [
+                {type: 'ClientAllOrders'},
+            ]
+        }),
     })
 });
 
@@ -51,4 +62,5 @@ export const {
     useLazyFetchSupplierOrderDetailsQuery,
     useSupplierUpdateOrderStatusMutation,
     useFetchClientOrderNumbersQuery,
+    useCreateOrderMutation,
 } = OrdersApi;

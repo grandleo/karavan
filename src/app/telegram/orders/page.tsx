@@ -61,18 +61,18 @@ export default function OrdersPage() {
 
                 <Box style={{ flexGrow: 1 }}>
                     {/* Блок отладки */}
-                    <Box style={{ marginBottom: '20px', background: '#f4f4f4', padding: '10px', borderRadius: '8px' }}>
-                        <Text weight={700} size="sm" style={{ marginBottom: '10px' }}>
-                            Отладка данных:
-                        </Text>
-                        <Text size="xs" color="dimmed">
-                            {isLoading ? "Загрузка данных..." : null}
-                            {error ? `Ошибка: ${error.message}` : null}
-                        </Text>
-                        <pre style={{ fontSize: '12px', overflowX: 'auto' }}>
-                            {JSON.stringify({ orders, isLoading, isFetching, error }, null, 2)}
-                        </pre>
-                    </Box>
+                    {/*<Box style={{ marginBottom: '20px', background: '#f4f4f4', padding: '10px', borderRadius: '8px' }}>*/}
+                    {/*    <Text weight={700} size="sm" style={{ marginBottom: '10px' }}>*/}
+                    {/*        Отладка данных:*/}
+                    {/*    </Text>*/}
+                    {/*    <Text size="xs" color="dimmed">*/}
+                    {/*        {isLoading ? "Загрузка данных..." : null}*/}
+                    {/*        {error ? `Ошибка: ${error.message}` : null}*/}
+                    {/*    </Text>*/}
+                    {/*    <pre style={{ fontSize: '12px', overflowX: 'auto' }}>*/}
+                    {/*        {JSON.stringify({ orders, isLoading, isFetching, error }, null, 2)}*/}
+                    {/*    </pre>*/}
+                    {/*</Box>*/}
 
 
                     {isLoading ? (
@@ -143,10 +143,10 @@ export default function OrdersPage() {
                     padding: '24px 10px',
                 }}
             >
-                <Link href="#">
+                <Link href="/telegram">
                     <IconHome stroke={2} size={24} color="#1B1F3BE5"/>
                 </Link>
-                <Link href="#">
+                <Link href="/telegram/orders">
                     <IconShoppingCartFilled size={24} color="#1B1F3BE5"/>
                 </Link>
                 <Link href="#">

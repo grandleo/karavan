@@ -96,7 +96,15 @@ export const CategoriesApi = api.injectEndpoints({
             }]
         }),
 
-
+        fetchClientCategories: builder.query({
+            query: (parent_id) => ({
+                url: '/webapp/fetchCategories',
+                method: 'GET',
+                params: {
+                    parent_id,
+                },
+            }),
+        }),
     })
 });
 
@@ -109,5 +117,6 @@ export const {
     useDeleteCategoryMutation,
     useLazyFetchCategorySpecificationsQuery,
     useLazyFetchCategoryPathQuery,
-    useUpdateSortOrderMutation
+    useUpdateSortOrderMutation,
+    useLazyFetchClientCategoriesQuery,
 } = CategoriesApi;

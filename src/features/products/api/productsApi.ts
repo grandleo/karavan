@@ -60,6 +60,24 @@ const ProductsApi = api.injectEndpoints({
                 };
             },
         }),
+        fetchClientProducts: builder.query({
+            query: (category_id) => ({
+                url: '/webapp/fetchProducts',
+                method: 'GET',
+                params: {
+                    category_id,
+                },
+            }),
+        }),
+        fetchClientProductDetails: builder.query({
+            query: (product_id) => ({
+                url: '/webapp/fetchProduct',
+                method: 'GET',
+                params: {
+                    product_id,
+                },
+            }),
+        }),
     })
 });
 
@@ -69,4 +87,6 @@ export const {
     useCreateProductMutation,
     useUpdateProductMutation,
     useDeleteProductMutation,
+    useLazyFetchClientProductsQuery,
+    useLazyFetchClientProductDetailsQuery,
 } = ProductsApi;
