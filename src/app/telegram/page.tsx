@@ -56,7 +56,7 @@ export default function TelegramWebApp() {
             setDebugInfo(JSON.stringify({ tokenHash, chatId, userData }, null, 2));
 
             try {
-                const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + `/webapp/verify`, {
+                const response = await fetch(`https://api.karavan.bz/api/webapp/verify`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
