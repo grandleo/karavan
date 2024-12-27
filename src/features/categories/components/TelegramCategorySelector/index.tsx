@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { Button, Stack, Text, Skeleton } from '@mantine/core';
 import {useLazyFetchClientCategoriesQuery} from "@/features/categories/api/categoriesApi";
-import {getBotId} from "@/utils/botUtil";
 
 interface TelegramCategorySelectorProps {
     onSelectCategory: (category: any, level: number) => void;
@@ -15,7 +14,6 @@ const TelegramCategorySelector: React.FC<TelegramCategorySelectorProps> = ({
     const [categoryLevels, setCategoryLevels] = useState<any[][]>([[]]);
     const [activeCategories, setActiveCategories] = useState<Record<number, number>>({}); // Активные категории по уровням
     const [loadingCategoryId, setLoadingCategoryId] = useState<number | null>(null); // ID категории, которая грузится
-    const [botId, setBotId] = useState<number | null>(null); // Текущий botId
 
     const handleCategoryClick = async (category: any, level: number) => {
         // Устанавливаем активную категорию и состояние загрузки
@@ -39,26 +37,20 @@ const TelegramCategorySelector: React.FC<TelegramCategorySelectorProps> = ({
     };
 
     // Первоначальная загрузка категорий
-    // const loadInitialCategories = async () => {
-    //     const { data } = await fetchCategories(0);
-    //     if (data) {
-    //         setCategoryLevels([data]);
-    //     }
-    // };
     const loadInitialCategories = async () => {
-        const newBotId = await getBotId();
-        if (newBotId && newBotId !== botId) {
-            setBotId(newBotId); // Обновляем botId
-            const { data } = await fetchCategories(newBotId);
-            if (data) {
-                setCategoryLevels([data]);
-            }
+        const { data } = await fetchCategories(0);
+        if (data) {
+            setCategoryLevels([data]);
         }
     };
 
     // Загрузка при первом рендере
-    useState(() => {
-        loadInitialCategories();
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            loadInitialCategories();
+        }, 500); // Задержка 500 мс
+
+        return () => clearTimeout(timeoutId); // Очищаем таймер при размонтировании или изменении компонента
     }, []);
 
     return (
