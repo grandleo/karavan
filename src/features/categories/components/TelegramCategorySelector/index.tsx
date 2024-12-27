@@ -48,7 +48,7 @@ const TelegramCategorySelector: React.FC<TelegramCategorySelectorProps> = ({
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             loadInitialCategories();
-        }, 500); // Задержка 500 мс
+        }, 1000); // Задержка 500 мс
 
         return () => clearTimeout(timeoutId); // Очищаем таймер при размонтировании или изменении компонента
     }, []);
