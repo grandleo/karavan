@@ -284,6 +284,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                             <Button variant="light">Выбрать</Button>
                                         </Popover.Target>
                                         <Popover.Dropdown>
+                                            <ScrollArea h={250}>
                                             {data?.specifications.map((item) => {
                                                 const isActive = fields.some(field => field.specification_id === item.id);
                                                 return (
@@ -295,6 +296,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                                     />
                                                 )
                                             })}
+                                            </ScrollArea>
                                         </Popover.Dropdown>
                                     </Popover>
                                 </Flex>
