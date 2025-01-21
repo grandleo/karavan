@@ -8,6 +8,8 @@ import * as ru_clients from '@/lang/ru/clients';
 import * as ru_warehouses from '@/lang/ru/warehouses';
 import * as ru_auth from '@/lang/ru/auth';
 import * as ru_home from '@/lang/ru/home';
+import * as ru_privacy from '@/lang/ru/privacy';
+import * as ru_processing from '@/lang/ru/processing';
 
 import * as en_global from '@/lang/en/global';
 import * as en_buttons from '@/lang/en/buttons';
@@ -18,12 +20,14 @@ import * as en_clients from '@/lang/en/clients';
 import * as en_warehouses from '@/lang/en/warehouses';
 import * as en_auth from '@/lang/en/auth';
 import * as en_home from '@/lang/en/home';
+import * as en_privacy from '@/lang/en/privacy';
+import * as en_processing from '@/lang/en/processing';
 
 // Определяем допустимые языки и имена файлов
 export const languages = ['en', 'ru'] as const;
 export type Language = typeof languages[number];
 
-export const filenames = ['global', 'buttons', 'stock', 'api', 'orders', 'clients', 'warehouses', 'auth', 'home'] as const;
+export const filenames = ['global', 'buttons', 'stock', 'api', 'orders', 'clients', 'warehouses', 'auth', 'home', 'privacy', 'processing'] as const;
 export type Filename = typeof filenames[number];
 
 // Определяем тип для переводов
@@ -47,6 +51,8 @@ export const allTranslations: AllTranslationsType = {
         clients: en_clients.translations,
         warehouses: en_warehouses.translations,
         auth: en_auth.translations,
+        privacy: en_privacy.translations,
+        processing: en_processing.translations,
 
         home: en_home.translations,
         // Добавьте другие файлы здесь
@@ -60,6 +66,8 @@ export const allTranslations: AllTranslationsType = {
         clients: ru_clients.translations,
         warehouses: ru_warehouses.translations,
         auth: ru_auth.translations,
+        privacy: ru_privacy.translations,
+        processing: ru_processing.translations,
 
         home: ru_home.translations,
         // Добавьте другие файлы здесь

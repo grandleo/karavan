@@ -2,38 +2,123 @@
 
 import {HeaderHome} from "@/components/ui/header";
 import {HomeFooter} from "@/components/ui/Footer";
-import {Container, Text, Title} from "@mantine/core";
+import {List, Text, Title, Container, Box} from "@mantine/core";
+import {useTranslation} from "@/hooks/useTranslation";
 
 const ProcessingScreen = () => {
+    const { trans } = useTranslation();
+
+    const title = trans('processing', 'title');
+    const updated = trans('processing', 'updated', { date: '2025-01-21' });
+
     return (
         <>
-            <HeaderHome/>
-
+            <HeaderHome />
             <Container size="md" mt={120}>
-                <Title >Политика конфиденциальности</Title>
-                <Text fw={800} size="26px" mt={36} mb={16}>1.  Общие положения</Text>
-                <Text fw={800} size="20px" mb={16}>1.1.  Цели и задачи</Text>
-                <Text size="17px" mb={16}>1.1.1. Настоящий документ определяет принципы и условия обработки персональных данных в Компании, меры по защите персональных данных, а также обязанности при их обработке.</Text>
-                <Text size="17px" mb={16}>1.1.2. Настоящий документ разработан в соответствии с действующим законодательством Российской Федерации о персональных данных и нормативно-методическими документами исполнительных органов государственной власти по вопросам безопасности персональных данных, в том числе при их обработке в информационных системах персональных данных.</Text>
-                <Text size="17px" mb={16}>1.2.1. Действие настоящего документа распространяется на все процессы по сбору, записи, систематизации, накоплению, хранению, уточнению (обновлению, изменению), извлечению, использованию, передаче (распространению, предоставлению, доступу), обезличиванию, блокированию, удалению, уничтожению персональных данных, осуществляемых с использованием средств автоматизации и без использования таких средств в рамках Компании.</Text>
-                <Text size="17px" mb={16}>1.2.2. В соответствии с Федеральным законом от 27.07.2006 №152 «О персональных данных» к настоящему документу обеспечен неограниченный доступ субъектов персональных данных, в том числе путем публикации на сайте Компании в сети Интернет.</Text>
-                <Text fw={800} size="26px" mt={36} mb={16}>2.  Приницпы обработки персональных данных</Text>
-                <Text fw={800} size="20px" mb={16}>1.1.  Цели и задачи</Text>
-                <Text size="17px" mb={16}>1.1.1. Настоящий документ определяет принципы и условия обработки персональных данных в Компании, меры по защите персональных данных, а также обязанности при их обработке.</Text>
-                <Text size="17px" mb={16}>1.1.2. Настоящий документ разработан в соответствии с действующим законодательством Российской Федерации о персональных данных и нормативно-методическими документами исполнительных органов государственной власти по вопросам безопасности персональных данных, в том числе при их обработке в информационных системах персональных данных.</Text>
-                <Text size="17px" mb={16}>1.2.1. Действие настоящего документа распространяется на все процессы по сбору, записи, систематизации, накоплению, хранению, уточнению (обновлению, изменению), извлечению, использованию, передаче (распространению, предоставлению, доступу), обезличиванию, блокированию, удалению, уничтожению персональных данных, осуществляемых с использованием средств автоматизации и без использования таких средств в рамках Компании.</Text>
-                <Text size="17px" mb={16}>1.2.2. В соответствии с Федеральным законом от 27.07.2006 №152 «О персональных данных» к настоящему документу обеспечен неограниченный доступ субъектов персональных данных, в том числе путем публикации на сайте Компании в сети Интернет.</Text>
-                <Text fw={800} size="26px" mt={36} mb={16}>2.  Приницпы обработки персональных данных</Text>
-                <Text fw={800} size="20px" mb={16}>1.1.  Цели и задачи</Text>
-                <Text size="17px" mb={16}>1.1.1. Настоящий документ определяет принципы и условия обработки персональных данных в Компании, меры по защите персональных данных, а также обязанности при их обработке.</Text>
-                <Text size="17px" mb={16}>1.1.2. Настоящий документ разработан в соответствии с действующим законодательством Российской Федерации о персональных данных и нормативно-методическими документами исполнительных органов государственной власти по вопросам безопасности персональных данных, в том числе при их обработке в информационных системах персональных данных.</Text>
-                <Text size="17px" mb={16}>1.2.1. Действие настоящего документа распространяется на все процессы по сбору, записи, систематизации, накоплению, хранению, уточнению (обновлению, изменению), извлечению, использованию, передаче (распространению, предоставлению, доступу), обезличиванию, блокированию, удалению, уничтожению персональных данных, осуществляемых с использованием средств автоматизации и без использования таких средств в рамках Компании.</Text>
-                <Text size="17px" mb={16}>1.2.2. В соответствии с Федеральным законом от 27.07.2006 №152 «О персональных данных» к настоящему документу обеспечен неограниченный доступ субъектов персональных данных, в том числе путем публикации на сайте Компании в сети Интернет.</Text>
-            </Container>
+                <Title order={1}>{title}</Title>
+                <Text size="sm" mt="sm" color="dimmed">
+                    {updated}
+                </Text>
 
-            <HomeFooter/>
+                {/* Section 1 */}
+                <Box mt="lg">
+                    <Title order={2} mt="lg" mb="xs">
+                        {trans('processing', 'section1.title')}
+                    </Title>
+                    <List withPadding>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section1.items.fullName')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section1.items.phone')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section1.items.email')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section1.items.company')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section1.items.language')}</Text>
+                        </List.Item>
+                    </List>
+                </Box>
+
+                {/* Section 2 */}
+                <Box mt="lg">
+                    <Title order={2} mt="lg" mb="xs">
+                        {trans('processing', 'section2.title')}
+                    </Title>
+                    <List withPadding>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section2.items.account')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section2.items.services')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section2.items.notifications')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section2.items.personalization')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section2.items.quality')}</Text>
+                        </List.Item>
+                    </List>
+                </Box>
+
+                {/* Section 3 */}
+                <Box mt="lg">
+                    <Title order={2} mt="lg" mb="xs">
+                        {trans('processing', 'section3.title')}
+                    </Title>
+                    <List withPadding>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section3.items.methods')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section3.items.storage')}</Text>
+                        </List.Item>
+                    </List>
+                </Box>
+
+                {/* Section 4 */}
+                <Box mt="lg">
+                    <Title order={2} mt="lg" mb="xs">
+                        {trans('processing', 'section4.title')}
+                    </Title>
+                    <List withPadding>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section4.items.information')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section4.items.correction')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section4.items.withdrawal')}</Text>
+                        </List.Item>
+                    </List>
+                </Box>
+
+                {/* Section 5 */}
+                <Box mt="lg">
+                    <Title order={2} mt="lg" mb="xs">
+                        {trans('processing', 'section5.title')}
+                    </Title>
+                    <List withPadding>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section5.items.consent')}</Text>
+                        </List.Item>
+                        <List.Item>
+                            <Text size="sm">{trans('processing', 'section5.items.notice')}</Text>
+                        </List.Item>
+                    </List>
+                </Box>
+            </Container>
+            <HomeFooter />
         </>
-    )
+    );
 }
 
 export default ProcessingScreen;
