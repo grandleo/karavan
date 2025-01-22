@@ -18,6 +18,8 @@ const Clients = () => {
         };
     }, []);
 
+    console.log(clients);
+
     return (
         <SimplePage title="Клиенты" isLoading={isLoading}>
 
@@ -29,10 +31,8 @@ const Clients = () => {
                                 <Table.Th w={40}>ID</Table.Th>
                                 <Table.Th>Имя клиента</Table.Th>
                                 <Table.Th w={220}>Компания</Table.Th>
-                                <Table.Th w={110}>Инн</Table.Th>
                                 <Table.Th w={125}>Телефон</Table.Th>
                                 <Table.Th w={220}>Email</Table.Th>
-                                <Table.Th w={80}>Складов</Table.Th>
                                 <Table.Th w={30}></Table.Th>
                             </Table.Tr>
                         </Table.Thead>

@@ -28,11 +28,9 @@ const ClientRow = ({user, open} : ClientRowTypes) => {
         <Table.Tr>
             <Table.Td className={classes.numberClient}>{user.id}</Table.Td>
             <Table.Td>{fullName}</Table.Td>
-            <Table.Td>{user.company.short_with_opf}</Table.Td>
-            <Table.Td>{user.company.inn}</Table.Td>
+            <Table.Td>{user.company}</Table.Td>
             <Table.Td>{user.phone}</Table.Td>
             <Table.Td>{user.email}</Table.Td>
-            <Table.Td>{user.warehouses_count}</Table.Td>
             <Table.Td ta="right">
                 <Menu shadow="md" width={200}>
                     <Menu.Target>
@@ -42,14 +40,6 @@ const ClientRow = ({user, open} : ClientRowTypes) => {
                     </Menu.Target>
 
                     <Menu.Dropdown>
-                        <Menu.Item
-                            leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
-                            onClick={() => {
-                                open();
-                            }}
-                        >
-                            Редактировать
-                        </Menu.Item>
                         <Menu.Divider />
                         <Menu.Item
                             color="red"
