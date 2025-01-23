@@ -104,11 +104,12 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
 
     const onSubmit = async (data: any) => {
         try {
-            // console.log("Данные перед отправкой:", data);
+            console.log("Данные перед отправкой:", data);
 
             // Преобразуем данные формы в FormData
             const formData = serialize(data, {
                 booleansAsIntegers: true, // Преобразуем булевы значения в 0 или 1
+                indices: true,
             });
 
             // Добавляем изображение, если оно выбрано
