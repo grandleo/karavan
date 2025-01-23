@@ -33,21 +33,31 @@ export const CategoriesApi = api.injectEndpoints({
             },
         }),
         createCategory: builder.mutation({
-            query: (data) => ({
-                url: '/admin/categories/store',
-                method: 'POST',
-                data: data
-            }),
+            query: (data) => {
+                return {
+                    url: '/admin/categories/store',
+                    method: 'POST',
+                    data: data,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                }
+            },
             invalidatesTags: () => [{
                 type: 'Categories'
             }]
         }),
         updateCategory: builder.mutation({
-            query: ({ id, ...patch }) => ({
-                url: `/admin/categories/update/${id}`, // Обновлённый URL для POST запроса
-                method: 'POST', // Изменён метод на POST
-                data: patch,
-            }),
+            query: (data) => {
+                return {
+                    url: `/admin/categories/update/${data.get("id")}`, // Обновлённый URL для POST запроса
+                    method: 'POST', // Изменён метод на POST
+                    data: data,
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    }
+                }
+            },
             invalidatesTags: () => [{
                 type: 'Categories'
             }]

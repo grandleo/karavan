@@ -8,11 +8,10 @@ import {
     Tabs,
     TextInput,
     Text,
-    Menu, ActionIcon, Popover, Switch, ScrollArea, NumberInput
+    Image, Popover, Switch, ScrollArea, NumberInput, Select
 } from "@mantine/core";
 import {Controller, useFieldArray, useForm} from "react-hook-form";
 import classes from "./CategoryForm.module.css";
-import {IconDotsVertical, IconTrash} from "@tabler/icons-react";
 import {
     useCreateCategoryMutation,
     useLazyFetchFormDataQuery,
@@ -22,7 +21,9 @@ import {useEffect, useState} from "react";
 import {SortableList} from "@/components/SortableList";
 import CategorySpecification
     from "@/features/categories/components/CategoryForm/components/CategorySpecification/CategorySpecification";
-import {IValueTypes} from "@/components/productSpecifications/types";
+import {Dropzone, MIME_TYPES} from "@mantine/dropzone";
+import {IconUpload} from "@tabler/icons-react";
+import { serialize } from 'object-to-formdata';
 
 interface CategoryFormProps {
     opened: boolean;
@@ -36,6 +37,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
     const [triggerFetchFormData, { data, error, isLoading }] = useLazyFetchFormDataQuery();
     const [createCategory] = useCreateCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
+    const [selectedImage, setSelectedImage] = useState<File | null>(null); // Храним файл изображения
+    const [imagePreview, setImagePreview] = useState<string>(""); // Храним URL для превью изображения
 
     useEffect(() => {
         if (opened) {
@@ -60,7 +63,9 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
             min_p2p_quantity: 0,
             max_p2p_percent: 0,
             required_period_validity: false,
-            specifications: []
+            specifications: [],
+            display_type_app: 'list',
+            image: null, // Поле для загрузки изображения
         }
     });
 
@@ -97,25 +102,40 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
         }
     };
 
-    const onSubmit = async (formData) => {
+    const onSubmit = async (data: any) => {
         try {
+            // console.log("Данные перед отправкой:", data);
+
+            // Преобразуем данные формы в FormData
+            const formData = serialize(data, {
+                booleansAsIntegers: true, // Преобразуем булевы значения в 0 или 1
+            });
+
+            // Добавляем изображение, если оно выбрано
+            if (selectedImage) {
+                formData.append("image", selectedImage);
+            }
+
+            formData.append("id", categoryId);
+
+            // Отправляем данные через RTK Query
             if (categoryId) {
                 // Обновление категории
-                await updateCategory({ id: categoryId, ...formData }).unwrap();
+                await updateCategory(formData).unwrap();
             } else {
                 // Создание новой категории
-                await createCategory({...formData, parent_id: parentId}).unwrap();
+                await createCategory(formData).unwrap();
             }
+
+            // Закрываем форму после успешной отправки
             close();
-        } catch (err) {
-            console.error("Ошибка при сохранении категории:", err);
-            // Здесь можно добавить отображение ошибки пользователю
+        } catch (error) {
+            console.error("Ошибка при отправке формы:", error);
         }
     };
 
     useEffect(() => {
         if (data && data.category) {
-            console.log(data.category)
             // Заполняем поля формы данными категории
             setValue("name.ru", data.category.name.ru);
             setValue("name.en", data.category.name.en);
@@ -125,6 +145,8 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
             setValue("max_p2p_percent", data.category.max_p2p_percent);
             setValue("required_period_validity", data.category.required_period_validity);
             setValue("specifications", data.category.specifications || []);
+            setValue("display_type_app", data.category.display_type_app || 'list');
+            setImagePreview(data.category.image_url || "");
         } else {
             // Если добавление новой категории, сбрасываем форму
             reset();
@@ -133,6 +155,12 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
 
     const handleItemsChange = (newItems) => {
         setValue('specifications', newItems);
+    };
+
+    const handleDrop = (files: File[]) => {
+        const file = files[0];
+        setSelectedImage(file);
+        setImagePreview(URL.createObjectURL(file)); // Предпросмотр выбранного файла
     };
 
     const handleClose = () => {
@@ -150,6 +178,7 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
             required_period_validity: false,
             specifications: []
         }); // Сбрасываем форму
+        setImagePreview("");
         close();
     };
 
@@ -271,6 +300,47 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
                                         />
                                     )}
                                 />
+
+
+
+                                <Controller
+                                    name="display_type_app"
+                                    control={methods.control}
+                                    defaultValue="list"
+                                    render={({ field }) => (
+                                        <Select
+                                            label="Отображение для приложения"
+                                            placeholder="Выберите тип отображения"
+                                            data={[
+                                                { value: "list", label: "Список" },
+                                                { value: "tile", label: "Плитка" },
+                                            ]}
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    )}
+                                />
+                            </Box>
+
+                            {/* Dropzone для загрузки изображения */}
+                            <Box className={classes.sectionForm}>
+                                <Text>Изображение категории</Text>
+                                <Dropzone
+                                    onDrop={handleDrop}
+                                    accept={[MIME_TYPES.svg]}
+                                    maxFiles={1}
+                                >
+                                    <Flex direction="column" align="center" justify="center" style={{ height: 100 }}>
+                                        <IconUpload size={24} />
+                                        <Text>Перетащите изображение сюда или нажмите для выбора</Text>
+                                    </Flex>
+                                </Dropzone>
+                                {imagePreview && (
+                                    <Box mt={16}>
+                                        <Text>Предпросмотр изображения:</Text>
+                                        <Image src={imagePreview} alt="Предпросмотр" radius="md" width={200} />
+                                    </Box>
+                                )}
                             </Box>
                         </Tabs.Panel>
 
