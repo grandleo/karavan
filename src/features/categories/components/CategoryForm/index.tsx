@@ -104,7 +104,6 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
 
     const onSubmit = async (data: any) => {
         try {
-            console.log("Данные перед отправкой:", data);
 
             // Преобразуем данные формы в FormData
             const formData = serialize(data, {
@@ -115,6 +114,10 @@ const CategoryForm = ({opened, close, categoryId, parentId}: CategoryFormProps) 
             // Добавляем изображение, если оно выбрано
             if (selectedImage) {
                 formData.append("image", selectedImage);
+            }
+
+            if (parentId) {
+                formData.append("parent_id", parentId);
             }
 
             formData.append("id", categoryId);
