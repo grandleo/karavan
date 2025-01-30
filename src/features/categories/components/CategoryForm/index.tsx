@@ -352,7 +352,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                             <Divider />
 
                             <Box className={classes.sectionForm}>
-                                <Text>P2p</Text>
+                                <Text>Trade</Text>
                                 <Controller
                                     name="min_p2p_quantity"
                                     control={control}
@@ -374,7 +374,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                             label="Макс. % скидки"
                                             placeholder="Введите..."
                                             allowNegative={false}
-                                            decimalScale={2}
+                                            allowDecimal={false}
                                             hideControls
                                             max={100}
                                             {...field}
