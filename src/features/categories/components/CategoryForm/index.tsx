@@ -14,7 +14,7 @@ import {
     Switch,
     ScrollArea,
     NumberInput,
-    Select
+    Select,
 } from "@mantine/core";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
@@ -25,7 +25,7 @@ import classes from "./CategoryForm.module.css";
 import {
     useCreateCategoryMutation,
     useLazyFetchFormDataQuery,
-    useUpdateCategoryMutation
+    useUpdateCategoryMutation,
 } from "@/features/categories/api/categoriesApi";
 
 import { SortableList } from "@/components/SortableList";
@@ -40,7 +40,7 @@ interface CategoryFormProps {
 
 const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps) => {
     // 1. Загружаем данные через RTK Query (groups, specifications, category)
-    const [triggerFetchFormData, { data, error, isLoading }] = useLazyFetchFormDataQuery();
+    const [triggerFetchFormData, { data }] = useLazyFetchFormDataQuery();
     const [createCategory] = useCreateCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
 
@@ -53,11 +53,11 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         defaultValues: {
             name: {
                 ru: "",
-                en: ""
+                en: "",
             },
             app_title: {
                 ru: "",
-                en: ""
+                en: "",
             },
             min_p2p_quantity: 0,
             max_p2p_percent: 0,
@@ -65,8 +65,8 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             display_type_app: "list",
             // Массив всех спецификаций, каждая обязательно содержит group_id
             specifications: [] as any[],
-            image: null
-        }
+            image: null,
+        },
     });
     const {
         control,
@@ -74,13 +74,13 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         setValue,
         watch,
         reset,
-        formState: { isSubmitting }
+        formState: { isSubmitting },
     } = methods;
 
     // 4. useFieldArray для работы с массивом "specifications"
     const { fields, append, remove } = useFieldArray({
         control,
-        name: "specifications"
+        name: "specifications",
     });
 
     // 5. При открытии Drawer тянем данные
@@ -127,7 +127,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             max_p2p_percent: 0,
             required_period_validity: false,
             display_type_app: "list",
-            specifications: []
+            specifications: [],
         });
         setImagePreview("");
         close();
@@ -161,6 +161,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                 .filter(([item]) => (item as any).specification_id === specId)
                 .map(([_, idx]) => idx);
 
+            // Удаляем с конца, чтобы индексы не «сдвигались»
             indicesToRemove.sort((a, b) => b - a).forEach((i) => remove(i));
         } else {
             // Удаляем только одно вхождение в текущей группе
@@ -182,13 +183,13 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         append({
             specification_id: spec.id,
             group_id: groupId,
-            name: spec.name, // Можете передавать name.ru / name.en, как хотите
+            name: spec.name, // Можно передавать например spec.name.ru
             is_filterable: false,
             is_trade_feature: false,
             is_required: false,
             is_title_part: false,
             is_multiple: false,
-            is_displayed_in_product_card: false
+            is_displayed_in_product_card: false,
         });
     };
 
@@ -238,17 +239,45 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         setValue("specifications", merged);
     };
 
+    /**
+     * ==================================================
+     * ЛОГИКА ДЛЯ is_filterable (чтобы был только один)
+     * ==================================================
+     * Если это не global и мы включаем чекбокс, тогда
+     * снимаем is_filterable у остальных спецификаций
+     * в этой же группе.
+     */
+    const handleFilterableChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+        index: number,
+        groupDefine?: string
+    ) => {
+        // Если снимаем галочку или это глобальная группа — выходим
+        if (!e.target.checked || groupDefine === "global") return;
+
+        const currentSpecs = watch("specifications");
+        const currentGroupId = currentSpecs[index].group_id;
+
+        // Пробегаемся по всем спецификациям и снимаем флаг
+        // is_filterable у тех, кто принадлежит текущей группе (кроме текущего)
+        const updated = currentSpecs.map((spec, i) => {
+            if (spec.group_id === currentGroupId && i !== index) {
+                return { ...spec, is_filterable: false };
+            }
+            return spec;
+        });
+
+        // Записываем обратно
+        setValue("specifications", updated);
+    };
+
     // 10. Сабмит формы
     const onSubmit = async (formData: any) => {
-        console.log('FORM DATA:', formData);
         try {
-            // Посмотрите в консоль, чтобы убедиться, что group_id есть у каждого элемента
-            console.log("~ Final form data:", formData);
-
             // Преобразуем formData в FormData (multipart/form-data)
             const fd = serialize(formData, {
                 booleansAsIntegers: true,
-                indices: true
+                indices: true,
             });
 
             // Добавляем файл, если выбран
@@ -407,7 +436,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                             placeholder="Выберите тип"
                                             data={[
                                                 { value: "list", label: "Список" },
-                                                { value: "tile", label: "Плитка" }
+                                                { value: "tile", label: "Плитка" },
                                             ]}
                                             value={field.value}
                                             onChange={field.onChange}
@@ -448,13 +477,9 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                 let popoverSpecs = data?.specifications || [];
                                 // Если группа не глобальная - показываем только те, что уже выбраны в global
                                 if (group.define !== "global" && globalGroupId) {
-                                    const chosenInGlobal = fields.filter(
-                                        (f) => f.group_id === globalGroupId
-                                    );
+                                    const chosenInGlobal = fields.filter((f) => f.group_id === globalGroupId);
                                     const chosenIds = chosenInGlobal.map((f) => f.specification_id);
-                                    popoverSpecs = popoverSpecs.filter((spec) =>
-                                        chosenIds.includes(spec.id)
-                                    );
+                                    popoverSpecs = popoverSpecs.filter((spec) => chosenIds.includes(spec.id));
                                 }
 
                                 return (
@@ -495,15 +520,16 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                                 onChange={(newItems) => handleGroupItemsChange(group.id, newItems)}
                                                 renderItem={(field, index) => (
                                                     <CategorySpecification
-                                                        key={field.id /* уникальный ключ из useFieldArray */}
+                                                        key={field.id /* уникальный ключ useFieldArray */}
                                                         field={field}
                                                         index={index}
                                                         control={control}
-                                                        // При нажатии "Удалить"
                                                         remove={() => {
-                                                            // Вызываем нашу функцию, которая учитывает global / неглобал
+                                                            // Вызываем нашу функцию, учитывая global / неглобал
                                                             handleRemoveFromList(field.group_id, field.specification_id);
                                                         }}
+                                                        groupDefine={group.define}
+                                                        onFilterableChange={handleFilterableChange}
                                                     />
                                                 )}
                                             />
