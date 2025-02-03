@@ -7,33 +7,34 @@ import classes from "./CategorySpecification.module.css";
 import { DragHandle } from "@/components/SortableList";
 
 interface CategorySpecificationProps {
-    field: any;
-    index: number;
-    control: any;
-    remove: (index: number) => void;
-    groupDefine?: string;
+    field: any;              // Объект характеристики (из массива specifications)
+    control: any;           // из useForm()
+    remove: () => void;     // вызвать при удалении именно этой характеристики
+    groupDefine?: string;   // "global" или другое
+    absoluteIndex: number;  // глобальный индекс в массиве specifications
     onFilterableChange: (
         e: React.ChangeEvent<HTMLInputElement>,
-        index: number,
+        fieldItem: any,
         groupDefine?: string
     ) => void;
 }
 
 const CategorySpecification = ({
                                    field,
-                                   index,
                                    control,
                                    remove,
                                    groupDefine,
+                                   absoluteIndex,
                                    onFilterableChange,
                                }: CategorySpecificationProps) => {
     return (
-        <Flex key={field.id} className={classes.specification}>
+        <Flex className={classes.specification}>
+            {/* Иконка перетаскивания (DragHandle) */}
             <Box mr={5}>
                 <DragHandle active={false} />
             </Box>
 
-            <Text className={classes.specificationTitle}>{field.name.ru}</Text>
+            <Text className={classes.specificationTitle}>{field.name?.ru || "Без названия"}</Text>
 
             <Menu shadow="md">
                 <Menu.Target>
@@ -41,13 +42,12 @@ const CategorySpecification = ({
                         <IconDotsVertical size={16} />
                     </ActionIcon>
                 </Menu.Target>
+
                 <Menu.Dropdown>
-                    {/* =========================
-              1) Этот чекбокс нужен во всех группах
-             ========================= */}
+                    {/* 1) Чекбокс "Выводить в фильтр" (есть во всех группах) */}
                     <Box px="sm" py="xs">
                         <Controller
-                            name={`specifications.${index}.is_filterable`}
+                            name={`specifications.${absoluteIndex}.is_filterable`}
                             control={control}
                             render={({ field: rhfField }) => (
                                 <Checkbox
@@ -55,29 +55,25 @@ const CategorySpecification = ({
                                     checked={rhfField.value}
                                     label="Выводить в фильтр"
                                     onChange={(e) => {
-                                        // Сохраняем в React Hook Form
                                         rhfField.onChange(e);
-                                        // Доп. логика для «один фильтруемый в группе»
-                                        onFilterableChange(e, index, groupDefine);
+                                        onFilterableChange(e, field, groupDefine);
                                     }}
                                 />
                             )}
                         />
                     </Box>
 
-                    {/* =========================
-              2) Остальные чекбоксы - только для global
-             ========================= */}
+                    {/* 2) Остальные чекбоксы - только для GLOBAL */}
                     {groupDefine === "global" && (
                         <>
                             <Box px="sm" py="xs">
                                 <Controller
-                                    name={`specifications.${index}.is_trade_feature`}
+                                    name={`specifications.${absoluteIndex}.is_trade_feature`}
                                     control={control}
-                                    render={({ field }) => (
+                                    render={({ field: rhfField }) => (
                                         <Checkbox
-                                            {...field}
-                                            checked={field.value}
+                                            {...rhfField}
+                                            checked={rhfField.value}
                                             label="Выводить в торговую особенность"
                                         />
                                     )}
@@ -86,12 +82,12 @@ const CategorySpecification = ({
 
                             <Box px="sm" py="xs">
                                 <Controller
-                                    name={`specifications.${index}.is_required`}
+                                    name={`specifications.${absoluteIndex}.is_required`}
                                     control={control}
-                                    render={({ field }) => (
+                                    render={({ field: rhfField }) => (
                                         <Checkbox
-                                            {...field}
-                                            checked={field.value}
+                                            {...rhfField}
+                                            checked={rhfField.value}
                                             label="Обязательное поле"
                                         />
                                     )}
@@ -100,12 +96,12 @@ const CategorySpecification = ({
 
                             <Box px="sm" py="xs">
                                 <Controller
-                                    name={`specifications.${index}.is_title_part`}
+                                    name={`specifications.${absoluteIndex}.is_title_part`}
                                     control={control}
-                                    render={({ field }) => (
+                                    render={({ field: rhfField }) => (
                                         <Checkbox
-                                            {...field}
-                                            checked={field.value}
+                                            {...rhfField}
+                                            checked={rhfField.value}
                                             label="Участвует в формировании названия"
                                         />
                                     )}
@@ -114,12 +110,12 @@ const CategorySpecification = ({
 
                             <Box px="sm" py="xs">
                                 <Controller
-                                    name={`specifications.${index}.is_multiple`}
+                                    name={`specifications.${absoluteIndex}.is_multiple`}
                                     control={control}
-                                    render={({ field }) => (
+                                    render={({ field: rhfField }) => (
                                         <Checkbox
-                                            {...field}
-                                            checked={field.value}
+                                            {...rhfField}
+                                            checked={rhfField.value}
                                             label="Множественный выбор"
                                         />
                                     )}
@@ -128,12 +124,12 @@ const CategorySpecification = ({
 
                             <Box px="sm" py="xs">
                                 <Controller
-                                    name={`specifications.${index}.is_displayed_in_product_card`}
+                                    name={`specifications.${absoluteIndex}.is_displayed_in_product_card`}
                                     control={control}
-                                    render={({ field }) => (
+                                    render={({ field: rhfField }) => (
                                         <Checkbox
-                                            {...field}
-                                            checked={field.value}
+                                            {...rhfField}
+                                            checked={rhfField.value}
                                             label="Выводить в карточку товара"
                                         />
                                     )}
@@ -144,12 +140,13 @@ const CategorySpecification = ({
                 </Menu.Dropdown>
             </Menu>
 
+            {/* Кнопка удаления */}
             <ActionIcon
                 variant="white"
                 color="red"
                 aria-label="Удалить"
                 size={16}
-                onClick={() => remove(index)}
+                onClick={remove}
             >
                 <IconTrash stroke={2} />
             </ActionIcon>

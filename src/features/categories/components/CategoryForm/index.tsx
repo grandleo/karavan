@@ -29,7 +29,8 @@ import {
 } from "@/features/categories/api/categoriesApi";
 
 import { SortableList } from "@/components/SortableList";
-import CategorySpecification from "@/features/categories/components/CategoryForm/components/CategorySpecification/CategorySpecification";
+import CategorySpecification
+    from "@/features/categories/components/CategoryForm/components/CategorySpecification/CategorySpecification";
 
 interface CategoryFormProps {
     opened: boolean;
@@ -39,7 +40,7 @@ interface CategoryFormProps {
 }
 
 const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps) => {
-    // 1. Загружаем данные через RTK Query (groups, specifications, category)
+    // 1. Загружаем данные через RTK Query
     const [triggerFetchFormData, { data }] = useLazyFetchFormDataQuery();
     const [createCategory] = useCreateCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
@@ -63,7 +64,7 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             max_p2p_percent: 0,
             required_period_validity: false,
             display_type_app: "list",
-            // Массив всех спецификаций, каждая обязательно содержит group_id
+            // Массив спецификаций
             specifications: [] as any[],
             image: null,
         },
@@ -77,13 +78,13 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         formState: { isSubmitting },
     } = methods;
 
-    // 4. useFieldArray для работы с массивом "specifications"
+    // Подключаем useFieldArray на "specifications"
     const { fields, append, remove } = useFieldArray({
         control,
         name: "specifications",
     });
 
-    // 5. При открытии Drawer тянем данные
+    // 4. При открытии Drawer тянем данные
     useEffect(() => {
         if (opened) {
             if (categoryId) {
@@ -94,10 +95,10 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
         }
     }, [opened, categoryId, triggerFetchFormData]);
 
-    // 6. Заполняем форму, когда данные получены
+    // 5. Заполняем форму, когда данные получены
     useEffect(() => {
         if (data && data.category) {
-            // Если редактируем существующую категорию
+            // Редактируем существующую категорию
             setValue("name.ru", data.category.name.ru);
             setValue("name.en", data.category.name.en);
             setValue("app_title.ru", data.category.app_title.ru);
@@ -108,17 +109,16 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             setValue("display_type_app", data.category.display_type_app || "list");
             setImagePreview(data.category.image_url || "");
 
-            // Заполняем "specifications" из бэка,
-            // они тоже должны содержать group_id (если бэк так хранит)
+            // Характеристики
             setValue("specifications", data.category.specifications || []);
         } else {
-            // Если новая категория
+            // Новая категория
             reset();
             setImagePreview("");
         }
     }, [data, setValue, reset]);
 
-    // 7. Закрыть Drawer + сброс формы
+    // 6. Закрыть Drawer + сброс формы
     const handleClose = () => {
         reset({
             name: { ru: "", en: "" },
@@ -130,41 +130,40 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             specifications: [],
         });
         setImagePreview("");
+        setSelectedImage(null);
         close();
     };
 
-    // 8. Dropzone: обработка выбранного файла
+    // 7. Dropzone: обработка выбранного файла
     const handleDrop = (files: File[]) => {
         const file = files[0];
         setSelectedImage(file);
         setImagePreview(URL.createObjectURL(file));
     };
 
-    // 9. Ищем глобальную группу (define = "global")
+    // Для удобства
     const globalGroup = data?.groups?.find((g) => g.define === "global");
     const globalGroupId = globalGroup?.id;
 
     /**
-     * --------------------------
-     * ФУНКЦИЯ УДАЛЕНИЯ (общая)
-     * --------------------------
-     * Если удаляем в global => удаляем во ВСЕХ группах
-     * Иначе только в текущей группе
+     * -------------------------------------------------------------------
+     * Функция УДАЛЕНИЯ характеристики (по group_id и specification_id)
+     * -------------------------------------------------------------------
      */
     const removeSpecification = (groupId: number, specId: number) => {
         const allSpecs = watch("specifications");
 
         if (groupId === globalGroupId) {
-            // Удаляем все вхождения данного specId
+            // Удаляем все вхождения этого specification_id
             const indicesToRemove = allSpecs
                 .map((item, idx) => [item, idx])
                 .filter(([item]) => (item as any).specification_id === specId)
                 .map(([_, idx]) => idx);
 
-            // Удаляем с конца, чтобы индексы не «сдвигались»
+            // Удаляем с конца, чтобы индексы не сдвигались
             indicesToRemove.sort((a, b) => b - a).forEach((i) => remove(i));
         } else {
-            // Удаляем только одно вхождение в текущей группе
+            // Удаляем только из конкретной группы
             const indexToRemove = allSpecs.findIndex(
                 (item) => item.group_id === groupId && item.specification_id === specId
             );
@@ -175,15 +174,15 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
     };
 
     /**
-     * --------------------------
-     * ФУНКЦИЯ ДОБАВЛЕНИЯ (общая)
-     * --------------------------
+     * -------------------------------------------------------------------
+     * Функция ДОБАВЛЕНИЯ новой характеристики
+     * -------------------------------------------------------------------
      */
     const addSpecification = (groupId: number, spec: any) => {
         append({
             specification_id: spec.id,
             group_id: groupId,
-            name: spec.name, // Можно передавать например spec.name.ru
+            name: spec.name,
             is_filterable: false,
             is_trade_feature: false,
             is_required: false,
@@ -194,12 +193,9 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
     };
 
     /**
-     * --------------------------
-     * КЛИК ПО Switch
-     * --------------------------
-     * Если есть в группе => убираем
-     * Если нет => добавляем
-     * Если убираем в global => везде
+     * -------------------------------------------------------------------
+     * Выбор (включение/отключение) характеристики в группе
+     * -------------------------------------------------------------------
      */
     const handleToggleSpecification = (groupId: number, spec: any) => {
         const currentSpecs = watch("specifications");
@@ -215,76 +211,61 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
     };
 
     /**
-     * --------------------------
-     * УДАЛЕНИЕ по кнопке в SortableList
-     * --------------------------
-     */
-    const handleRemoveFromList = (groupId: number, specId: number) => {
-        removeSpecification(groupId, specId);
-    };
-
-    /**
-     * --------------------------
-     * Изменение порядка (SortableList)
-     * --------------------------
-     * Получаем новые items для ТЕКУЩЕЙ группы
-     * Надо объединить с остальными
+     * -------------------------------------------------------------------
+     * Сортировка внутри группы (SortableList)
+     * -------------------------------------------------------------------
      */
     const handleGroupItemsChange = (groupId: number, newGroupItems: any[]) => {
         const all = watch("specifications");
-        // убираем характеристики этой группы
+
+        // Убираем все спецификации этой группы
         const filtered = all.filter((item) => item.group_id !== groupId);
-        // прибавляем новые (сортированные)
+
+        // Прибавляем новые (сортированные)
         const merged = [...filtered, ...newGroupItems];
         setValue("specifications", merged);
     };
 
     /**
-     * ==================================================
-     * ЛОГИКА ДЛЯ is_filterable (чтобы был только один)
-     * ==================================================
-     * Если это не global и мы включаем чекбокс, тогда
-     * снимаем is_filterable у остальных спецификаций
-     * в этой же группе.
+     * -------------------------------------------------------------------
+     * Логика "is_filterable" - можно только один фильтруемый в группе
+     * -------------------------------------------------------------------
+     * Если это не global и пользователь включил флажок -> сбрасываем
+     * у остальных в той же группе
      */
     const handleFilterableChange = (
         e: React.ChangeEvent<HTMLInputElement>,
-        index: number,
+        fieldItem: any, // сам объект specification
         groupDefine?: string
     ) => {
-        // Если снимаем галочку или это глобальная группа — выходим
+        // Если снимаем галочку или это "global", ничего не делаем
         if (!e.target.checked || groupDefine === "global") return;
 
         const currentSpecs = watch("specifications");
-        const currentGroupId = currentSpecs[index].group_id;
-
-        // Пробегаемся по всем спецификациям и снимаем флаг
-        // is_filterable у тех, кто принадлежит текущей группе (кроме текущего)
-        const updated = currentSpecs.map((spec, i) => {
-            if (spec.group_id === currentGroupId && i !== index) {
+        const updated = currentSpecs.map((spec) => {
+            // Если это та же группа, но другая спецификация
+            if (
+                spec.group_id === fieldItem.group_id &&
+                spec.specification_id !== fieldItem.specification_id
+            ) {
                 return { ...spec, is_filterable: false };
             }
             return spec;
         });
 
-        // Записываем обратно
         setValue("specifications", updated);
     };
 
-    // 10. Сабмит формы
+    // 8. Сабмит формы (создание/обновление)
     const onSubmit = async (formData: any) => {
         try {
-            // Преобразуем formData в FormData (multipart/form-data)
             const fd = serialize(formData, {
                 booleansAsIntegers: true,
                 indices: true,
             });
-
-            // Добавляем файл, если выбран
             if (selectedImage) {
                 fd.append("image", selectedImage);
             }
-
             if (parentId) {
                 fd.append("parent_id", parentId);
             }
@@ -292,14 +273,12 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                 fd.append("id", categoryId);
             }
 
-            // Отправляем на сервер
             if (categoryId) {
                 await updateCategory(fd).unwrap();
             } else {
                 await createCategory(fd).unwrap();
             }
 
-            // Закрываем по успешному сабмиту
             close();
         } catch (error) {
             console.error("Ошибка при отправке формы:", error);
@@ -447,7 +426,11 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
 
                             <Box className={classes.sectionForm}>
                                 <Text>Изображение категории</Text>
-                                <Dropzone onDrop={handleDrop} accept={[MIME_TYPES.svg]} maxFiles={1}>
+                                <Dropzone
+                                    onDrop={handleDrop}
+                                    accept={[MIME_TYPES.svg]}
+                                    maxFiles={1}
+                                >
                                     <Flex
                                         direction="column"
                                         align="center"
@@ -461,7 +444,12 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                 {imagePreview && (
                                     <Box mt={16}>
                                         <Text>Предпросмотр:</Text>
-                                        <Image src={imagePreview} alt="Preview" radius="md" width={200} />
+                                        <Image
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            radius="md"
+                                            width={200}
+                                        />
                                     </Box>
                                 )}
                             </Box>
@@ -470,13 +458,13 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                         {/* ======================= Вкладка 2: Характеристики по группам ======================= */}
                         <Tabs.Panel value="specs-by-groups" style={{ padding: 16 }}>
                             {data?.groups?.map((group) => {
-                                // Для каждой группы - собственный блок
+                                // Отбираем характеристики, принадлежащие этой группе
                                 const groupFields = fields.filter((f) => f.group_id === group.id);
 
-                                // Какие спецификации показываем в поповере?
+                                // Какие спецификации показывать в поповере?
                                 let popoverSpecs = data?.specifications || [];
-                                // Если группа не глобальная - показываем только те, что уже выбраны в global
                                 if (group.define !== "global" && globalGroupId) {
+                                    // Если группа не глобальная, показываем только те, что выбраны в global
                                     const chosenInGlobal = fields.filter((f) => f.group_id === globalGroupId);
                                     const chosenIds = chosenInGlobal.map((f) => f.specification_id);
                                     popoverSpecs = popoverSpecs.filter((spec) => chosenIds.includes(spec.id));
@@ -513,25 +501,35 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                                             </Popover>
                                         </Flex>
 
-                                        {/* Список выбранных (SortableList) */}
+                                        {/* Список выбранных с SortableList */}
                                         <ScrollArea style={{ maxHeight: 400 }}>
                                             <SortableList
                                                 items={groupFields}
                                                 onChange={(newItems) => handleGroupItemsChange(group.id, newItems)}
-                                                renderItem={(field, index) => (
-                                                    <CategorySpecification
-                                                        key={field.id /* уникальный ключ useFieldArray */}
-                                                        field={field}
-                                                        index={index}
-                                                        control={control}
-                                                        remove={() => {
-                                                            // Вызываем нашу функцию, учитывая global / неглобал
-                                                            handleRemoveFromList(field.group_id, field.specification_id);
-                                                        }}
-                                                        groupDefine={group.define}
-                                                        onFilterableChange={handleFilterableChange}
-                                                    />
-                                                )}
+                                                renderItem={(field, groupIndex) => {
+                                                    // Ищем глобальный индекс в общем массиве specifications
+                                                    const allSpecs = watch("specifications");
+                                                    const absoluteIndex = allSpecs.findIndex(
+                                                        (item) =>
+                                                            item.group_id === field.group_id &&
+                                                            item.specification_id === field.specification_id
+                                                    );
+
+                                                    return (
+                                                        <CategorySpecification
+                                                            key={field.id}
+                                                            field={field}
+                                                            control={control}
+                                                            groupDefine={group.define}
+                                                            // Передаём глобальный индекс, чтобы правильно связаться с RHF
+                                                            absoluteIndex={absoluteIndex}
+                                                            remove={() =>
+                                                                removeSpecification(field.group_id, field.specification_id)
+                                                            }
+                                                            onFilterableChange={handleFilterableChange}
+                                                        />
+                                                    );
+                                                }}
                                             />
                                         </ScrollArea>
                                     </Box>
@@ -542,7 +540,6 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
 
                     <Divider />
 
-                    {/* Кнопки "Отменить" и "Добавить/Обновить" */}
                     <Box className={classes.sectionForm}>
                         <Flex gap={16}>
                             <Button variant="outline" fullWidth onClick={handleClose}>
