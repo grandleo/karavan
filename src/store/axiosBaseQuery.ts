@@ -1,6 +1,8 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError } from 'axios';
 import axiosInstance from './axiosInstance';
+import {removeUser} from "@/features/auth/utils/userUtil";
+import {removeToken} from "@/features/auth/utils/tokenUtil";
 
 // Интерфейсы для аргументов запроса и ошибок
 interface AxiosBaseQueryArgs {
@@ -34,6 +36,14 @@ const axiosBaseQuery =
             } catch (error: unknown) {
                 if (axios.isAxiosError(error)) {
                     const err = error as AxiosError;
+
+                    if (err.response?.status === 401) {
+                        removeToken();
+                        removeUser();
+                        // серверный редирект
+                        window.location.href = '/';
+                    }
+
                     return {
                         error: {
                             status: err.response?.status,
