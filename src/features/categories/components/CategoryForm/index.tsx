@@ -14,7 +14,7 @@ import {
     Switch,
     ScrollArea,
     NumberInput,
-    Select,
+    Select, Loader,
 } from "@mantine/core";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
@@ -41,7 +41,7 @@ interface CategoryFormProps {
 
 const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps) => {
     // 1. Загружаем данные через RTK Query
-    const [triggerFetchFormData, { data }] = useLazyFetchFormDataQuery();
+    const [triggerFetchFormData, { data, isFetching }] = useLazyFetchFormDataQuery();
     const [createCategory] = useCreateCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
 
@@ -85,12 +85,22 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
     });
 
     // 4. При открытии Drawer тянем данные
+    // useEffect(() => {
+    //     if (opened) {
+    //         if (categoryId) {
+    //             triggerFetchFormData({ id: categoryId });
+    //         } else {
+    //             triggerFetchFormData({});
+    //         }
+    //     }
+    // }, [opened, categoryId, triggerFetchFormData]);
+
     useEffect(() => {
         if (opened) {
             if (categoryId) {
-                triggerFetchFormData({ id: categoryId });
+                triggerFetchFormData({ id: categoryId, timestamp: Date.now() }); // Ensures new request
             } else {
-                triggerFetchFormData({});
+                triggerFetchFormData({ timestamp: Date.now() });
             }
         }
     }, [opened, categoryId, triggerFetchFormData]);
@@ -119,16 +129,25 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
     }, [data, setValue, reset]);
 
     // 6. Закрыть Drawer + сброс формы
+    // const handleClose = () => {
+    //     reset({
+    //         name: { ru: "", en: "" },
+    //         app_title: { ru: "", en: "" },
+    //         min_p2p_quantity: 0,
+    //         max_p2p_percent: 0,
+    //         required_period_validity: false,
+    //         display_type_app: "list",
+    //         specifications: [],
+    //     });
+    //     setImagePreview("");
+    //     setSelectedImage(null);
+    //     close();
+    //
+    //
+    // };
+
     const handleClose = () => {
-        reset({
-            name: { ru: "", en: "" },
-            app_title: { ru: "", en: "" },
-            min_p2p_quantity: 0,
-            max_p2p_percent: 0,
-            required_period_validity: false,
-            display_type_app: "list",
-            specifications: [],
-        });
+        reset();  // Очищаем форму перед закрытием
         setImagePreview("");
         setSelectedImage(null);
         close();
@@ -293,6 +312,12 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
             scrollAreaComponent={ScrollArea.Autosize}
             title={categoryId ? "Редактировать категорию" : "Добавить категорию"}
         >
+            {isFetching ? (
+                <Flex align="center" justify="center" style={{ height: "100vh" }}>
+                    <Loader size="lg" />
+                </Flex>
+            ) : (
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex direction="column" style={{ minHeight: "calc(100vh - 60px)" }}>
                     <Tabs defaultValue="information" style={{ flexGrow: 1 }}>
@@ -552,6 +577,8 @@ const CategoryForm = ({ opened, close, categoryId, parentId }: CategoryFormProps
                     </Box>
                 </Flex>
             </form>
+
+            )}
         </Drawer>
     );
 };
