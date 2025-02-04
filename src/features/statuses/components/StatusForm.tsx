@@ -18,16 +18,28 @@ const defaultValues: Status = {
         en: ''
     },
     type: 'logistics',
-    edit_invoice: false,
-    choose_logistics: false,
-    order_column: 0,
-    required_dimension: false,
-    required_payment: false,
-    role_id: '2',
     color: '#ffffff',
     bg_color: '#436CFB',
+    role_id: 1,
+    required_payment: false,
+    edit_invoice: false,
+    choose_logistics: false,
+    required_dimension: false,
     button_text: '',
     image: null,
+    order_column: 0,
+    image_url: '',
+    created_at: '',
+    updated_at: '',
+    deleted_at: null,
+    role: {
+        id: 0,
+        name: '',
+        name_ru: '',
+        guard_name: '',
+        created_at: '',
+        updated_at: '',
+    }
 };
 
 const StatusForm = ({opened, onClose, statusId}) => {
@@ -35,17 +47,21 @@ const StatusForm = ({opened, onClose, statusId}) => {
         defaultValues,
     });
 
-    const { data: statusData } = useFetchStatusByIdQuery(statusId!, {
-        skip: statusId === null,
+    const { data: statusData } = useFetchStatusByIdQuery(statusId ?? '', {
+        skip: !statusId, // Пропускаем запрос, если statusId не задан
     });
 
-    // useEffect для обновления формы при получении данных статуса
     useEffect(() => {
-        if (statusData) {
+        if (statusData && opened) {
             const { image, ...dataWithoutImage } = statusData;
+
+            // Приводим нужные данные к строковому типу
             methods.reset({
                 ...dataWithoutImage,
-                image: null,
+                id: String(dataWithoutImage.id ?? '0'), // ID в строку
+                type: String(dataWithoutImage.type ?? 'logistics'), // Тип в строку
+                role_id: String(dataWithoutImage.role_id ?? '1'), // role_id в строку
+                image: null, // Сбрасываем изображение
             });
 
             if (statusData.image_url) {
@@ -55,7 +71,7 @@ const StatusForm = ({opened, onClose, statusId}) => {
                 setPreviewUrl(null);
             }
         }
-    }, [statusData, opened, methods]);
+    }, [statusData, opened]);
 
     // useEffect для обновления формы если statusId стал null
     useEffect(() => {
@@ -208,43 +224,66 @@ const StatusForm = ({opened, onClose, statusId}) => {
                                 render={({ field: { value, onChange } }) => (
                                     <Switch
                                         checked={value}
-                                        onChange={onChange}
+                                        onChange={(event) => {
+                                            const newValue = event.currentTarget.checked;
+                                            if (value !== newValue) {
+                                                onChange(newValue);
+                                            }
+                                        }}
                                         label="Изменение накладной"
                                         mb={5}
                                     />
                                 )}
                             />
+
                             <Controller
                                 name="required_dimension"
                                 control={methods.control}
                                 render={({ field: { value, onChange } }) => (
                                     <Switch
                                         checked={value}
-                                        onChange={onChange}
+                                        onChange={(event) => {
+                                            const newValue = event.currentTarget.checked;
+                                            if (value !== newValue) {
+                                                onChange(newValue);
+                                            }
+                                        }}
                                         label="Обязательно указать габариты"
                                         mb={5}
                                     />
                                 )}
                             />
+
                             <Controller
                                 name="choose_logistics"
                                 control={methods.control}
                                 render={({ field: { value, onChange } }) => (
                                     <Switch
                                         checked={value}
-                                        onChange={onChange}
+                                        onChange={(event) => {
+                                            const newValue = event.currentTarget.checked;
+                                            if (value !== newValue) {
+                                                onChange(newValue);
+                                            }
+                                        }}
                                         label="Выбор логиста"
                                         mb={5}
                                     />
                                 )}
                             />
+
                             <Controller
                                 name="required_payment"
                                 control={methods.control}
                                 render={({ field: { value, onChange } }) => (
                                     <Switch
                                         checked={value}
-                                        onChange={onChange}
+                                        onChange={(event) => {
+                                            const newValue = event.currentTarget.checked;
+                                            if (value !== newValue) {
+                                                onChange(newValue);
+                                            }
+                                        }}
                                         label="Списывается оплата"
                                         mb={5}
                                     />
