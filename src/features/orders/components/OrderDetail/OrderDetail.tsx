@@ -126,8 +126,8 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
             </Flex>
             <Flex justify="space-between" align="center">
                 <Flex align="center">
-                    <Text className={classes.orderDetailClientName}>{orderDetails.client_name}</Text>
-                    <Divider orientation="vertical" ml={8} mr={8}/>
+                    {/*<Text className={classes.orderDetailClientName}>{orderDetails.client_name}</Text>*/}
+                    {/*<Divider orientation="vertical" ml={8} mr={8}/>*/}
                     <Select
                         variant="unstyled"
                         data={deliveryOptions}
