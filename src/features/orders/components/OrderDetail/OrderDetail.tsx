@@ -202,7 +202,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                     <NumberFormatter
                                         prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                        value={item.price}
+                                        value={item.percent}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
