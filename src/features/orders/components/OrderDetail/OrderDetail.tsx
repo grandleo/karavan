@@ -31,6 +31,8 @@ interface IOrderDetail {
     delivery_order_status_id: number;
     payment_order_status_id: number;
     total_sum: number;
+    total_percent_sum: number;
+    total_sum_with_percent: number;
     total_quantity: number;
     order_items: OrderDetailItems[];
 }
@@ -40,6 +42,8 @@ interface OrderDetailItems {
     price: number;
     quantity: number;
     total_price: number;
+    percent: number;
+    total_price_with_percent: number;
 }
 
 interface OrderDetailStatuses {
@@ -212,7 +216,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                     <NumberFormatter
                                         prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                        value={item.total_price}
+                                        value={item.total_price_with_percent}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
@@ -230,7 +234,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                             <NumberFormatter
                                 prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                 suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                value={orderDetails.total_sum}
+                                value={orderDetails.total_sum_with_percent}
                                 thousandSeparator=" "
                             />
                         </Table.Td>
