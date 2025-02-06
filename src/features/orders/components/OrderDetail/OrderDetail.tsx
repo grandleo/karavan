@@ -40,6 +40,7 @@ interface IOrderDetail {
 interface OrderDetailItems {
     product_name: string;
     price: number;
+    price_with_percent: number;
     quantity: number;
     total_price: number;
     percent: number;
@@ -202,7 +203,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                     <NumberFormatter
                                         prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                        value={item.percent}
+                                        value={item.price_with_percent}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
