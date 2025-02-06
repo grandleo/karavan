@@ -2,7 +2,6 @@ import NextImage from "next/image";
 import {Box, Divider, Flex, Image, NumberFormatter, Text} from "@mantine/core";
 import {IOrderCard} from "@/features/orders/types/orders.types";
 import classes from "./OrderCard.module.css";
-import {useMemo} from "react";
 
 interface OrderCardProps {
     order: IOrderCard;
@@ -18,7 +17,7 @@ const OrderCard = ({order, isActive, onClick}: OrderCardProps) => {
             onClick={onClick}
         >
             <Flex wrap="nowrap" justify="space-between" mb={4}>
-                <Text className={classes.orderCardClientId}>ID: {order.client_id}</Text>
+                <Text className={classes.orderCardClientId}>ID: {order.supplier_id}</Text>
                 <Text className={classes.orderCardNumberId}>№ {order.id}</Text>
             </Flex>
             <Flex wrap="nowrap" justify="space-between">

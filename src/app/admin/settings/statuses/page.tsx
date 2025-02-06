@@ -27,12 +27,13 @@ export default function Page () {
     const [delayedLoading, setDelayedLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setDelayedLoading(isLoading);
-        }, 200);
-
-        return () => clearTimeout(timer);
-    }, [isLoading]);
+        if (delayedLoading !== isLoading) {
+            const timer = setTimeout(() => {
+                setDelayedLoading(isLoading);
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+    }, [isLoading, delayedLoading]);
 
     return (
         <>

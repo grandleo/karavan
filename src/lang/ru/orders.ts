@@ -9,7 +9,7 @@ export const translations = {
                 'name': 'Наименование',
                 'price': 'Цена за ед. ₽',
                 'quantity': 'Кол-во',
-                'cost': 'Стоимость',
+                'cost': 'Сумма',
                 'total': 'Итого:',
             }
         },

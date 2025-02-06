@@ -54,6 +54,35 @@ export const OrdersApi = api.injectEndpoints({
                 {type: 'ClientAllOrders'},
             ]
         }),
+
+        // ✅ Методы для администратора (новые)
+        fetchAdminOrderNumbers: builder.query({
+            query: () => ({
+                url: '/admin/orders', // Новый эндпоинт для админа
+                method: 'GET'
+            }),
+            providesTags: () => [{ type: 'AdminOrderNumbers' }],
+        }),
+
+        fetchAdminOrderDetails: builder.query({
+            query: (id) => ({
+                url: `/admin/orders/${id}`,
+                method: 'GET'
+            }),
+            providesTags: () => [{ type: 'AdminOrderDetails' }],
+        }),
+
+        adminUpdateOrderStatus: builder.mutation({
+            query: ({ id, status_id }) => ({
+                url: `/admin/orders/${id}/status`,
+                method: 'POST',
+                data: { status_id }
+            }),
+            invalidatesTags: () => [
+                { type: 'AdminOrderNumbers' },
+                { type: 'AdminOrderDetails' },
+            ]
+        }),
     })
 });
 
@@ -63,4 +92,8 @@ export const {
     useSupplierUpdateOrderStatusMutation,
     useFetchClientOrderNumbersQuery,
     useCreateOrderMutation,
+
+    useFetchAdminOrderNumbersQuery,
+    useLazyFetchAdminOrderDetailsQuery,
+    useAdminUpdateOrderStatusMutation
 } = OrdersApi;
