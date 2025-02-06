@@ -186,7 +186,8 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                         <Table.Th>{trans('orders', 'supplier.products.table.quantity')}</Table.Th>
                         <Table.Th>{trans('orders', 'supplier.products.table.price')}</Table.Th>
                         <Table.Th>%</Table.Th>
-                        <Table.Th>{trans('orders', 'supplier.products.table.cost')}</Table.Th>
+                        <Table.Th>Сумма от клиента</Table.Th>
+                        <Table.Th>Сумма поставщику</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -227,7 +228,9 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
                                         value={item.total_price}
                                         thousandSeparator=" "
-                                    />/
+                                    />
+                                </Table.Td>
+                                <Table.Td>
                                     <NumberFormatter
                                         prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
@@ -260,7 +263,8 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                 value={orderDetails.total_sum}
                                 thousandSeparator=" "
                             />
-                            /
+                        </Table.Td>
+                        <Table.Td>
                             <NumberFormatter
                                 prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                 suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
