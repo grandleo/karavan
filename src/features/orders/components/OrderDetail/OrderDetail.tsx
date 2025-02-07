@@ -237,7 +237,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                 <Table.Tfoot>
                     <Table.Tr>
                         <Table.Td colSpan={2}>{trans('orders', 'supplier.products.table.total')}</Table.Td>
-                        <Table.Td colSpan={2}>
+                        <Table.Td colSpan={3}>
                             <NumberFormatter value={orderDetails.total_quantity} thousandSeparator=" "/>
                         </Table.Td>
                         <Table.Td>
