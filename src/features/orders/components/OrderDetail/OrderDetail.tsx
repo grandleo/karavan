@@ -218,7 +218,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                     <NumberFormatter
                                         prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
                                         suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                        value={item.price_with_percent}
+                                        value={item.percent}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
@@ -236,8 +236,8 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                 </Table.Tbody>
                 <Table.Tfoot>
                     <Table.Tr>
-                        <Table.Td colSpan={3}>{trans('orders', 'supplier.products.table.total')}</Table.Td>
-                        <Table.Td>
+                        <Table.Td colSpan={2}>{trans('orders', 'supplier.products.table.total')}</Table.Td>
+                        <Table.Td colSpan={2}>
                             <NumberFormatter value={orderDetails.total_quantity} thousandSeparator=" "/>
                         </Table.Td>
                         <Table.Td>
