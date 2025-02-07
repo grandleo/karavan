@@ -184,8 +184,9 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                     <Table.Tr>
                         <Table.Th>{trans('orders', 'supplier.products.table.number')}</Table.Th>
                         <Table.Th>{trans('orders', 'supplier.products.table.name')}</Table.Th>
-                        <Table.Th>{trans('orders', 'supplier.products.table.price')}</Table.Th>
                         <Table.Th>{trans('orders', 'supplier.products.table.quantity')}</Table.Th>
+                        <Table.Th>{trans('orders', 'supplier.products.table.price')}</Table.Th>
+                        <Table.Th>%</Table.Th>
                         <Table.Th>{trans('orders', 'supplier.products.table.cost')}</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
@@ -201,15 +202,23 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                                 </Table.Td>
                                 <Table.Td>
                                     <NumberFormatter
-                                        prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
-                                        suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
-                                        value={item.price_with_percent}
+                                        value={item.quantity}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
                                 <Table.Td>
                                     <NumberFormatter
-                                        value={item.quantity}
+                                        prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
+                                        suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
+                                        value={item.price}
+                                        thousandSeparator=" "
+                                    />
+                                </Table.Td>
+                                <Table.Td>
+                                    <NumberFormatter
+                                        prefix={orderDetails.currency.prefix ? orderDetails.currency.prefix : ''}
+                                        suffix={orderDetails.currency.suffix ? orderDetails.currency.suffix : ''}
+                                        value={item.price_with_percent}
                                         thousandSeparator=" "
                                     />
                                 </Table.Td>
