@@ -21,6 +21,7 @@ interface OrderDetailProps {
     orderDetails: IOrderDetail; // Здесь можно уточнить тип данных, если структура известна
     deliveryStatuses: OrderDetailStatuses[]; // Массив статусов доставки
     paymentStatuses: OrderDetailStatuses[]; // Массив статусов оплаты
+    paymentSupplierStatuses: OrderDetailStatuses[]; // Массив статусов оплаты
 }
 
 interface IOrderDetail {
@@ -30,6 +31,7 @@ interface IOrderDetail {
     order_date: string;
     delivery_order_status_id: number;
     payment_order_status_id: number;
+    payment_supplier_order_status_id: number;
     total_sum: number;
     total_percent_sum: number;
     total_sum_with_percent: number;
@@ -52,7 +54,7 @@ interface OrderDetailStatuses {
     image_url: string;
 }
 
-const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderDetailProps) => {
+const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentSupplierStatuses }: OrderDetailProps) => {
     const { trans } = useTranslation();
 
     // Хук для вызова мутации смены статуса
@@ -101,9 +103,16 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
         image_url: status.image_url
     }));
 
+    const paymentSupplierOptions = paymentSupplierStatuses?.map(status => ({
+        value: status.id.toString(),
+        label: status.name,
+        image_url: status.image_url
+    }));
+
     // Находим выбранные изображения для статусов
     const selectedDeliveryImage = deliveryOptions?.find(option => option.value === orderDetails.delivery_order_status_id.toString())?.image_url;
     const selectedPaymentImage = paymentOptions?.find(option => option.value === orderDetails.payment_order_status_id.toString())?.image_url;
+    const selectedSupplierPaymentImage = paymentSupplierOptions?.find(option => option.value === orderDetails.payment_supplier_order_status_id.toString())?.image_url;
 
     return (
         <>
@@ -159,6 +168,23 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                         leftSection={
                             <Image
                                 src={selectedPaymentImage || ''}
+                                alt="Selected option"
+                                width={16}
+                                height={16}
+                            />
+                        }
+                    />
+                    <Divider orientation="vertical" ml={8} mr={8}/>
+                    <Select
+                        variant="unstyled"
+                        data={paymentSupplierOptions}
+                        value={orderDetails.payment_supplier_order_status_id.toString()}
+                        onChange={(value) => handleStatusChange(value, 'payment_supplier')}
+                        checkIconPosition="left"
+                        renderOption={renderSelectOption}
+                        leftSection={
+                            <Image
+                                src={selectedSupplierPaymentImage || ''}
                                 alt="Selected option"
                                 width={16}
                                 height={16}

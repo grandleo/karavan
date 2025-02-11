@@ -14,23 +14,25 @@ const cookiesClient = new UniversalCookie();
 export const setCookie = (
     key: string,
     value: string,
-    expiresIn: number,
+    expiresIn?: number,
     isServer: boolean = false,
     res?: NextResponse
 ) => {
-    const expiryDate = new Date(Date.now() + expiresIn * 1000);
-
     if (isServer && res) {
         // Серверная сторона: устанавливаем куки в ответе
         res.cookies.set(key, value, {
             ...cookieOptions,
-            expires: expiryDate,
+            ...(expiresIn !== undefined && {
+                expires: new Date(Date.now() + expiresIn * 1000),
+            }),
         });
     } else {
         // Клиентская сторона
         cookiesClient.set(key, value, {
             ...cookieOptions,
-            expires: expiryDate,
+            ...(expiresIn !== undefined && {
+                expires: new Date(Date.now() + expiresIn * 1000),
+            }),
         });
     }
 };
@@ -50,5 +52,14 @@ export const removeCookie = (key: string, isServer: boolean = false, res?: NextR
         res.cookies.set(key, '', { ...cookieOptions, maxAge: -1 });
     } else {
         cookiesClient.remove(key, cookieOptions);
+    }
+};
+
+export const removeAllCookies = () => {
+    const cookies = new UniversalCookie();
+    const allCookies = cookies.getAll(); // Получаем все куки
+
+    for (const cookieName in allCookies) {
+        cookies.remove(cookieName, { path: '/' }); // Удаляем каждую куку
     }
 };

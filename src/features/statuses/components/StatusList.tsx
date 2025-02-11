@@ -61,7 +61,8 @@ const StatusList = ({statuses, onEditStatus} : StatusListProps) => {
             <Select
                 data={[
                     {value: "logistics", label: "Логистика"},
-                    {value: "payment", label: "Оплата"}
+                    {value: "payment", label: "Оплата клиенту"},
+                    {value: "payment_supplier", label: "Оплата поставщику"},
                 ]}
                 placeholder="Выберите тип"
                 value={selectedType}

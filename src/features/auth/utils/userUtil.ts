@@ -7,16 +7,21 @@ const USER_EXPIRY_COOKIE_KEY = 'user_data_expiry';
 
 export const setUser = async (
     userData: object,
-    expiresIn: number,
+    expiresIn?: number,
     isServer: boolean = false,
     res?: NextResponse
 ) => {
     const userJson = JSON.stringify(userData);
     const encryptedUser = await encryptData(userJson);
+
+    // Устанавливаем куки для пользователя
     setCookie(USER_COOKIE_KEY, encryptedUser, expiresIn, isServer, res);
 
-    const expiryDate = new Date(Date.now() + expiresIn * 1000).toISOString();
-    setCookie(USER_EXPIRY_COOKIE_KEY, expiryDate, expiresIn, isServer, res);
+    // Проверяем expiresIn перед использованием
+    if (expiresIn && expiresIn > 0) {
+        const expiryDate = new Date(Date.now() + expiresIn * 1000).toISOString();
+        setCookie(USER_EXPIRY_COOKIE_KEY, expiryDate, expiresIn, isServer, res);
+    }
 };
 
 export const getUser = async (

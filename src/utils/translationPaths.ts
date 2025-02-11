@@ -11,6 +11,7 @@ const translationPaths: TranslationModules = {
         auth: () => import('@/lang/ru/auth'),
         home: () => import('@/lang/ru/home'),
         stock: () => import('@/lang/ru/stock'),
+        privacy: () => import('@/lang/ru/privacy'),
         // Добавьте другие файлы для русского языка здесь
     },
     en: {
@@ -19,6 +20,7 @@ const translationPaths: TranslationModules = {
         auth: () => import('@/lang/en/auth'),
         home: () => import('@/lang/en/home'),
         stock: () => import('@/lang/en/stock'),
+        privacy: () => import('@/lang/en/privacy'),
         // Добавьте другие файлы для английского языка здесь
     },
     // Добавьте другие языки при необходимости

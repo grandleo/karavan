@@ -11,8 +11,11 @@ export const api = createApi({
         'SupplierClients',
         'SupplierOrderNumbers',
         'SupplierOrderDetails',
+        'AdminOrderNumbers',
+        'AdminOrderDetails',
         'Currencies',
         'P2pBids',
+        'Percents',
 
         //webApp
         'ClientAllOrders',

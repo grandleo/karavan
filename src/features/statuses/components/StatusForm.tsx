@@ -193,7 +193,8 @@ const StatusForm = ({opened, onClose, statusId}) => {
                                         placeholder="Выберите тип статуса"
                                         data={[
                                             {value: "logistics", label: "Логистика"},
-                                            {value: "payment", label: "Оплата"},
+                                            {value: "payment", label: "Оплата клиенту"},
+                                            {value: "payment_supplier", label: "Оплата поставщику"},
                                         ]}
                                     />
                                 )}

@@ -1,6 +1,9 @@
 // Создание экземпляра Axios с настройками по умолчанию
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from "axios";
 import {getToken} from "@/features/auth/utils/tokenUtil";
+import {getBotId} from "@/utils/botUtil";
+import {getTgUser} from "@/features/auth/utils/tgUserUtil";
+import {getTokenHash} from "@/features/auth/utils/tokenHashUtil";
 
 // Интерфейс для конфигурации Axios
 interface HttpAxiosConfig {
@@ -9,6 +12,7 @@ interface HttpAxiosConfig {
         'Content-Type': string;
         Accept: string;
         Authorization?: string; // Сделаем опциональным, так как будем устанавливать динамически
+        'X-WebApi-Token'?: string; // Добавляем заголовок для tokenHash
     };
     timeout: number;
 }
@@ -29,12 +33,45 @@ const http: AxiosInstance = axios.create({
 http.interceptors.request.use(
     async (config) => {
         try {
-            // Получаем токен
+            // 1. Токен (если есть)
             const token = await getToken();
-
             if (token) {
                 config.headers = config.headers ?? {};
                 config.headers.Authorization = `Bearer ${token}`;
+            }
+
+            // 3. tgUserData (если есть)
+            const tgUser = await getTgUser();
+
+            // 2. Добавление X-WebApi-Token (если есть tokenHash)
+            const tokenHash = await getTokenHash();
+            if (tokenHash) {
+                config.headers['X-WebApi-Token'] = tokenHash;
+            }
+
+            // Определяем, что за метод
+            const method = config.method?.toLowerCase();
+
+            if (tgUser) {
+                /**
+                 * ВАЖНО:
+                 * Если tgUser — сложный объект, и вы хотите передавать его в query (GET),
+                 * нужно либо сериализовать, либо передавать только конкретное поле (id).
+                 * Ниже для примера передаём целиком в data (POST/PUT/PATCH).
+                 */
+                if (method === "get") {
+                    // Добавляем в query-параметры (рекомендуется сериализовать)
+                    config.params = {
+                        ...(config.params || {}),
+                        tg_user: tgUser,
+                    };
+                } else if (["post", "put", "patch"].includes(method || "")) {
+                    // Добавляем в тело запроса
+                    config.data = {
+                        ...(config.data || {}),
+                        tg_user: tgUser,
+                    };
+                }
             }
 
             return config;

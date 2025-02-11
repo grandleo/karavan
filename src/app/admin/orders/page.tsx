@@ -39,9 +39,11 @@ export default function Page() {
                 }
             >
                 {orderDetails ? (
-                    <AdminOrderDetail orderDetails={orderDetails?.order}
-                                 deliveryStatuses={orderDetails?.delivery_statuses}
-                                 paymentStatuses={orderDetails?.payment_statuses}
+                    <AdminOrderDetail
+                        orderDetails={orderDetails?.order}
+                        deliveryStatuses={orderDetails?.delivery_statuses}
+                        paymentStatuses={orderDetails?.payment_statuses}
+                        paymentSupplierStatuses={orderDetails?.payment_supplier_statuses}
                     />
                 ) : (
                     <Center h="calc(100vh - 116px)">

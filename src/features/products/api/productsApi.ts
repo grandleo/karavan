@@ -78,6 +78,13 @@ const ProductsApi = api.injectEndpoints({
                 },
             }),
         }),
+
+        fetchAllStock: builder.query({
+            query: () => ({
+                url: '/admin/stock',
+                method: 'POST',
+            }),
+        }),
     })
 });
 
@@ -89,4 +96,5 @@ export const {
     useDeleteProductMutation,
     useLazyFetchClientProductsQuery,
     useLazyFetchClientProductDetailsQuery,
+    useFetchAllStockQuery
 } = ProductsApi;

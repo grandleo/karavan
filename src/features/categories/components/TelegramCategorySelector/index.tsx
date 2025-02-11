@@ -46,11 +46,7 @@ const TelegramCategorySelector: React.FC<TelegramCategorySelectorProps> = ({
 
     // Загрузка при первом рендере
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            loadInitialCategories();
-        }, 1000); // Задержка 500 мс
-
-        return () => clearTimeout(timeoutId); // Очищаем таймер при размонтировании или изменении компонента
+        loadInitialCategories();
     }, []);
 
     return (
