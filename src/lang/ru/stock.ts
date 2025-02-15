@@ -12,7 +12,8 @@ export const translations = {
                 'category': 'Категория',
                 'product': 'Товар',
                 'quantity': 'Кол-во',
-                'price': 'Цена'
+                'price': 'Цена',
+                'unit_price': 'Цена за ед.',
             },
             'placeholders': {
                 'category': 'Выберите категорию',

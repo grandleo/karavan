@@ -12,7 +12,8 @@ export const translations = {
                 'category': 'Category',
                 'product': 'Product',
                 'quantity': 'Qty',
-                'price': 'Price'
+                'price': 'Price',
+                'unit_price': 'Unit price',
             },
             'placeholders': {
                 'category': 'Select category',

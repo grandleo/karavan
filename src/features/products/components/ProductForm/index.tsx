@@ -3,7 +3,7 @@ import {
     Button,
     Divider,
     Drawer,
-    Flex,
+    Flex, NumberInput,
     Select,
     Tabs,
     TextInput,
@@ -69,11 +69,15 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
             description: '',
             category_id: '',
             producer_country_id: '',
-            specifications: {}
+            specifications: {},
+            product_type: "simple", // по умолчанию простой товар
+            batch_quantity: null, // количество в сете (только для set)
         }
     });
 
     const {control, handleSubmit, setValue, watch, reset} = methods;
+    // Отслеживаем значение product_type, чтобы условно отображать поле batch_quantity
+    const productType = watch("product_type");
 
     const [categoryLevels, setCategoryLevels] = useState<{ categories: Category[]; selectedCategory: Category | null }[]>([]);
     const [localCategorySpecifications, setLocalCategorySpecifications] = useState([]);
@@ -123,7 +127,9 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
                                 : "",
                             producer_country_id:
                                 productData.producer_country_id || "",
-                            specifications: productData.specifications || {}
+                            specifications: productData.specifications || {},
+                            product_type: productData.product_type || "simple",
+                            batch_quantity: productData.batch_quantity || null,
                         });
                     })
                     .catch((err) => {
@@ -252,7 +258,9 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
             description: '',
             category_id: '',
             producer_country_id: '',
-            specifications: {}
+            specifications: {},
+            product_type: "simple",
+            batch_quantity: null,
         }); // Сбрасываем форму
         setCategoryLevels([]);
         setLocalCategorySpecifications([]);
@@ -317,6 +325,40 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
                                         />
                                     )}
                                 />
+                            </Box>
+
+                            {/* Новая секция для выбора типа товара и, если это сет – ввода количества */}
+                            <Box className={classes.sectionForm}>
+                                <Controller
+                                    name="product_type"
+                                    control={control}
+                                    render={({ field }) => (
+                                        <Select
+                                            label="Тип товара"
+                                            placeholder="Выберите тип товара"
+                                            data={[
+                                                { value: "simple", label: "Простой" },
+                                                { value: "set", label: "Сет" },
+                                            ]}
+                                            {...field}
+                                        />
+                                    )}
+                                />
+                                {productType === "set" && (
+                                    <Controller
+                                        name="batch_quantity"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <NumberInput
+                                                label="Количество в сете"
+                                                placeholder="Введите количество в сете"
+                                                min={1}
+                                                {...field}
+                                                mt="md"
+                                            />
+                                        )}
+                                    />
+                                )}
                             </Box>
                         </Tabs.Panel>
 

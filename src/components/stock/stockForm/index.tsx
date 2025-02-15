@@ -24,6 +24,7 @@ const StockForm = ({currency}) => {
 
     const defaultValues = {
         product_id: null,
+        unit_price: '',
         price: '',
         quantity: '',
         warehouse_id: selectedWarehouse,
@@ -32,6 +33,8 @@ const StockForm = ({currency}) => {
 
     const [opened, {open, close}] = useDisclosure(false);
     const methods = useForm({defaultValues});
+
+    const { watch, setValue } = methods;
 
     useEffect(() => {
         // Обновляем значение warehouse_id при изменении selectedWarehouse
@@ -58,6 +61,10 @@ const StockForm = ({currency}) => {
     const [triggerCategories] = useLazyGetSubCategoriesWithProductsQuery();
     const [triggerProducts] = useLazyGetCategoryProductsQuery();
     const [addProductToSupplierStock] = useAddProductToSupplierStockMutation();
+
+    // Определяем выбранный товар по product_id
+    const selectedProductId = watch("product_id");
+    const selectedProduct = products.find((item) => item.value === selectedProductId);
 
     const updateCategory = (index: number, id: string) => {
         setSelectedCategories((prev) => {
@@ -237,9 +244,23 @@ const StockForm = ({currency}) => {
                                                     <Box style={{flex: 1}}>
                                                         <QuantityInput/>
                                                     </Box>
-                                                    <Box style={{flex: 1}}>
-                                                        <PriceInput currency={currency}/>
-                                                    </Box>
+                                                    {selectedProduct && selectedProduct.product_type === "set" ? (
+                                                        <>
+                                                            <Box style={{ flex: 1 }}>
+                                                                <UnitPriceInput currency={currency} selectedBatchQuantity={selectedProduct.batch_quantity}/>
+                                                            </Box>
+                                                            <Box style={{ flex: 1 }}>
+                                                                <PriceInput currency={currency} disabled={true} />
+                                                            </Box>
+                                                        </>
+                                                    ) : (
+                                                        <Box style={{ flex: 1 }}>
+                                                            <PriceInput currency={currency} disabled={false} />
+                                                        </Box>
+                                                    )}
+                                                    {/*<Box style={{flex: 1}}>*/}
+                                                    {/*    <PriceInput currency={currency}/>*/}
+                                                    {/*</Box>*/}
                                                 </Flex>
                                             </Box>
                                         )}
@@ -293,7 +314,47 @@ const ProductFilter = ({filter, handleSelectFilter}) => {
     )
 }
 
-const PriceInput = ({currency}) => {
+const UnitPriceInput = ({ currency, selectedBatchQuantity }) => {
+    const { trans } = useTranslation();
+    const { control, setValue, watch } = useFormContext();
+    const unitPrice = watch("unit_price");
+
+    // При изменении unit_price пересчитываем итоговую цену как:
+    // totalPrice = selectedProduct.batch_quantity * unit_price
+    useEffect(() => {
+        const totalPrice = (Number(unitPrice) || 0) * (Number(selectedBatchQuantity) || 0);
+        setValue("price", totalPrice);
+    }, [unitPrice, selectedBatchQuantity, setValue]);
+
+    return (
+        <Controller
+            name="unit_price"
+            control={control}
+            rules={{
+                required: "Цена за единицу обязательна",
+                max: {
+                    value: 9999999,
+                    message: "Цена за единицу не может превышать 9999999",
+                },
+            }}
+            render={({ field: { onChange, value } }) => (
+                <NumberInput
+                    label={trans("stock", "supplier.form.inputs.unit_price")}
+                    placeholder="0"
+                    value={value}
+                    onChange={(val) => onChange(val)}
+                    rightSection={currency.prefix || currency.suffix}
+                    rightSectionPointerEvents="none"
+                    min={0}
+                    max={9999999}
+                    thousandSeparator=" "
+                />
+            )}
+        />
+    );
+};
+
+const PriceInput = ({currency, disabled = false}) => {
     const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
 
@@ -322,6 +383,7 @@ const PriceInput = ({currency}) => {
                     max={9999999}
                     thousandSeparator=" "
                     error={errors?.new_price?.message ? String(errors?.new_price?.message) : undefined}
+                    disabled={disabled}
                 />
             )}
         />
