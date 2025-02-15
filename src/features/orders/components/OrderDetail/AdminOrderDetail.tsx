@@ -16,6 +16,7 @@ import classes from "./OrderDetail.module.css";
 import {useAdminUpdateOrderStatusMutation} from "@/features/orders/api/ordersApi";
 import {useState} from "react";
 import {useTranslation} from "@/hooks/useTranslation";
+import {notify} from "@/utils/notify";
 
 interface OrderDetailProps {
     orderDetails: IOrderDetail; // Здесь можно уточнить тип данных, если структура известна
@@ -74,9 +75,17 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentS
     const confirmStatusChange = async () => {
         if (selectedStatusId && statusType) {
             try {
-                await updateOrderStatus({ id: orderDetails.id, status_id: selectedStatusId });
-            } catch (error) {
+                // Ожидаем ответ от сервера
+                const response = await updateOrderStatus({ id: orderDetails.id, status_id: selectedStatusId }).unwrap();
+
+                // Показываем уведомление с ответом от бэка
+                notify(response.message || 'Статус успешно обновлен!', 'success');
+            } catch (error: any) {
                 console.error("Ошибка при обновлении статуса", error);
+
+                // Показываем ошибку от бэка (если есть)
+                const errorMessage = error?.data?.message || 'Ошибка при обновлении статуса';
+                notify(errorMessage, 'error');
             }
         }
         setModalOpen(false); // Закрываем модальное окно после обновления

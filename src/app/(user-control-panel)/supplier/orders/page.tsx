@@ -41,7 +41,7 @@ export default function Page() {
                 {orderDetails ? (
                     <OrderDetail orderDetails={orderDetails?.order}
                                  deliveryStatuses={orderDetails?.delivery_statuses}
-                                 paymentStatuses={orderDetails?.payment_statuses}
+                                 paymentStatuses={orderDetails?.payment_supplier_statuses}
                     />
                 ) : (
                     <Center h="calc(100vh - 116px)">

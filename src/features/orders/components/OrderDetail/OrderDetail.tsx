@@ -16,6 +16,7 @@ import classes from "./OrderDetail.module.css";
 import {useSupplierUpdateOrderStatusMutation} from "@/features/orders/api/ordersApi";
 import {useState} from "react";
 import {useTranslation} from "@/hooks/useTranslation";
+import {notify} from "@/utils/notify";
 
 interface OrderDetailProps {
     orderDetails: IOrderDetail; // Здесь можно уточнить тип данных, если структура известна
@@ -30,6 +31,7 @@ interface IOrderDetail {
     order_date: string;
     delivery_order_status_id: number;
     payment_order_status_id: number;
+    payment_supplier_order_status_id: number;
     total_sum: number;
     total_percent_sum: number;
     total_sum_with_percent: number;
@@ -73,9 +75,17 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
     const confirmStatusChange = async () => {
         if (selectedStatusId && statusType) {
             try {
-                await updateOrderStatus({ id: orderDetails.id, status_id: selectedStatusId });
-            } catch (error) {
+                // Ожидаем ответ от сервера
+                const response = await updateOrderStatus({ id: orderDetails.id, status_id: selectedStatusId }).unwrap();
+
+                // Показываем уведомление с ответом от бэка
+                notify(response.message || 'Статус успешно обновлен!', 'success');
+            } catch (error: any) {
                 console.error("Ошибка при обновлении статуса", error);
+
+                // Показываем ошибку от бэка (если есть)
+                const errorMessage = error?.data?.message || 'Ошибка при обновлении статуса';
+                notify(errorMessage, 'error');
             }
         }
         setModalOpen(false); // Закрываем модальное окно после обновления
@@ -104,7 +114,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
 
     // Находим выбранные изображения для статусов
     const selectedDeliveryImage = deliveryOptions?.find(option => option.value === orderDetails.delivery_order_status_id.toString())?.image_url;
-    const selectedPaymentImage = paymentOptions?.find(option => option.value === orderDetails.payment_order_status_id.toString())?.image_url;
+    const selectedPaymentImage = paymentOptions?.find(option => option.value === orderDetails.payment_supplier_order_status_id.toString())?.image_url;
 
     return (
         <>
@@ -153,7 +163,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses }: OrderD
                     <Select
                         variant="unstyled"
                         data={paymentOptions}
-                        value={orderDetails.payment_order_status_id.toString()}
+                        value={orderDetails.payment_supplier_order_status_id.toString()}
                         onChange={(value) => handleStatusChange(value, 'payment')}
                         checkIconPosition="left"
                         renderOption={renderSelectOption}
