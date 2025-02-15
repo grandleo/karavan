@@ -13,7 +13,7 @@ import {
 } from "@mantine/core";
 import {IconCheck, IconDownload} from "@tabler/icons-react";
 import classes from "./OrderDetail.module.css";
-import {useSupplierUpdateOrderStatusMutation} from "@/features/orders/api/ordersApi";
+import {useAdminUpdateOrderStatusMutation} from "@/features/orders/api/ordersApi";
 import {useState} from "react";
 import {useTranslation} from "@/hooks/useTranslation";
 
@@ -58,7 +58,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentS
     const { trans } = useTranslation();
 
     // Хук для вызова мутации смены статуса
-    const [updateOrderStatus] = useSupplierUpdateOrderStatusMutation();
+    const [updateOrderStatus] = useAdminUpdateOrderStatusMutation();
 
     // Состояние для модального окна
     const [modalOpen, setModalOpen] = useState(false);
