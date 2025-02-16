@@ -7,7 +7,7 @@ export const translations = {
             'table': {
                 'number': '',
                 'name': 'Name',
-                'price': 'Price per unit',
+                'price': 'Price',
                 'quantity': 'Quantity',
                 'cost': 'Cost',
                 'total': 'Total:',

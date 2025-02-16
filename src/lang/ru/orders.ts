@@ -7,7 +7,7 @@ export const translations = {
             'table': {
                 'number': '',
                 'name': 'Наименование',
-                'price': 'Цена за ед. ₽',
+                'price': 'Цена',
                 'quantity': 'Кол-во',
                 'cost': 'Сумма',
                 'total': 'Итого:',
