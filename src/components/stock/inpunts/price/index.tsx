@@ -51,6 +51,7 @@ const PriceInput = ({new_price, width, handleUpdate}: PriceInputTypes) => {
                     min={0}
                     max={999999}
                     thousandSeparator=" "
+                    allowDecimal={false}
                     w={width}
                     variant="unstyled"
                     rightSection={icon}

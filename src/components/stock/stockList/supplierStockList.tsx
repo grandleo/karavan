@@ -173,6 +173,7 @@ const SupplierStockList = ({products, currency}: SupplierStockListTypes) => {
                                                 {...field}
                                                 variant="unstyled"
                                                 allowNegative={false}
+                                                allowDecimal={false}
                                                 hideControls={true}
                                                 onKeyDown={(event) => {
                                                     if (event.key === "Enter") handleEnterKey(bid.id, index);

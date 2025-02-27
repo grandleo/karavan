@@ -322,6 +322,7 @@ const PriceInput = ({currency}) => {
                     max={9999999}
                     thousandSeparator=" "
                     error={errors?.new_price?.message ? String(errors?.new_price?.message) : undefined}
+                    allowDecimal={false}
                 />
             )}
         />
