@@ -49,15 +49,15 @@ const HomePage = () => {
             <Container size="xl">
                 <AdditionalFeatures/>
             </Container>
-            <Box style={{background: '#436CFB'}}>
-                <Container size="xl">
-                    <UserReviews/>
-                </Container>
-            </Box>
+            {/*<Box style={{background: '#436CFB'}}>*/}
+            {/*    <Container size="xl">*/}
+            {/*        <UserReviews/>*/}
+            {/*    </Container>*/}
+            {/*</Box>*/}
 
-            <Container size="xl">
-                <News/>
-            </Container>
+            {/*<Container size="xl">*/}
+            {/*    <News/>*/}
+            {/*</Container>*/}
 
             <Container size="xl">
                 <SeoText/>
