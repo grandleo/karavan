@@ -1,211 +1,68 @@
 'use client'
 
-import {BackgroundImage, Box, Button, Container, Divider, Flex, Grid, Text} from "@mantine/core";
+import {
+    Box,
+    Container, Flex, Image,
+} from "@mantine/core";
 import {HeaderHome} from "@/components/ui/header";
 import {HomeFooter} from "@/components/ui/Footer";
-import {IconCameraFilled, IconDeviceLaptop, IconDeviceMobile, IconDots} from "@tabler/icons-react";
 import {useMediaQuery} from "@mantine/hooks";
 import {useTranslation} from "@/hooks/useTranslation";
-import classes from "./HomePage.module.css";
+
+import AdditionalFeatures from "@/components/pages/home/components/additionalFeatures";
+import UserReviews from "@/components/pages/home/components/userReviews";
+import News from "@/components/pages/home/components/news";
+import SeoText from "@/components/pages/home/components/seoText";
+import Slide from "@/components/pages/home/components/slide";
+import ModalAuth from "@/features/auth/components/ModalAuth/ModalAuth";
+import NextImage from "next/image";
+import Link from "next/link";
 
 const HomePage = () => {
-    const {trans} = useTranslation();
-    const isSmallScreen = useMediaQuery('(max-width: 768px)');
+    // const {trans} = useTranslation();
+    // const isSmallScreen = useMediaQuery('(max-width: 768px)');
 
     return (
         <>
-            <HeaderHome/>
-            <Box className={classes.welcome}>
-            <Container mt={120} size="lg" mb={280}>
-                <Grid>
-                    <Grid.Col span={6}>
-                        <Text
-                            style={{
-                                fontSize: '72px',
-                                fontWeight: 500,
-                                lineHeight: '66px',
-                                letterSpacing: '-0.02em',
-                                marginBottom: '24px',
-                            }}
-                        >
-                            {trans('home', 'welcome.title')}
-                        </Text>
-                        <Text
-                            style={{
-                                fontSize: '20px',
-                                fontWeight: '400',
-                                lineHeight: '30px',
-                                marginBottom: '24px',
-                            }}
-                        >{trans('home', 'welcome.subtitle')}</Text>
-                    </Grid.Col>
-                </Grid>
+            {/*<HeaderHome/>*/}
+
+            <Container size="xl" mt={30} mb={30}>
+                <Flex align="center" justify="space-between">
+                    <Link href="/" style={{display: 'contents'}}>
+                        <Image
+                            component={NextImage}
+                            src="/logo.svg"
+                            width={125}
+                            height={25}
+                            fit="contain"
+                            alt="Karavan"
+                        />
+                    </Link>
+                    <ModalAuth/>
+                </Flex>
             </Container>
+
+            <Container size="xl">
+                <Slide/>
+            </Container>
+
+            <Container size="xl">
+                <AdditionalFeatures/>
+            </Container>
+            <Box style={{background: '#436CFB'}}>
+                <Container size="xl">
+                    <UserReviews/>
+                </Container>
             </Box>
-            {/*<Container size="lg" mb={30}>*/}
-            {/*    <Text*/}
-            {/*        style={{*/}
-            {/*            color: '#000',*/}
-            {/*            fontSize: isSmallScreen ? '16px' : '22px',*/}
-            {/*            fontWeight: '500',*/}
-            {/*            lineHeight: '24px',*/}
-            {/*            marginBottom: '20px',*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        {trans('home', 'categories.title')}*/}
-            {/*    </Text>*/}
-            {/*    <Box*/}
-            {/*        style={{*/}
-            {/*            background: '#F2F5FF',*/}
-            {/*            overflowX: 'auto', // позволяет горизонтальный скролл*/}
-            {/*            whiteSpace: 'nowrap', // предотвращает перенос элементов на новую строку*/}
-            {/*        }}*/}
-            {/*        p={{base: '16px 16px', sm: '45px 70px'}}*/}
-            {/*    >*/}
-            {/*        <Flex justify="space-between" gap={16}>*/}
-            {/*            <Box>*/}
-            {/*                <IconDeviceMobile stroke={1}/>*/}
-            {/*                <Text*/}
-            {/*                    style={{*/}
-            {/*                        color: '#000',*/}
-            {/*                        fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                        fontWeight: '500',*/}
-            {/*                        lineHeight: '23px',*/}
-            {/*                    }}*/}
-            {/*                >*/}
-            {/*                    {trans('home', 'categories.category_1')}*/}
-            {/*                </Text>*/}
-            {/*            </Box>*/}
-            {/*            <Divider orientation="vertical"/>*/}
-            {/*            <Box>*/}
-            {/*                <IconDeviceLaptop stroke={1}/>*/}
-            {/*                <Text*/}
-            {/*                    style={{*/}
-            {/*                        color: '#000',*/}
-            {/*                        fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                        fontWeight: '500',*/}
-            {/*                        lineHeight: '23px',*/}
-            {/*                    }}*/}
-            {/*                >*/}
-            {/*                    {trans('home', 'categories.category_2')}*/}
-            {/*                </Text>*/}
-            {/*            </Box>*/}
-            {/*            <Divider orientation="vertical"/>*/}
 
-            {/*            <Box>*/}
-            {/*                <IconCameraFilled/>*/}
-            {/*                <Text*/}
-            {/*                    style={{*/}
-            {/*                        color: '#000',*/}
-            {/*                        fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                        fontWeight: '500',*/}
-            {/*                        lineHeight: '23px',*/}
-            {/*                    }}*/}
-            {/*                >*/}
+            <Container size="xl">
+                <News/>
+            </Container>
 
-            {/*                    {trans('home', 'categories.category_3')}*/}
-            {/*                </Text>*/}
-            {/*            </Box>*/}
-            {/*            <Divider orientation="vertical"/>*/}
+            <Container size="xl">
+                <SeoText/>
+            </Container>
 
-            {/*            <Box>*/}
-            {/*                <IconDots stroke={2}/>*/}
-            {/*                <Text*/}
-            {/*                    style={{*/}
-            {/*                        color: '#000',*/}
-            {/*                        fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                        fontWeight: '500',*/}
-            {/*                        lineHeight: '23px',*/}
-            {/*                    }}*/}
-            {/*                >*/}
-
-            {/*                    {trans('home', 'categories.category_4')}*/}
-            {/*                </Text>*/}
-            {/*            </Box>*/}
-            {/*        </Flex>*/}
-            {/*    </Box>*/}
-            {/*</Container>*/}
-            {/*<Container size="lg">*/}
-            {/*    <Flex gap={12} direction={{base: 'column', sm: 'row'}} justify="space-between">*/}
-            {/*        <BackgroundImage*/}
-            {/*            src="/images/homepage/image_3.png"*/}
-            {/*            radius="sm"*/}
-            {/*        >*/}
-            {/*            <Box p={{base: '12px', sm: '60px 80px 80px 80px'}}>*/}
-            {/*                <Text c="white"*/}
-            {/*                      style={{*/}
-            {/*                          fontSize: '14px',*/}
-            {/*                          fontWeight: '500',*/}
-            {/*                          lineHeight: '20.3px',*/}
-            {/*                          letterSpacing: '1px',*/}
-            {/*                          textAlign: 'center'*/}
-            {/*                      }}*/}
-            {/*                      size="lg"*/}
-            {/*                      mb={{base: '150px', sm: '300px'}}>*/}
-
-            {/*                    {trans('home', 'banners.clients.subtitle')}*/}
-            {/*                </Text>*/}
-            {/*                <Text c="white"*/}
-            {/*                      style={{*/}
-            {/*                          fontSize: isSmallScreen ? '28px' : '40px',*/}
-            {/*                          fontWeight: '500',*/}
-            {/*                          lineHeight: isSmallScreen ? '30px' : '44px',*/}
-            {/*                          letterSpacing: '-1px',*/}
-            {/*                      }}*/}
-            {/*                      mb={{base: '20px', sm: '75px'}}*/}
-            {/*                >*/}
-            {/*                    {trans('home', 'banners.clients.title')}*/}
-            {/*                </Text>*/}
-            {/*                <Text c="white"*/}
-            {/*                      style={{*/}
-            {/*                          fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                          fontWeight: '400',*/}
-            {/*                          lineHeight: isSmallScreen ? '15px' : '26px',*/}
-            {/*                      }}>*/}
-            {/*                    {trans('home', 'banners.clients.description')}*/}
-            {/*                </Text>*/}
-            {/*            </Box>*/}
-            {/*        </BackgroundImage>*/}
-            {/*        <BackgroundImage*/}
-            {/*            src="/images/homepage/image_1.png"*/}
-            {/*            radius="sm"*/}
-            {/*        >*/}
-            {/*            <Box p={{base: '12px', sm: '60px 80px 80px 80px'}}>*/}
-            {/*                <Text*/}
-            {/*                    c="white"*/}
-            {/*                    style={{*/}
-            {/*                        fontSize: '14px',*/}
-            {/*                        fontWeight: '500',*/}
-            {/*                        lineHeight: '20.3px',*/}
-            {/*                        letterSpacing: '1px',*/}
-            {/*                        textAlign: 'center'*/}
-            {/*                    }}*/}
-            {/*                    mb={{base: '150px', sm: '300px'}}>*/}
-            {/*                    {trans('home', 'banners.suppliers.subtitle')}*/}
-            {/*                </Text>*/}
-            {/*                <Text c="white"*/}
-            {/*                      style={{*/}
-            {/*                          fontSize: isSmallScreen ? '28px' : '40px',*/}
-            {/*                          fontWeight: '500',*/}
-            {/*                          lineHeight: isSmallScreen ? '30px' : '44px',*/}
-            {/*                          letterSpacing: '-1px',*/}
-            {/*                      }}*/}
-            {/*                      mb={{base: '20px', sm: '75px'}}*/}
-            {/*                >*/}
-            {/*                    {trans('home', 'banners.suppliers.title')}*/}
-            {/*                </Text>*/}
-            {/*                <Text c="white"*/}
-            {/*                      style={{*/}
-            {/*                          fontSize: isSmallScreen ? '14px' : '18px',*/}
-            {/*                          fontWeight: '400',*/}
-            {/*                          lineHeight: isSmallScreen ? '15px' : '26px',*/}
-            {/*                      }}>*/}
-            {/*                    {trans('home', 'banners.suppliers.description')}*/}
-            {/*                </Text></Box>*/}
-            {/*        </BackgroundImage>*/}
-
-            {/*    </Flex>*/}
-            {/*</Container>*/}
             <HomeFooter/>
 
         </>

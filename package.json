@@ -44,6 +44,7 @@
     "react-imask": "^7.6.1",
     "react-redux": "9.2.0",
     "react-scroll": "^1.9.3",
+    "swiper": "^11.2.5",
     "universal-cookie": "^7.2.2",
     "yup": "^1.6.1"
   },
