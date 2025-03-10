@@ -54,18 +54,25 @@ const AdditionalFeatures = () => {
                 mousewheel={{forceToAxis: true}}
                 spaceBetween={20}
                 className="swiper-container"
-                slidesPerView="auto"
-                style={{height: 650, maxWidth: "100%"}}
+                // slidesPerView="auto"
+                // style={{height: 650, maxWidth: "100%"}}
+                breakpoints={{
+                    320: { slidesPerView: 1.5 }, // Мобильные устройства
+                    768: { slidesPerView: 1.5 }, // Планшеты
+                    1024: { slidesPerView: 1.9 }, // Небольшие десктопы
+                    1440: { slidesPerView: 2.4 }    // Широкие экраны
+                }}
             >
                 {slidesData.map((slide, index) => (
                     <SwiperSlide
                         key={index}
-                        style={{width: 550, height: 650, maxWidth: 550}}
+                        // style={{width: 550, height: 650, maxWidth: 550}}
                     >
                         <Box>
                             <Image
                                 src={`/images/home/features/${slide.imageName}.webp`}
                                 mb={20}
+                                fit="cover"
                             />
                             <Text className={classes.title} mb={8}>
                                 {slide.title}
