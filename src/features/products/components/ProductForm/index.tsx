@@ -337,8 +337,8 @@ const ProductForm = ({opened, close, categoryId, editingProductId, copyProduct}:
                                             label="Тип товара"
                                             placeholder="Выберите тип товара"
                                             data={[
-                                                { value: "simple", label: "Простой" },
-                                                { value: "set", label: "Сет" },
+                                                { value: "simple", label: "Простой (шт)" },
+                                                { value: "set", label: "Сет (упаковки)" },
                                             ]}
                                             {...field}
                                         />
