@@ -52,6 +52,12 @@ const SupplierStockItem = ({index, item, showInfo, auction}: SupplierStockItemTy
                             )}
                             <Text className={classes.productName} onClick={showInfo}>{item.product.name}</Text>
                         </Flex>
+
+                        {item.product.product_type === 'set' && (
+                            <Text className={classes.productArticle}>
+                                {item.product.batch_quantity} шт в упаковке
+                            </Text>
+                        )}
                     </Table.Td>
                     <Table.Td>
                         <QuantityInput

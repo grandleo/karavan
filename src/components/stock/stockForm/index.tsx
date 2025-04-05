@@ -24,7 +24,6 @@ const StockForm = ({currency}) => {
 
     const defaultValues = {
         product_id: null,
-        unit_price: '',
         price: '',
         quantity: '',
         warehouse_id: selectedWarehouse,
@@ -241,26 +240,15 @@ const StockForm = ({currency}) => {
                                                             <PeriodValidity/>
                                                         </Box>
                                                     )}
-                                                    <Box style={{flex: 1}}>
-                                                        <QuantityInput/>
+                                                    <Box style={{ flex: 1 }}>
+                                                        <QuantityInput
+                                                            selectedProduct={selectedProduct}
+                                                        />
                                                     </Box>
-                                                    {selectedProduct && selectedProduct.product_type === "set" ? (
-                                                        <>
-                                                            <Box style={{ flex: 1 }}>
-                                                                <UnitPriceInput currency={currency} selectedBatchQuantity={selectedProduct.batch_quantity}/>
-                                                            </Box>
-                                                            <Box style={{ flex: 1 }}>
-                                                                <PriceInput currency={currency} disabled={true} />
-                                                            </Box>
-                                                        </>
-                                                    ) : (
-                                                        <Box style={{ flex: 1 }}>
-                                                            <PriceInput currency={currency} disabled={false} />
-                                                        </Box>
-                                                    )}
-                                                    {/*<Box style={{flex: 1}}>*/}
-                                                    {/*    <PriceInput currency={currency}/>*/}
-                                                    {/*</Box>*/}
+
+                                                    <Box style={{ flex: 1 }}>
+                                                        <PriceInput currency={currency} disabled={false} />
+                                                    </Box>
                                                 </Flex>
                                             </Box>
                                         )}
@@ -314,46 +302,6 @@ const ProductFilter = ({filter, handleSelectFilter}) => {
     )
 }
 
-const UnitPriceInput = ({ currency, selectedBatchQuantity }) => {
-    const { trans } = useTranslation();
-    const { control, setValue, watch } = useFormContext();
-    const unitPrice = watch("unit_price");
-
-    // При изменении unit_price пересчитываем итоговую цену как:
-    // totalPrice = selectedProduct.batch_quantity * unit_price
-    useEffect(() => {
-        const totalPrice = (Number(unitPrice) || 0) * (Number(selectedBatchQuantity) || 0);
-        setValue("price", totalPrice);
-    }, [unitPrice, selectedBatchQuantity, setValue]);
-
-    return (
-        <Controller
-            name="unit_price"
-            control={control}
-            rules={{
-                required: "Цена за единицу обязательна",
-                max: {
-                    value: 9999999,
-                    message: "Цена за единицу не может превышать 9999999",
-                },
-            }}
-            render={({ field: { onChange, value } }) => (
-                <NumberInput
-                    label={trans("stock", "supplier.form.inputs.unit_price")}
-                    placeholder="0"
-                    value={value}
-                    onChange={(val) => onChange(val)}
-                    rightSection={currency.prefix || currency.suffix}
-                    rightSectionPointerEvents="none"
-                    min={0}
-                    max={9999999}
-                    thousandSeparator=" "
-                />
-            )}
-        />
-    );
-};
-
 const PriceInput = ({currency, disabled = false}) => {
     const { trans } = useTranslation();
     const {control, formState: {errors}} = useFormContext();
@@ -391,9 +339,25 @@ const PriceInput = ({currency, disabled = false}) => {
     )
 }
 
-const QuantityInput = () => {
+const QuantityInput = ({ selectedProduct }) => {
     const { trans } = useTranslation();
-    const {control, formState: {errors}} = useFormContext();
+    const {
+        control,
+        watch,
+        formState: { errors },
+    } = useFormContext();
+
+    const quantity = watch("quantity");
+    const batchQuantity = selectedProduct?.batch_quantity || 1;
+    const isSetProduct = selectedProduct?.product_type === "set";
+
+    const labelText = isSetProduct
+        ? "Кол-во упаковок"
+        : trans("stock", "supplier.form.inputs.quantity");
+
+    const rightSectionText = isSetProduct
+        ? `${(Number(quantity) || 0) * batchQuantity} PC`
+        : "PC";
 
     return (
         <Controller
@@ -403,28 +367,36 @@ const QuantityInput = () => {
                 required: "Кол-во товара обязательно",
                 max: {
                     value: 9999,
-                    message: "Кол-во товара не может превышать 9999"
-                }
+                    message: "Кол-во товара не может превышать 9999",
+                },
             }}
-            render={({field: {onChange, value}}) => (
+            render={({ field: { onChange, value } }) => (
                 <NumberInput
-                    label={trans('stock', 'supplier.form.inputs.quantity')}
+                    label={labelText}
                     placeholder="0"
                     value={value}
-                    onChange={(quantity) => {
-                        onChange(quantity);
-                    }}
-                    rightSection="PC"
+                    onChange={(val) => onChange(val)}
+                    rightSection={rightSectionText}
                     rightSectionPointerEvents="none"
                     min={0}
                     max={9999}
                     thousandSeparator=" "
-                    error={errors?.quantity?.message ? String(errors?.quantity?.message) : undefined}
+                    error={
+                        errors?.quantity?.message
+                            ? String(errors.quantity.message)
+                            : undefined
+                    }
+                    styles={{
+                        section: {
+                            width: "fit-content",
+                            whiteSpace: "nowrap",
+                        }
+                    }}
                 />
             )}
         />
-    )
-}
+    );
+};
 
 const PeriodValidity = () => {
     const {control, formState: {errors}} = useFormContext();

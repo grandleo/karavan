@@ -1,4 +1,4 @@
-import {ActionIcon, Table, Text} from "@mantine/core";
+import {ActionIcon, Flex, Table, Text} from "@mantine/core";
 import classes from "./NomenclatureProductRow.module.css";
 import {IconAdjustments, IconCopy, IconPencilMinus, IconTrash} from "@tabler/icons-react";
 
@@ -16,9 +16,16 @@ const NomenclatureProductRow = ({product, number, handleProductEdit, onDelete, o
                 <Text className={classes.productName}>
                     {product.name}
                 </Text>
-                <Text className={classes.productArticle}>
-                    Артикул: {product.article}
-                </Text>
+                <Flex gap={5}>
+                    <Text className={classes.productArticle}>
+                        Артикул: {product.article}
+                    </Text>
+                    {product.product_type === 'set' && (
+                        <Text className={classes.productArticle}>
+                           | {product.batch_quantity} шт в упаковке
+                        </Text>
+                    )}
+                </Flex>
             </Table.Td>
             <Table.Td>
                 <ActionIcon variant="white" color="rgba(0, 0, 0, 1)" aria-label="Settings" onClick={() => handleProductEdit(product.id)}>

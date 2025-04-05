@@ -234,6 +234,11 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentS
                                     <Text className={classes.productName}>
                                         {item.product_name}
                                     </Text>
+                                    {item?.product_type === "set" && (
+                                        <Text className={classes.productArticle}>
+                                            {item.batch_quantity} шт в упаковке
+                                        </Text>
+                                    )}
                                 </Table.Td>
                                 <Table.Td>
                                     <NumberFormatter
