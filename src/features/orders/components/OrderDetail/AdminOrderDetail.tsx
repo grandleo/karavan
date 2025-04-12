@@ -241,10 +241,23 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentS
                                     )}
                                 </Table.Td>
                                 <Table.Td>
-                                    <NumberFormatter
-                                        value={item.quantity}
-                                        thousandSeparator=" "
-                                    />
+                                    {item?.product_type === 'set' && item.batch_quantity > 0 ? (
+                                        <>
+                                            <NumberFormatter
+                                                value={item.quantity * item.batch_quantity}
+                                                thousandSeparator=" "
+                                            />{" "}
+                                            шт (<NumberFormatter value={item.quantity} thousandSeparator=" " /> уп)
+                                        </>
+                                    ) : (
+                                        <>
+                                            <NumberFormatter value={item.quantity} thousandSeparator=" " /> шт
+                                        </>
+                                    )}
+                                    {/*<NumberFormatter*/}
+                                    {/*    value={item.quantity}*/}
+                                    {/*    thousandSeparator=" "*/}
+                                    {/*/>*/}
                                 </Table.Td>
                                 <Table.Td>
                                     <NumberFormatter
@@ -286,7 +299,7 @@ const OrderDetail = ({ orderDetails, deliveryStatuses, paymentStatuses, paymentS
                     <Table.Tr>
                         <Table.Td colSpan={2}>{trans('orders', 'supplier.products.table.total')}</Table.Td>
                         <Table.Td colSpan={2}>
-                            <NumberFormatter value={orderDetails.total_quantity} thousandSeparator=" "/>
+                            <NumberFormatter value={orderDetails.total_quantity} thousandSeparator=" "/> шт
                         </Table.Td>
                         <Table.Td>
                             <NumberFormatter

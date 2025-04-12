@@ -360,6 +360,7 @@ const QuantityInput = ({ selectedProduct }) => {
         : "PC";
 
     return (
+        <>
         <Controller
             name="quantity"
             control={control}
@@ -395,6 +396,12 @@ const QuantityInput = ({ selectedProduct }) => {
                 />
             )}
         />
+            {isSetProduct && (
+                <Text size="xs" c="dimmed" mt={4}>
+                    В одной упаковке {batchQuantity} шт.
+                </Text>
+            )}
+        </>
     );
 };
 
